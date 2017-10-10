@@ -1,6 +1,3 @@
-USE CVGS;
-GO
-
 INSERT INTO PLATFORM( PlatformName
 					, Developer )
 			  VALUES( 'XBox'

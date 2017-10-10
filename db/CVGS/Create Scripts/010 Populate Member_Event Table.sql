@@ -1,6 +1,3 @@
-USE CVGS;
-GO
-
 INSERT INTO MEMBER_EVENT( MemberId, EventId )
 				  VALUES( 2, 1 )
 					  , ( 3, 1 )

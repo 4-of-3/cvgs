@@ -1,6 +1,3 @@
-USE CVGS;
-GO
-
 INSERT INTO GAME_PLATFORM( GameId, PlatformId )
 				   VALUES( 1, 9 )
 				       , ( 1, 10 )
