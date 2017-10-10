@@ -1,0 +1,395 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="CVGSModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="EVENT">
+          <Key>
+            <PropertyRef Name="EventId" />
+          </Key>
+          <Property Name="EventId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="EventTitle" Type="nvarchar" MaxLength="64" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="1024" Nullable="false" />
+          <Property Name="EventDate" Type="datetime" Nullable="false" />
+          <Property Name="ActiveStatus" Type="bit" Nullable="false" />
+          <Property Name="DateCreated" Type="date" />
+        </EntityType>
+        <EntityType Name="GAME">
+          <Key>
+            <PropertyRef Name="GameId" />
+          </Key>
+          <Property Name="GameId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Title" Type="nvarchar" MaxLength="64" Nullable="false" />
+          <Property Name="ISBN" Type="nvarchar" MaxLength="10" Nullable="false" />
+          <Property Name="Developer" Type="nvarchar" MaxLength="64" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="1024" Nullable="false" />
+          <Property Name="Category" Type="nvarchar" MaxLength="64" Nullable="false" />
+          <Property Name="PublicationDate" Type="date" Nullable="false" />
+          <Property Name="Cost" Type="money" />
+        </EntityType>
+        <EntityType Name="GAME_PLATFORM">
+          <Key>
+            <PropertyRef Name="GameId" />
+            <PropertyRef Name="PlatformId" />
+          </Key>
+          <Property Name="GameId" Type="int" Nullable="false" />
+          <Property Name="PlatformId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="MEMBER">
+          <Key>
+            <PropertyRef Name="MemberId" />
+          </Key>
+          <Property Name="MemberId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FName" Type="nvarchar" MaxLength="64" Nullable="false" />
+          <Property Name="LName" Type="nvarchar" MaxLength="64" Nullable="false" />
+          <Property Name="UserName" Type="nvarchar" MaxLength="25" Nullable="false" />
+          <Property Name="Email" Type="nvarchar" MaxLength="64" Nullable="false" />
+          <Property Name="pwd" Type="varbinary" MaxLength="64" Nullable="false" />
+          <Property Name="FavPlatform" Type="nvarchar" MaxLength="25" />
+          <Property Name="FavCategory" Type="nvarchar" MaxLength="25" />
+          <Property Name="FavGame" Type="nvarchar" MaxLength="64" />
+          <Property Name="FavQuote" Type="nvarchar" MaxLength="140" />
+          <Property Name="DateJoined" Type="date" />
+          <Property Name="ActiveStatus" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="MEMBER_EVENT">
+          <Key>
+            <PropertyRef Name="MemberId" />
+            <PropertyRef Name="EventId" />
+          </Key>
+          <Property Name="MemberId" Type="int" Nullable="false" />
+          <Property Name="EventId" Type="int" Nullable="false" />
+          <Property Name="DateRegistered" Type="datetime" />
+        </EntityType>
+        <EntityType Name="PLATFORM">
+          <Key>
+            <PropertyRef Name="PlatformId" />
+          </Key>
+          <Property Name="PlatformId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PlatformName" Type="nvarchar" MaxLength="64" Nullable="false" />
+          <Property Name="Developer" Type="nvarchar" MaxLength="64" Nullable="false" />
+        </EntityType>
+        <Association Name="fk_event_member">
+          <End Role="EVENT" Type="Self.EVENT" Multiplicity="1" />
+          <End Role="MEMBER_EVENT" Type="Self.MEMBER_EVENT" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EVENT">
+              <PropertyRef Name="EventId" />
+            </Principal>
+            <Dependent Role="MEMBER_EVENT">
+              <PropertyRef Name="EventId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_game_platform">
+          <End Role="GAME" Type="Self.GAME" Multiplicity="1" />
+          <End Role="GAME_PLATFORM" Type="Self.GAME_PLATFORM" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GAME">
+              <PropertyRef Name="GameId" />
+            </Principal>
+            <Dependent Role="GAME_PLATFORM">
+              <PropertyRef Name="GameId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_member_event">
+          <End Role="MEMBER" Type="Self.MEMBER" Multiplicity="1" />
+          <End Role="MEMBER_EVENT" Type="Self.MEMBER_EVENT" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MEMBER">
+              <PropertyRef Name="MemberId" />
+            </Principal>
+            <Dependent Role="MEMBER_EVENT">
+              <PropertyRef Name="MemberId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_platform_game">
+          <End Role="PLATFORM" Type="Self.PLATFORM" Multiplicity="1" />
+          <End Role="GAME_PLATFORM" Type="Self.GAME_PLATFORM" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PLATFORM">
+              <PropertyRef Name="PlatformId" />
+            </Principal>
+            <Dependent Role="GAME_PLATFORM">
+              <PropertyRef Name="PlatformId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="SP_ADD_MEMBER" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="FName" Type="nvarchar" Mode="In" />
+          <Parameter Name="LName" Type="nvarchar" Mode="In" />
+          <Parameter Name="UserName" Type="nvarchar" Mode="In" />
+          <Parameter Name="Email" Type="nvarchar" Mode="In" />
+          <Parameter Name="pwd" Type="nvarchar" Mode="In" />
+          <Parameter Name="FavPlatform" Type="nvarchar" Mode="In" />
+          <Parameter Name="FavCategory" Type="nvarchar" Mode="In" />
+          <Parameter Name="FavGame" Type="nvarchar" Mode="In" />
+          <Parameter Name="FavQuote" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="SP_MEMBER_LOGIN" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="UserName" Type="nvarchar" Mode="In" />
+          <Parameter Name="pwd" Type="nvarchar" Mode="In" />
+          <Parameter Name="MemberId" Type="int" Mode="InOut" />
+        </Function>
+        <EntityContainer Name="CVGSModelStoreContainer">
+          <EntitySet Name="EVENT" EntityType="Self.EVENT" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="GAME" EntityType="Self.GAME" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="GAME_PLATFORM" EntityType="Self.GAME_PLATFORM" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MEMBER" EntityType="Self.MEMBER" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MEMBER_EVENT" EntityType="Self.MEMBER_EVENT" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PLATFORM" EntityType="Self.PLATFORM" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="fk_event_member" Association="Self.fk_event_member">
+            <End Role="EVENT" EntitySet="EVENT" />
+            <End Role="MEMBER_EVENT" EntitySet="MEMBER_EVENT" />
+          </AssociationSet>
+          <AssociationSet Name="fk_game_platform" Association="Self.fk_game_platform">
+            <End Role="GAME" EntitySet="GAME" />
+            <End Role="GAME_PLATFORM" EntitySet="GAME_PLATFORM" />
+          </AssociationSet>
+          <AssociationSet Name="fk_member_event" Association="Self.fk_member_event">
+            <End Role="MEMBER" EntitySet="MEMBER" />
+            <End Role="MEMBER_EVENT" EntitySet="MEMBER_EVENT" />
+          </AssociationSet>
+          <AssociationSet Name="fk_platform_game" Association="Self.fk_platform_game">
+            <End Role="PLATFORM" EntitySet="PLATFORM" />
+            <End Role="GAME_PLATFORM" EntitySet="GAME_PLATFORM" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="CVGSModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="EVENT">
+          <Key>
+            <PropertyRef Name="EventId" />
+          </Key>
+          <Property Name="EventId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="EventTitle" Type="String" MaxLength="64" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="1024" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="EventDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ActiveStatus" Type="Boolean" Nullable="false" />
+          <Property Name="DateCreated" Type="DateTime" Precision="0" />
+          <NavigationProperty Name="MEMBER_EVENT" Relationship="Self.fk_event_member" FromRole="EVENT" ToRole="MEMBER_EVENT" />
+        </EntityType>
+        <EntityType Name="GAME">
+          <Key>
+            <PropertyRef Name="GameId" />
+          </Key>
+          <Property Name="GameId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Title" Type="String" MaxLength="64" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ISBN" Type="String" MaxLength="10" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Developer" Type="String" MaxLength="64" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="1024" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Category" Type="String" MaxLength="64" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="PublicationDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Cost" Type="Decimal" Precision="19" Scale="4" />
+          <NavigationProperty Name="PLATFORMs" Relationship="Self.GAME_PLATFORM" FromRole="GAME" ToRole="PLATFORM" />
+        </EntityType>
+        <EntityType Name="MEMBER">
+          <Key>
+            <PropertyRef Name="MemberId" />
+          </Key>
+          <Property Name="MemberId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FName" Type="String" MaxLength="64" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="LName" Type="String" MaxLength="64" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="UserName" Type="String" MaxLength="25" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Email" Type="String" MaxLength="64" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="pwd" Type="Binary" MaxLength="64" FixedLength="false" Nullable="false" />
+          <Property Name="FavPlatform" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="FavCategory" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="FavGame" Type="String" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Name="FavQuote" Type="String" MaxLength="140" FixedLength="false" Unicode="true" />
+          <Property Name="DateJoined" Type="DateTime" Precision="0" />
+          <Property Name="ActiveStatus" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="MEMBER_EVENT" Relationship="Self.fk_member_event" FromRole="MEMBER" ToRole="MEMBER_EVENT" />
+        </EntityType>
+        <EntityType Name="MEMBER_EVENT">
+          <Key>
+            <PropertyRef Name="MemberId" />
+            <PropertyRef Name="EventId" />
+          </Key>
+          <Property Name="MemberId" Type="Int32" Nullable="false" />
+          <Property Name="EventId" Type="Int32" Nullable="false" />
+          <Property Name="DateRegistered" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="EVENT" Relationship="Self.fk_event_member" FromRole="MEMBER_EVENT" ToRole="EVENT" />
+          <NavigationProperty Name="MEMBER" Relationship="Self.fk_member_event" FromRole="MEMBER_EVENT" ToRole="MEMBER" />
+        </EntityType>
+        <EntityType Name="PLATFORM">
+          <Key>
+            <PropertyRef Name="PlatformId" />
+          </Key>
+          <Property Name="PlatformId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PlatformName" Type="String" MaxLength="64" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Developer" Type="String" MaxLength="64" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="GAMEs" Relationship="Self.GAME_PLATFORM" FromRole="PLATFORM" ToRole="GAME" />
+        </EntityType>
+        <Association Name="fk_event_member">
+          <End Role="EVENT" Type="Self.EVENT" Multiplicity="1" />
+          <End Role="MEMBER_EVENT" Type="Self.MEMBER_EVENT" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EVENT">
+              <PropertyRef Name="EventId" />
+            </Principal>
+            <Dependent Role="MEMBER_EVENT">
+              <PropertyRef Name="EventId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_member_event">
+          <End Role="MEMBER" Type="Self.MEMBER" Multiplicity="1" />
+          <End Role="MEMBER_EVENT" Type="Self.MEMBER_EVENT" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MEMBER">
+              <PropertyRef Name="MemberId" />
+            </Principal>
+            <Dependent Role="MEMBER_EVENT">
+              <PropertyRef Name="MemberId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="GAME_PLATFORM">
+          <End Role="GAME" Type="Self.GAME" Multiplicity="*" />
+          <End Role="PLATFORM" Type="Self.PLATFORM" Multiplicity="*" />
+        </Association>
+        <EntityContainer Name="CVGSEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="EVENTs" EntityType="Self.EVENT" />
+          <EntitySet Name="GAMEs" EntityType="Self.GAME" />
+          <EntitySet Name="MEMBERs" EntityType="Self.MEMBER" />
+          <EntitySet Name="MEMBER_EVENT" EntityType="Self.MEMBER_EVENT" />
+          <EntitySet Name="PLATFORMs" EntityType="Self.PLATFORM" />
+          <AssociationSet Name="fk_event_member" Association="Self.fk_event_member">
+            <End Role="EVENT" EntitySet="EVENTs" />
+            <End Role="MEMBER_EVENT" EntitySet="MEMBER_EVENT" />
+          </AssociationSet>
+          <AssociationSet Name="fk_member_event" Association="Self.fk_member_event">
+            <End Role="MEMBER" EntitySet="MEMBERs" />
+            <End Role="MEMBER_EVENT" EntitySet="MEMBER_EVENT" />
+          </AssociationSet>
+          <AssociationSet Name="GAME_PLATFORM" Association="Self.GAME_PLATFORM">
+            <End Role="GAME" EntitySet="GAMEs" />
+            <End Role="PLATFORM" EntitySet="PLATFORMs" />
+          </AssociationSet>
+          <FunctionImport Name="SP_ADD_MEMBER">
+            <Parameter Name="FName" Mode="In" Type="String" />
+            <Parameter Name="LName" Mode="In" Type="String" />
+            <Parameter Name="UserName" Mode="In" Type="String" />
+            <Parameter Name="Email" Mode="In" Type="String" />
+            <Parameter Name="pwd" Mode="In" Type="String" />
+            <Parameter Name="FavPlatform" Mode="In" Type="String" />
+            <Parameter Name="FavCategory" Mode="In" Type="String" />
+            <Parameter Name="FavGame" Mode="In" Type="String" />
+            <Parameter Name="FavQuote" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="SP_MEMBER_LOGIN">
+            <Parameter Name="UserName" Mode="In" Type="String" />
+            <Parameter Name="pwd" Mode="In" Type="String" />
+            <Parameter Name="MemberId" Mode="InOut" Type="Int32" />
+          </FunctionImport>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="CVGSModelStoreContainer" CdmEntityContainer="CVGSEntities">
+          <EntitySetMapping Name="EVENTs">
+            <EntityTypeMapping TypeName="CVGSModel.EVENT">
+              <MappingFragment StoreEntitySet="EVENT">
+                <ScalarProperty Name="EventId" ColumnName="EventId" />
+                <ScalarProperty Name="EventTitle" ColumnName="EventTitle" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="EventDate" ColumnName="EventDate" />
+                <ScalarProperty Name="ActiveStatus" ColumnName="ActiveStatus" />
+                <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="GAMEs">
+            <EntityTypeMapping TypeName="CVGSModel.GAME">
+              <MappingFragment StoreEntitySet="GAME">
+                <ScalarProperty Name="GameId" ColumnName="GameId" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="ISBN" ColumnName="ISBN" />
+                <ScalarProperty Name="Developer" ColumnName="Developer" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Category" ColumnName="Category" />
+                <ScalarProperty Name="PublicationDate" ColumnName="PublicationDate" />
+                <ScalarProperty Name="Cost" ColumnName="Cost" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MEMBERs">
+            <EntityTypeMapping TypeName="CVGSModel.MEMBER">
+              <MappingFragment StoreEntitySet="MEMBER">
+                <ScalarProperty Name="MemberId" ColumnName="MemberId" />
+                <ScalarProperty Name="FName" ColumnName="FName" />
+                <ScalarProperty Name="LName" ColumnName="LName" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="pwd" ColumnName="pwd" />
+                <ScalarProperty Name="FavPlatform" ColumnName="FavPlatform" />
+                <ScalarProperty Name="FavCategory" ColumnName="FavCategory" />
+                <ScalarProperty Name="FavGame" ColumnName="FavGame" />
+                <ScalarProperty Name="FavQuote" ColumnName="FavQuote" />
+                <ScalarProperty Name="DateJoined" ColumnName="DateJoined" />
+                <ScalarProperty Name="ActiveStatus" ColumnName="ActiveStatus" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MEMBER_EVENT">
+            <EntityTypeMapping TypeName="CVGSModel.MEMBER_EVENT">
+              <MappingFragment StoreEntitySet="MEMBER_EVENT">
+                <ScalarProperty Name="MemberId" ColumnName="MemberId" />
+                <ScalarProperty Name="EventId" ColumnName="EventId" />
+                <ScalarProperty Name="DateRegistered" ColumnName="DateRegistered" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PLATFORMs">
+            <EntityTypeMapping TypeName="CVGSModel.PLATFORM">
+              <MappingFragment StoreEntitySet="PLATFORM">
+                <ScalarProperty Name="PlatformId" ColumnName="PlatformId" />
+                <ScalarProperty Name="PlatformName" ColumnName="PlatformName" />
+                <ScalarProperty Name="Developer" ColumnName="Developer" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="GAME_PLATFORM" TypeName="CVGSModel.GAME_PLATFORM" StoreEntitySet="GAME_PLATFORM">
+            <EndProperty Name="GAME">
+              <ScalarProperty Name="GameId" ColumnName="GameId" />
+            </EndProperty>
+            <EndProperty Name="PLATFORM">
+              <ScalarProperty Name="PlatformId" ColumnName="PlatformId" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <FunctionImportMapping FunctionImportName="SP_ADD_MEMBER" FunctionName="CVGSModel.Store.SP_ADD_MEMBER" />
+          <FunctionImportMapping FunctionImportName="SP_MEMBER_LOGIN" FunctionName="CVGSModel.Store.SP_MEMBER_LOGIN" />
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
