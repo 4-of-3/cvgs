@@ -1,6 +1,3 @@
-USE CVGS;
-GO
-
 INSERT INTO EVENT( EventTitle
 				 , Description 
 				 , EventDate

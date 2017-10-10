@@ -1,6 +1,3 @@
-USE CVGS;
-GO
-
 INSERT INTO GAME( Title
 				, ISBN
 				, Developer
