@@ -3,6 +3,9 @@
 ##
 ## Get latest from https://github.com/github/gitignore/blob/master/VisualStudio.gitignore
 
+# Custom Files
+db/CVGS/Create\ Scripts/InstanceName.txt
+
 # User-specific files
 *.suo
 *.user
