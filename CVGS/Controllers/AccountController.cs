@@ -31,7 +31,7 @@ namespace CVGS.Controllers
         }
 
         // GET: MEMBERs/Create
-        public ActionResult New()
+        public ActionResult Create()
         {
             return View();
         }
@@ -41,7 +41,7 @@ namespace CVGS.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult New([Bind(Include = "MemberId,FName,LName,UserName,Email,FavPlatform,FavCategory,FavGame,FavQuote,DateJoined,ActiveStatus,Pwd")] MEMBER mEMBER)
+        public ActionResult Create([Bind(Include = "MemberId,FName,LName,UserName,Email,FavPlatform,FavCategory,FavGame,FavQuote,DateJoined,ActiveStatus,Pwd")] MEMBER mEMBER)
         {
             if (ModelState.IsValid)
             {
