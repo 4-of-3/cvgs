@@ -20,7 +20,7 @@ namespace CVGS.Controllers
             var memberId = this.Session["MemberId"];
             if (memberId == null)
             {
-                memberId = 3;
+                return RedirectToAction("Index", "Login");
             }
             MEMBER mEMBER = db.MEMBERs.Find(memberId);
             if (mEMBER == null)
