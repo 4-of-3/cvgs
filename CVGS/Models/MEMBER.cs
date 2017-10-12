@@ -25,13 +25,13 @@ namespace CVGS.Models
         public string LName { get; set; }
         public string UserName { get; set; }
         public string Email { get; set; }
-        public byte[] pwd { get; set; }
         public string FavPlatform { get; set; }
         public string FavCategory { get; set; }
         public string FavGame { get; set; }
         public string FavQuote { get; set; }
         public Nullable<System.DateTime> DateJoined { get; set; }
         public bool ActiveStatus { get; set; }
+        public byte[] Pwd { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<MEMBER_EVENT> MEMBER_EVENT { get; set; }
