@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="CVGSModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="CVGSModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="EVENT">
           <Key>
             <PropertyRef Name="EventId" />
@@ -74,7 +74,9 @@
           <Property Name="Developer" Type="nvarchar" MaxLength="64" Nullable="false" />
         </EntityType>
         <Association Name="fk_event_member">
-          <End Role="EVENT" Type="Self.EVENT" Multiplicity="1" />
+          <End Role="EVENT" Type="Self.EVENT" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="MEMBER_EVENT" Type="Self.MEMBER_EVENT" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="EVENT">
@@ -86,7 +88,9 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="fk_game_platform">
-          <End Role="GAME" Type="Self.GAME" Multiplicity="1" />
+          <End Role="GAME" Type="Self.GAME" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="GAME_PLATFORM" Type="Self.GAME_PLATFORM" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="GAME">
@@ -98,7 +102,9 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="fk_member_event">
-          <End Role="MEMBER" Type="Self.MEMBER" Multiplicity="1" />
+          <End Role="MEMBER" Type="Self.MEMBER" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="MEMBER_EVENT" Type="Self.MEMBER_EVENT" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="MEMBER">
@@ -110,7 +116,9 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="fk_platform_game">
-          <End Role="PLATFORM" Type="Self.PLATFORM" Multiplicity="1" />
+          <End Role="PLATFORM" Type="Self.PLATFORM" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="GAME_PLATFORM" Type="Self.GAME_PLATFORM" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="PLATFORM">
@@ -161,8 +169,7 @@
             <End Role="GAME_PLATFORM" EntitySet="GAME_PLATFORM" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="CVGSModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -294,6 +301,17 @@
             <Parameter Name="pwd" Mode="In" Type="String" />
             <Parameter Name="MemberId" Mode="InOut" Type="Int32" />
           </FunctionImport>
+          <FunctionImport Name="SP_ADD_MEMBER1">
+            <Parameter Name="FName" Mode="In" Type="String" />
+            <Parameter Name="LName" Mode="In" Type="String" />
+            <Parameter Name="UserName" Mode="In" Type="String" />
+            <Parameter Name="Email" Mode="In" Type="String" />
+            <Parameter Name="pwd" Mode="In" Type="String" />
+            <Parameter Name="FavPlatform" Mode="In" Type="String" />
+            <Parameter Name="FavCategory" Mode="In" Type="String" />
+            <Parameter Name="FavGame" Mode="In" Type="String" />
+            <Parameter Name="FavQuote" Mode="In" Type="String" />
+          </FunctionImport>
         </EntityContainer>
       </Schema>
     </edmx:ConceptualModels>
@@ -373,8 +391,8 @@
               <ScalarProperty Name="PlatformId" ColumnName="PlatformId" />
             </EndProperty>
           </AssociationSetMapping>
-          <FunctionImportMapping FunctionImportName="SP_ADD_MEMBER" FunctionName="CVGSModel.Store.SP_ADD_MEMBER" />
           <FunctionImportMapping FunctionImportName="SP_MEMBER_LOGIN" FunctionName="CVGSModel.Store.SP_MEMBER_LOGIN" />
+          <FunctionImportMapping FunctionImportName="SP_ADD_MEMBER1" FunctionName="CVGSModel.Store.SP_ADD_MEMBER" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

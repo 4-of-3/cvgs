@@ -7,6 +7,8 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using CVGS.Models;
+using CVGS.ViewModels;
+using System.Data.Entity.Core.Objects;
 
 namespace CVGS.Controllers
 {
@@ -41,13 +43,15 @@ namespace CVGS.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "MemberId,FName,LName,UserName,Email,FavPlatform,FavCategory,FavGame,FavQuote,DateJoined,ActiveStatus,Pwd")] MEMBER mEMBER)
+        public ActionResult Create([Bind(Include = "FName,LName,Email,UserName,Pwd,FavPlatform,FavCategory,FavGame,FavQuote")] NewAccountViewModel mEMBER)
         {
             if (ModelState.IsValid)
             {
-                //db.SP_ADD_MEMBER(mEMBER.FName, mEMBER.LName, mEMBER.UserName, mEMBER.Email, mEMBER.Pwd, mEMBER.FavPlatform, mEMBER.FavCategory, mEMBER.FavGame, mEMBER.FavQuote);
-                db.MEMBERs.Add(mEMBER);
-                db.SaveChanges();
+                ObjectParameter newMemberId = new ObjectParameter("memberId", typeof(int));
+                db.SP_ADD_MEMBER(mEMBER.FName, mEMBER.LName, mEMBER.UserName, mEMBER.Email, mEMBER.Pwd, mEMBER.FavPlatform, mEMBER.FavCategory, mEMBER.FavGame, mEMBER.FavQuote);
+                var memberId = db.MEMBERs.Max(m => m.MemberId);
+                Session["MemberId"] = memberId;
+
                 return RedirectToAction("Index");
             }
 

@@ -21,12 +21,19 @@ namespace CVGS.Controllers
         [HttpPost]
         public ActionResult Index([Bind(Include = "UserName,Pwd")] LoginViewModel login)
         {
-            //var memberId = db.SP_MEMBER_LOGIN(login.UserName, login.Pwd, sqlDBType);
-            ObjectParameter objectParameter = new ObjectParameter("memberId", typeof(int));
-            db.SP_MEMBER_LOGIN(login.UserName, login.Pwd, objectParameter);
-            var memberId = objectParameter.Value;
-            this.Session["MemberId"] = memberId;
-            return RedirectToAction("Index", "Account");
+            ObjectParameter loginMemberId = new ObjectParameter("memberId", typeof(int));
+            try
+            {
+                db.SP_MEMBER_LOGIN(login.UserName, login.Pwd, loginMemberId);
+                int memberId = (int)loginMemberId.Value;
+                Session["MemberId"] = memberId;
+                return RedirectToAction("Index", "Account");
+            }
+            catch (Exception)
+            {
+                ModelState.AddModelError("", "Incorrect username or password");
+            }
+            return View(login);
         }
     }
 }
