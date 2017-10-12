@@ -33,7 +33,7 @@ namespace CVGS.Models
         public virtual DbSet<MEMBER_EVENT> MEMBER_EVENT { get; set; }
         public virtual DbSet<PLATFORM> PLATFORMs { get; set; }
     
-        public virtual int SP_ADD_MEMBER(string fName, string lName, string userName, string email, string pwd, string favPlatform, string favCategory, string favGame, string favQuote)
+        public virtual int SP_ADD_MEMBER_old(string fName, string lName, string userName, string email, string pwd, string favPlatform, string favCategory, string favGame, string favQuote)
         {
             var fNameParameter = fName != null ?
                 new ObjectParameter("FName", fName) :
@@ -85,6 +85,47 @@ namespace CVGS.Models
                 new ObjectParameter("pwd", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_MEMBER_LOGIN", userNameParameter, pwdParameter, memberId);
+        }
+    
+        public virtual int SP_ADD_MEMBER(string fName, string lName, string userName, string email, string pwd, string favPlatform, string favCategory, string favGame, string favQuote)
+        {
+            var fNameParameter = fName != null ?
+                new ObjectParameter("FName", fName) :
+                new ObjectParameter("FName", typeof(string));
+    
+            var lNameParameter = lName != null ?
+                new ObjectParameter("LName", lName) :
+                new ObjectParameter("LName", typeof(string));
+    
+            var userNameParameter = userName != null ?
+                new ObjectParameter("UserName", userName) :
+                new ObjectParameter("UserName", typeof(string));
+    
+            var emailParameter = email != null ?
+                new ObjectParameter("Email", email) :
+                new ObjectParameter("Email", typeof(string));
+    
+            var pwdParameter = pwd != null ?
+                new ObjectParameter("pwd", pwd) :
+                new ObjectParameter("pwd", typeof(string));
+    
+            var favPlatformParameter = favPlatform != null ?
+                new ObjectParameter("FavPlatform", favPlatform) :
+                new ObjectParameter("FavPlatform", typeof(string));
+    
+            var favCategoryParameter = favCategory != null ?
+                new ObjectParameter("FavCategory", favCategory) :
+                new ObjectParameter("FavCategory", typeof(string));
+    
+            var favGameParameter = favGame != null ?
+                new ObjectParameter("FavGame", favGame) :
+                new ObjectParameter("FavGame", typeof(string));
+    
+            var favQuoteParameter = favQuote != null ?
+                new ObjectParameter("FavQuote", favQuote) :
+                new ObjectParameter("FavQuote", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_ADD_MEMBER1", fNameParameter, lNameParameter, userNameParameter, emailParameter, pwdParameter, favPlatformParameter, favCategoryParameter, favGameParameter, favQuoteParameter);
         }
     }
 }
