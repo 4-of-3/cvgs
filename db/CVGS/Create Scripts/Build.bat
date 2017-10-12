@@ -5,11 +5,11 @@ REM
 REM Use osql to run scripts that build the CVGS database in sqlexpress.
 REM
 REM Revision History
-REM		Doug Epp, 2017.10.10: Updated to use a variable for the server instance name
-REM		Doug Epp, 2017.10.03: Copied and updated for group project use
+REM		  Doug Epp, 2017.10.10: Updated to use a variable for the server instance name
+REM		  Doug Epp, 2017.10.03: Copied and updated for group project use
 REM     James Wong, 2017.09.01: Updated for sqlcmd
 REM     John McKay, 2017.08.31: Created
-SET servername=.\SQLEXPRESS
+SET /p servername=<InstanceName.txt
 
 SET pauseRequired=
 SET /P pauseRequired=Pause between scripts? (Y/N) 
