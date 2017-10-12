@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="CVGSModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="CVGSModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="EVENT">
           <Key>
             <PropertyRef Name="EventId" />
@@ -13,6 +13,7 @@
           <Property Name="EventTitle" Type="nvarchar" MaxLength="64" Nullable="false" />
           <Property Name="Description" Type="nvarchar" MaxLength="1024" Nullable="false" />
           <Property Name="EventDate" Type="datetime" Nullable="false" />
+          <Property Name="Location" Type="nvarchar" MaxLength="64" Nullable="false" />
           <Property Name="ActiveStatus" Type="bit" Nullable="false" />
           <Property Name="DateCreated" Type="date" />
         </EntityType>
@@ -28,6 +29,7 @@
           <Property Name="Category" Type="nvarchar" MaxLength="64" Nullable="false" />
           <Property Name="PublicationDate" Type="date" Nullable="false" />
           <Property Name="Cost" Type="money" />
+          <Property Name="DELETED" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="GAME_PLATFORM">
           <Key>
@@ -46,7 +48,7 @@
           <Property Name="LName" Type="nvarchar" MaxLength="64" Nullable="false" />
           <Property Name="UserName" Type="nvarchar" MaxLength="25" Nullable="false" />
           <Property Name="Email" Type="nvarchar" MaxLength="64" Nullable="false" />
-          <Property Name="pwd" Type="varbinary" MaxLength="64" Nullable="false" />
+          <Property Name="Pwd" Type="varbinary" MaxLength="64" Nullable="false" />
           <Property Name="FavPlatform" Type="nvarchar" MaxLength="25" />
           <Property Name="FavCategory" Type="nvarchar" MaxLength="25" />
           <Property Name="FavGame" Type="nvarchar" MaxLength="64" />
@@ -159,8 +161,7 @@
             <End Role="GAME_PLATFORM" EntitySet="GAME_PLATFORM" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="CVGSModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -175,6 +176,7 @@
           <Property Name="ActiveStatus" Type="Boolean" Nullable="false" />
           <Property Name="DateCreated" Type="DateTime" Precision="0" />
           <NavigationProperty Name="MEMBER_EVENT" Relationship="Self.fk_event_member" FromRole="EVENT" ToRole="MEMBER_EVENT" />
+          <Property Name="Location" Type="String" Nullable="false" MaxLength="64" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="GAME">
           <Key>
@@ -189,6 +191,7 @@
           <Property Name="PublicationDate" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="Cost" Type="Decimal" Precision="19" Scale="4" />
           <NavigationProperty Name="PLATFORMs" Relationship="Self.GAME_PLATFORM" FromRole="GAME" ToRole="PLATFORM" />
+          <Property Name="DELETED" Type="Boolean" Nullable="false" />
         </EntityType>
         <EntityType Name="MEMBER">
           <Key>
@@ -199,7 +202,6 @@
           <Property Name="LName" Type="String" MaxLength="64" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="UserName" Type="String" MaxLength="25" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Email" Type="String" MaxLength="64" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="pwd" Type="Binary" MaxLength="64" FixedLength="false" Nullable="false" />
           <Property Name="FavPlatform" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
           <Property Name="FavCategory" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
           <Property Name="FavGame" Type="String" MaxLength="64" FixedLength="false" Unicode="true" />
@@ -207,6 +209,7 @@
           <Property Name="DateJoined" Type="DateTime" Precision="0" />
           <Property Name="ActiveStatus" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="MEMBER_EVENT" Relationship="Self.fk_member_event" FromRole="MEMBER" ToRole="MEMBER_EVENT" />
+          <Property Name="Pwd" Type="Binary" Nullable="false" MaxLength="64" FixedLength="false" />
         </EntityType>
         <EntityType Name="MEMBER_EVENT">
           <Key>
@@ -300,6 +303,7 @@
           <EntitySetMapping Name="EVENTs">
             <EntityTypeMapping TypeName="CVGSModel.EVENT">
               <MappingFragment StoreEntitySet="EVENT">
+                <ScalarProperty Name="Location" ColumnName="Location" />
                 <ScalarProperty Name="EventId" ColumnName="EventId" />
                 <ScalarProperty Name="EventTitle" ColumnName="EventTitle" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
@@ -312,6 +316,7 @@
           <EntitySetMapping Name="GAMEs">
             <EntityTypeMapping TypeName="CVGSModel.GAME">
               <MappingFragment StoreEntitySet="GAME">
+                <ScalarProperty Name="DELETED" ColumnName="DELETED" />
                 <ScalarProperty Name="GameId" ColumnName="GameId" />
                 <ScalarProperty Name="Title" ColumnName="Title" />
                 <ScalarProperty Name="ISBN" ColumnName="ISBN" />
@@ -326,12 +331,12 @@
           <EntitySetMapping Name="MEMBERs">
             <EntityTypeMapping TypeName="CVGSModel.MEMBER">
               <MappingFragment StoreEntitySet="MEMBER">
+                <ScalarProperty Name="Pwd" ColumnName="Pwd" />
                 <ScalarProperty Name="MemberId" ColumnName="MemberId" />
                 <ScalarProperty Name="FName" ColumnName="FName" />
                 <ScalarProperty Name="LName" ColumnName="LName" />
                 <ScalarProperty Name="UserName" ColumnName="UserName" />
                 <ScalarProperty Name="Email" ColumnName="Email" />
-                <ScalarProperty Name="pwd" ColumnName="pwd" />
                 <ScalarProperty Name="FavPlatform" ColumnName="FavPlatform" />
                 <ScalarProperty Name="FavCategory" ColumnName="FavCategory" />
                 <ScalarProperty Name="FavGame" ColumnName="FavGame" />
