@@ -46,7 +46,7 @@ namespace CVGS.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "EventId,EventTitle,Description,EventDate,ActiveStatus,DateCreated")] EVENT eVENT)
+        public ActionResult Create([Bind(Include = "EventId,EventTitle,Description,EventDate,Location,ActiveStatus,DateCreated")] EVENT eVENT)
         {
             if (ModelState.IsValid)
             {
@@ -78,7 +78,7 @@ namespace CVGS.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "EventId,EventTitle,Description,EventDate,ActiveStatus,DateCreated")] EVENT eVENT)
+        public ActionResult Edit([Bind(Include = "EventId,EventTitle,Description,EventDate,Location,ActiveStatus,DateCreated")] EVENT eVENT)
         {
             if (ModelState.IsValid)
             {
@@ -113,6 +113,37 @@ namespace CVGS.Controllers
             db.EVENTs.Remove(eVENT);
             db.SaveChanges();
             return RedirectToAction("Index");
+        }
+
+        // GET: Events/Register/5
+        public ActionResult Register(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest); // sad path
+            }
+            EVENT eVENT = db.EVENTs.Find(id);
+            if (eVENT == null)
+            {
+                return HttpNotFound();
+            }
+            return View(eVENT);
+        }
+
+        // POST: Events/Register/5
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost, ActionName("Register")]
+        [ValidateAntiForgeryToken]
+        public ActionResult Register(int id)
+        {
+            if (ModelState.IsValid)
+            {
+                Console.WriteLine(id);
+                return RedirectToAction("Index");
+            }
+            return RedirectToAction("Index");
+            //return View(eVENT);
         }
 
         protected override void Dispose(bool disposing)

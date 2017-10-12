@@ -1,18 +1,21 @@
 ﻿@model IEnumerable<CVGS.Models.EVENT>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Events";
 }
 
 <h2>Index</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Create New Event", "Create")
 </p>
 <table class="table">
     <tr>
         <th>
             @Html.DisplayNameFor(model => model.EventTitle)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Location)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Description)
@@ -23,9 +26,6 @@
         <th>
             @Html.DisplayNameFor(model => model.ActiveStatus)
         </th>
-        <th>
-            @Html.DisplayNameFor(model => model.DateCreated)
-        </th>
         <th></th>
     </tr>
 
@@ -33,6 +33,9 @@
     <tr>
         <td>
             @Html.DisplayFor(modelItem => item.EventTitle)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Location)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Description)
@@ -44,12 +47,10 @@
             @Html.DisplayFor(modelItem => item.ActiveStatus)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.DateCreated)
-        </td>
-        <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.EventId }) |
             @Html.ActionLink("Details", "Details", new { id=item.EventId }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.EventId })
+            @Html.ActionLink("Delete", "Delete", new { id=item.EventId }) |
+            @Html.ActionLink("Register", "Register", new { id=item.EventId })
         </td>
     </tr>
 }
