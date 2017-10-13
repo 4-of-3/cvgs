@@ -12,13 +12,14 @@ namespace CVGS.Controllers
     public class LoginController : Controller
     {
         private CVGSEntities db = new CVGSEntities();
+
         // GET: Login
         public ActionResult Index()
         {
             if (Session["MemberId"] != null)
             {
                 Session.Clear();
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Index", "Login");
             }
             return View();
         }
@@ -29,10 +30,11 @@ namespace CVGS.Controllers
             ObjectParameter loginMemberId = new ObjectParameter("memberId", typeof(int));
             try
             {
+                // Attempt to authenticate the member and redirect to the Dashboard
                 db.SP_MEMBER_LOGIN(login.UserName, login.Pwd, loginMemberId);
                 int memberId = (int)loginMemberId.Value;
                 Session["MemberId"] = memberId;
-                return RedirectToAction("Index", "Account");
+                return RedirectToAction("Index", "Home");
             }
             catch (Exception)
             {
