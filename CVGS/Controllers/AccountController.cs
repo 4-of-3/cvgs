@@ -103,17 +103,34 @@ namespace CVGS.Controllers
             {
                 return HttpNotFound();
             }
-            return View(mEMBER);
+            DeleteAccountViewModel account = new DeleteAccountViewModel()
+            {
+                MemberId = mEMBER.MemberId,
+                UserName = mEMBER.UserName,
+                FullDelete = false
+            };
+
+            return View(account);
         }
 
         // POST: MEMBERs/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
+        public ActionResult DeleteConfirmed([Bind(Include ="MemberId,UserName,FullDelete")]DeleteAccountViewModel account)
         {
-            MEMBER mEMBER = db.MEMBERs.Find(id);
-            db.MEMBERs.Remove(mEMBER);
-            db.SaveChanges();
+            int memberId = account.MemberId;
+            MEMBER mEMBER = db.MEMBERs.Find(memberId);
+            if (account.FullDelete)
+            {
+                db.MEMBERs.Remove(mEMBER);
+                db.SaveChanges();
+            }
+            else
+            {
+                mEMBER.ActiveStatus = false;
+                db.Entry(mEMBER).State = EntityState.Modified;
+                db.SaveChanges();
+            }
             return RedirectToAction("Index");
         }
 

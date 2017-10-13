@@ -1,4 +1,4 @@
-﻿@model CVGS.Models.MEMBER
+﻿@model CVGS.ViewModels.DeleteAccountViewModel
 
 @{
     ViewBag.Title = "Delete";
@@ -10,10 +10,14 @@
 <div>
     <h4>@Html.DisplayFor(model => model.UserName)</h4>
     <hr />
-
-    @using (Html.BeginForm()) {
+    @using (Html.BeginForm())
+    {
         @Html.AntiForgeryToken()
-
+        @Html.HiddenFor(model => model.MemberId)
+        <div class="form-group">
+            Deactivate Account: @Html.RadioButtonFor(m => m.FullDelete, false)<br />
+            Delete Account @Html.RadioButtonFor(m => m.FullDelete, true)
+        </div>
         <div class="form-actions no-color">
             <input type="submit" value="Delete" class="btn btn-default" /> |
             @Html.ActionLink("Back to Account", "Index")
