@@ -125,6 +125,11 @@ namespace CVGS.Controllers
         {
             if (ModelState.IsValid)
             {
+                var memberId = this.Session["memberId"];
+                if (memberId == null)
+                {
+                    return RedirectToAction("Index", "Login"); ;
+                }
                 MEMBER_EVENT memberRegister = new MEMBER_EVENT();
                 memberRegister.EventId = id;
                 memberRegister.MemberId = (int)this.Session["MemberId"];
