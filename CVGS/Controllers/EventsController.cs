@@ -17,28 +17,44 @@ namespace CVGS.Controllers
         // GET: Events
         public ActionResult Index()
         {
-            var memberId = this.Session["MemberId"];
+            var memberId = this.Session["memberId"];
+            if (memberId == null)
+            {
+                return RedirectToAction("Index", "Login"); ;
+            }
             return View(db.EVENTs.ToList());
         }
 
         // GET: Events/Details/5
         public ActionResult Details(int? id)
         {
+            var memberId = this.Session["memberId"];
+            if (memberId == null)
+            {
+                return RedirectToAction("Index", "Login"); ;
+            }
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+            bool registered = isRegistered((int)id, (int)memberId);
             EVENT eVENT = db.EVENTs.Find(id);
             if (eVENT == null)
             {
                 return HttpNotFound();
             }
+            ViewBag.isRegistered = registered; 
             return View(eVENT);
         }
 
         // GET: Events/Create
         public ActionResult Create()
         {
+            var memberId = this.Session["memberId"];
+            if (memberId == null)
+            {
+                return RedirectToAction("Index", "Login"); ;
+            }
             return View();
         }
 
@@ -49,6 +65,11 @@ namespace CVGS.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "EventId,EventTitle,Description,EventDate,Location,ActiveStatus,DateCreated")] EVENT eVENT)
         {
+            var memberId = this.Session["memberId"];
+            if (memberId == null)
+            {
+                return RedirectToAction("Index", "Login"); ;
+            }
             if (ModelState.IsValid)
             {
                 db.EVENTs.Add(eVENT);
@@ -62,6 +83,11 @@ namespace CVGS.Controllers
         // GET: Events/Edit/5
         public ActionResult Edit(int? id)
         {
+            var memberId = this.Session["memberId"];
+            if (memberId == null)
+            {
+                return RedirectToAction("Index", "Login"); ;
+            }
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -123,13 +149,13 @@ namespace CVGS.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Details(int id)
         {
-            if (ModelState.IsValid)
+            var memberId = this.Session["memberId"];
+            if (memberId == null)
             {
-                var memberId = this.Session["memberId"];
-                if (memberId == null)
-                {
-                    return RedirectToAction("Index", "Login"); ;
-                }
+                return RedirectToAction("Index", "Login"); ;
+            }
+            if (ModelState.IsValid)
+            {  
                 MEMBER_EVENT memberRegister = new MEMBER_EVENT();
                 memberRegister.EventId = id;
                 memberRegister.MemberId = (int)this.Session["MemberId"];
@@ -141,13 +167,31 @@ namespace CVGS.Controllers
                         db.MEMBER_EVENT.Add(memberRegister);
                         db.SaveChanges();
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
                         return new HttpStatusCodeResult(HttpStatusCode.BadRequest); // sad path
                     }
                 }
             }
             return RedirectToAction("Index");
+        }
+
+        private bool isRegistered(int eventId, int memberId)
+        {
+            MEMBER_EVENT memberEvent = new MEMBER_EVENT();
+            try
+            {
+                memberEvent = db.MEMBER_EVENT.ToList().Find(x => x.EventId == eventId && x.MemberId == memberId);
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+            if (memberEvent == null)
+            {
+                return false;
+            }
+            return true;
         }
 
         protected override void Dispose(bool disposing)
