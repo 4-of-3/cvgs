@@ -1,53 +1,35 @@
 ﻿@model CVGS.Models.GAME
 
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = "Game Details";
 }
 
-<h2>Details</h2>
+<h2>Game Details</h2>
 
 <div>
-    <h4>GAME</h4>
-    <hr />
+    <section>
+        <h4 style="display:inline-block">@Html.DisplayFor(model => model.Title)</h4>
+        <div style="float:right">
+            <p style="display:inline-block">@Html.DisplayFor(model => model.Cost)</p>
+            <p style="display:inline-block">@Html.ActionLink("Edit", "Edit", new { id = Model.GameId })</p>
+            <p style="display:inline-block">@Html.ActionLink("Delete", "Delete", new { id = Model.GameId })</p>
+        </div>
+    </section>
+        
     <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Title)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Title)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.ISBN)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.ISBN)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Developer)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Developer)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Description)
-        </dd>
-
         <dt>
             @Html.DisplayNameFor(model => model.Category)
         </dt>
 
         <dd>
             @Html.DisplayFor(model => model.Category)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Developer)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Developer)
         </dd>
 
         <dt>
@@ -59,16 +41,12 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Cost)
+            @Html.DisplayNameFor(model => model.Description)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Cost)
+            @Html.DisplayFor(model => model.Description)
         </dd>
 
     </dl>
 </div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.GameId }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>
