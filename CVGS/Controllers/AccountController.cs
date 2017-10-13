@@ -136,8 +136,10 @@ namespace CVGS.Controllers
                 member.ActiveStatus = false;
                 db.Entry(member).State = EntityState.Modified;
                 db.SaveChanges();
+
             }
-            return RedirectToAction("Index");
+            Session.Clear();
+            return RedirectToAction("Index", "Login");
         }
 
         protected override void Dispose(bool disposing)
