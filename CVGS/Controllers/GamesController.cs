@@ -15,15 +15,14 @@ namespace CVGS.Controllers
         private CVGSEntities db = new CVGSEntities();
 
         // GET: Games
-        public ActionResult Index()
+        public ActionResult Index(string search)
         {
-            // Redirect unauthenticated members
-            if (Session["MemberId"] == null)
+            var gamesList = db.GAMEs.ToList();
+            if(search != null)
             {
-                return RedirectToAction("Index", "Login");
+                gamesList = gamesList.FindAll(x => x.Title.ToLower().Contains(search.ToLower()));
             }
-
-            return View(db.GAMEs.ToList());
+            return View(gamesList);
         }
 
         // GET: Games/Details/5
@@ -34,6 +33,7 @@ namespace CVGS.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             GAME gAME = db.GAMEs.Find(id);
+            ViewBag.gameTitle = gAME.Title;
             if (gAME == null)
             {
                 return HttpNotFound();
@@ -72,6 +72,7 @@ namespace CVGS.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             GAME gAME = db.GAMEs.Find(id);
+            ViewBag.gameTitle = gAME.Title;
             if (gAME == null)
             {
                 return HttpNotFound();
@@ -103,6 +104,7 @@ namespace CVGS.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             GAME gAME = db.GAMEs.Find(id);
+            ViewBag.gameTitle = gAME.Title;
             if (gAME == null)
             {
                 return HttpNotFound();
