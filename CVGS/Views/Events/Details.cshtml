@@ -4,7 +4,7 @@
     ViewBag.Title = "Event Details";
 }
 
-<h2>@ViewBag.Title</h2>
+<h2 style="text-align:center">@ViewBag.Title</h2>
 
 <div>
     <section>
@@ -24,7 +24,7 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Location)
+            @Html.DisplayNameFor(model => model.Location):
         </dt>
 
         <dd>
@@ -39,7 +39,7 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Description)
+            @Html.DisplayNameFor(model => model.Description):
         </dt>
 
         <dd>
@@ -52,7 +52,7 @@
         @Html.AntiForgeryToken()
         @Html.HiddenFor(model => model.EventId)
         
-        <div class="form-group">
+        <div class="form-group" style="float:right">
             <div class="col-md-offset-2 col-md-10">
                 @if (ViewBag.isRegistered == false)
                 {
@@ -71,7 +71,3 @@
     }
     
 </div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.EventId }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>
