@@ -17,26 +17,12 @@ namespace CVGS.Controllers
         // GET: Games
         public ActionResult Index(string search)
         {
-            var gameList = db.GAMEs.ToList();
-            if(search != null && !search.Equals(""))
+            var gamesList = db.GAMEs.ToList();
+            if(search != null)
             {
-                int listSize = gameList.Count();
-                int arrayIndex = 0;
-                //TODO: Filter game list properly
-                while(arrayIndex < listSize)
-                {
-                    if (!gameList[arrayIndex].Title.ToLower().Contains(search.ToLower()))
-                    {
-                        gameList.RemoveAt(arrayIndex);
-                        listSize--;
-                    }
-                    else
-                    {
-                        arrayIndex++;
-                    }
-                }
+                gamesList = gamesList.FindAll(x => x.Title.ToLower().Contains(search.ToLower()));
             }
-            return View(gameList);
+            return View(gamesList);
         }
 
         // GET: Games/Details/5
