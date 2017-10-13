@@ -9,7 +9,8 @@
 <p>
     @using (Html.BeginForm("Index", "Games"))
     { 
-    <input id="search" type="text" placeholder="Search" name="search">
+        @Html.ActionLink("Create New Game", "Create")
+        <input id="search" type="text" placeholder="Search" name="search" class="pull-right">
     }
 </p>
 <table class="table">
