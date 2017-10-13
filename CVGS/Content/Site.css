@@ -22,3 +22,49 @@ select,
 textarea {
     max-width: 280px;
 }
+
+
+/* Dashboard tiles */
+.dashboard__tile {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    height: 175px;
+    text-decoration: none;
+    background-color: indianred;
+    border-radius: 5px;
+}
+
+.dashboard__tile:hover { text-decoration: none;
+}
+
+.tile__content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-grow: 1;
+}
+
+.tile__label {
+    padding: 10px;
+    color: black;
+    font-size: 16px;
+    font-weight: bold;
+    text-align: center;
+    background-color: rgba(255, 255, 255, 0.3);
+}
+
+.dashboard__tile:not(.disabled):hover .tile__label {
+    background-color: rgba(255, 255, 255, 0.5);
+    text-decoration: none;
+}
+
+/* Disabled dashboard tile styles */
+.dashboard__tile.disabled {
+    background-color: lightgrey;
+}
+
+.dashboard__tile.disabled .tile__content {
+    color: darkgrey;
+    font-size: 18px;
+}
