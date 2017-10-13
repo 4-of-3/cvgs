@@ -1,10 +1,15 @@
 ﻿body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
     padding-top: 50px;
     padding-bottom: 20px;
 }
 
 /* Set padding to keep content from hitting the edges */
 .body-content {
+    flex-grow: 1;
+    width: 100%;
     padding-left: 15px;
     padding-right: 15px;
 }
@@ -21,6 +26,53 @@ input,
 select,
 textarea {
     max-width: 280px;
+}
+
+.page-blur {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 0;
+    background-color: #418cd5;
+}
+
+
+/* Auth page styles */
+.auth__container {
+    max-width: 500px;
+    margin: 50px auto;
+    padding: 50px;
+    background-color: white;
+    border-radius: 0 0px 2px 2px;
+}
+
+.auth__container h2 {
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.auth__container form {
+    max-width: 300px;
+    margin: 0 auto;
+}
+
+.auth__container input[type="text"],input[type="password"] {
+    max-width: 100%;
+    width: 100%;
+    padding: 10px;
+    border: 1px solid lightgrey;
+    border-radius: 4px;
+}
+
+.auth__container input[type="submit"]
+{
+    width: 100%;
+    max-width: 100%;
+    display: block;
+    margin: 20px auto 0 auto;
+    padding: 10px 20px;
 }
 
 
