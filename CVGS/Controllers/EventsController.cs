@@ -17,6 +17,7 @@ namespace CVGS.Controllers
         // GET: Events
         public ActionResult Index()
         {
+            var memberId = this.Session["MemberId"];
             return View(db.EVENTs.ToList());
         }
 
@@ -115,35 +116,33 @@ namespace CVGS.Controllers
             return RedirectToAction("Index");
         }
 
-        // GET: Events/Register/5
-        public ActionResult Register(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest); // sad path
-            }
-            EVENT eVENT = db.EVENTs.Find(id);
-            if (eVENT == null)
-            {
-                return HttpNotFound();
-            }
-            return View(eVENT);
-        }
-
-        // POST: Events/Register/5
+        // POST: Events/Details/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost, ActionName("Register")]
+        [HttpPost, ActionName("Details")]
         [ValidateAntiForgeryToken]
-        public ActionResult Register(int id)
+        public ActionResult Details(int id)
         {
             if (ModelState.IsValid)
             {
-                Console.WriteLine(id);
-                return RedirectToAction("Index");
+                MEMBER_EVENT memberRegister = new MEMBER_EVENT();
+                memberRegister.EventId = id;
+                memberRegister.MemberId = (int)this.Session["MemberId"];
+                memberRegister.DateRegistered = System.DateTime.Now;
+                if (memberRegister.ToString() != "")
+                {
+                    try
+                    {
+                        db.MEMBER_EVENT.Add(memberRegister);
+                        db.SaveChanges();
+                    }
+                    catch (Exception)
+                    {
+                        return new HttpStatusCodeResult(HttpStatusCode.BadRequest); // sad path
+                    }
+                }
             }
             return RedirectToAction("Index");
-            //return View(eVENT);
         }
 
         protected override void Dispose(bool disposing)
