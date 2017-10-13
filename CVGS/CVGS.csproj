@@ -177,9 +177,11 @@
     <Compile Include="Models\EVENT.cs">
       <DependentUpon>CVGS.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\EventMeta.cs" />
     <Compile Include="Models\GAME.cs">
       <DependentUpon>CVGS.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\GameMeta.cs" />
     <Compile Include="Models\MEMBER.cs">
       <DependentUpon>CVGS.tt</DependentUpon>
     </Compile>

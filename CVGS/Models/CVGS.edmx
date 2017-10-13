@@ -28,8 +28,8 @@
           <Property Name="Description" Type="nvarchar" MaxLength="1024" Nullable="false" />
           <Property Name="Category" Type="nvarchar" MaxLength="64" Nullable="false" />
           <Property Name="PublicationDate" Type="date" Nullable="false" />
-          <Property Name="Cost" Type="money" />
-          <Property Name="Digital" Type="bit" />
+          <Property Name="Cost" Type="money" Nullable="false" />
+          <Property Name="Digital" Type="bit" Nullable="false" />
           <Property Name="Deleted" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="GAME_PLATFORM">
@@ -224,9 +224,9 @@
           <Property Name="Description" Type="String" MaxLength="1024" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Category" Type="String" MaxLength="64" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="PublicationDate" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="Cost" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="Cost" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
           <NavigationProperty Name="PLATFORMs" Relationship="Self.GAME_PLATFORM" FromRole="GAME" ToRole="PLATFORM" />
-          <Property Name="Digital" Type="Boolean" />
+          <Property Name="Digital" Type="Boolean" Nullable="false" />
           <Property Name="Deleted" Type="Boolean" Nullable="false" />
         </EntityType>
         <EntityType Name="MEMBER">

@@ -50,6 +50,14 @@
             @Html.DisplayFor(model => model.Description)
         </dd>
 
+        <dt>
+            @Html.DisplayNameFor(model => model.Digital)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Digital)
+        </dd>
+
     </dl>
     @using (Html.BeginForm()) {
         @Html.AntiForgeryToken()

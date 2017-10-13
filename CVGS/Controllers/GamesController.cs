@@ -38,10 +38,12 @@ namespace CVGS.Controllers
             {
                 return RedirectToAction("Index", "Login"); ;
             }
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+
             GAME gAME = db.GAMEs.Find(id);
             ViewBag.gameTitle = gAME.Title;
             if (gAME == null)
@@ -59,6 +61,7 @@ namespace CVGS.Controllers
             {
                 return RedirectToAction("Index", "Login"); ;
             }
+
             return View();
         }
 
@@ -67,21 +70,23 @@ namespace CVGS.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "GameId,Title,ISBN,Developer,Description,Category,PublicationDate,Cost")] GAME gAME)
+        public ActionResult Create([Bind(Include = "GameId,Title,ISBN,Developer,Description,Category,PublicationDate,Cost,Digital")] GAME gAME)
         {
-            if (ModelState.IsValid)
+            var memberId = this.Session["memberId"];
+            if (memberId == null)
             {
-                var memberId = this.Session["memberId"];
-                if (memberId == null)
-                {
-                    return RedirectToAction("Index", "Login"); ;
-                }
-                db.GAMEs.Add(gAME);
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", "Login"); ;
             }
 
-            return View(gAME);
+            if (!ModelState.IsValid)
+            {
+                return View(gAME);
+            }
+
+            db.GAMEs.Add(gAME);
+            db.SaveChanges();
+
+            return RedirectToAction("Index");
         }
 
         // GET: Games/Edit/5
@@ -92,10 +97,12 @@ namespace CVGS.Controllers
             {
                 return RedirectToAction("Index", "Login"); ;
             }
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+
             GAME gAME = db.GAMEs.Find(id);
             ViewBag.gameTitle = gAME.Title;
             if (gAME == null)
@@ -110,20 +117,22 @@ namespace CVGS.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "GameId,Title,ISBN,Developer,Description,Category,PublicationDate,Cost")] GAME gAME)
+        public ActionResult Edit([Bind(Include = "GameId,Title,ISBN,Developer,Description,Category,PublicationDate,Cost,Digital")] GAME gAME)
         {
             var memberId = this.Session["memberId"];
             if (memberId == null)
             {
                 return RedirectToAction("Index", "Login"); ;
             }
-            if (ModelState.IsValid)
+
+            if (!ModelState.IsValid)
             {
-                db.Entry(gAME).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                return View(gAME);
             }
-            return View(gAME);
+
+            db.Entry(gAME).State = EntityState.Modified;
+            db.SaveChanges();
+            return RedirectToAction("Index");
         }
 
         // GET: Games/Delete/5
@@ -134,10 +143,12 @@ namespace CVGS.Controllers
             {
                 return RedirectToAction("Index", "Login"); ;
             }
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+
             GAME gAME = db.GAMEs.Find(id);
             ViewBag.gameTitle = gAME.Title;
             if (gAME == null)
@@ -157,6 +168,7 @@ namespace CVGS.Controllers
             {
                 return RedirectToAction("Index", "Login"); ;
             }
+
             GAME gAME = db.GAMEs.Find(id);
             db.GAMEs.Remove(gAME);
             db.SaveChanges();
