@@ -119,6 +119,11 @@ namespace CVGS.Controllers
         // GET: Events/Delete/5
         public ActionResult Delete(int? id)
         {
+            var memberId = this.Session["memberId"];
+            if (memberId == null)
+            {
+                return RedirectToAction("Index", "Login"); ;
+            }
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -136,6 +141,11 @@ namespace CVGS.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
+            var memberId = this.Session["memberId"];
+            if (memberId == null)
+            {
+                return RedirectToAction("Index", "Login"); ;
+            }
             EVENT eVENT = db.EVENTs.Find(id);
             db.EVENTs.Remove(eVENT);
             db.SaveChanges();
