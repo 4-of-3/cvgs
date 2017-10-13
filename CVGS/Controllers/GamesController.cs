@@ -15,7 +15,7 @@ namespace CVGS.Controllers
         private CVGSEntities db = new CVGSEntities();
 
         // GET: Games
-        public ActionResult Index(string search ="")
+        public ActionResult Index(string search)
         {
             var gameList = db.GAMEs.ToList();
             if(search != null && !search.Equals(""))
@@ -47,6 +47,7 @@ namespace CVGS.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             GAME gAME = db.GAMEs.Find(id);
+            ViewBag.gameTitle = gAME.Title;
             if (gAME == null)
             {
                 return HttpNotFound();
@@ -85,6 +86,7 @@ namespace CVGS.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             GAME gAME = db.GAMEs.Find(id);
+            ViewBag.gameTitle = gAME.Title;
             if (gAME == null)
             {
                 return HttpNotFound();
@@ -116,6 +118,7 @@ namespace CVGS.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             GAME gAME = db.GAMEs.Find(id);
+            ViewBag.gameTitle = gAME.Title;
             if (gAME == null)
             {
                 return HttpNotFound();

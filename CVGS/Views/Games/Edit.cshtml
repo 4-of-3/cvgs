@@ -1,10 +1,10 @@
 ﻿@model CVGS.Models.GAME
 
 @{
-    ViewBag.Title = "Edit";
+    ViewBag.Title = ViewBag.gameTitle+" - Edit";
 }
 
-<h2>Edit</h2>
+<h2>@ViewBag.Title</h2>
 
 
 @using (Html.BeginForm())
