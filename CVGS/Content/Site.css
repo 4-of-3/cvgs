@@ -39,6 +39,14 @@ textarea {
     background-color: #418cd5;
 }
 
+.search-bar {
+    max-width: 350px;
+    margin-bottom: 10px;
+    padding: 5px;
+    border: 1px solid lightgrey;
+    border-radius: 4px;
+}
+
 
 /* Auth page styles */
 .auth__container {

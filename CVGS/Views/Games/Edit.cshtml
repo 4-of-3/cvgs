@@ -1,7 +1,7 @@
 ﻿@model CVGS.Models.GAME
 
 @{
-    ViewBag.Title = ViewBag.gameTitle+" - Edit";
+    ViewBag.Title = "Edit Game";
 }
 
 <h2>@ViewBag.Title</h2>
@@ -12,8 +12,8 @@
     @Html.AntiForgeryToken()
     
     <div class="form-horizontal">
-        <h4>GAME</h4>
         <hr />
+        <h3 style="margin-bottom: 20px;">@ViewBag.gameTitle</h3>
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         @Html.HiddenFor(model => model.GameId)
 
