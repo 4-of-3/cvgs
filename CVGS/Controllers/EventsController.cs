@@ -15,14 +15,66 @@ namespace CVGS.Controllers
         private CVGSEntities db = new CVGSEntities();
 
         // GET: Events
-        public ActionResult Index()
+        public ActionResult Index(string sort, string order)
         {
             var memberId = this.Session["memberId"];
             if (memberId == null)
             {
                 return RedirectToAction("Index", "Login"); ;
             }
-            return View(db.EVENTs.ToList());
+            var eventList = db.EVENTs.ToList();
+
+            bool asc = true;
+            ViewBag.listSortAsc = "1";
+            if (order != null && order.Equals("1"))
+            {
+                ViewBag.listSortAsc = "0";
+                asc = true;
+            }
+            else if(order != null && order.Equals("0"))
+            {
+                ViewBag.listSortAsc = "1";
+                asc = false;
+            }
+            
+            if (sort!= null)
+            {
+                switch (sort)
+                {
+                    case "title":
+                        if (asc)
+                        {
+                            eventList = eventList.OrderBy(e => e.EventTitle).ToList();
+                        }
+                        else
+                        {
+                            eventList = eventList.OrderByDescending(e => e.EventTitle).ToList();
+                        }
+                        break;
+                    case "location":
+                        if (asc)
+                        {
+                            eventList = eventList.OrderBy(e => e.Location).ToList();
+                        }
+                        else
+                        {
+                            eventList = eventList.OrderByDescending(e => e.Location).ToList();
+                        }
+                        break;
+                    case "date":
+                        if (asc)
+                        {
+                            eventList = eventList.OrderBy(e => e.EventDate).ToList();
+                        }
+                        else
+                        {
+                            eventList = eventList.OrderByDescending(e => e.EventDate).ToList();
+                        }
+                        break;
+                }
+            }
+            
+            return View(eventList);
         }
 
         // GET: Events/Details/5
@@ -119,6 +171,11 @@ namespace CVGS.Controllers
         // GET: Events/Delete/5
         public ActionResult Delete(int? id)
         {
+            var memberId = this.Session["memberId"];
+            if (memberId == null)
+            {
+                return RedirectToAction("Index", "Login"); ;
+            }
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -136,6 +193,11 @@ namespace CVGS.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
+            var memberId = this.Session["memberId"];
+            if (memberId == null)
+            {
+                return RedirectToAction("Index", "Login"); ;
+            }
             EVENT eVENT = db.EVENTs.Find(id);
             db.EVENTs.Remove(eVENT);
             db.SaveChanges();
