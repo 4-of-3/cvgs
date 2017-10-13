@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - My ASP.NET Application</title>
+    <title>CVGS - @ViewBag.Title</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
 </head>
@@ -21,22 +21,21 @@
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                    <li>@Html.ActionLink("About", "About", "Home")</li>
-                    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
                     <li>@Html.ActionLink("Events", "", "Events")</li>
                     <li>@Html.ActionLink("Games", "", "Games")</li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     @{
-                        if (Session["MemberId"] == null)
+                        if (Session["MemberId"] != null)
                         {
-                            <li class="navbar-right pull-right">@Html.ActionLink("Login", "Index", "Login")</li>
+                            <li>@Html.ActionLink("Profile", "Index", "Account")</li>
                         }
-                        else
-                        {
-                            <li class="navbar-right pull-right">@Html.ActionLink("Logout", "Index", "Login")</li>
+                    }
+                    @{
+                        string link = Session["MemberId"] == null ? "Login" : "Logout";
+                        string action = Session["MemberId"] == null ? "Index" : "Logout";
 
-                        }
+                        <li class="navbar-right pull-right">@Html.ActionLink(link, action, "Login")</li>
                     }
                 </ul>
             </div>
@@ -44,10 +43,6 @@
     </div>
     <div class="container body-content">
         @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
-        </footer>
     </div>
 
     @Scripts.Render("~/bundles/jquery")

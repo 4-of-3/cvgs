@@ -17,6 +17,12 @@ namespace CVGS.Controllers
         // GET: Members
         public ActionResult Index()
         {
+            // Redirect unauthenticated members
+            if (Session["MemberId"] == null)
+            {
+                return RedirectToAction("Index", "Login");
+            }
+
             return View(db.MEMBERs.ToList());
         }
 
