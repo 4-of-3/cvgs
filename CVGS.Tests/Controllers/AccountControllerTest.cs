@@ -43,8 +43,8 @@ namespace CVGS.Tests.Controllers
             Assert.IsTrue(member.UserName == "Example"); // Username is unique, so if sp_add_member was successful and the new member has this username, the proc succeeded
 
             //Teardown
-            //db.MEMBERs.Remove(member);
-            //db.SaveChanges();
+            db.MEMBERs.Remove(member);
+            db.SaveChanges();
         }
     }
 }
