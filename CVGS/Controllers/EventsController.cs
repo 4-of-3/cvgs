@@ -17,33 +17,44 @@ namespace CVGS.Controllers
         // GET: Events
         public ActionResult Index()
         {
-            // Redirect unauthenticated members
-            if (Session["MemberId"] == null)
+            var memberId = this.Session["memberId"];
+            if (memberId == null)
             {
-                return RedirectToAction("Index", "Login");
+                return RedirectToAction("Index", "Login"); ;
             }
-
             return View(db.EVENTs.ToList());
         }
 
         // GET: Events/Details/5
         public ActionResult Details(int? id)
         {
+            var memberId = this.Session["memberId"];
+            if (memberId == null)
+            {
+                return RedirectToAction("Index", "Login"); ;
+            }
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+            bool registered = isRegistered((int)id, (int)memberId);
             EVENT eVENT = db.EVENTs.Find(id);
             if (eVENT == null)
             {
                 return HttpNotFound();
             }
+            ViewBag.isRegistered = registered; 
             return View(eVENT);
         }
 
         // GET: Events/Create
         public ActionResult Create()
         {
+            var memberId = this.Session["memberId"];
+            if (memberId == null)
+            {
+                return RedirectToAction("Index", "Login"); ;
+            }
             return View();
         }
 
@@ -54,6 +65,11 @@ namespace CVGS.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "EventId,EventTitle,Description,EventDate,Location,ActiveStatus,DateCreated")] EVENT eVENT)
         {
+            var memberId = this.Session["memberId"];
+            if (memberId == null)
+            {
+                return RedirectToAction("Index", "Login"); ;
+            }
             if (ModelState.IsValid)
             {
                 db.EVENTs.Add(eVENT);
@@ -67,6 +83,11 @@ namespace CVGS.Controllers
         // GET: Events/Edit/5
         public ActionResult Edit(int? id)
         {
+            var memberId = this.Session["memberId"];
+            if (memberId == null)
+            {
+                return RedirectToAction("Index", "Login"); ;
+            }
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -98,6 +119,11 @@ namespace CVGS.Controllers
         // GET: Events/Delete/5
         public ActionResult Delete(int? id)
         {
+            var memberId = this.Session["memberId"];
+            if (memberId == null)
+            {
+                return RedirectToAction("Index", "Login"); ;
+            }
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -115,6 +141,11 @@ namespace CVGS.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
+            var memberId = this.Session["memberId"];
+            if (memberId == null)
+            {
+                return RedirectToAction("Index", "Login"); ;
+            }
             EVENT eVENT = db.EVENTs.Find(id);
             db.EVENTs.Remove(eVENT);
             db.SaveChanges();
@@ -126,14 +157,21 @@ namespace CVGS.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost, ActionName("Details")]
         [ValidateAntiForgeryToken]
-        public ActionResult Details(int id)
+        public ActionResult Details(int id, string isRegistered)
         {
+            var memberId = this.Session["memberId"];
+            if (memberId == null)
+            {
+                return RedirectToAction("Index", "Login"); ;
+            }
             if (ModelState.IsValid)
             {
-                var memberId = this.Session["memberId"];
-                if (memberId == null)
+                if (isRegistered == "true")
                 {
-                    return RedirectToAction("Index", "Login"); ;
+                    MEMBER_EVENT memberEvent = db.MEMBER_EVENT.ToList().Find(x => x.EventId == id && x.MemberId == (int)memberId);
+                    db.MEMBER_EVENT.Remove(memberEvent);    
+                    db.SaveChanges();
+                    return RedirectToAction("Details",  new { id = id });
                 }
                 MEMBER_EVENT memberRegister = new MEMBER_EVENT();
                 memberRegister.EventId = id;
@@ -146,13 +184,31 @@ namespace CVGS.Controllers
                         db.MEMBER_EVENT.Add(memberRegister);
                         db.SaveChanges();
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
                         return new HttpStatusCodeResult(HttpStatusCode.BadRequest); // sad path
                     }
                 }
             }
-            return RedirectToAction("Index");
+            return RedirectToAction("Details", new { id = id });
+        }
+
+        private bool isRegistered(int eventId, int memberId)
+        {
+            MEMBER_EVENT memberEvent = new MEMBER_EVENT();
+            try
+            {
+                memberEvent = db.MEMBER_EVENT.ToList().Find(x => x.EventId == eventId && x.MemberId == memberId);
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+            if (memberEvent == null)
+            {
+                return false;
+            }
+            return true;
         }
 
         protected override void Dispose(bool disposing)

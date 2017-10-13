@@ -45,19 +45,25 @@ namespace CVGS.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "FName,LName,Email,UserName,Pwd,FavPlatform,FavCategory,FavGame,FavQuote")] NewAccountViewModel mEMBER)
+        public ActionResult Create([Bind(Include = "FName,LName,Email,UserName,Pwd,FavPlatform,FavCategory,FavGame,FavQuote")] NewAccountViewModel account)
         {
             if (ModelState.IsValid)
             {
                 ObjectParameter newMemberId = new ObjectParameter("memberId", typeof(int));
-                db.SP_ADD_MEMBER(mEMBER.FName, mEMBER.LName, mEMBER.UserName, mEMBER.Email, mEMBER.Pwd, mEMBER.FavPlatform, mEMBER.FavCategory, mEMBER.FavGame, mEMBER.FavQuote);
-                var memberId = db.MEMBERs.Max(m => m.MemberId);
-                Session["MemberId"] = memberId;
-
-                return RedirectToAction("Index");
+                try
+                {
+                    db.SP_ADD_MEMBER(account.FName, account.LName, account.UserName, account.Email, account.Pwd, account.FavPlatform, account.FavCategory, account.FavGame, account.FavQuote);
+                    var memberId = db.MEMBERs.Max(m => m.MemberId);
+                    Session["MemberId"] = memberId;
+                    return RedirectToAction("Index");
+                }
+                catch (Exception ex)
+                {
+                    ModelState.AddModelError("", ex.GetBaseException());
+                }
             }
 
-            return View(mEMBER);
+            return View(account);
         }
 
         // GET: MEMBERs/Edit/5
@@ -67,12 +73,12 @@ namespace CVGS.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            MEMBER mEMBER = db.MEMBERs.Find(id);
-            if (mEMBER == null)
+            MEMBER account = db.MEMBERs.Find(id);
+            if (account == null)
             {
                 return HttpNotFound();
             }
-            return View(mEMBER);
+            return View(account);
         }
 
         // POST: MEMBERs/Edit/5
@@ -80,15 +86,15 @@ namespace CVGS.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "MemberId,FName,LName,UserName,Email,FavPlatform,FavCategory,FavGame,FavQuote,DateJoined,ActiveStatus,Pwd")] MEMBER mEMBER)
+        public ActionResult Edit([Bind(Include = "MemberId,FName,LName,UserName,Email,FavPlatform,FavCategory,FavGame,FavQuote,DateJoined,ActiveStatus,Pwd")] MEMBER account)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(mEMBER).State = EntityState.Modified;
+                db.Entry(account).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            return View(mEMBER);
+            return View(account);
         }
 
         // GET: MEMBERs/Delete/5
@@ -98,22 +104,39 @@ namespace CVGS.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            MEMBER mEMBER = db.MEMBERs.Find(id);
-            if (mEMBER == null)
+            MEMBER member = db.MEMBERs.Find(id);
+            if (member == null)
             {
                 return HttpNotFound();
             }
-            return View(mEMBER);
+            DeleteAccountViewModel account = new DeleteAccountViewModel()
+            {
+                MemberId = member.MemberId,
+                UserName = member.UserName,
+                FullDelete = false
+            };
+
+            return View(account);
         }
 
         // POST: MEMBERs/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
+        public ActionResult DeleteConfirmed([Bind(Include = "MemberId,UserName,FullDelete")]DeleteAccountViewModel account)
         {
-            MEMBER mEMBER = db.MEMBERs.Find(id);
-            db.MEMBERs.Remove(mEMBER);
-            db.SaveChanges();
+            int memberId = account.MemberId;
+            MEMBER member = db.MEMBERs.Find(memberId);
+            if (account.FullDelete)
+            {
+                db.MEMBERs.Remove(member);
+                db.SaveChanges();
+            }
+            else
+            {
+                member.ActiveStatus = false;
+                db.Entry(member).State = EntityState.Modified;
+                db.SaveChanges();
+            }
             return RedirectToAction("Index");
         }
 

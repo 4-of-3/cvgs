@@ -11,7 +11,8 @@
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.EventTitle)
+            @*@Html.DisplayNameFor(model => model.EventTitle)*@
+            @Html.DisplayName("Event Title")
         </dt>
 
         <dd>
@@ -35,7 +36,7 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.EventDate)
+            @Html.DisplayName("Event Date")
         </dt>
 
         <dd>
@@ -43,7 +44,7 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.ActiveStatus)
+            @Html.DisplayName("Active Status")
         </dt>
 
         <dd>
@@ -51,7 +52,7 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.DateCreated)
+            @Html.DisplayName("Date Created")
         </dt>
 
         <dd>
@@ -62,9 +63,21 @@
     {
         @Html.AntiForgeryToken()
         @Html.HiddenFor(model => model.EventId)
+        
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Register For Event" class="btn btn-default" />
+                @if (ViewBag.isRegistered == false)
+                {
+                    <input type="submit" value="Register For Event" class="btn btn-default" />
+                    <input type="hidden" id="" value="false" name="isRegistered" />
+                }
+                else
+                {
+                    <input type="submit" value="Unregister For Event" class="btn btn-default" />
+                    <input type="hidden" id="" value="true" name="isRegistered" />
+                }
+                
+                
             </div>
         </div>
     }

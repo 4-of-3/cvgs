@@ -50,7 +50,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Pwd, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.PasswordFor(model => model.Pwd, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.PasswordFor(model => model.Pwd, htmlAttributes: new { @class = "form-control" } )
                 @Html.ValidationMessageFor(model => model.Pwd, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -58,7 +58,7 @@
         <div class="form-group">
             @Html.Label("PwdConfirm","Confirm Password", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.Password("PwdConfirm", null, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.Password("PwdConfirm", null, htmlAttributes: new { @class = "form-control" } )
                 @Html.ValidationMessageFor(model => model.Pwd, "", new { @class = "text-danger" })
             </div>
         </div>

@@ -13,6 +13,8 @@
         <AssociationConnector Association="CVGSModel.fk_event_member" ManuallyRouted="false" />
         <AssociationConnector Association="CVGSModel.fk_member_event" ManuallyRouted="false" />
         <AssociationConnector Association="CVGSModel.GAME_PLATFORM" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="CVGSModel.REPORT" Width="1.5" PointX="3" PointY="9.375" />
+        <AssociationConnector Association="CVGSModel.fk_report_member" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
