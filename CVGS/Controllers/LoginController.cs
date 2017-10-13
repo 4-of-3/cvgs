@@ -15,6 +15,11 @@ namespace CVGS.Controllers
         // GET: Login
         public ActionResult Index()
         {
+            if (Session["MemberId"] != null)
+            {
+                Session.Clear();
+                return RedirectToAction("Index", "Home");
+            }
             return View();
         }
 
