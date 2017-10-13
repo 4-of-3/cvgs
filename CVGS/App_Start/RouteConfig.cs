@@ -13,6 +13,9 @@ namespace CVGS
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
+            // Add support for MVC Attribute routing
+            routes.MapMvcAttributeRoutes();
+
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
