@@ -10,7 +10,7 @@ namespace CVGS.Controllers
     {
         public ActionResult Index()
         {
-            // Force unauthenticated users to sign in
+            // Redirect unauthenticated members
             if (Session["MemberId"] == null)
             {
                 return RedirectToAction("Index", "Login");

@@ -18,10 +18,19 @@ namespace CVGS.Controllers
         {
             if (Session["MemberId"] != null)
             {
+                // TODO: This has been replaced by "/Logout" route (make sure it isn't used anymore)
                 Session.Clear();
                 return RedirectToAction("Index", "Login");
             }
             return View();
+        }
+
+        [Route("Logout")]
+        public ActionResult Logout()
+        {
+            // Remove the user session (to remove authentication) and redirect to the Login page
+            Session.Clear();
+            return RedirectToAction("Index", "Login");
         }
 
         [HttpPost]
