@@ -4,7 +4,7 @@
     ViewBag.Title = "Events";
 }
 
-<h2>Index</h2>
+<h2>@ViewBag.Title</h2>
 
 <p>
     @Html.ActionLink("Create New Event", "Create")
@@ -12,19 +12,13 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.EventTitle)
+            @Html.ActionLink("Event Name", "Index", new { sort = "title", order = @ViewBag.listSortAsc})
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Location)
+            @Html.ActionLink("Location", "Index", new { sort = "location", order = @ViewBag.listSortAsc})
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Description)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.EventDate)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ActiveStatus)
+            @Html.ActionLink("Date", "Index", new { sort = "date", order = @ViewBag.listSortAsc})
         </th>
         <th></th>
     </tr>
@@ -38,18 +32,10 @@
             @Html.DisplayFor(modelItem => item.Location)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Description)
-        </td>
-        <td>
             @Html.DisplayFor(modelItem => item.EventDate)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.ActiveStatus)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.EventId }) |
-            @Html.ActionLink("Details", "Details", new { id=item.EventId }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.EventId })
+            @Html.ActionLink("View", "Details", new { id=item.EventId })
         </td>
     </tr>
 }
