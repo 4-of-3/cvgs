@@ -6,10 +6,10 @@
 
 <h2>Login</h2>
 
-@using (Html.BeginForm()) 
+@using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
+
     <div class="form-horizontal">
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
@@ -35,3 +35,6 @@
         </div>
     </div>
 }
+    <div>
+        @Html.ActionLink("Create New Account", "Create", "Account")
+    </div>
