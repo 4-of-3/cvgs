@@ -15,9 +15,28 @@ namespace CVGS.Controllers
         private CVGSEntities db = new CVGSEntities();
 
         // GET: Games
-        public ActionResult Index()
+        public ActionResult Index(string search ="")
         {
-            return View(db.GAMEs.ToList());
+            var gameList = db.GAMEs.ToList();
+            if(search != null && !search.Equals(""))
+            {
+                int listSize = gameList.Count();
+                int arrayIndex = 0;
+                //TODO: Filter game list properly
+                while(arrayIndex < listSize)
+                {
+                    if (!gameList[arrayIndex].Title.ToLower().Contains(search.ToLower()))
+                    {
+                        gameList.RemoveAt(arrayIndex);
+                        listSize--;
+                    }
+                    else
+                    {
+                        arrayIndex++;
+                    }
+                }
+            }
+            return View(gameList);
         }
 
         // GET: Games/Details/5
