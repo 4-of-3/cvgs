@@ -1,31 +1,13 @@
 ﻿@model CVGS.Models.EVENT
 
 @{
-    ViewBag.Title = "Delete";
+    ViewBag.Title = "Delete Event";
 }
 
-<h2>Delete</h2>
-
-<h3>Are you sure you want to delete this?</h3>
+<h2 style="text-align:center">@ViewBag.Title</h2>
 <div>
-    <h4>EVENT</h4>
-    <hr />
+    <h4>@Html.DisplayFor(model => model.EventTitle)</h4>
     <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayName("Event Title")
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.EventTitle)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Description)
-        </dd>
 
         <dt>
             @Html.DisplayName("Event Date")
@@ -36,19 +18,28 @@
         </dd>
 
         <dt>
-            @Html.DisplayName("Active Status")
+            @Html.DisplayName("Location")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Location)
+        </dd>
+
+        <dt>
+            @Html.DisplayName("Status")
         </dt>
 
         <dd>
             @Html.DisplayFor(model => model.ActiveStatus)
         </dd>
 
+
         <dt>
-            @Html.DisplayName("Date Created")
+            @Html.DisplayNameFor(model => model.Description)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.DateCreated)
+            @Html.DisplayFor(model => model.Description)
         </dd>
 
     </dl>
@@ -56,9 +47,9 @@
     @using (Html.BeginForm()) {
         @Html.AntiForgeryToken()
 
-        <div class="form-actions no-color">
-            <input type="submit" value="Delete" class="btn btn-default" /> |
-            @Html.ActionLink("Back to List", "Index")
+        <div class="form-actions no-color" style="float:right">
+            @Html.ActionLink("Cancel", "Index")
+            <input type="submit" value="Delete" class="btn btn-default" />
         </div>
     }
 </div>

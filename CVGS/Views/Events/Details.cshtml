@@ -1,41 +1,22 @@
 ﻿@model CVGS.Models.EVENT
 
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = "Event Details";
 }
 
-<h2>Details</h2>
+<h2 style="text-align:center">@ViewBag.Title</h2>
 
 <div>
-    <h4>EVENT</h4>
-    <hr />
+    <section>
+        <h4 style="display:inline-block">@Html.DisplayFor(model => model.EventTitle)</h4>
+        <div style="float:right">
+            <p style="display:inline-block">@Html.ActionLink("Edit", "Edit", new { id = Model.EventId })</p>
+            <p style="display:inline-block">@Html.ActionLink("Delete", "Delete", new { id = Model.EventId })</p>
+        </div>
+    </section>
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayName("Event Title")
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.EventTitle)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Location)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Location)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Description)
-        </dd>
-
-        <dt>
-            @Html.DisplayName("Event Date")
+            Date:
         </dt>
 
         <dd>
@@ -43,27 +24,35 @@
         </dd>
 
         <dt>
-            @Html.DisplayName("Active Status")
+            @Html.DisplayNameFor(model => model.Location):
         </dt>
 
+        <dd>
+            @Html.DisplayFor(model => model.Location)
+        </dd>
+
+        <dt>
+            Status:
+        </dt>
         <dd>
             @Html.DisplayFor(model => model.ActiveStatus)
         </dd>
 
         <dt>
-            @Html.DisplayName("Date Created")
+            @Html.DisplayNameFor(model => model.Description):
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.DateCreated)
+            @Html.DisplayFor(model => model.Description)
         </dd>
+
     </dl>
     @using (Html.BeginForm())
     {
         @Html.AntiForgeryToken()
         @Html.HiddenFor(model => model.EventId)
         
-        <div class="form-group">
+        <div class="form-group" style="float:right">
             <div class="col-md-offset-2 col-md-10">
                 @if (ViewBag.isRegistered == false)
                 {
@@ -82,7 +71,3 @@
     }
     
 </div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.EventId }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>
