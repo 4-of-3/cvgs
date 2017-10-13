@@ -29,13 +29,8 @@
                         if (Session["MemberId"] != null)
                         {
                             <li>@Html.ActionLink("Profile", "Index", "Account")</li>
+                            <li>@Html.ActionLink("Logout", "Login", "Logout")</li>
                         }
-                    }
-                    @{
-                        string link = Session["MemberId"] == null ? "Login" : "Logout";
-                        string action = Session["MemberId"] == null ? "Index" : "Logout";
-
-                        <li class="navbar-right pull-right">@Html.ActionLink(link, action, "Login")</li>
                     }
                 </ul>
             </div>
