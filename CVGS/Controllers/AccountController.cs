@@ -136,7 +136,9 @@ namespace CVGS.Controllers
                 member.ActiveStatus = false;
                 db.Entry(member).State = EntityState.Modified;
                 db.SaveChanges();
+
             }
+            Session.Clear();
             return RedirectToAction("Index", "Login");
         }
 
