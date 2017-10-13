@@ -17,6 +17,11 @@ namespace CVGS.Controllers
         // GET: Games
         public ActionResult Index(string search)
         {
+            var memberId = this.Session["memberId"];
+            if (memberId == null)
+            {
+                return RedirectToAction("Index", "Login"); ;
+            }
             var gamesList = db.GAMEs.ToList();
             if(search != null)
             {
@@ -28,6 +33,11 @@ namespace CVGS.Controllers
         // GET: Games/Details/5
         public ActionResult Details(int? id)
         {
+            var memberId = this.Session["memberId"];
+            if (memberId == null)
+            {
+                return RedirectToAction("Index", "Login"); ;
+            }
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -44,6 +54,11 @@ namespace CVGS.Controllers
         // GET: Games/Create
         public ActionResult Create()
         {
+            var memberId = this.Session["memberId"];
+            if (memberId == null)
+            {
+                return RedirectToAction("Index", "Login"); ;
+            }
             return View();
         }
 
@@ -56,6 +71,11 @@ namespace CVGS.Controllers
         {
             if (ModelState.IsValid)
             {
+                var memberId = this.Session["memberId"];
+                if (memberId == null)
+                {
+                    return RedirectToAction("Index", "Login"); ;
+                }
                 db.GAMEs.Add(gAME);
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -67,6 +87,11 @@ namespace CVGS.Controllers
         // GET: Games/Edit/5
         public ActionResult Edit(int? id)
         {
+            var memberId = this.Session["memberId"];
+            if (memberId == null)
+            {
+                return RedirectToAction("Index", "Login"); ;
+            }
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -87,6 +112,11 @@ namespace CVGS.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "GameId,Title,ISBN,Developer,Description,Category,PublicationDate,Cost")] GAME gAME)
         {
+            var memberId = this.Session["memberId"];
+            if (memberId == null)
+            {
+                return RedirectToAction("Index", "Login"); ;
+            }
             if (ModelState.IsValid)
             {
                 db.Entry(gAME).State = EntityState.Modified;
@@ -99,6 +129,11 @@ namespace CVGS.Controllers
         // GET: Games/Delete/5
         public ActionResult Delete(int? id)
         {
+            var memberId = this.Session["memberId"];
+            if (memberId == null)
+            {
+                return RedirectToAction("Index", "Login"); ;
+            }
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -117,6 +152,11 @@ namespace CVGS.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
+            var memberId = this.Session["memberId"];
+            if (memberId == null)
+            {
+                return RedirectToAction("Index", "Login"); ;
+            }
             GAME gAME = db.GAMEs.Find(id);
             db.GAMEs.Remove(gAME);
             db.SaveChanges();
