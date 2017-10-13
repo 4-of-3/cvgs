@@ -36,7 +36,7 @@ EXECUTE SP_ADD_MEMBER
 	, @LName= 'Freitas'
 	, @UserName = 'tristan.freitas'
 	, @Email = 'TFreitas@gmail.com'
-	, @pwd = 'OldFashionedPlain'
+	, @pwd = 'tristan'
 	, @FavPlatform = 'Playstation'
 	, @FavCategory = 'RPG'
 	, @FavGame = 'Skyrim'
