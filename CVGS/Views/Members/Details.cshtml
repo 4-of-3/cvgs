@@ -1,0 +1,97 @@
+﻿@model CVGS.Models.MEMBER
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>MEMBER</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.FName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.LName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.UserName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UserName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Email)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Email)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FavPlatform)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FavPlatform)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FavCategory)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FavCategory)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FavGame)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FavGame)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FavQuote)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FavQuote)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DateJoined)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DateJoined)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ActiveStatus)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ActiveStatus)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Back to List", "Index")
+</p>
