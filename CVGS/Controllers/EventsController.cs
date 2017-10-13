@@ -147,7 +147,7 @@ namespace CVGS.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost, ActionName("Details")]
         [ValidateAntiForgeryToken]
-        public ActionResult Details(int id)
+        public ActionResult Details(int id, string isRegistered)
         {
             var memberId = this.Session["memberId"];
             if (memberId == null)
@@ -155,7 +155,14 @@ namespace CVGS.Controllers
                 return RedirectToAction("Index", "Login"); ;
             }
             if (ModelState.IsValid)
-            {  
+            {
+                if (isRegistered == "true")
+                {
+                    MEMBER_EVENT memberEvent = db.MEMBER_EVENT.ToList().Find(x => x.EventId == id && x.MemberId == (int)memberId);
+                    db.MEMBER_EVENT.Remove(memberEvent);    
+                    db.SaveChanges();
+                    return RedirectToAction("Details",  new { id = id });
+                }
                 MEMBER_EVENT memberRegister = new MEMBER_EVENT();
                 memberRegister.EventId = id;
                 memberRegister.MemberId = (int)this.Session["MemberId"];
