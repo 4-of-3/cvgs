@@ -22,18 +22,19 @@ namespace CVGS.Controllers
             {
                 return RedirectToAction("Index", "Login"); ;
             }
+
             var eventList = db.EVENTs.ToList();
 
             bool asc = true;
-            ViewBag.listSortAsc = "1";
-            if (order != null && order.Equals("1"))
+            ViewBag.listSortAsc = "asc";
+            if (order != null && order.Equals("asc"))
             {
-                ViewBag.listSortAsc = "0";
+                ViewBag.listSortAsc = "desc";
                 asc = true;
             }
-            else if(order != null && order.Equals("0"))
+            else if(order != null && order.Equals("desc"))
             {
-                ViewBag.listSortAsc = "1";
+                ViewBag.listSortAsc = "asc";
                 asc = false;
             }
             
@@ -42,34 +43,19 @@ namespace CVGS.Controllers
                 switch (sort)
                 {
                     case "title":
-                        if (asc)
-                        {
-                            eventList = eventList.OrderBy(e => e.EventTitle).ToList();
-                        }
-                        else
-                        {
-                            eventList = eventList.OrderByDescending(e => e.EventTitle).ToList();
-                        }
+                        eventList = asc
+                            ? eventList.OrderBy(e => e.EventTitle).ToList()
+                            : eventList.OrderByDescending(e => e.EventTitle).ToList();
                         break;
                     case "location":
-                        if (asc)
-                        {
-                            eventList = eventList.OrderBy(e => e.Location).ToList();
-                        }
-                        else
-                        {
-                            eventList = eventList.OrderByDescending(e => e.Location).ToList();
-                        }
+                        eventList = asc
+                            ? eventList.OrderBy(e => e.Location).ToList()
+                            : eventList.OrderByDescending(e => e.Location).ToList();
                         break;
                     case "date":
-                        if (asc)
-                        {
-                            eventList = eventList.OrderBy(e => e.EventDate).ToList();
-                        }
-                        else
-                        {
-                            eventList = eventList.OrderByDescending(e => e.EventDate).ToList();
-                        }
+                        eventList = asc
+                            ? eventList.OrderBy(e => e.EventDate).ToList()
+                            : eventList.OrderByDescending(e => e.EventDate).ToList();
                         break;
                 }
             }
@@ -85,10 +71,12 @@ namespace CVGS.Controllers
             {
                 return RedirectToAction("Index", "Login"); ;
             }
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+
             bool registered = isRegistered((int)id, (int)memberId);
             EVENT eVENT = db.EVENTs.Find(id);
             if (eVENT == null)
@@ -107,6 +95,7 @@ namespace CVGS.Controllers
             {
                 return RedirectToAction("Index", "Login"); ;
             }
+
             return View();
         }
 
@@ -122,14 +111,15 @@ namespace CVGS.Controllers
             {
                 return RedirectToAction("Index", "Login"); ;
             }
-            if (ModelState.IsValid)
+
+            if (!ModelState.IsValid)
             {
-                db.EVENTs.Add(eVENT);
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                return View(eVENT);
             }
 
-            return View(eVENT);
+            db.EVENTs.Add(eVENT);
+            db.SaveChanges();
+            return RedirectToAction("Index");
         }
 
         // GET: Events/Edit/5
@@ -140,10 +130,12 @@ namespace CVGS.Controllers
             {
                 return RedirectToAction("Index", "Login"); ;
             }
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+
             EVENT eVENT = db.EVENTs.Find(id);
             if (eVENT == null)
             {
@@ -159,13 +151,14 @@ namespace CVGS.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "EventId,EventTitle,Description,EventDate,Location,ActiveStatus,DateCreated")] EVENT eVENT)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                db.Entry(eVENT).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                return View(eVENT);
             }
-            return View(eVENT);
+
+            db.Entry(eVENT).State = EntityState.Modified;
+            db.SaveChanges();
+            return RedirectToAction("Index");
         }
 
         // GET: Events/Delete/5
@@ -176,10 +169,12 @@ namespace CVGS.Controllers
             {
                 return RedirectToAction("Index", "Login"); ;
             }
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+
             EVENT eVENT = db.EVENTs.Find(id);
             if (eVENT == null)
             {
@@ -198,6 +193,7 @@ namespace CVGS.Controllers
             {
                 return RedirectToAction("Index", "Login"); ;
             }
+
             EVENT eVENT = db.EVENTs.Find(id);
             db.EVENTs.Remove(eVENT);
             db.SaveChanges();
@@ -216,6 +212,7 @@ namespace CVGS.Controllers
             {
                 return RedirectToAction("Index", "Login"); ;
             }
+
             if (ModelState.IsValid)
             {
                 if (isRegistered == "true")
@@ -225,10 +222,12 @@ namespace CVGS.Controllers
                     db.SaveChanges();
                     return RedirectToAction("Details",  new { id = id });
                 }
+
                 MEMBER_EVENT memberRegister = new MEMBER_EVENT();
                 memberRegister.EventId = id;
                 memberRegister.MemberId = (int)this.Session["MemberId"];
                 memberRegister.DateRegistered = System.DateTime.Now;
+
                 if (memberRegister.ToString() != "")
                 {
                     try
@@ -256,6 +255,7 @@ namespace CVGS.Controllers
             {
                 return false;
             }
+
             if (memberEvent == null)
             {
                 return false;
