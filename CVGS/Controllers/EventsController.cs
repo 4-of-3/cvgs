@@ -180,7 +180,7 @@ namespace CVGS.Controllers
                     }
                 }
             }
-            return RedirectToAction("Index");
+            return RedirectToAction("Details", new { id = id });
         }
 
         private bool isRegistered(int eventId, int memberId)
