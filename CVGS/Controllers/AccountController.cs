@@ -20,16 +20,18 @@ namespace CVGS.Controllers
         public ActionResult Index()
         {
             var memberId = this.Session["MemberId"];
+            // Redirect unauthenticated members
             if (memberId == null)
             {
                 return RedirectToAction("Index", "Login");
             }
-            MEMBER mEMBER = db.MEMBERs.Find(memberId);
-            if (mEMBER == null)
+
+            MEMBER member = db.MEMBERs.Find(memberId);
+            if (member == null)
             {
                 return HttpNotFound();
             }
-            return View(mEMBER);
+            return View(member);
         }
 
         // GET: MEMBERs/Create
