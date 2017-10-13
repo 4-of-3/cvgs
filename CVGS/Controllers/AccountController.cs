@@ -137,7 +137,7 @@ namespace CVGS.Controllers
                 db.Entry(member).State = EntityState.Modified;
                 db.SaveChanges();
             }
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", "Login");
         }
 
         protected override void Dispose(bool disposing)
