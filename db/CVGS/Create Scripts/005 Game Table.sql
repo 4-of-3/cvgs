@@ -11,6 +11,7 @@ CREATE TABLE CVGS.dbo.GAME(
 	, Category 		    NVARCHAR(   64 ) NOT NULL
 	, PublicationDate 	Date NOT NULL
 	, Cost 	 		    MONEY
-	, DELETED  		    BIT NOT NULL DEFAULT 0
+	, Digital			BIT DEFAULT 0
+	, Deleted           BIT NOT NULL DEFAULT 0
 	);
 GO

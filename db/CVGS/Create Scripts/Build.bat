@@ -154,6 +154,16 @@ IF '%pauseRequired%'=='n' GOTO skip012
     PAUSE
 :skip012
 REM==================================================
+REM Create the Report table
+REM==================================================
+echo sqlcmd -S %servername% -E -d CVGS -i "013 Report Table.sql"
+sqlcmd -S %servername% -E -d CVGS -i "013 Report Table.sql"
+
+IF '%pauseRequired%'=='N' GOTO skip013
+IF '%pauseRequired%'=='n' GOTO skip013
+    PAUSE
+:skip013
+REM==================================================
 
 ECHO Build.bat Finished 
 

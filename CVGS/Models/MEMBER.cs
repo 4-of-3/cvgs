@@ -18,6 +18,7 @@ namespace CVGS.Models
         public MEMBER()
         {
             this.MEMBER_EVENT = new HashSet<MEMBER_EVENT>();
+            this.REPORTs = new HashSet<REPORT>();
         }
     
         public int MemberId { get; set; }
@@ -35,5 +36,7 @@ namespace CVGS.Models
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<MEMBER_EVENT> MEMBER_EVENT { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<REPORT> REPORTs { get; set; }
     }
 }
