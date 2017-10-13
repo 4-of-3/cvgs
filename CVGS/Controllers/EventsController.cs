@@ -17,7 +17,12 @@ namespace CVGS.Controllers
         // GET: Events
         public ActionResult Index()
         {
-            var memberId = this.Session["MemberId"];
+            // Redirect unauthenticated members
+            if (Session["MemberId"] == null)
+            {
+                return RedirectToAction("Index", "Login");
+            }
+
             return View(db.EVENTs.ToList());
         }
 

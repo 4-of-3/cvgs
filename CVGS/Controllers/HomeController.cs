@@ -10,19 +10,11 @@ namespace CVGS.Controllers
     {
         public ActionResult Index()
         {
-            return View();
-        }
-
-        public ActionResult About()
-        {
-            ViewBag.Message = "Your application description page.";
-
-            return View();
-        }
-
-        public ActionResult Contact()
-        {
-            ViewBag.Message = "Your contact page.";
+            // Redirect unauthenticated members
+            if (Session["MemberId"] == null)
+            {
+                return RedirectToAction("Index", "Login");
+            }
 
             return View();
         }

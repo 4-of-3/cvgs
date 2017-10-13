@@ -12,15 +12,25 @@ namespace CVGS.Controllers
     public class LoginController : Controller
     {
         private CVGSEntities db = new CVGSEntities();
+
         // GET: Login
         public ActionResult Index()
         {
             if (Session["MemberId"] != null)
             {
+                // TODO: This has been replaced by "/Logout" route (make sure it isn't used anymore)
                 Session.Clear();
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Index", "Login");
             }
             return View();
+        }
+
+        [Route("Logout")]
+        public ActionResult Logout()
+        {
+            // Remove the user session (to remove authentication) and redirect to the Login page
+            Session.Clear();
+            return RedirectToAction("Index", "Login");
         }
 
         [HttpPost]
@@ -29,10 +39,11 @@ namespace CVGS.Controllers
             ObjectParameter loginMemberId = new ObjectParameter("memberId", typeof(int));
             try
             {
+                // Attempt to authenticate the member and redirect to the Dashboard
                 db.SP_MEMBER_LOGIN(login.UserName, login.Pwd, loginMemberId);
                 int memberId = (int)loginMemberId.Value;
                 Session["MemberId"] = memberId;
-                return RedirectToAction("Index", "Account");
+                return RedirectToAction("Index", "Home");
             }
             catch (Exception)
             {
