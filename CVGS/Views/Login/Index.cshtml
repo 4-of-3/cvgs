@@ -4,7 +4,7 @@
     ViewBag.Title = "Login";
 }
 
-<div class="page-blur" />
+<div class="page-blur"></div>
 <section class="auth__container">
     <h2>Login</h2>
 
@@ -16,22 +16,29 @@
             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
             <div class="form-group">
-                @Html.LabelFor(model => model.UserName, htmlAttributes: new { @class = "control-label" })
-                @Html.EditorFor(model => model.UserName)
-                @Html.ValidationMessageFor(model => model.UserName, "", new { @class = "text-danger" })
+                <div class="col-sm-12">
+                    @Html.LabelFor(model => model.UserName, htmlAttributes: new { @class = "control-label" })
+                    @Html.EditorFor(model => model.UserName)
+                    @Html.ValidationMessageFor(model => model.UserName, "", new { @class = "text-danger" })
+                </div>
             </div>
             <div class="form-group">
-                @Html.LabelFor(model => model.Pwd, htmlAttributes: new { @class = "control-label" })
-                @Html.PasswordFor(model => model.Pwd)
-                @Html.ValidationMessageFor(model => model.Pwd, "", new { @class = "text-danger" })
+                <div class="col-sm-12">
+                    @Html.LabelFor(model => model.Pwd, htmlAttributes: new { @class = "control-label" })
+                    @Html.PasswordFor(model => model.Pwd)
+                    @Html.ValidationMessageFor(model => model.Pwd, "", new { @class = "text-danger" })
+                </div>
             </div>
 
             <div class="form-group">
-                <input type="submit" value="Login" class="btn btn-primary" />
+                <div class="col-sm-12">
+                    <input type="submit" value="Login" class="btn btn-primary" />
+                </div>
+            </div>
+
+            <div>
+                @Html.ActionLink("No Account? Create one", "Create", "Account")
             </div>
         </div>
     }
-    <div>
-        @Html.ActionLink("Create New Account", "Create", "Account")
-    </div>
 </section>
