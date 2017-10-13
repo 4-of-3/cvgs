@@ -35,7 +35,7 @@ namespace CVGS.Models
         public string Category { get; set; }
 
         [DisplayName("Published")]
-        [DisplayFormat(DataFormatString = "{0:dd-MMM-yyyy}", ApplyFormatInEditMode = true)]
+        [DisplayFormat(DataFormatString = "{0:MMM-dd-yyyy}", ApplyFormatInEditMode = true)]
         public DateTime PublicationDate { get; set; }
 
         [DisplayName("Cost")]

@@ -24,6 +24,7 @@ namespace CVGS.Models
 
         [DisplayName("Date")]
         [Required]
+        [DisplayFormat(DataFormatString = "{0:MMM-dd-yyyy}", ApplyFormatInEditMode = true)]
         public System.DateTime EventDate { get; set; }
 
         [DisplayName("Active")]
