@@ -1,22 +1,26 @@
 ﻿@model CVGS.Models.EVENT
 
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = "Event Details";
 }
 
-<h2>Details</h2>
+<h2>@ViewBag.Title</h2>
 
 <div>
-    <h4>EVENT</h4>
-    <hr />
+    <section>
+        <h4 style="display:inline-block">@Html.DisplayFor(model => model.EventTitle)</h4>
+        <div style="float:right">
+            <p style="display:inline-block">@Html.ActionLink("Edit", "Edit", new { id = Model.EventId })</p>
+            <p style="display:inline-block">@Html.ActionLink("Delete", "Delete", new { id = Model.EventId })</p>
+        </div>
+    </section>
     <dl class="dl-horizontal">
         <dt>
-            @*@Html.DisplayNameFor(model => model.EventTitle)*@
-            @Html.DisplayName("Event Title")
+            Date:
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.EventTitle)
+            @Html.DisplayFor(model => model.EventDate)
         </dd>
 
         <dt>
@@ -28,6 +32,13 @@
         </dd>
 
         <dt>
+            Status:
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ActiveStatus)
+        </dd>
+
+        <dt>
             @Html.DisplayNameFor(model => model.Description)
         </dt>
 
@@ -35,29 +46,6 @@
             @Html.DisplayFor(model => model.Description)
         </dd>
 
-        <dt>
-            @Html.DisplayName("Event Date")
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.EventDate)
-        </dd>
-
-        <dt>
-            @Html.DisplayName("Active Status")
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.ActiveStatus)
-        </dd>
-
-        <dt>
-            @Html.DisplayName("Date Created")
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.DateCreated)
-        </dd>
     </dl>
     @using (Html.BeginForm())
     {
