@@ -185,6 +185,7 @@
     <Compile Include="Models\MEMBER.cs">
       <DependentUpon>CVGS.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\MemberMeta.cs" />
     <Compile Include="Models\MEMBER_EVENT.cs">
       <DependentUpon>CVGS.tt</DependentUpon>
     </Compile>
