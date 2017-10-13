@@ -14,9 +14,10 @@ namespace CVGS.Tests.Controllers
     {
         [TestMethod]
         public void Index()
-        {
+        {   
             // Arrange
             HomeController controller = new HomeController();
+            controller.Session["MemberId"] = 2;
 
             // Act
             ViewResult result = controller.Index() as ViewResult;
