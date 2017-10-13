@@ -17,7 +17,7 @@ namespace CVGS.Tests.Controllers
         public void Index()
         {
             // Arrange
-            HomeController controller = new HomeController();
+            AccountController controller = new AccountController();
 
             // Act
             ViewResult result = controller.Index() as ViewResult;
