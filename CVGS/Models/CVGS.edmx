@@ -29,7 +29,8 @@
           <Property Name="Category" Type="nvarchar" MaxLength="64" Nullable="false" />
           <Property Name="PublicationDate" Type="date" Nullable="false" />
           <Property Name="Cost" Type="money" />
-          <Property Name="DELETED" Type="bit" Nullable="false" />
+          <Property Name="Digital" Type="bit" />
+          <Property Name="Deleted" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="GAME_PLATFORM">
           <Key>
@@ -72,6 +73,13 @@
           <Property Name="PlatformId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="PlatformName" Type="nvarchar" MaxLength="64" Nullable="false" />
           <Property Name="Developer" Type="nvarchar" MaxLength="64" Nullable="false" />
+        </EntityType>
+        <EntityType Name="REPORT">
+          <Key>
+            <PropertyRef Name="ReportId" />
+          </Key>
+          <Property Name="ReportId" Type="int" Nullable="false" />
+          <Property Name="MemberId" Type="int" Nullable="false" />
         </EntityType>
         <Association Name="fk_event_member">
           <End Role="EVENT" Type="Self.EVENT" Multiplicity="1">
@@ -129,6 +137,20 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="fk_report_member">
+          <End Role="MEMBER" Type="Self.MEMBER" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="REPORT" Type="Self.REPORT" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MEMBER">
+              <PropertyRef Name="MemberId" />
+            </Principal>
+            <Dependent Role="REPORT">
+              <PropertyRef Name="MemberId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Function Name="SP_ADD_MEMBER" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="FName" Type="nvarchar" Mode="In" />
           <Parameter Name="LName" Type="nvarchar" Mode="In" />
@@ -152,6 +174,7 @@
           <EntitySet Name="MEMBER" EntityType="Self.MEMBER" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MEMBER_EVENT" EntityType="Self.MEMBER_EVENT" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PLATFORM" EntityType="Self.PLATFORM" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="REPORT" EntityType="Self.REPORT" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="fk_event_member" Association="Self.fk_event_member">
             <End Role="EVENT" EntitySet="EVENT" />
             <End Role="MEMBER_EVENT" EntitySet="MEMBER_EVENT" />
@@ -167,6 +190,10 @@
           <AssociationSet Name="fk_platform_game" Association="Self.fk_platform_game">
             <End Role="PLATFORM" EntitySet="PLATFORM" />
             <End Role="GAME_PLATFORM" EntitySet="GAME_PLATFORM" />
+          </AssociationSet>
+          <AssociationSet Name="fk_report_member" Association="Self.fk_report_member">
+            <End Role="MEMBER" EntitySet="MEMBER" />
+            <End Role="REPORT" EntitySet="REPORT" />
           </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
@@ -199,7 +226,8 @@
           <Property Name="PublicationDate" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="Cost" Type="Decimal" Precision="19" Scale="4" />
           <NavigationProperty Name="PLATFORMs" Relationship="Self.GAME_PLATFORM" FromRole="GAME" ToRole="PLATFORM" />
-          <Property Name="DELETED" Type="Boolean" Nullable="false" />
+          <Property Name="Digital" Type="Boolean" />
+          <Property Name="Deleted" Type="Boolean" Nullable="false" />
         </EntityType>
         <EntityType Name="MEMBER">
           <Key>
@@ -218,6 +246,7 @@
           <Property Name="ActiveStatus" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="MEMBER_EVENT" Relationship="Self.fk_member_event" FromRole="MEMBER" ToRole="MEMBER_EVENT" />
           <Property Name="Pwd" Type="Binary" Nullable="false" MaxLength="64" FixedLength="false" />
+          <NavigationProperty Name="REPORTs" Relationship="CVGSModel.fk_report_member" FromRole="MEMBER" ToRole="REPORT" />
         </EntityType>
         <EntityType Name="MEMBER_EVENT">
           <Key>
@@ -301,7 +330,34 @@
             <Parameter Name="pwd" Mode="In" Type="String" />
             <Parameter Name="MemberId" Mode="InOut" Type="Int32" />
           </FunctionImport>
+          <EntitySet Name="REPORTs" EntityType="CVGSModel.REPORT" />
+          <AssociationSet Name="fk_report_member" Association="CVGSModel.fk_report_member">
+            <End Role="MEMBER" EntitySet="MEMBERs" />
+            <End Role="REPORT" EntitySet="REPORTs" />
+          </AssociationSet>
         </EntityContainer>
+        <EntityType Name="REPORT">
+          <Key>
+            <PropertyRef Name="ReportId" />
+          </Key>
+          <Property Name="ReportId" Type="Int32" Nullable="false" />
+          <Property Name="MemberId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="MEMBER" Relationship="CVGSModel.fk_report_member" FromRole="REPORT" ToRole="MEMBER" />
+        </EntityType>
+        <Association Name="fk_report_member">
+          <End Type="CVGSModel.MEMBER" Role="MEMBER" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="CVGSModel.REPORT" Role="REPORT" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MEMBER">
+              <PropertyRef Name="MemberId" />
+            </Principal>
+            <Dependent Role="REPORT">
+              <PropertyRef Name="MemberId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -324,7 +380,8 @@
           <EntitySetMapping Name="GAMEs">
             <EntityTypeMapping TypeName="CVGSModel.GAME">
               <MappingFragment StoreEntitySet="GAME">
-                <ScalarProperty Name="DELETED" ColumnName="DELETED" />
+                <ScalarProperty Name="Deleted" ColumnName="Deleted" />
+                <ScalarProperty Name="Digital" ColumnName="Digital" />
                 <ScalarProperty Name="GameId" ColumnName="GameId" />
                 <ScalarProperty Name="Title" ColumnName="Title" />
                 <ScalarProperty Name="ISBN" ColumnName="ISBN" />
@@ -382,6 +439,14 @@
           </AssociationSetMapping>
           <FunctionImportMapping FunctionImportName="SP_MEMBER_LOGIN" FunctionName="CVGSModel.Store.SP_MEMBER_LOGIN" />
           <FunctionImportMapping FunctionImportName="SP_ADD_MEMBER" FunctionName="CVGSModel.Store.SP_ADD_MEMBER" />
+          <EntitySetMapping Name="REPORTs">
+            <EntityTypeMapping TypeName="CVGSModel.REPORT">
+              <MappingFragment StoreEntitySet="REPORT">
+                <ScalarProperty Name="MemberId" ColumnName="MemberId" />
+                <ScalarProperty Name="ReportId" ColumnName="ReportId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
