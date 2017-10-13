@@ -1,10 +1,10 @@
 ﻿@model CVGS.Models.GAME
 
 @{
-    ViewBag.Title = "Delete";
+    ViewBag.Title = ViewBag.gameTitle+" - Delete";
 }
 
-<h2>Delete</h2>
+<h2>@ViewBag.Title</h2>
 
 <h3>Are you sure you want to delete this?</h3>
 <div>
@@ -18,13 +18,12 @@
         <dd>
             @Html.DisplayFor(model => model.Title)
         </dd>
-
         <dt>
-            @Html.DisplayNameFor(model => model.ISBN)
+            @Html.DisplayNameFor(model => model.Category)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.ISBN)
+            @Html.DisplayFor(model => model.Category)
         </dd>
 
         <dt>
@@ -36,22 +35,6 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Description)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Category)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Category)
-        </dd>
-
-        <dt>
             @Html.DisplayNameFor(model => model.PublicationDate)
         </dt>
 
@@ -60,21 +43,19 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Cost)
+            @Html.DisplayNameFor(model => model.Description)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Cost)
+            @Html.DisplayFor(model => model.Description)
         </dd>
 
     </dl>
-
     @using (Html.BeginForm()) {
         @Html.AntiForgeryToken()
-
         <div class="form-actions no-color">
-            <input type="submit" value="Delete" class="btn btn-default" /> |
-            @Html.ActionLink("Back to List", "Index")
+            @Html.ActionLink("Cancel", "Index")
+            <input type="submit" value="Delete" class="btn btn-default" />
         </div>
     }
 </div>

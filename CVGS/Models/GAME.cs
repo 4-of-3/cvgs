@@ -28,7 +28,8 @@ namespace CVGS.Models
         public string Category { get; set; }
         public System.DateTime PublicationDate { get; set; }
         public Nullable<decimal> Cost { get; set; }
-        public bool DELETED { get; set; }
+        public Nullable<bool> Digital { get; set; }
+        public bool Deleted { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PLATFORM> PLATFORMs { get; set; }
