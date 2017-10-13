@@ -301,17 +301,6 @@
             <Parameter Name="pwd" Mode="In" Type="String" />
             <Parameter Name="MemberId" Mode="InOut" Type="Int32" />
           </FunctionImport>
-          <FunctionImport Name="SP_ADD_MEMBER1">
-            <Parameter Name="FName" Mode="In" Type="String" />
-            <Parameter Name="LName" Mode="In" Type="String" />
-            <Parameter Name="UserName" Mode="In" Type="String" />
-            <Parameter Name="Email" Mode="In" Type="String" />
-            <Parameter Name="pwd" Mode="In" Type="String" />
-            <Parameter Name="FavPlatform" Mode="In" Type="String" />
-            <Parameter Name="FavCategory" Mode="In" Type="String" />
-            <Parameter Name="FavGame" Mode="In" Type="String" />
-            <Parameter Name="FavQuote" Mode="In" Type="String" />
-          </FunctionImport>
         </EntityContainer>
       </Schema>
     </edmx:ConceptualModels>
@@ -392,7 +381,7 @@
             </EndProperty>
           </AssociationSetMapping>
           <FunctionImportMapping FunctionImportName="SP_MEMBER_LOGIN" FunctionName="CVGSModel.Store.SP_MEMBER_LOGIN" />
-          <FunctionImportMapping FunctionImportName="SP_ADD_MEMBER1" FunctionName="CVGSModel.Store.SP_ADD_MEMBER" />
+          <FunctionImportMapping FunctionImportName="SP_ADD_MEMBER" FunctionName="CVGSModel.Store.SP_ADD_MEMBER" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
