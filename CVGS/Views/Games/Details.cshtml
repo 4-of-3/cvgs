@@ -1,7 +1,7 @@
 ﻿@model CVGS.Models.GAME
 
 @{
-    ViewBag.Title = ViewBag.gameTitle + " - Details";
+    ViewBag.Title = "Game Details";
 }
 
 <h2>@ViewBag.Title</h2>
@@ -10,8 +10,7 @@
     <section>
         <h4 style="display:inline-block">@Html.DisplayFor(model => model.Title)</h4>
         <div style="float:right">
-            <p style="display:inline-block">@Html.DisplayFor(model => model.Cost)</p>
-            <p style="display:inline-block">@Html.ActionLink("Edit", "Edit", new { id = Model.GameId })</p>
+            <p style="display:inline-block">@Html.ActionLink("Edit", "Edit", new { id = Model.GameId })</p>&ensp;|&ensp;
             <p style="display:inline-block">@Html.ActionLink("Delete", "Delete", new { id = Model.GameId })</p>
         </div>
     </section>
@@ -20,14 +19,13 @@
         <dt>
             @Html.DisplayNameFor(model => model.Category)
         </dt>
-
         <dd>
             @Html.DisplayFor(model => model.Category)
         </dd>
+
         <dt>
             @Html.DisplayNameFor(model => model.Developer)
         </dt>
-
         <dd>
             @Html.DisplayFor(model => model.Developer)
         </dd>
@@ -35,7 +33,6 @@
         <dt>
             @Html.DisplayNameFor(model => model.PublicationDate)
         </dt>
-
         <dd>
             @Html.DisplayFor(model => model.PublicationDate)
         </dd>
@@ -43,10 +40,26 @@
         <dt>
             @Html.DisplayNameFor(model => model.Description)
         </dt>
-
         <dd>
             @Html.DisplayFor(model => model.Description)
         </dd>
 
+        <dt>
+            @Html.DisplayNameFor(model => model.Digital)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Digital)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Cost)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Cost)
+        </dd>
     </dl>
+
+    <div style="margin-top: 25px;">
+        @Html.ActionLink("Back", "Index")
+    </div>
 </div>

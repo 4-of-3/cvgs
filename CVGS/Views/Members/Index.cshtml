@@ -1,10 +1,10 @@
 ﻿@model IEnumerable<CVGS.Models.MEMBER>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Members";
 }
 
-<h2>Index</h2>
+<h2>@ViewBag.Title</h2>
 
 <table class="table">
     <tr>
@@ -19,18 +19,6 @@
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Email)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.FavPlatform)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.FavCategory)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.FavGame)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.FavQuote)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.DateJoined)
@@ -54,18 +42,6 @@
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Email)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.FavPlatform)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.FavCategory)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.FavGame)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.FavQuote)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.DateJoined)

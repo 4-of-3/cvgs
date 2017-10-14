@@ -23,9 +23,9 @@ EXECUTE SP_ADD_MEMBER
 EXECUTE SP_ADD_MEMBER
 	  @FName = 'Kendall'
 	, @LName= 'Roth'
-	, @UserName = 'k.roth'
+	, @UserName = 'kendall'
 	, @Email = 'alwaysenough26@gmail.com'
-	, @pwd = 'Initial'
+	, @pwd = 'password'
 	, @FavPlatform = 'PC'
 	, @FavCategory = 'Survival'
 	, @FavGame = 'Don''t Starve'
