@@ -129,3 +129,53 @@ textarea {
     color: darkgrey;
     font-size: 18px;
 }
+
+
+/* Reports */
+.report-list {
+    list-style-type: none;
+}
+
+.report-list__item {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 10px 20px;
+    border-bottom: 1px solid lightgrey;
+}
+
+.report-list li:first-of-type {
+    border-top: 1px solid lightgrey;
+}
+
+.report-list__label {
+    font-size: 16px;
+}
+
+.report-list__buttons {
+    margin-left: auto;
+}
+
+.report-list__button {
+    display: block;
+    width: 100px;
+    padding: 5px 10px;
+    color: white;
+    text-align: center;
+    background: dodgerblue;
+    border: 2px solid dodgerblue;
+    border-radius: 2px;
+}
+
+.report-list__button:hover {
+    color: white;
+    text-decoration: none;
+    border-color: darkblue;
+}
+
+.report-list__button.disabled {
+    background: lightgrey;
+    color: black;
+    border-color: lightgrey;
+    cursor: not-allowed;
+}
