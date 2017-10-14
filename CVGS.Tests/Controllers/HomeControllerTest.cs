@@ -9,10 +9,10 @@ using CVGS.Controllers;
 
 namespace CVGS.Tests.Controllers
 {
-    [TestClass]
+    //[TestClass]
     public class HomeControllerTest
     {
-        [TestMethod]
+        //[TestMethod]
         public void Index()
         {   
             // Arrange
