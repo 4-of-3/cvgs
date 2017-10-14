@@ -1,19 +1,12 @@
-﻿using CVGS.Controllers;
-using CVGS.Models;
-using CVGS.ViewModels;
+﻿using CVGS.Models;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Web.Mvc;
 
 namespace CVGS.Tests.Controllers
 {
 
     [TestClass]
-    public class GameControllerTest
+    public class GameModelTest
     {
         GAME sampleGame = new GAME()
         {
