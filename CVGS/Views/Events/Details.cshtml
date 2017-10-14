@@ -4,19 +4,19 @@
     ViewBag.Title = "Event Details";
 }
 
-<h2 style="text-align:center">@ViewBag.Title</h2>
+<h2>@ViewBag.Title</h2>
 
 <div>
     <section>
         <h4 style="display:inline-block">@Html.DisplayFor(model => model.EventTitle)</h4>
         <div style="float:right">
-            <p style="display:inline-block">@Html.ActionLink("Edit", "Edit", new { id = Model.EventId })</p>
+            <p style="display:inline-block">@Html.ActionLink("Edit", "Edit", new { id = Model.EventId })</p>&ensp;|&ensp;
             <p style="display:inline-block">@Html.ActionLink("Delete", "Delete", new { id = Model.EventId })</p>
         </div>
     </section>
     <dl class="dl-horizontal">
         <dt>
-            Date:
+            @Html.DisplayNameFor(model => model.EventDate)
         </dt>
 
         <dd>
@@ -32,7 +32,7 @@
         </dd>
 
         <dt>
-            Status:
+            @Html.DisplayNameFor(model => model.ActiveStatus)
         </dt>
         <dd>
             @Html.DisplayFor(model => model.ActiveStatus)
@@ -69,5 +69,9 @@
             </div>
         </div>
     }
+
+    <div style="margin-top: 25px;">
+        @Html.ActionLink("Back", "Index")
+    </div>
     
 </div>

@@ -6,13 +6,14 @@
 
 <h2>Games</h2>
 
-<p>
-    @using (Html.BeginForm("Index", "Games"))
-    { 
+@using (Html.BeginForm("Index", "Games"))
+{
+    <p>
         @Html.ActionLink("Create New Game", "Create")
-        <input id="search" type="text" placeholder="Search" name="search" class="pull-right">
-    }
-</p>
+        <input id="search" type="text" placeholder="Search" name="search" class=" search-bar pull-right">
+    </p>
+}
+
 <table class="table">
     <tr>
         <th>
