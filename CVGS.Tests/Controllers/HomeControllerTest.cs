@@ -17,7 +17,6 @@ namespace CVGS.Tests.Controllers
         {   
             // Arrange
             HomeController controller = new HomeController();
-            controller.Session["MemberId"] = 2;
 
             // Act
             ViewResult result = controller.Index() as ViewResult;
