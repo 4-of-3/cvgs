@@ -1,0 +1,40 @@
+﻿@model IEnumerable<CVGS.ViewModels.ReportTypeViewModel>
+
+@{
+    ViewBag.Title = "Reports";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<hr />
+
+<div style="margin: 20px 0;">
+    There are several types of Reports to choose from (although they may not be enabled yet).
+</div>
+
+@if (@TempData["error"] != null) {
+    <div style="margin: 20px 0;"><em>@(TempData["error"])</em></div>
+}
+
+<ul class="report-list">
+    @foreach (var item in Model)
+    {
+        <li class="report-list__item">
+            <div class="report-list__label">
+                @item.ReportType
+            </div>
+            <div class="report-list__buttons">
+                @{ 
+                    if (item.Enabled)
+                    {
+                        <a class="report-list__button" href="@Url.Action(item.ReportURL, "Reports")">Generate</a>
+                    } else
+                    {
+                        <div class="report-list__button disabled">N/A</div>
+                    }
+                }
+            </div>
+        </li>
+    }
+</ul>
+
