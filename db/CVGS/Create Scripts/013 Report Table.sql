@@ -3,9 +3,9 @@ IF EXISTS(SELECT TABLE_NAME from INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = 'R
 GO
 
 CREATE TABLE CVGS.dbo.REPORT(
-                   ReportId        INT NOT NULL
-                 , MemberId        INT NOT NULL
-CONSTRAINT pk_report PRIMARY KEY( ReportId ),
-CONSTRAINT fk_report_member FOREIGN KEY( MemberId ) REFERENCES MEMBER(MemberId) ON DELETE CASCADE
+             ReportId        INT NOT NULL
+           , MemberId        INT NOT NULL
+  CONSTRAINT pk_report PRIMARY KEY( ReportId ),
+  CONSTRAINT fk_report_member FOREIGN KEY( MemberId ) REFERENCES MEMBER(MemberId) ON DELETE CASCADE
 );
 GO
