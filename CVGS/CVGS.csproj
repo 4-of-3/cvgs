@@ -160,6 +160,18 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\ADDRESS.cs">
+      <DependentUpon>CVGS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ADDRESSTYPE.cs">
+      <DependentUpon>CVGS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\COUNTRY.cs">
+      <DependentUpon>CVGS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\CREDITCARD.cs">
+      <DependentUpon>CVGS.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\CVGS.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -179,6 +191,9 @@
       <DependentUpon>CVGS.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\EventMeta.cs" />
+    <Compile Include="Models\FRIENDSHIP.cs">
+      <DependentUpon>CVGS.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\GAME.cs">
       <DependentUpon>CVGS.tt</DependentUpon>
     </Compile>
@@ -193,7 +208,13 @@
     <Compile Include="Models\PLATFORM.cs">
       <DependentUpon>CVGS.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\PROVSTATE.cs">
+      <DependentUpon>CVGS.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\REPORT.cs">
+      <DependentUpon>CVGS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\REVIEW.cs">
       <DependentUpon>CVGS.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
