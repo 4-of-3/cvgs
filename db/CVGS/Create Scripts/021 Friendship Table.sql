@@ -7,6 +7,7 @@ CREATE TABLE CVGS.dbo.FRIENDSHIP(
            , FriendId         INT NOT NULL
            , DateCreated      DATE NOT NULL DEFAULT CURRENT_TIMESTAMP
   CONSTRAINT pk_friendship PRIMARY KEY( MemberId, FriendId ),
+  CONSTRAINT ak_friendship UNIQUE( MemberId, FriendId ), 
   CONSTRAINT fk_friendship_member FOREIGN KEY( MemberId ) REFERENCES Member( MemberId ),
   CONSTRAINT fk_friendship_friend FOREIGN KEY( FriendId ) REFERENCES Member( MemberId )
 );
@@ -19,11 +20,17 @@ GO
      ON MEMBER
 INSTEAD OF DELETE
      AS
+      BEGIN
         SET NOCOUNT ON;
+      
      DELETE FROM FRIENDSHIP
-      WHERE MemberId IN( SELECT MemberId FROM deleted )
-         OR FriendId IN( SELECT MemberId FROM deleted );
-
+      WHERE MemberId IN( SELECT MemberId FROM deleted );
+      
+     DELETE FROM FRIENDSHIP
+      WHERE FriendId IN( SELECT MemberId FROM deleted );
+         
      DELETE FROM MEMBER
       WHERE MemberId IN( SELECT MemberId FROM deleted );
+        END
+        
 GO
