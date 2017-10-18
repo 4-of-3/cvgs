@@ -3,11 +3,11 @@ IF EXISTS(SELECT TABLE_NAME from INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = 'F
 GO
 
 CREATE TABLE CVGS.dbo.FRIENDSHIP(
-             Member1Id        INT NOT NULL
-           , Member2Id        INT NOT NULL
+             MemberId         INT NOT NULL
+           , FriendId         INT NOT NULL
            , DateCreated      DATE NOT NULL DEFAULT CURRENT_TIMESTAMP
-  CONSTRAINT pk_friendship PRIMARY KEY( Member1Id, Member2Id ),
-  CONSTRAINT fk_friendship_member1 FOREIGN KEY( Member1Id ) REFERENCES Member( MemberId ),
-  CONSTRAINT fk_friendship_member2 FOREIGN KEY( Member2Id ) REFERENCES Member( MemberId )
+  CONSTRAINT pk_friendship PRIMARY KEY( MemberId, FriendId ),
+  CONSTRAINT fk_friendship_member FOREIGN KEY( MemberId ) REFERENCES Member( MemberId ) ON DELETE CASCADE,
+  CONSTRAINT fk_friendship_friend FOREIGN KEY( FriendId ) REFERENCES Member( MemberId )
 );
 GO

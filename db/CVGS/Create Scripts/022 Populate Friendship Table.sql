@@ -1,4 +1,4 @@
-INSERT INTO FRIENDSHIP( Member1Id, Member2Id )
+INSERT INTO FRIENDSHIP( MemberId, FriendId )
                 VALUES( 2, 3 )
                     , ( 2, 4 )
                     , ( 2, 5 );
