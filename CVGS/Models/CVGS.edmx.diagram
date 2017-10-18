@@ -27,10 +27,10 @@
         <AssociationConnector Association="CVGSModel.fk_address_provstate" />
         <AssociationConnector Association="CVGSModel.fk_provstate_country" />
         <AssociationConnector Association="CVGSModel.fk_card_member" />
-        <AssociationConnector Association="CVGSModel.fk_friendship_member1" />
-        <AssociationConnector Association="CVGSModel.fk_friendship_member2" />
         <AssociationConnector Association="CVGSModel.fk_review_game" />
         <AssociationConnector Association="CVGSModel.fk_review_member" />
+        <AssociationConnector Association="CVGSModel.fk_friendship_friend" />
+        <AssociationConnector Association="CVGSModel.fk_friendship_member" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

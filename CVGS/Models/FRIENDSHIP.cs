@@ -14,11 +14,11 @@ namespace CVGS.Models
     
     public partial class FRIENDSHIP
     {
-        public int Member1Id { get; set; }
-        public int Member2Id { get; set; }
         public System.DateTime DateCreated { get; set; }
+        public int MemberId { get; set; }
+        public int FriendId { get; set; }
     
+        public virtual MEMBER FRIEND { get; set; }
         public virtual MEMBER MEMBER { get; set; }
-        public virtual MEMBER MEMBER1 { get; set; }
     }
 }

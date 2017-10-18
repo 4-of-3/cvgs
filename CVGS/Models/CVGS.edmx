@@ -57,11 +57,11 @@
         </EntityType>
         <EntityType Name="FRIENDSHIP">
           <Key>
-            <PropertyRef Name="Member1Id" />
-            <PropertyRef Name="Member2Id" />
+            <PropertyRef Name="MemberId" />
+            <PropertyRef Name="FriendId" />
           </Key>
-          <Property Name="Member1Id" Type="int" Nullable="false" />
-          <Property Name="Member2Id" Type="int" Nullable="false" />
+          <Property Name="MemberId" Type="int" Nullable="false" />
+          <Property Name="FriendId" Type="int" Nullable="false" />
           <Property Name="DateCreated" Type="date" Nullable="false" />
         </EntityType>
         <EntityType Name="GAME">
@@ -216,7 +216,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="fk_friendship_member1">
+        <Association Name="fk_friendship_friend">
           <End Role="MEMBER" Type="Self.MEMBER" Multiplicity="1" />
           <End Role="FRIENDSHIP" Type="Self.FRIENDSHIP" Multiplicity="*" />
           <ReferentialConstraint>
@@ -224,19 +224,21 @@
               <PropertyRef Name="MemberId" />
             </Principal>
             <Dependent Role="FRIENDSHIP">
-              <PropertyRef Name="Member1Id" />
+              <PropertyRef Name="FriendId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="fk_friendship_member2">
-          <End Role="MEMBER" Type="Self.MEMBER" Multiplicity="1" />
+        <Association Name="fk_friendship_member">
+          <End Role="MEMBER" Type="Self.MEMBER" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="FRIENDSHIP" Type="Self.FRIENDSHIP" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="MEMBER">
               <PropertyRef Name="MemberId" />
             </Principal>
             <Dependent Role="FRIENDSHIP">
-              <PropertyRef Name="Member2Id" />
+              <PropertyRef Name="MemberId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -389,11 +391,11 @@
             <End Role="EVENT" EntitySet="EVENT" />
             <End Role="MEMBER_EVENT" EntitySet="MEMBER_EVENT" />
           </AssociationSet>
-          <AssociationSet Name="fk_friendship_member1" Association="Self.fk_friendship_member1">
+          <AssociationSet Name="fk_friendship_friend" Association="Self.fk_friendship_friend">
             <End Role="MEMBER" EntitySet="MEMBER" />
             <End Role="FRIENDSHIP" EntitySet="FRIENDSHIP" />
           </AssociationSet>
-          <AssociationSet Name="fk_friendship_member2" Association="Self.fk_friendship_member2">
+          <AssociationSet Name="fk_friendship_member" Association="Self.fk_friendship_member">
             <End Role="MEMBER" EntitySet="MEMBER" />
             <End Role="FRIENDSHIP" EntitySet="FRIENDSHIP" />
           </AssociationSet>
@@ -481,9 +483,9 @@
           <NavigationProperty Name="REPORTs" Relationship="CVGSModel.fk_report_member" FromRole="MEMBER" ToRole="REPORT" />
           <NavigationProperty Name="ADDRESSes" Relationship="CVGSModel.fk_address_member" FromRole="MEMBER" ToRole="ADDRESS" />
           <NavigationProperty Name="CREDITCARDs" Relationship="CVGSModel.fk_card_member" FromRole="MEMBER" ToRole="CREDITCARD" />
-          <NavigationProperty Name="FRIENDSHIPs" Relationship="CVGSModel.fk_friendship_member1" FromRole="MEMBER" ToRole="FRIENDSHIP" />
-          <NavigationProperty Name="FRIENDSHIPs1" Relationship="CVGSModel.fk_friendship_member2" FromRole="MEMBER" ToRole="FRIENDSHIP" />
           <NavigationProperty Name="REVIEWs" Relationship="CVGSModel.fk_review_member" FromRole="MEMBER" ToRole="REVIEW" />
+          <NavigationProperty Name="FRIENDSHIPs2" Relationship="CVGSModel.fk_friendship_friend" FromRole="MEMBER" ToRole="FRIENDSHIP" />
+          <NavigationProperty Name="FRIENDSHIPs11" Relationship="CVGSModel.fk_friendship_member" FromRole="MEMBER" ToRole="FRIENDSHIP" />
         </EntityType>
         <EntityType Name="MEMBER_EVENT">
           <Key>
@@ -599,14 +601,6 @@
             <End Role="MEMBER" EntitySet="MEMBERs" />
             <End Role="CREDITCARD" EntitySet="CREDITCARDs" />
           </AssociationSet>
-          <AssociationSet Name="fk_friendship_member1" Association="CVGSModel.fk_friendship_member1">
-            <End Role="MEMBER" EntitySet="MEMBERs" />
-            <End Role="FRIENDSHIP" EntitySet="FRIENDSHIPs" />
-          </AssociationSet>
-          <AssociationSet Name="fk_friendship_member2" Association="CVGSModel.fk_friendship_member2">
-            <End Role="MEMBER" EntitySet="MEMBERs" />
-            <End Role="FRIENDSHIP" EntitySet="FRIENDSHIPs" />
-          </AssociationSet>
           <AssociationSet Name="fk_review_game" Association="CVGSModel.fk_review_game">
             <End Role="GAME" EntitySet="GAMEs" />
             <End Role="REVIEW" EntitySet="REVIEWs" />
@@ -614,6 +608,14 @@
           <AssociationSet Name="fk_review_member" Association="CVGSModel.fk_review_member">
             <End Role="MEMBER" EntitySet="MEMBERs" />
             <End Role="REVIEW" EntitySet="REVIEWs" />
+          </AssociationSet>
+          <AssociationSet Name="fk_friendship_friend" Association="CVGSModel.fk_friendship_friend">
+            <End Role="MEMBER" EntitySet="MEMBERs" />
+            <End Role="FRIENDSHIP" EntitySet="FRIENDSHIPs" />
+          </AssociationSet>
+          <AssociationSet Name="fk_friendship_member" Association="CVGSModel.fk_friendship_member">
+            <End Role="MEMBER" EntitySet="MEMBERs" />
+            <End Role="FRIENDSHIP" EntitySet="FRIENDSHIPs" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="REPORT">
@@ -684,14 +686,14 @@
         </EntityType>
         <EntityType Name="FRIENDSHIP">
           <Key>
-            <PropertyRef Name="Member1Id" />
-            <PropertyRef Name="Member2Id" />
+            <PropertyRef Name="MemberId" />
+            <PropertyRef Name="FriendId" />
           </Key>
-          <Property Name="Member1Id" Type="Int32" Nullable="false" />
-          <Property Name="Member2Id" Type="Int32" Nullable="false" />
           <Property Name="DateCreated" Type="DateTime" Nullable="false" Precision="0" />
-          <NavigationProperty Name="MEMBER" Relationship="CVGSModel.fk_friendship_member1" FromRole="FRIENDSHIP" ToRole="MEMBER" />
-          <NavigationProperty Name="MEMBER1" Relationship="CVGSModel.fk_friendship_member2" FromRole="FRIENDSHIP" ToRole="MEMBER" />
+          <Property Name="MemberId" Type="Int32" Nullable="false" />
+          <Property Name="FriendId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="FRIEND" Relationship="CVGSModel.fk_friendship_friend" FromRole="FRIENDSHIP" ToRole="MEMBER" />
+          <NavigationProperty Name="MEMBER" Relationship="CVGSModel.fk_friendship_member" FromRole="FRIENDSHIP" ToRole="MEMBER" />
         </EntityType>
         <EntityType Name="PROVSTATE">
           <Key>
@@ -784,30 +786,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="fk_friendship_member1">
-          <End Type="CVGSModel.MEMBER" Role="MEMBER" Multiplicity="1" />
-          <End Type="CVGSModel.FRIENDSHIP" Role="FRIENDSHIP" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="MEMBER">
-              <PropertyRef Name="MemberId" />
-            </Principal>
-            <Dependent Role="FRIENDSHIP">
-              <PropertyRef Name="Member1Id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="fk_friendship_member2">
-          <End Type="CVGSModel.MEMBER" Role="MEMBER" Multiplicity="1" />
-          <End Type="CVGSModel.FRIENDSHIP" Role="FRIENDSHIP" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="MEMBER">
-              <PropertyRef Name="MemberId" />
-            </Principal>
-            <Dependent Role="FRIENDSHIP">
-              <PropertyRef Name="Member2Id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="fk_review_game">
           <End Type="CVGSModel.GAME" Role="GAME" Multiplicity="1">
             <OnDelete Action="Cascade" />
@@ -832,6 +810,32 @@
               <PropertyRef Name="MemberId" />
             </Principal>
             <Dependent Role="REVIEW">
+              <PropertyRef Name="MemberId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_friendship_friend">
+          <End Type="CVGSModel.MEMBER" Role="MEMBER" Multiplicity="1" />
+          <End Type="CVGSModel.FRIENDSHIP" Role="FRIENDSHIP" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MEMBER">
+              <PropertyRef Name="MemberId" />
+            </Principal>
+            <Dependent Role="FRIENDSHIP">
+              <PropertyRef Name="FriendId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_friendship_member">
+          <End Type="CVGSModel.MEMBER" Role="MEMBER" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="CVGSModel.FRIENDSHIP" Role="FRIENDSHIP" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MEMBER">
+              <PropertyRef Name="MemberId" />
+            </Principal>
+            <Dependent Role="FRIENDSHIP">
               <PropertyRef Name="MemberId" />
             </Dependent>
           </ReferentialConstraint>
@@ -971,10 +975,10 @@
           <EntitySetMapping Name="FRIENDSHIPs">
             <EntityTypeMapping TypeName="CVGSModel.FRIENDSHIP">
               <MappingFragment StoreEntitySet="FRIENDSHIP">
+                <ScalarProperty Name="FriendId" ColumnName="FriendId" />
+                <ScalarProperty Name="MemberId" ColumnName="MemberId" />
                 <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
-                <ScalarProperty Name="Member2Id" ColumnName="Member2Id" />
-                <ScalarProperty Name="Member1Id" ColumnName="Member1Id" />
-              </MappingFragment>
+                </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="PROVSTATEs">
