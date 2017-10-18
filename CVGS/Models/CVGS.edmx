@@ -229,9 +229,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="fk_friendship_member">
-          <End Role="MEMBER" Type="Self.MEMBER" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
+          <End Role="MEMBER" Type="Self.MEMBER" Multiplicity="1" />
           <End Role="FRIENDSHIP" Type="Self.FRIENDSHIP" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="MEMBER">
