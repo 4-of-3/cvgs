@@ -13,8 +13,8 @@
           <Property Name="MemberId" Type="int" Nullable="false" />
           <Property Name="StreetAddress" Type="nvarchar" MaxLength="64" Nullable="false" />
           <Property Name="StreetAddress2" Type="nvarchar" MaxLength="64" />
-          <Property Name="City" Type="nvarchar" MaxLength="64" />
-          <Property Name="PostCode" Type="nvarchar" MaxLength="12" />
+          <Property Name="City" Type="nvarchar" MaxLength="64" Nullable="false" />
+          <Property Name="PostCode" Type="nvarchar" MaxLength="12" Nullable="false" />
           <Property Name="ProvStateId" Type="int" />
           <Property Name="CountryId" Type="int" Nullable="false" />
         </EntityType>
@@ -646,8 +646,8 @@
           <Property Name="MemberId" Type="Int32" Nullable="false" />
           <Property Name="StreetAddress" Type="String" Nullable="false" MaxLength="64" FixedLength="false" Unicode="true" />
           <Property Name="StreetAddress2" Type="String" MaxLength="64" FixedLength="false" Unicode="true" />
-          <Property Name="City" Type="String" MaxLength="64" FixedLength="false" Unicode="true" />
-          <Property Name="PostCode" Type="String" MaxLength="12" FixedLength="false" Unicode="true" />
+          <Property Name="City" Type="String" MaxLength="64" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="PostCode" Type="String" MaxLength="12" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="ProvStateId" Type="Int32" />
           <Property Name="CountryId" Type="Int32" Nullable="false" />
           <NavigationProperty Name="COUNTRY" Relationship="CVGSModel.fk_address_country" FromRole="ADDRESS" ToRole="COUNTRY" />
