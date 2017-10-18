@@ -23,7 +23,7 @@ namespace CVGS.Models
             this.CREDITCARDs = new HashSet<CREDITCARD>();
             this.REVIEWs = new HashSet<REVIEW>();
             this.FRIENDSHIPs2 = new HashSet<FRIENDSHIP>();
-            this.FRIENDSHIPs11 = new HashSet<FRIENDSHIP>();
+            this.FRIENDSHIPs1 = new HashSet<FRIENDSHIP>();
         }
     
         public int MemberId { get; set; }
@@ -52,6 +52,6 @@ namespace CVGS.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<FRIENDSHIP> FRIENDSHIPs2 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<FRIENDSHIP> FRIENDSHIPs11 { get; set; }
+        public virtual ICollection<FRIENDSHIP> FRIENDSHIPs1 { get; set; }
     }
 }

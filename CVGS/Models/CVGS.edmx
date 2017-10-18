@@ -483,7 +483,7 @@
           <NavigationProperty Name="CREDITCARDs" Relationship="CVGSModel.fk_card_member" FromRole="MEMBER" ToRole="CREDITCARD" />
           <NavigationProperty Name="REVIEWs" Relationship="CVGSModel.fk_review_member" FromRole="MEMBER" ToRole="REVIEW" />
           <NavigationProperty Name="FRIENDSHIPs2" Relationship="CVGSModel.fk_friendship_friend" FromRole="MEMBER" ToRole="FRIENDSHIP" />
-          <NavigationProperty Name="FRIENDSHIPs11" Relationship="CVGSModel.fk_friendship_member" FromRole="MEMBER" ToRole="FRIENDSHIP" />
+          <NavigationProperty Name="FRIENDSHIPs1" Relationship="CVGSModel.fk_friendship_member" FromRole="MEMBER" ToRole="FRIENDSHIP" />
         </EntityType>
         <EntityType Name="MEMBER_EVENT">
           <Key>
