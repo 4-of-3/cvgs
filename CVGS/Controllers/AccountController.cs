@@ -47,11 +47,6 @@ namespace CVGS.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "FName,LName,Email,UserName,Pwd,PwdConfirm,FavPlatform,FavCategory,FavGame,FavQuote")] NewAccountViewModel account)
         {
-            //TODO: move this to custom validation
-            if (account.Pwd != account.PwdConfirm)
-            {
-                ModelState.AddModelError("pwd", "Passwords do not match");
-            }
             if (ModelState.IsValid)
             {
                 ObjectParameter newMemberId = new ObjectParameter("memberId", typeof(int));
@@ -74,6 +69,7 @@ namespace CVGS.Controllers
         // GET: MEMBERs/Edit/5
         public ActionResult Edit(int? id)
         {
+            //TODO: create ViewModel for editing account
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);

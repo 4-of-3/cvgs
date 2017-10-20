@@ -39,6 +39,7 @@ namespace CVGS.ViewModels
         [Display(Name = "Password")]
         [Required]
         [StringLength(64, MinimumLength = 6)]
+        [CompareAttribute("PwdConfirm", ErrorMessage = "Passwords do not match")]
         public string Pwd { get => pwd; set => pwd = value; }
 
         [Display(Name = "Confirm Password")]
