@@ -38,6 +38,7 @@ namespace CVGS.Models
         public Nullable<System.DateTime> DateJoined { get; set; }
         public bool ActiveStatus { get; set; }
         public byte[] Pwd { get; set; }
+        public Nullable<int> RoleId { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<MEMBER_EVENT> MEMBER_EVENT { get; set; }
@@ -53,5 +54,6 @@ namespace CVGS.Models
         public virtual ICollection<FRIENDSHIP> FRIENDSHIPs2 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<FRIENDSHIP> FRIENDSHIPs1 { get; set; }
+        public virtual ROLE ROLE { get; set; }
     }
 }

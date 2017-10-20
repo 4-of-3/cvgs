@@ -32,6 +32,28 @@ IF '%pauseRequired%'=='n' GOTO skip000
 :skip000
 
 REM================================================== 
+REM Create the Role table
+REM==================================================
+echo sqlcmd -S %servername% -E -d CVGS -i "029 Role Table.sql"
+sqlcmd -S %servername% -E -d CVGS -i "029 Role Table.sql"
+
+IF '%pauseRequired%'=='N' GOTO skip029
+IF '%pauseRequired%'=='n' GOTO skip029
+    PAUSE
+:skip029
+REM==================================================
+
+REM================================================== 
+REM Populate the Role table
+REM==================================================
+echo sqlcmd -S %servername% -E -d CVGS -i "030 Populate Role Table.sql"
+sqlcmd -S %servername% -E -d CVGS -i "030 Populate Role Table.sql"
+
+IF '%pauseRequired%'=='N' GOTO skip030
+IF '%pauseRequired%'=='n' GOTO skip030
+    PAUSE
+:skip030
+REM================================================== 
 REM Create the Member table
 REM==================================================
 echo sqlcmd -S %servername% -E -d CVGS -i "001 Member Table.sql"

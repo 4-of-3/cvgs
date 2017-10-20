@@ -40,6 +40,7 @@ namespace CVGS.Models
         public virtual DbSet<FRIENDSHIP> FRIENDSHIPs { get; set; }
         public virtual DbSet<PROVSTATE> PROVSTATEs { get; set; }
         public virtual DbSet<REVIEW> REVIEWs { get; set; }
+        public virtual DbSet<ROLE> ROLEs { get; set; }
     
         public virtual int SP_ADD_MEMBER(string fName, string lName, string userName, string email, string pwd, string favPlatform, string favCategory, string favGame, string favQuote)
         {
