@@ -56,9 +56,9 @@
 
             <div class="form-group">
                 <div class="col-sm-12">
-                    @Html.Label("PwdConfirm", "Confirm Password", htmlAttributes: new { @class = "control-label" })
-                    @Html.Password("PwdConfirm", null)
-                    @Html.ValidationMessageFor(model => model.Pwd, "", new { @class = "text-danger" })
+                    @Html.LabelFor(model => model.PwdConfirm, htmlAttributes: new { @class = "control-label" })
+                    @Html.PasswordFor(model => model.PwdConfirm)
+                    @Html.ValidationMessageFor(model => model.PwdConfirm, "", new { @class = "text-danger" })
                 </div>
             </div>
 

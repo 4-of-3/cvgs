@@ -45,8 +45,13 @@ namespace CVGS.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "FName,LName,Email,UserName,Pwd,FavPlatform,FavCategory,FavGame,FavQuote")] NewAccountViewModel account)
+        public ActionResult Create([Bind(Include = "FName,LName,Email,UserName,Pwd,PwdConfirm,FavPlatform,FavCategory,FavGame,FavQuote")] NewAccountViewModel account)
         {
+            //TODO: move this to custom validation
+            if (account.Pwd != account.PwdConfirm)
+            {
+                ModelState.AddModelError("pwd", "Passwords do not match");
+            }
             if (ModelState.IsValid)
             {
                 ObjectParameter newMemberId = new ObjectParameter("memberId", typeof(int));

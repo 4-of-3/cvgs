@@ -7,7 +7,7 @@ CREATE TABLE CVGS.dbo.MEMBER(
            , FName         NVARCHAR(  64 ) NOT NULL
            , LName         NVARCHAR(  64 ) NOT NULL
            , UserName      NVARCHAR(  25 ) NOT NULL UNIQUE
-           , Email         NVARCHAR(  64 ) NOT NULL
+           , Email         NVARCHAR(  64 ) NOT NULL UNIQUE
            , Pwd           VARBINARY( 64 ) NOT NULL
            , FavPlatform   NVARCHAR(  25 )
            , FavCategory   NVARCHAR(  25 )
