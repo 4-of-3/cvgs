@@ -52,3 +52,25 @@ EXECUTE SP_ADD_MEMBER
       , @FavCategory = 'Adventure'
       , @FavGame = 'The Legend of Zelda: Breath of the Wild'
       , @FavQuote = '';
+        
+EXECUTE SP_ADD_MEMBER
+        @FName = 'Admin'
+      , @LName= 'Admin'
+      , @UserName = 'Admin'
+      , @Email = 'info@cvgs.com'
+      , @pwd = 'Initial'
+      , @FavPlatform = ''
+      , @FavCategory = ''
+      , @FavGame = ''
+      , @FavQuote = '';
+GO
+
+UPDATE MEMBER
+   SET RoleId = 2
+ WHERE UserName = 'doug.epp'
+    OR UserName = 'mentore'
+
+UPDATE MEMBER
+   SET RoleId = 3
+ WHERE UserName = 'Admin';
+GO

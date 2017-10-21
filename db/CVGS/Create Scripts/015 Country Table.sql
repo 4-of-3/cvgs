@@ -1,0 +1,10 @@
+IF EXISTS( SELECT TABLE_NAME from INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = 'COUNTRY' )
+    DROP TABLE COUNTRY;
+GO
+
+CREATE TABLE CVGS.dbo.COUNTRY(
+             CountryId        INT IDENTITY( 1,1 ) PRIMARY KEY
+           , CountryCode      NVARCHAR(  3 ) NOT NULL
+           , CountryName      NVARCHAR( 64 ) NOT NULL
+);
+GO

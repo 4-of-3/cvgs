@@ -14,8 +14,13 @@
             <p style="display:inline-block">@Html.ActionLink("Delete", "Delete", new { id = Model.GameId })</p>
         </div>
     </section>
-        
-    <dl class="dl-horizontal">
+    @{
+        if (Model.ImageUrl != null && Model.ImageUrl != "")
+        {
+            <img src="@Url.Content(Model.ImageUrl)" class="game-image col-md-3" />
+        }
+    }
+    <dl class="dl-horizontal col-md-9">
         <dt>
             @Html.DisplayNameFor(model => model.Category)
         </dt>
@@ -59,7 +64,7 @@
         </dd>
     </dl>
 
-    <div style="margin-top: 25px;">
+    <div style="margin-top: 25px;" class="col-md-offset-3">
         @Html.ActionLink("Back", "Index")
     </div>
 </div>

@@ -12,30 +12,22 @@ namespace CVGS.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class GAME
+    public partial class COUNTRY
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public GAME()
+        public COUNTRY()
         {
-            this.PLATFORMs = new HashSet<PLATFORM>();
-            this.REVIEWs = new HashSet<REVIEW>();
+            this.ADDRESSes = new HashSet<ADDRESS>();
+            this.PROVSTATEs = new HashSet<PROVSTATE>();
         }
     
-        public int GameId { get; set; }
-        public string Title { get; set; }
-        public string ISBN { get; set; }
-        public string Developer { get; set; }
-        public string Description { get; set; }
-        public string Category { get; set; }
-        public System.DateTime PublicationDate { get; set; }
-        public decimal Cost { get; set; }
-        public bool Digital { get; set; }
-        public bool Deleted { get; set; }
-        public string ImageUrl { get; set; }
+        public int CountryId { get; set; }
+        public string CountryCode { get; set; }
+        public string CountryName { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<PLATFORM> PLATFORMs { get; set; }
+        public virtual ICollection<ADDRESS> ADDRESSes { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<REVIEW> REVIEWs { get; set; }
+        public virtual ICollection<PROVSTATE> PROVSTATEs { get; set; }
     }
 }

@@ -19,6 +19,11 @@ namespace CVGS.Models
         {
             this.MEMBER_EVENT = new HashSet<MEMBER_EVENT>();
             this.REPORTs = new HashSet<REPORT>();
+            this.ADDRESSes = new HashSet<ADDRESS>();
+            this.CREDITCARDs = new HashSet<CREDITCARD>();
+            this.REVIEWs = new HashSet<REVIEW>();
+            this.FRIENDSHIPs2 = new HashSet<FRIENDSHIP>();
+            this.FRIENDSHIPs1 = new HashSet<FRIENDSHIP>();
         }
     
         public int MemberId { get; set; }
@@ -33,10 +38,22 @@ namespace CVGS.Models
         public Nullable<System.DateTime> DateJoined { get; set; }
         public bool ActiveStatus { get; set; }
         public byte[] Pwd { get; set; }
+        public Nullable<int> RoleId { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<MEMBER_EVENT> MEMBER_EVENT { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<REPORT> REPORTs { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<ADDRESS> ADDRESSes { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<CREDITCARD> CREDITCARDs { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<REVIEW> REVIEWs { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<FRIENDSHIP> FRIENDSHIPs2 { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<FRIENDSHIP> FRIENDSHIPs1 { get; set; }
+        public virtual ROLE ROLE { get; set; }
     }
 }

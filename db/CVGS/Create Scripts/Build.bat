@@ -32,6 +32,28 @@ IF '%pauseRequired%'=='n' GOTO skip000
 :skip000
 
 REM================================================== 
+REM Create the Role table
+REM==================================================
+echo sqlcmd -S %servername% -E -d CVGS -i "029 Role Table.sql"
+sqlcmd -S %servername% -E -d CVGS -i "029 Role Table.sql"
+
+IF '%pauseRequired%'=='N' GOTO skip029
+IF '%pauseRequired%'=='n' GOTO skip029
+    PAUSE
+:skip029
+REM==================================================
+
+REM================================================== 
+REM Populate the Role table
+REM==================================================
+echo sqlcmd -S %servername% -E -d CVGS -i "030 Populate Role Table.sql"
+sqlcmd -S %servername% -E -d CVGS -i "030 Populate Role Table.sql"
+
+IF '%pauseRequired%'=='N' GOTO skip030
+IF '%pauseRequired%'=='n' GOTO skip030
+    PAUSE
+:skip030
+REM================================================== 
 REM Create the Member table
 REM==================================================
 echo sqlcmd -S %servername% -E -d CVGS -i "001 Member Table.sql"
@@ -163,6 +185,116 @@ IF '%pauseRequired%'=='N' GOTO skip013
 IF '%pauseRequired%'=='n' GOTO skip013
     PAUSE
 :skip013
+REM==================================================
+REM Create the Country table
+REM==================================================
+echo sqlcmd -S %servername% -E -d CVGS -i "015 Country Table.sql"
+sqlcmd -S %servername% -E -d CVGS -i "015 Country Table.sql"
+
+IF '%pauseRequired%'=='N' GOTO skip015
+IF '%pauseRequired%'=='n' GOTO skip015
+    PAUSE
+:skip015
+REM==================================================
+REM Populate the Country table
+REM==================================================
+echo sqlcmd -S %servername% -E -d CVGS -i "016 Populate Country Table.sql"
+sqlcmd -S %servername% -E -d CVGS -i "016 Populate Country Table.sql"
+
+IF '%pauseRequired%'=='N' GOTO skip016
+IF '%pauseRequired%'=='n' GOTO skip016
+    PAUSE
+:skip016
+REM==================================================
+REM Create the ProvState table
+REM==================================================
+echo sqlcmd -S %servername% -E -d CVGS -i "017 ProvState Table.sql"
+sqlcmd -S %servername% -E -d CVGS -i "017 ProvState Table.sql"
+
+IF '%pauseRequired%'=='N' GOTO skip017
+IF '%pauseRequired%'=='n' GOTO skip017
+    PAUSE
+:skip017
+REM==================================================
+REM Populate the ProvState table
+REM==================================================
+echo sqlcmd -S %servername% -E -d CVGS -i "018 Populate ProvState Table.sql"
+sqlcmd -S %servername% -E -d CVGS -i "018 Populate ProvState Table.sql"
+
+IF '%pauseRequired%'=='N' GOTO skip018
+IF '%pauseRequired%'=='n' GOTO skip018
+    PAUSE
+:skip018
+REM==================================================
+REM Create the Review table
+REM==================================================
+echo sqlcmd -S %servername% -E -d CVGS -i "019 Review Table.sql"
+sqlcmd -S %servername% -E -d CVGS -i "019 Review Table.sql"
+
+IF '%pauseRequired%'=='N' GOTO skip019
+IF '%pauseRequired%'=='n' GOTO skip019
+    PAUSE
+:skip019
+REM==================================================
+REM Create the Friendship table
+REM==================================================
+echo sqlcmd -S %servername% -E -d CVGS -i "021 Friendship Table.sql"
+sqlcmd -S %servername% -E -d CVGS -i "021 Friendship Table.sql"
+
+IF '%pauseRequired%'=='N' GOTO skip021
+IF '%pauseRequired%'=='n' GOTO skip021
+    PAUSE
+:skip021
+REM==================================================
+REM Populate the Friendship table
+REM==================================================
+echo sqlcmd -S %servername% -E -d CVGS -i "022 Populate Friendship Table.sql"
+sqlcmd -S %servername% -E -d CVGS -i "022 Populate Friendship Table.sql"
+
+IF '%pauseRequired%'=='N' GOTO skip022
+IF '%pauseRequired%'=='n' GOTO skip022
+    PAUSE
+:skip022
+REM==================================================
+REM Create the AddressType table
+REM==================================================
+echo sqlcmd -S %servername% -E -d CVGS -i "023 AddressType Table.sql"
+sqlcmd -S %servername% -E -d CVGS -i "023 AddressType Table.sql"
+
+IF '%pauseRequired%'=='N' GOTO skip023
+IF '%pauseRequired%'=='n' GOTO skip023
+    PAUSE
+:skip023
+REM==================================================
+REM Populate the AddressType table
+REM==================================================
+echo sqlcmd -S %servername% -E -d CVGS -i "024 Populate AddressType Table.sql"
+sqlcmd -S %servername% -E -d CVGS -i "024 Populate AddressType Table.sql"
+
+IF '%pauseRequired%'=='N' GOTO skip024
+IF '%pauseRequired%'=='n' GOTO skip024
+    PAUSE
+:skip024
+REM==================================================
+REM Create the Address table
+REM==================================================
+echo sqlcmd -S %servername% -E -d CVGS -i "025 Address Table.sql"
+sqlcmd -S %servername% -E -d CVGS -i "025 Address Table.sql"
+
+IF '%pauseRequired%'=='N' GOTO skip025
+IF '%pauseRequired%'=='n' GOTO skip025
+    PAUSE
+:skip025
+REM==================================================
+REM Create the CreditCard table
+REM==================================================
+echo sqlcmd -S %servername% -E -d CVGS -i "027 CreditCard Table.sql"
+sqlcmd -S %servername% -E -d CVGS -i "027 CreditCard Table.sql"
+
+IF '%pauseRequired%'=='N' GOTO skip027
+IF '%pauseRequired%'=='n' GOTO skip027
+    PAUSE
+:skip027
 REM==================================================
 
 ECHO Build.bat Finished 

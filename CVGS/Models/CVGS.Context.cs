@@ -33,6 +33,14 @@ namespace CVGS.Models
         public virtual DbSet<MEMBER_EVENT> MEMBER_EVENT { get; set; }
         public virtual DbSet<PLATFORM> PLATFORMs { get; set; }
         public virtual DbSet<REPORT> REPORTs { get; set; }
+        public virtual DbSet<ADDRESS> ADDRESSes { get; set; }
+        public virtual DbSet<ADDRESSTYPE> ADDRESSTYPEs { get; set; }
+        public virtual DbSet<COUNTRY> COUNTRies { get; set; }
+        public virtual DbSet<CREDITCARD> CREDITCARDs { get; set; }
+        public virtual DbSet<FRIENDSHIP> FRIENDSHIPs { get; set; }
+        public virtual DbSet<PROVSTATE> PROVSTATEs { get; set; }
+        public virtual DbSet<REVIEW> REVIEWs { get; set; }
+        public virtual DbSet<ROLE> ROLEs { get; set; }
     
         public virtual int SP_ADD_MEMBER(string fName, string lName, string userName, string email, string pwd, string favPlatform, string favCategory, string favGame, string favQuote)
         {

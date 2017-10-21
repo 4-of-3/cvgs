@@ -33,6 +33,8 @@ namespace CVGS.Models
         [DisplayName("Category")]
         [Required]
         public string Category { get; set; }
+        [DisplayName("Image URL")]
+        public string ImageUrl { get; set; }
 
         [DisplayName("Published")]
         [DisplayFormat(DataFormatString = "{0:MMM-dd-yyyy}", ApplyFormatInEditMode = true)]
