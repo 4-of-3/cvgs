@@ -16,7 +16,7 @@
         @Html.HiddenFor(model => model.MemberId)
         <div class="form-group">
             Deactivate Account: @Html.RadioButtonFor(m => m.FullDelete, false)<br />
-            Delete Account @Html.RadioButtonFor(m => m.FullDelete, true, new {id="cboFullDelete" }) <span class="text-warning" id="delete-warning">Are you sure? This cannot be undone.</span>
+            Delete Account @Html.RadioButtonFor(m => m.FullDelete, true) <span class="text-warning" id="delete-warning">Are you sure? This cannot be undone.</span>
         </div>
         <div class="form-actions no-color">
             <input type="submit" value="Delete" class="btn btn-default" /> |
