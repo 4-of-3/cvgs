@@ -104,6 +104,7 @@
           <Property Name="FavQuote" Type="nvarchar" MaxLength="140" />
           <Property Name="DateJoined" Type="date" />
           <Property Name="ActiveStatus" Type="bit" Nullable="false" />
+          <Property Name="RoleId" Type="int" />
         </EntityType>
         <EntityType Name="MEMBER_EVENT">
           <Key>
@@ -149,6 +150,13 @@
           <Property Name="Rating" Type="int" Nullable="false" />
           <Property Name="DateCreated" Type="date" Nullable="false" />
           <Property Name="DateModified" Type="date" />
+        </EntityType>
+        <EntityType Name="ROLE">
+          <Key>
+            <PropertyRef Name="RoleId" />
+          </Key>
+          <Property Name="RoleId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="RoleName" Type="nvarchar" MaxLength="64" Nullable="false" />
         </EntityType>
         <Association Name="fk_address_country">
           <End Role="COUNTRY" Type="Self.COUNTRY" Multiplicity="1" />
@@ -268,6 +276,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="fk_member_role">
+          <End Role="ROLE" Type="Self.ROLE" Multiplicity="0..1" />
+          <End Role="MEMBER" Type="Self.MEMBER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ROLE">
+              <PropertyRef Name="RoleId" />
+            </Principal>
+            <Dependent Role="MEMBER">
+              <PropertyRef Name="RoleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="fk_platform_game">
           <End Role="PLATFORM" Type="Self.PLATFORM" Multiplicity="1">
             <OnDelete Action="Cascade" />
@@ -369,6 +389,7 @@
           <EntitySet Name="PROVSTATE" EntityType="Self.PROVSTATE" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="REPORT" EntityType="Self.REPORT" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="REVIEW" EntityType="Self.REVIEW" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ROLE" EntityType="Self.ROLE" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="fk_address_country" Association="Self.fk_address_country">
             <End Role="COUNTRY" EntitySet="COUNTRY" />
             <End Role="ADDRESS" EntitySet="ADDRESS" />
@@ -404,6 +425,10 @@
           <AssociationSet Name="fk_member_event" Association="Self.fk_member_event">
             <End Role="MEMBER" EntitySet="MEMBER" />
             <End Role="MEMBER_EVENT" EntitySet="MEMBER_EVENT" />
+          </AssociationSet>
+          <AssociationSet Name="fk_member_role" Association="Self.fk_member_role">
+            <End Role="ROLE" EntitySet="ROLE" />
+            <End Role="MEMBER" EntitySet="MEMBER" />
           </AssociationSet>
           <AssociationSet Name="fk_platform_game" Association="Self.fk_platform_game">
             <End Role="PLATFORM" EntitySet="PLATFORM" />
@@ -484,6 +509,8 @@
           <NavigationProperty Name="REVIEWs" Relationship="CVGSModel.fk_review_member" FromRole="MEMBER" ToRole="REVIEW" />
           <NavigationProperty Name="FRIENDSHIPs2" Relationship="CVGSModel.fk_friendship_friend" FromRole="MEMBER" ToRole="FRIENDSHIP" />
           <NavigationProperty Name="FRIENDSHIPs1" Relationship="CVGSModel.fk_friendship_member" FromRole="MEMBER" ToRole="FRIENDSHIP" />
+          <Property Name="RoleId" Type="Int32" />
+          <NavigationProperty Name="ROLE" Relationship="CVGSModel.fk_member_role" FromRole="MEMBER" ToRole="ROLE" />
         </EntityType>
         <EntityType Name="MEMBER_EVENT">
           <Key>
@@ -614,6 +641,11 @@
           <AssociationSet Name="fk_friendship_member" Association="CVGSModel.fk_friendship_member">
             <End Role="MEMBER" EntitySet="MEMBERs" />
             <End Role="FRIENDSHIP" EntitySet="FRIENDSHIPs" />
+          </AssociationSet>
+          <EntitySet Name="ROLEs" EntityType="CVGSModel.ROLE" />
+          <AssociationSet Name="fk_member_role" Association="CVGSModel.fk_member_role">
+            <End Role="ROLE" EntitySet="ROLEs" />
+            <End Role="MEMBER" EntitySet="MEMBERs" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="REPORT">
@@ -838,6 +870,26 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="ROLE">
+          <Key>
+            <PropertyRef Name="RoleId" />
+          </Key>
+          <Property Name="RoleId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RoleName" Type="String" Nullable="false" MaxLength="64" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="MEMBERs" Relationship="CVGSModel.fk_member_role" FromRole="ROLE" ToRole="MEMBER" />
+        </EntityType>
+        <Association Name="fk_member_role">
+          <End Type="CVGSModel.ROLE" Role="ROLE" Multiplicity="0..1" />
+          <End Type="CVGSModel.MEMBER" Role="MEMBER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ROLE">
+              <PropertyRef Name="RoleId" />
+            </Principal>
+            <Dependent Role="MEMBER">
+              <PropertyRef Name="RoleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -877,6 +929,7 @@
           <EntitySetMapping Name="MEMBERs">
             <EntityTypeMapping TypeName="CVGSModel.MEMBER">
               <MappingFragment StoreEntitySet="MEMBER">
+                <ScalarProperty Name="RoleId" ColumnName="RoleId" />
                 <ScalarProperty Name="Pwd" ColumnName="Pwd" />
                 <ScalarProperty Name="MemberId" ColumnName="MemberId" />
                 <ScalarProperty Name="FName" ColumnName="FName" />
@@ -998,6 +1051,14 @@
                 <ScalarProperty Name="ReviewText" ColumnName="ReviewText" />
                 <ScalarProperty Name="GameId" ColumnName="GameId" />
                 <ScalarProperty Name="MemberId" ColumnName="MemberId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ROLEs">
+            <EntityTypeMapping TypeName="CVGSModel.ROLE">
+              <MappingFragment StoreEntitySet="ROLE">
+                <ScalarProperty Name="RoleName" ColumnName="RoleName" />
+                <ScalarProperty Name="RoleId" ColumnName="RoleId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
