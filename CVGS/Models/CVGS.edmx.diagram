@@ -33,6 +33,7 @@
         <AssociationConnector Association="CVGSModel.fk_friendship_member" />
         <EntityTypeShape EntityType="CVGSModel.ROLE" Width="1.5" PointX="7.375" PointY="0.75" />
         <AssociationConnector Association="CVGSModel.fk_member_role" />
+        <AssociationConnector Association="CVGSModel.fk_address_type" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -14,7 +14,16 @@ namespace CVGS.Models
     
     public partial class ADDRESSTYPE
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public ADDRESSTYPE()
+        {
+            this.ADDRESSes = new HashSet<ADDRESS>();
+        }
+    
         public int AddressTypeId { get; set; }
         public string AddressTypeName { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<ADDRESS> ADDRESSes { get; set; }
     }
 }

@@ -11,6 +11,7 @@
           </Key>
           <Property Name="AddressId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="MemberId" Type="int" Nullable="false" />
+          <Property Name="AddressTypeId" Type="int" Nullable="false" />
           <Property Name="StreetAddress" Type="nvarchar" MaxLength="64" Nullable="false" />
           <Property Name="StreetAddress2" Type="nvarchar" MaxLength="64" />
           <Property Name="City" Type="nvarchar" MaxLength="64" Nullable="false" />
@@ -193,6 +194,18 @@
             </Principal>
             <Dependent Role="ADDRESS">
               <PropertyRef Name="ProvStateId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_address_type">
+          <End Role="ADDRESSTYPE" Type="Self.ADDRESSTYPE" Multiplicity="1" />
+          <End Role="ADDRESS" Type="Self.ADDRESS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ADDRESSTYPE">
+              <PropertyRef Name="AddressTypeId" />
+            </Principal>
+            <Dependent Role="ADDRESS">
+              <PropertyRef Name="AddressTypeId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -400,6 +413,10 @@
           </AssociationSet>
           <AssociationSet Name="fk_address_provstate" Association="Self.fk_address_provstate">
             <End Role="PROVSTATE" EntitySet="PROVSTATE" />
+            <End Role="ADDRESS" EntitySet="ADDRESS" />
+          </AssociationSet>
+          <AssociationSet Name="fk_address_type" Association="Self.fk_address_type">
+            <End Role="ADDRESSTYPE" EntitySet="ADDRESSTYPE" />
             <End Role="ADDRESS" EntitySet="ADDRESS" />
           </AssociationSet>
           <AssociationSet Name="fk_card_member" Association="Self.fk_card_member">
@@ -647,6 +664,10 @@
             <End Role="ROLE" EntitySet="ROLEs" />
             <End Role="MEMBER" EntitySet="MEMBERs" />
           </AssociationSet>
+          <AssociationSet Name="fk_address_type" Association="CVGSModel.fk_address_type">
+            <End Role="ADDRESSTYPE" EntitySet="ADDRESSTYPEs" />
+            <End Role="ADDRESS" EntitySet="ADDRESSes" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="REPORT">
           <Key>
@@ -685,6 +706,8 @@
           <NavigationProperty Name="COUNTRY" Relationship="CVGSModel.fk_address_country" FromRole="ADDRESS" ToRole="COUNTRY" />
           <NavigationProperty Name="MEMBER" Relationship="CVGSModel.fk_address_member" FromRole="ADDRESS" ToRole="MEMBER" />
           <NavigationProperty Name="PROVSTATE" Relationship="CVGSModel.fk_address_provstate" FromRole="ADDRESS" ToRole="PROVSTATE" />
+          <Property Name="AddressTypeId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="ADDRESSTYPE" Relationship="CVGSModel.fk_address_type" FromRole="ADDRESS" ToRole="ADDRESSTYPE" />
         </EntityType>
         <EntityType Name="ADDRESSTYPE">
           <Key>
@@ -692,6 +715,7 @@
           </Key>
           <Property Name="AddressTypeId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="AddressTypeName" Type="String" Nullable="false" MaxLength="64" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="ADDRESSes" Relationship="CVGSModel.fk_address_type" FromRole="ADDRESSTYPE" ToRole="ADDRESS" />
         </EntityType>
         <EntityType Name="COUNTRY">
           <Key>
@@ -890,6 +914,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="fk_address_type">
+          <End Type="CVGSModel.ADDRESSTYPE" Role="ADDRESSTYPE" Multiplicity="1" />
+          <End Type="CVGSModel.ADDRESS" Role="ADDRESS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ADDRESSTYPE">
+              <PropertyRef Name="AddressTypeId" />
+            </Principal>
+            <Dependent Role="ADDRESS">
+              <PropertyRef Name="AddressTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -984,6 +1020,7 @@
           <EntitySetMapping Name="ADDRESSes">
             <EntityTypeMapping TypeName="CVGSModel.ADDRESS">
               <MappingFragment StoreEntitySet="ADDRESS">
+                <ScalarProperty Name="AddressTypeId" ColumnName="AddressTypeId" />
                 <ScalarProperty Name="CountryId" ColumnName="CountryId" />
                 <ScalarProperty Name="ProvStateId" ColumnName="ProvStateId" />
                 <ScalarProperty Name="PostCode" ColumnName="PostCode" />
