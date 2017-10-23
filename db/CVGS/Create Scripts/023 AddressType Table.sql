@@ -4,6 +4,6 @@ GO
 
 CREATE TABLE CVGS.dbo.ADDRESSTYPE(
              AddressTypeId    INT IDENTITY( 1,1 ) PRIMARY KEY
-           , AddressTypeName  NVARCHAR( 64 ) NOT NULL
+           , AddressTypeName  NVARCHAR( 64 ) NOT NULL UNIQUE
 );
 GO
