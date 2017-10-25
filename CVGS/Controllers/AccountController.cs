@@ -49,12 +49,13 @@ namespace CVGS.Controllers
         {
             if (ModelState.IsValid)
             {
-                ObjectParameter newMemberId = new ObjectParameter("memberId", typeof(int));
                 try
                 {
                     db.SP_ADD_MEMBER(account.FName, account.LName, account.UserName, account.Email, account.Pwd, account.FavPlatform, account.FavCategory, account.FavGame, account.FavQuote);
-                    var memberId = db.MEMBERs.Max(m => m.MemberId);
-                    Session["MemberId"] = memberId;
+
+                    var member = db.MEMBERs.Find(db.MEMBERs.Max(m => m.MemberId));
+                    Session["MemberId"] = member.MemberId;
+                    Session["MemberRole"] = member.ROLE.RoleName;
                     return RedirectToAction("Index");
                 }
                 catch (Exception ex)

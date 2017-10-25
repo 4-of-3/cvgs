@@ -22,8 +22,17 @@ namespace CVGS.Controllers
             {
                 return RedirectToAction("Index", "Login");
             }
-
-            return View(db.MEMBERs.ToList());
+            List<MEMBER> members;
+            if ((string)Session["MemberRole"] == "Admin")
+            {
+                members = db.MEMBERs.ToList();
+            }
+            else
+            {
+                // Exclude inactive members from the list
+                members = db.MEMBERs.Where(m => m.ActiveStatus).ToList();
+            }
+            return View(members);
         }
 
         // GET: Members/Details/5
@@ -33,6 +42,12 @@ namespace CVGS.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+            if (id == (int)Session["MemberId"])
+            {
+                //Member is looking at their own details page; redirect to account
+                return RedirectToAction("Index", "Account");
+            }
+
             MEMBER mEMBER = db.MEMBERs.Find(id);
             if (mEMBER == null)
             {
