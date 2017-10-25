@@ -4,27 +4,15 @@
     ViewBag.Title = "Account";
 }
 
-<h2>@ViewBag.Title</h2>
+<h2>
+    @Html.DisplayFor(model=>model.FName) @Html.DisplayFor(model=>model.LName)<br />
+    <sub class="text-muted"><em>"@Html.DisplayFor(model=>model.FavQuote)"</em></sub>    
+
+</h2>
 
 <div>
     <hr />
     <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.FName)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.FName)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.LName)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.LName)
-        </dd>
-
         <dt>
             @Html.DisplayNameFor(model => model.UserName)
         </dt>
@@ -66,14 +54,6 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.FavQuote)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.FavQuote)
-        </dd>
-
-        <dt>
             @Html.DisplayNameFor(model => model.DateJoined)
         </dt>
 
@@ -89,6 +69,13 @@
             @Html.DisplayFor(model => model.ActiveStatus)
         </dd>
 
+    </dl>
+    <dl class="dl-horizontal">
+        @foreach (var m in Model.FRIENDSHIPs1)
+        {
+            <dt>@m.FRIEND.FName @m.FRIEND.LName</dt>
+            <dd>@m.FRIEND.UserName</dd>
+        }
     </dl>
 </div>
 <p>
