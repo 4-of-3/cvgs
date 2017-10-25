@@ -80,4 +80,8 @@
 </div>
 <p>
     @Html.ActionLink("Back to List", "Index")
+    @if ((string)Session["MemberRole"] == "Admin")
+    {
+        Html.ActionLink("Change Member Role", "Role", new { id=Model.MemberId})
+    }
 </p>
