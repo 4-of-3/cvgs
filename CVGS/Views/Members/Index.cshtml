@@ -47,8 +47,7 @@
                 }
                 if ((string)Session["MemberRole"] == "Admin")
                 {
-                    //TODO: link to "update member role"
-                    @:| Change member role
+                    @:| @Html.ActionLink("Change member role", "Role", new { id = item.MemberId })
                 }
             }
         </td>
