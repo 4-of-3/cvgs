@@ -54,8 +54,8 @@ EXECUTE SP_ADD_MEMBER
       , @FavQuote = '';
         
 EXECUTE SP_ADD_MEMBER
-        @FName = 'Admin'
-      , @LName= 'Admin'
+        @FName = 'Marvin'
+      , @LName= 'Aday'
       , @UserName = 'Admin'
       , @Email = 'info@cvgs.com'
       , @pwd = 'Initial'
