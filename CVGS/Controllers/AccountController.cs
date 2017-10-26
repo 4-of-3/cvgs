@@ -45,7 +45,7 @@ namespace CVGS.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "FName,LName,Email,UserName,Pwd,FavPlatform,FavCategory,FavGame,FavQuote")] NewAccountViewModel account)
+        public ActionResult Create([Bind(Include = "FName,LName,Email,UserName,Pwd,PwdConfirm,FavPlatform,FavCategory,FavGame,FavQuote")] NewAccountViewModel account)
         {
             if (ModelState.IsValid)
             {
@@ -70,6 +70,7 @@ namespace CVGS.Controllers
         // GET: MEMBERs/Edit/5
         public ActionResult Edit(int? id)
         {
+            //TODO: create ViewModel for editing account
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
