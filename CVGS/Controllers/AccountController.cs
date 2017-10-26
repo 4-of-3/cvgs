@@ -74,11 +74,23 @@ namespace CVGS.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            MEMBER account = db.MEMBERs.Find(id);
-            if (account == null)
+            MEMBER member = db.MEMBERs.Find(id);
+            if (member == null)
             {
                 return HttpNotFound();
             }
+            EditAccountViewModel account = new EditAccountViewModel()
+            {
+                MemberId = member.MemberId,
+                FName = member.FName,
+                LName = member.LName,
+                UserName = member.UserName,
+                Email = member.Email,
+                FavPlatform = member.FavPlatform,
+                FavCategory = member.FavCategory,
+                FavGame = member.FavGame,
+                FavQuote = member.FavQuote
+            };
             return View(account);
         }
 
@@ -87,11 +99,20 @@ namespace CVGS.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "MemberId,FName,LName,UserName,Email,FavPlatform,FavCategory,FavGame,FavQuote,DateJoined,ActiveStatus,Pwd")] MEMBER account)
+        public ActionResult Edit([Bind(Include = "MemberId,FName,LName,Email,FavPlatform,FavCategory,FavGame,FavQuote")] EditAccountViewModel account)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(account).State = EntityState.Modified;
+                var member = db.MEMBERs.Find(account.MemberId);
+                member.FName = account.FName;
+                member.LName = account.LName;
+                member.Email = account.Email;
+                member.FavCategory = account.FavCategory;
+                member.FavPlatform = account.FavPlatform;
+                member.FavGame = account.FavGame;
+                member.FavQuote = account.FavQuote;
+
+                db.Entry(member).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
