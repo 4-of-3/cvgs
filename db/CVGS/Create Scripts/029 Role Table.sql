@@ -4,6 +4,6 @@ GO
 
 CREATE TABLE CVGS.dbo.ROLE(
              RoleId        INT IDENTITY( 1,1 ) PRIMARY KEY
-           , RoleName      NVARCHAR( 64 ) NOT NULL
+           , RoleName      NVARCHAR( 64 ) NOT NULL UNIQUE
 );
 GO
