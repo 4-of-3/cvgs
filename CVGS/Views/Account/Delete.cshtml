@@ -16,7 +16,7 @@
         @Html.HiddenFor(model => model.MemberId)
         <div class="form-group">
             Deactivate Account: @Html.RadioButtonFor(m => m.FullDelete, false)<br />
-            Delete Account @Html.RadioButtonFor(m => m.FullDelete, true)
+            Delete Account @Html.RadioButtonFor(m => m.FullDelete, true) <span class="text-warning" id="delete-warning">Are you sure? This cannot be undone.</span>
         </div>
         <div class="form-actions no-color">
             <input type="submit" value="Delete" class="btn btn-default" /> |
@@ -24,3 +24,10 @@
         </div>
     }
 </div>
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script>
+    $("#delete-warning").hide();
+    $('input[type=radio][name=FullDelete]').change(function () {
+        $("#delete-warning").toggle();
+    })
+</script>
