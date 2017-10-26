@@ -9,22 +9,13 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.FName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.LName)
-        </th>
-        <th>
             @Html.DisplayNameFor(model => model.UserName)
         </th>
         <th>
+            Name
+        </th>
+        <th>
             @Html.DisplayNameFor(model => model.Email)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.DateJoined)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ActiveStatus)
         </th>
         <th></th>
     </tr>
@@ -32,25 +23,33 @@
 @foreach (var item in Model) {
     <tr>
         <td>
-            @Html.DisplayFor(modelItem => item.FName)
+            @Html.ActionLink(item.UserName, "Details", new { id = item.MemberId })<br />
+            <small class="text-muted"><em>@Html.DisplayFor(modelItem => item.ROLE.RoleName) since @Html.DisplayFor(modelItem=>item.DateJoined)</em></small>
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.LName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.UserName)
+            @Html.DisplayFor(modelItem => item.FName) @Html.DisplayFor(modelItem => item.LName)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Email)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.DateJoined)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ActiveStatus)
-        </td>
-        <td>
-            @Html.ActionLink("Details", "Details", new { id=item.MemberId })
+            @if (item.MemberId != (int)Session["MemberId"])
+            {
+                if (item.FRIENDSHIPs2.Select(m => m.MemberId).ToList().Contains((int)Session["MemberId"]))
+                {
+                    //Member is already in friends list
+                    @:Remove Friend
+                }
+                else
+                {
+                    //Member is not in friends list
+                    @:Add Friend
+                }
+                if ((string)Session["MemberRole"] == "Admin")
+                {
+                    @:| @Html.ActionLink("Change member role", "Role", new { id = item.MemberId })
+                }
+            }
         </td>
     </tr>
 }

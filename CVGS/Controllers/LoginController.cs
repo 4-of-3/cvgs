@@ -43,6 +43,8 @@ namespace CVGS.Controllers
                 db.SP_MEMBER_LOGIN(login.UserName, login.Pwd, loginMemberId);
                 int memberId = (int)loginMemberId.Value;
                 Session["MemberId"] = memberId;
+                string memberRole = db.MEMBERs.Find(memberId).ROLE.RoleName;
+                Session["MemberRole"] = memberRole;
                 return RedirectToAction("Index", "Home");
             }
             catch (Exception)
