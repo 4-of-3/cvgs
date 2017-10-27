@@ -1,0 +1,63 @@
+﻿@model IEnumerable<CVGS.Models.REVIEW>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.GAME.Title)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.MEMBER.UserName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ReviewText)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Rating)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DateCreated)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DateModified)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.GAME.Title)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.MEMBER.UserName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ReviewText)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Rating)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DateCreated)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DateModified)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { memberId = item.MemberId, gameId = item.GameId }) |
+            @Html.ActionLink("Details", "Details", new { memberId = item.MemberId, gameId = item.GameId }) |
+            @Html.ActionLink("Delete", "Delete", new { memberId = item.MemberId, gameId = item.GameId })
+        </td>
+    </tr>
+}
+
+</table>
