@@ -68,6 +68,10 @@ namespace CVGS.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+            if (Session["MemberId"] == null)
+            {
+                return RedirectToAction("Index", "Login");
+            }
             if (memberId != (int)Session["MemberId"])
             {
                 return new HttpStatusCodeResult(HttpStatusCode.Unauthorized);
