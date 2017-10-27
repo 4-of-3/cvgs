@@ -26,10 +26,13 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.Rating, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model=>model.Rating, htmlAttributes: new {@class="control-label col-md-2"})
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Rating, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Rating, "", new { @class = "text-danger" })
+                @* TODO: get rid of magic number "5" *@
+                @for (int i = 1; i <= 5; i++)
+                {
+                    @Html.RadioButtonFor(model => model.Rating, i, new { id = "rating" + i , @class="radio-inline"})
+                }
             </div>
         </div>
 
