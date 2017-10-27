@@ -218,6 +218,7 @@
     <Compile Include="Models\REVIEW.cs">
       <DependentUpon>CVGS.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\ReviewMeta.cs" />
     <Compile Include="Models\ROLE.cs">
       <DependentUpon>CVGS.tt</DependentUpon>
     </Compile>
