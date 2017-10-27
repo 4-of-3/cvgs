@@ -14,34 +14,34 @@ namespace CVGS.Controllers
     {
         private CVGSEntities db = new CVGSEntities();
 
-        // GET: Reviews
-        public ActionResult Index()
+        // GET: Reviews/Create
+        public ActionResult Create(int? gameId)
         {
-            var rEVIEWs = db.REVIEWs.Include(r => r.GAME).Include(r => r.MEMBER);
-            return View(rEVIEWs.ToList());
-        }
-
-        // GET: Reviews/Details/5
-        public ActionResult Details(int? memberId, int? gameId)
-        {
-            if (memberId == null || gameId == null)
+            if (gameId == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            REVIEW rEVIEW = db.REVIEWs.Find(memberId, gameId);
-            if (rEVIEW == null)
+            if (Session["MemberId"] == null)
             {
-                return HttpNotFound();
+                return RedirectToAction("Index", "Login");
             }
-            return View(rEVIEW);
-        }
+            int memberId = (int)Session["MemberId"];
 
-        // GET: Reviews/Create
-        public ActionResult Create()
-        {
-            ViewBag.GameId = new SelectList(db.GAMEs, "GameId", "Title");
-            ViewBag.MemberId = new SelectList(db.MEMBERs, "MemberId", "FName");
-            return View();
+            if (db.REVIEWs.Find(memberId, gameId) != null)
+            {
+                // Member has already reviewed this game; redirect to edit
+                return RedirectToAction("Edit", new { memberId = memberId, gameId = gameId });
+            }
+
+            var review = new REVIEW()
+            {
+                GameId = (int)gameId,
+                GAME = db.GAMEs.Find(gameId),
+                MemberId = (int)Session["MemberId"],
+                MEMBER = db.MEMBERs.Find((int)Session["MemberId"])
+            };
+
+            return View(review);
         }
 
         // POST: Reviews/Create
@@ -49,18 +49,19 @@ namespace CVGS.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "MemberId,GameId,ReviewText,Rating,DateCreated,DateModified")] REVIEW rEVIEW)
+        public ActionResult Create([Bind(Include = "MemberId,GameId,ReviewText,Rating")] REVIEW review)
         {
             if (ModelState.IsValid)
             {
-                db.REVIEWs.Add(rEVIEW);
+                review.DateCreated = DateTime.Now;
+                db.REVIEWs.Add(review);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Details", "Games", new { id = review.GameId });
             }
 
-            ViewBag.GameId = new SelectList(db.GAMEs, "GameId", "Title", rEVIEW.GameId);
-            ViewBag.MemberId = new SelectList(db.MEMBERs, "MemberId", "FName", rEVIEW.MemberId);
-            return View(rEVIEW);
+            ViewBag.GameId = new SelectList(db.GAMEs, "GameId", "Title", review.GameId);
+            ViewBag.MemberId = new SelectList(db.MEMBERs, "MemberId", "FName", review.MemberId);
+            return View(review);
         }
 
         // GET: Reviews/Edit/5
@@ -70,14 +71,18 @@ namespace CVGS.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            REVIEW rEVIEW = db.REVIEWs.Find(memberId, gameId);
-            if (rEVIEW == null)
+            if (memberId != (int)Session["MemberId"])
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.Unauthorized);
+            }
+            REVIEW review = db.REVIEWs.Find(memberId, gameId);
+            if (review == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.GameId = new SelectList(db.GAMEs, "GameId", "Title", rEVIEW.GameId);
-            ViewBag.MemberId = new SelectList(db.MEMBERs, "MemberId", "FName", rEVIEW.MemberId);
-            return View(rEVIEW);
+            ViewBag.GameId = new SelectList(db.GAMEs, "GameId", "Title", review.GameId);
+            ViewBag.MemberId = new SelectList(db.MEMBERs, "MemberId", "FName", review.MemberId);
+            return View(review);
         }
 
         // POST: Reviews/Edit/5
@@ -85,18 +90,18 @@ namespace CVGS.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "MemberId,GameId,ReviewText,Rating,DateCreated")] REVIEW rEVIEW)
+        public ActionResult Edit([Bind(Include = "MemberId,GameId,ReviewText,Rating,DateCreated")] REVIEW review)
         {
             if (ModelState.IsValid)
             {
-                rEVIEW.DateModified = DateTime.Now;
-                db.Entry(rEVIEW).State = EntityState.Modified;
+                review.DateModified = DateTime.Now;
+                db.Entry(review).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Details", "Games", new { id=review.GameId });
             }
-            ViewBag.GameId = new SelectList(db.GAMEs, "GameId", "Title", rEVIEW.GameId);
-            ViewBag.MemberId = new SelectList(db.MEMBERs, "MemberId", "FName", rEVIEW.MemberId);
-            return View(rEVIEW);
+            ViewBag.GameId = new SelectList(db.GAMEs, "GameId", "Title", review.GameId);
+            ViewBag.MemberId = new SelectList(db.MEMBERs, "MemberId", "FName", review.MemberId);
+            return View(review);
         }
 
         // GET: Reviews/Delete/5
@@ -106,12 +111,16 @@ namespace CVGS.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            REVIEW rEVIEW = db.REVIEWs.Find(memberId, gameId);
-            if (rEVIEW == null)
+            if (memberId != (int)Session["MemberId"] && (string)Session["MemberRole"] != "Admin" && (string)Session["MemberRole"] != "Employee" )
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.Unauthorized);
+            }
+            REVIEW review = db.REVIEWs.Find(memberId, gameId);
+            if (review == null)
             {
                 return HttpNotFound();
             }
-            return View(rEVIEW);
+            return View(review);
         }
 
         // POST: Reviews/Delete/5
@@ -119,8 +128,8 @@ namespace CVGS.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            REVIEW rEVIEW = db.REVIEWs.Find(id);
-            db.REVIEWs.Remove(rEVIEW);
+            REVIEW review = db.REVIEWs.Find(id);
+            db.REVIEWs.Remove(review);
             db.SaveChanges();
             return RedirectToAction("Index");
         }
