@@ -31,7 +31,7 @@ INSERT INTO GAME( Title
                , 'Starcraft and Starcraft Brood War Expansion Set Starcraft the highly anticipated real-time strategy game Starcraft is the one of Blizzard Entertainment''s biggest product launch ever. '
                , 'RTS'
                , 'http://i.imgur.com/CQWXgdX.jpg'
-               , DATEFROMPARTS(0998, 11, 30)
+               , DATEFROMPARTS(1998, 11, 30)
                , 19.99
                , 1 ), 
                ( 'Grand Theft Auto V'
