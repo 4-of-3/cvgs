@@ -14,7 +14,7 @@ INSERT INTO REVIEW( MemberId
                   , 5          -- Spyro the Dragon
                   , 'I like the dragon'
                   , 5 )
-                , ( 6          -- Lucas
+                , ( 7          -- Lucas
                   , 1          -- Zelda
                   , ''
                   , 4 )
@@ -30,7 +30,7 @@ INSERT INTO REVIEW( MemberId
                   , 4          -- GTA:V
                   , NULL
                   , 2 )
-                , ( 6          -- Lucas
+                , ( 7          -- Lucas
                   , 2          -- Halo 3
                   , 'This is a Halo game. It is the third Halo game.'
                   , 4 );
