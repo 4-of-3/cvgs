@@ -16,16 +16,7 @@
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         @Html.HiddenFor(model => model.MemberId)
         @Html.HiddenFor(model => model.DateCreated)
-
         @Html.HiddenFor(model => model.GameId)
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.ReviewText, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.ReviewText, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.ReviewText, "", new { @class = "text-danger" })
-            </div>
-        </div>
 
         <div class="form-group">
             @Html.LabelFor(model => model.Rating, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -33,8 +24,16 @@
                 @*TODO: Get rid of magic number "5"*@
                 @for (int i = 1; i <= 5; i++)
                 {
-                    @Html.RadioButtonFor(model => model.Rating, i, new { id = "rating" + i })
+                    @Html.RadioButtonFor(model => model.Rating, i, new { id = "rating" + i, @class="radio-inline" })
                 }
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.ReviewText, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextAreaFor(model => model.ReviewText, new { @class = "form-control review-textarea", rows = "5" })
+                @Html.ValidationMessageFor(model => model.ReviewText, "", new { @class = "text-danger" })
             </div>
         </div>
 
@@ -47,5 +46,5 @@
 }
 
 <div>
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Back to Game", "Details", "Games", new { id = Model.GameId }, null)
 </div>

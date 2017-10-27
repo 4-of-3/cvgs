@@ -179,3 +179,12 @@ textarea {
     border-color: lightgrey;
     cursor: not-allowed;
 }
+
+.review-textarea {
+    max-width: none;
+    width: 67%;
+}
+
+td.nowrap{
+    white-space: nowrap;
+}
