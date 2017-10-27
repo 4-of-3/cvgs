@@ -8,7 +8,7 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.MEMBER.FName)
+            @Html.DisplayNameFor(model => model.MEMBER.UserName)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.ReviewText)
@@ -28,13 +28,13 @@
 @foreach (var item in Model) {
     <tr>
         <td>
-            @Html.DisplayFor(modelItem => item.MEMBER.FName)
+            @Html.DisplayFor(modelItem => item.MEMBER.UserName)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.ReviewText)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Rating)
+            @Html.DisplayFor(modelItem => item.Rating) / 5
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.DateCreated)
@@ -45,12 +45,12 @@
         <td>
             @if (item.MemberId == (int)Session["MemberId"])
             {
-                @Html.ActionLink("Edit", "Edit", "Reviews", new { memberId = item.MemberId, gameId = item.GameId }) @:|
-                @Html.ActionLink("Delete", "Delete", "Reviews", new { memberId = item.MemberId, gameId = item.GameId })
+                @Html.ActionLink("Edit", "Edit", "Reviews", new { memberId = item.MemberId, gameId = item.GameId }, null) @:|
+                @Html.ActionLink("Delete", "Delete", "Reviews", new { memberId = item.MemberId, gameId = item.GameId }, null)
             }
             else if ((string)Session["MemberRole"] == "Employee" || (string)Session["MemberRole"] == "Admin")
             {
-                @Html.ActionLink("Delete", "Delete", "Reviews", new { memberId = item.MemberId, gameId = item.GameId })
+                @Html.ActionLink("Delete", "Delete", "Reviews", new { memberId = item.MemberId, gameId = item.GameId }, null)
             }
         </td>
     </tr>
