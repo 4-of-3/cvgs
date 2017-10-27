@@ -13,20 +13,20 @@
 @foreach (var item in Model.REVIEWs) {
     <tr>
         <td class="text-primary">
-            @Html.DisplayFor(modelItem => item.MEMBER.UserName)
+            @Html.ActionLink(item.MEMBER.UserName, "Details", "Members", new { id = item.MemberId }, null)
         </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ReviewText)
-            @if (item.DateModified != null)
-            {
-                <br />
-                <span class="text-muted">Edited on @item.DateModified</span>
-            }
-        </td>
-        <td>
+        <td class="nowrap">
             @Html.DisplayFor(modelItem => item.Rating) / 5
         </td>
         <td>
+            @Html.Raw(item.ReviewText.Replace(Environment.NewLine, "<br/>"))
+            @if (item.DateModified != null)
+            {
+                <br />
+                <small class="text-muted">Edited on @item.DateModified</small>
+            }
+        </td>
+        <td class="nowrap">
             @Html.DisplayFor(modelItem => item.DateCreated)
         </td>
         <td>

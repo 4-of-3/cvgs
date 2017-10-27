@@ -22,7 +22,9 @@ namespace CVGS.Models
         [Display(Name = "Rating")]
         [Required, Range(1,5)]
         public int Rating { get; set; }
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd h:mm tt}", ApplyFormatInEditMode = true)]
         public System.DateTime DateCreated { get; set; }
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd h:mm tt}", ApplyFormatInEditMode = true)]
         public Nullable<System.DateTime> DateModified { get; set; }
     }
 }

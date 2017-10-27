@@ -75,7 +75,7 @@
         <dd>
             @if (Model.REVIEWs.Count > 0)
             {
-                @Model.REVIEWs.Average(m => m.Rating).ToString("F2")@:/5
+                @Model.REVIEWs.Average(m => m.Rating).ToString("#.##")@:/5
             }
             else
             {
