@@ -52,17 +52,19 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.MEMBER.FName)
+            @Html.DisplayNameFor(model => model.MEMBER.UserName)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.MEMBER.FName)
+            @Html.DisplayFor(model => model.MEMBER.UserName)
         </dd>
 
     </dl>
 
     @using (Html.BeginForm()) {
         @Html.AntiForgeryToken()
+        @Html.HiddenFor(model => model.MemberId)
+        @Html.HiddenFor(model => model.GameId)
 
         <div class="form-actions no-color">
             <input type="submit" value="Delete" class="btn btn-default" /> |
