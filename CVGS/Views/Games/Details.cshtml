@@ -48,6 +48,13 @@
         <dd>
             @Html.DisplayFor(model => model.Description)
         </dd>
+        <dt>Playable on:</dt>
+        <dd>
+            @foreach(var p in Model.PLATFORMs)
+            {
+                @p.Developer @: @p.PlatformName <br />
+            }
+        </dd>
 
         <dt>
             @Html.DisplayNameFor(model => model.Digital)
