@@ -124,13 +124,13 @@ namespace CVGS.Controllers
         // POST: Reviews/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
+        public ActionResult DeleteConfirmed([Bind(Include = "MemberId,GameId")] REVIEW reviewToDelete)
         {
             //TODO Implement Delete, probably with a view model
-            REVIEW review = db.REVIEWs.Find(id);
+            REVIEW review = db.REVIEWs.Find(reviewToDelete.MemberId, reviewToDelete.GameId);
             db.REVIEWs.Remove(review);
             db.SaveChanges();
-            return RedirectToAction("Index");
+            return RedirectToAction("Details", "Games", new { id = reviewToDelete.GameId });
         }
 
         protected override void Dispose(bool disposing)
