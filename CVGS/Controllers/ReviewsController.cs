@@ -37,8 +37,7 @@ namespace CVGS.Controllers
             {
                 GameId = (int)gameId,
                 GAME = db.GAMEs.Find(gameId),
-                MemberId = (int)Session["MemberId"],
-                MEMBER = db.MEMBERs.Find((int)Session["MemberId"])
+                MemberId = (int)Session["MemberId"]
             };
 
             return View(review);
@@ -58,9 +57,7 @@ namespace CVGS.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Details", "Games", new { id = review.GameId });
             }
-
-            ViewBag.GameId = new SelectList(db.GAMEs, "GameId", "Title", review.GameId);
-            ViewBag.MemberId = new SelectList(db.MEMBERs, "MemberId", "FName", review.MemberId);
+            review.GAME = db.GAMEs.Find(review.GameId);
             return View(review);
         }
 
@@ -97,8 +94,6 @@ namespace CVGS.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Details", "Games", new { id=review.GameId });
             }
-            ViewBag.GameId = new SelectList(db.GAMEs, "GameId", "Title", review.GameId);
-            ViewBag.MemberId = new SelectList(db.MEMBERs, "MemberId", "FName", review.MemberId);
             return View(review);
         }
 
@@ -109,7 +104,7 @@ namespace CVGS.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            if (memberId != (int)Session["MemberId"] && (string)Session["MemberRole"] != "Admin" && (string)Session["MemberRole"] != "Employee" )
+            if (memberId != (int)Session["MemberId"] && (string)Session["MemberRole"] != "Employee" && (string)Session["MemberRole"] != "Admin" )
             {
                 return new HttpStatusCodeResult(HttpStatusCode.Unauthorized);
             }
