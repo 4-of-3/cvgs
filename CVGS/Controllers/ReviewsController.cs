@@ -80,8 +80,6 @@ namespace CVGS.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.GameId = new SelectList(db.GAMEs, "GameId", "Title", review.GameId);
-            ViewBag.MemberId = new SelectList(db.MEMBERs, "MemberId", "FName", review.MemberId);
             return View(review);
         }
 
@@ -128,6 +126,7 @@ namespace CVGS.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
+            //TODO Implement Delete, probably with a view model
             REVIEW review = db.REVIEWs.Find(id);
             db.REVIEWs.Remove(review);
             db.SaveChanges();
