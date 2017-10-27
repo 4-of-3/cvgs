@@ -7,8 +7,8 @@ CREATE TABLE CVGS.dbo.EVENT(
            , EventTitle      NVARCHAR(   64 ) NOT NULL
            , Description     NVARCHAR( 1024 ) NOT NULL
            , Location        NVARCHAR(   64 ) NOT NULL
-           , EventDate       DATETIME NOT NULL
+           , EventDate       DATETIME2 NOT NULL
            , ActiveStatus    BIT NOT NULL DEFAULT 1
-           , DateCreated     DATE DEFAULT CURRENT_TIMESTAMP
+           , DateCreated     DATETIME2 DEFAULT CURRENT_TIMESTAMP
 );
 GO
