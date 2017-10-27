@@ -1,13 +1,16 @@
-﻿@model IEnumerable<CVGS.Models.REVIEW>
+﻿@model CVGS.Models.GAME
 
 @{
-    ViewBag.Title = "_GameReviews";
+    ViewBag.Title = "Reviews";
 }
 
 <h3>Reviews</h3>
+<p>
+    @Html.ActionLink("Review Game", "Create", "Reviews", new { gameId = Model.GameId }, null)
+</p>
 <table class="table">
 
-@foreach (var item in Model) {
+@foreach (var item in Model.REVIEWs) {
     <tr>
         <td class="text-primary">
             @Html.DisplayFor(modelItem => item.MEMBER.UserName)

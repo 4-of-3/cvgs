@@ -89,9 +89,6 @@
         @Html.ActionLink("Back", "Index")
     </div>
     <div class="row">
-        <p>
-            @Html.ActionLink("Review Game", "Create", "Reviews", new { gameId = Model.GameId }, null)
-        </p>
-        @Html.Partial("_GameReviews", Model.REVIEWs)
+        @Html.Partial("_GameReviews", Model)
     </div>
 </div>
