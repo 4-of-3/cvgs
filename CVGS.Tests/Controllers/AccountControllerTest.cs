@@ -15,12 +15,12 @@ namespace CVGS.Tests.Controllers
     [TestClass]
     public class NewAccountTest
     {
+        private CVGSEntities db = new CVGSEntities();
+        private MEMBER member;
         [TestMethod]
-        public void Index()
+        public void AddNewAccount()
         {
             // Arrange
-            CVGSEntities db = new CVGSEntities();
-            MEMBER member;
             NewAccountViewModel account = new NewAccountViewModel()
             {
                 FName="John",
@@ -43,8 +43,30 @@ namespace CVGS.Tests.Controllers
             Assert.IsTrue(member.UserName == "Example"); // Username is unique, so if sp_add_member was successful and the new member has this username, the proc succeeded
 
             //Teardown
+            //db.MEMBERs.Remove(member);
+            //db.SaveChanges();
+        }
+        [TestMethod]
+        public void EditProfile()
+        {
+            member = db.MEMBERs.Where(m => m.UserName == "Example").Single();
+            member.FavQuote = "Test quote";
+            db.Entry(member).State = System.Data.Entity.EntityState.Modified;
+            db.SaveChanges();
+
+            Assert.AreEqual(member.FavQuote, "Test quote");
+
+        }
+
+        [TestMethod]
+        public void DeleteProfile()
+        {
+            member = db.MEMBERs.Where(m => m.UserName == "Example").Single();
+
             db.MEMBERs.Remove(member);
             db.SaveChanges();
+            var members = db.MEMBERs.Where(m => m.UserName == "Example");
+            Assert.IsNull(members.FirstOrDefault());
         }
     }
 }
