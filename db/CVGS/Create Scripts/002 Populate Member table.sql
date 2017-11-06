@@ -1,4 +1,26 @@
 EXECUTE SP_ADD_MEMBER
+        @FName = 'Marvin'
+      , @LName= 'Aday'
+      , @UserName = 'Admin'
+      , @Email = 'info@cvgs.com'
+      , @pwd = 'Initial'
+      , @FavPlatform = ''
+      , @FavCategory = ''
+      , @FavGame = ''
+      , @FavQuote = '';
+      
+EXECUTE SP_ADD_MEMBER
+        @FName = 'Jane'
+      , @LName= 'Example'
+      , @UserName = 'jex'
+      , @Email = 'jane@cvgs.com'
+      , @pwd = 'Initial'
+      , @FavPlatform = ''
+      , @FavCategory = ''
+      , @FavGame = ''
+      , @FavQuote = '';
+
+EXECUTE SP_ADD_MEMBER
         @FName = 'Ezio'
       , @LName= 'Auditore da Firenze'
       , @UserName = 'Mentore'
@@ -52,17 +74,6 @@ EXECUTE SP_ADD_MEMBER
       , @FavCategory = 'Adventure'
       , @FavGame = 'The Legend of Zelda: Breath of the Wild'
       , @FavQuote = '';
-        
-EXECUTE SP_ADD_MEMBER
-        @FName = 'Marvin'
-      , @LName= 'Aday'
-      , @UserName = 'Admin'
-      , @Email = 'info@cvgs.com'
-      , @pwd = 'Initial'
-      , @FavPlatform = ''
-      , @FavCategory = ''
-      , @FavGame = ''
-      , @FavQuote = '';
 GO
 
 UPDATE MEMBER
@@ -73,4 +84,15 @@ UPDATE MEMBER
 UPDATE MEMBER
    SET RoleId = 3
  WHERE UserName = 'Admin';
+GO
+
+UPDATE MEMBER
+   SET ActiveStatus = 0
+ WHERE UserName = 'jex';
+GO
+
+UPDATE MEMBER
+   SET DateJoined = '20170305'
+ WHERE UserName = 'mentore'
+    OR UserName = 'Admin';
 GO

@@ -222,6 +222,7 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\DeleteAccountViewModel.cs" />
+    <Compile Include="ViewModels\EditAccountViewModel.cs" />
     <Compile Include="ViewModels\LoginViewModel.cs" />
     <Compile Include="ViewModels\NewAccountViewModel.cs" />
     <Compile Include="ViewModels\ReportTypeViewModel.cs" />

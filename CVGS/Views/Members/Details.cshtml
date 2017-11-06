@@ -72,7 +72,7 @@
     </dl>
     <h4>Friends</h4>
     <dl class="dl-horizontal">
-        @foreach (var m in Model.FRIENDSHIPs1)
+        @foreach (var m in Model.FRIENDSHIPs1.Where(m=>m.FRIEND.ActiveStatus)
         {
             <dt>@m.FRIEND.FName @m.FRIEND.LName</dt>
             <dd>@m.FRIEND.UserName</dd>
