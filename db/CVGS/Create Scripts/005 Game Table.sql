@@ -10,7 +10,7 @@ CREATE TABLE CVGS.dbo.GAME(
            , Description        NVARCHAR( 1024 ) NOT NULL
            , Category           NVARCHAR(   64 ) NOT NULL
            , ImageUrl           NVARCHAR( 1024 )
-           , PublicationDate    Date NOT NULL
+           , PublicationDate    DATE NOT NULL
            , Cost               MONEY NOT NULL
            , Digital            BIT NOT NULL DEFAULT 0
            , Deleted            BIT NOT NULL DEFAULT 0
