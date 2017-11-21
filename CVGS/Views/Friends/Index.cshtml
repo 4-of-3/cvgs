@@ -1,0 +1,50 @@
+﻿@model IEnumerable<CVGS.Models.FRIENDSHIP>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Friends List</h2>
+
+<table class="table">
+    <tr>
+        <th>
+            <p>Friendship Date</p>
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FRIEND.FName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.MEMBER.UserName)
+        </th>
+        <th>
+            <p></p>
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model)
+{
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.DateCreated)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.FRIEND.FName)
+        </td>
+        <td>
+            @{
+                <a href="@Url.Action("Details", "Members", new { id = item.FriendId })">@Html.DisplayFor(modelItem => item.FRIEND.UserName)</a> 
+            }
+        </td>
+        <td>
+           @{
+                //Member is already in friends list
+                <a href="@Url.Action("RemoveFriend", "Friends", new { id = item.FriendId })">Remove Friend</a> 
+            }
+        </td>
+
+    </tr>
+}
+
+</table>

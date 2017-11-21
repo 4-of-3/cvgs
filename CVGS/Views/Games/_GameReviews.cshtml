@@ -1,0 +1,53 @@
+﻿@model CVGS.Models.GAME
+
+@{
+    ViewBag.Title = "Reviews";
+}
+
+<h3>Reviews</h3>
+<p>
+    @Html.ActionLink("Review Game", "Create", "Reviews", new { gameId = Model.GameId }, null)
+</p>
+<table class="table">
+
+@foreach (var item in Model.REVIEWs) {
+    <tr>
+        <td class="text-primary">
+            @Html.ActionLink(item.MEMBER.UserName, "Details", "Members", new { id = item.MemberId }, null)
+        </td>
+        <td class="nowrap">
+            @Html.DisplayFor(modelItem => item.Rating) / 5
+        </td>
+        <td>
+            @if (item.ReviewText != null && item.ReviewText != "")
+            {
+                @Html.Raw(item.ReviewText.Replace(Environment.NewLine, "<br/>"))
+            }
+            else
+            {
+                <em class="text-muted">No review provided</em>
+            }
+            @if (item.DateModified != null)
+            {
+                <br />
+                <small class="text-muted">Edited on @item.DateModified</small>
+            }
+        </td>
+        <td class="nowrap">
+            @Html.DisplayFor(modelItem => item.DateCreated)
+        </td>
+        <td>
+            @if (item.MemberId == (int)Session["MemberId"])
+            {
+                @Html.ActionLink("Edit", "Edit", "Reviews", new { memberId = item.MemberId, gameId = item.GameId }, null) @:|
+                @Html.ActionLink("Delete", "Delete", "Reviews", new { memberId = item.MemberId, gameId = item.GameId }, null)
+            }
+            else if ((string)Session["MemberRole"] == "Employee" || (string)Session["MemberRole"] == "Admin")
+            {
+                @Html.ActionLink("Delete", "Delete", "Reviews", new { memberId = item.MemberId, gameId = item.GameId }, null)
+            }
+        </td>
+    </tr>
+}
+
+</table>

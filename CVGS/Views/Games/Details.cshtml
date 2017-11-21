@@ -14,57 +14,83 @@
             <p style="display:inline-block">@Html.ActionLink("Delete", "Delete", new { id = Model.GameId })</p>
         </div>
     </section>
-    @{
-        if (Model.ImageUrl != null && Model.ImageUrl != "")
-        {
-            <img src="@Url.Content(Model.ImageUrl)" class="game-image col-md-3" />
+    <section class="row">
+        @{
+            if (Model.ImageUrl != null && Model.ImageUrl != "")
+            {
+                <img src="@Url.Content(Model.ImageUrl)" class="game-image col-md-3" />
+            }
         }
-    }
-    <dl class="dl-horizontal col-md-9">
-        <dt>
-            @Html.DisplayNameFor(model => model.Category)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Category)
-        </dd>
+        <dl class="dl-horizontal col-md-9">
+            <dt>
+                @Html.DisplayNameFor(model => model.Category)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Category)
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Developer)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Developer)
-        </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Developer)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Developer)
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.PublicationDate)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.PublicationDate)
-        </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.PublicationDate)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.PublicationDate)
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Description)
-        </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Description)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Description)
+            </dd>
+            <dt>Playable on:</dt>
+            <dd>
+                @foreach (var p in Model.PLATFORMs)
+                {
+                    @p.Developer @: @p.PlatformName <br />
+            }
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Digital)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Digital)
-        </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Digital)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Digital)
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Cost)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Cost)
-        </dd>
-    </dl>
+            <dt>
+                @Html.DisplayNameFor(model => model.Cost)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Cost)
+            </dd>
+            <dt>
+                Average Member Rating
+            </dt>
+            <dd>
+                @if (Model.REVIEWs.Count > 0)
+            {
+                    @Model.REVIEWs.Average(m => m.Rating).ToString("#.##")@:/5
+            }
+            else
+            {
+                    @:No ratings available
+            }
+
+            </dd>
+        </dl>
+    </section>
 
     <div style="margin-top: 25px;" class="col-md-offset-3">
         @Html.ActionLink("Back", "Index")
+    </div>
+    <div class="row">
+        @Html.Partial("_GameReviews", Model)
     </div>
 </div>

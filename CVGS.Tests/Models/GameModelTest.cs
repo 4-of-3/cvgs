@@ -2,7 +2,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Linq;
 
-namespace CVGS.Tests.Controllers
+namespace CVGS.Tests.Models
 {
 
     [TestClass]

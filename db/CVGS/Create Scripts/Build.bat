@@ -236,6 +236,16 @@ IF '%pauseRequired%'=='n' GOTO skip019
     PAUSE
 :skip019
 REM==================================================
+REM Populate the Review table
+REM==================================================
+echo sqlcmd -S %servername% -E -d CVGS -i "020 Populate Review Table.sql"
+sqlcmd -S %servername% -E -d CVGS -i "020 Populate Review Table.sql"
+
+IF '%pauseRequired%'=='N' GOTO skip020
+IF '%pauseRequired%'=='n' GOTO skip020
+    PAUSE
+:skip020
+REM==================================================
 REM Create the Friendship table
 REM==================================================
 echo sqlcmd -S %servername% -E -d CVGS -i "021 Friendship Table.sql"
