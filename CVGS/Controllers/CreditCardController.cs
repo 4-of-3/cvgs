@@ -43,7 +43,7 @@ namespace CVGS.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             CREDITCARD cREDITCARD = db.CREDITCARDs.Find(id);
-            if (cREDITCARD == null)
+            if (cREDITCARD == null || !cREDITCARD.MemberId.Equals(memberId))
             {
                 return HttpNotFound();
             }
@@ -53,6 +53,7 @@ namespace CVGS.Controllers
         // GET: CreditCard/Create
         public ActionResult Create()
         {
+
             var memberId = this.Session["MemberId"];
             // Redirect unauthenticated members
             if (memberId == null)
@@ -60,7 +61,7 @@ namespace CVGS.Controllers
                 return RedirectToAction("Index", "Login");
             }
 
-            ViewBag.MemberId = new SelectList(db.MEMBERs, "MemberId", "FName");
+            ViewBag.MemberId = memberId;
             return View();
         }
 
@@ -85,12 +86,19 @@ namespace CVGS.Controllers
         // GET: CreditCard/Edit/5
         public ActionResult Edit(int? id)
         {
+            var memberId = this.Session["MemberId"];
+            // Redirect unauthenticated members
+            if (memberId == null)
+            {
+                return RedirectToAction("Index", "Login");
+            }
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             CREDITCARD cREDITCARD = db.CREDITCARDs.Find(id);
-            if (cREDITCARD == null)
+            if (cREDITCARD == null || !cREDITCARD.MemberId.Equals(memberId))
             {
                 return HttpNotFound();
             }
@@ -118,12 +126,19 @@ namespace CVGS.Controllers
         // GET: CreditCard/Delete/5
         public ActionResult Delete(int? id)
         {
+            var memberId = this.Session["MemberId"];
+            // Redirect unauthenticated members
+            if (memberId == null)
+            {
+                return RedirectToAction("Index", "Login");
+            }
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             CREDITCARD cREDITCARD = db.CREDITCARDs.Find(id);
-            if (cREDITCARD == null)
+            if (cREDITCARD == null || !cREDITCARD.MemberId.Equals(memberId))
             {
                 return HttpNotFound();
             }
