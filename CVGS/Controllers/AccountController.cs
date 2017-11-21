@@ -20,6 +20,8 @@ namespace CVGS.Controllers
         public ActionResult Index()
         {
             var memberId = this.Session["MemberId"];
+            var address = db.ADDRESSes.Where(r => r.MemberId == 4).ToList();
+            ViewBag.address = address[0].StreetAddress;
             // Redirect unauthenticated members
             if (memberId == null)
             {

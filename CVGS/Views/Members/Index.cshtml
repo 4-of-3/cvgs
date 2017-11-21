@@ -45,12 +45,13 @@
                 if (item.FRIENDSHIPs2.Select(m => m.MemberId).ToList().Contains((int)Session["MemberId"]))
                 {
                     //Member is already in friends list
-                    @:Remove Friend
+                    <a href="@Url.Action("RemoveFriend", "Friends", new { id = item.MemberId })">Remove Friend</a>
                 }
                 else
                 {
                     //Member is not in friends list
-                    @:Add Friend
+                    <a href="@Url.Action("AddFriend", "Friends", new { id = item.MemberId })">Add Friend</a>
+                    
                 }
                 if ((string)Session["MemberRole"] == "Admin")
                 {
