@@ -5,7 +5,7 @@ GO
 CREATE TABLE CVGS.dbo.FRIENDSHIP(
              MemberId         INT NOT NULL
            , FriendId         INT NOT NULL
-           , DateCreated      DATE NOT NULL DEFAULT CURRENT_TIMESTAMP
+           , DateCreated      DATETIME2 NOT NULL DEFAULT CURRENT_TIMESTAMP
   CONSTRAINT pk_friendship PRIMARY KEY( MemberId, FriendId ),
   CONSTRAINT ak_friendship UNIQUE( MemberId, FriendId ), 
   CONSTRAINT fk_friendship_member FOREIGN KEY( MemberId ) REFERENCES Member( MemberId ),

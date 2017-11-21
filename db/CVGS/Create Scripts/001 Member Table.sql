@@ -13,7 +13,7 @@ CREATE TABLE CVGS.dbo.MEMBER(
            , FavCategory   NVARCHAR(  25 )
            , FavGame       NVARCHAR(  64 )
            , FavQuote      NVARCHAR( 140 )
-           , DateJoined    DATE DEFAULT CURRENT_TIMESTAMP
+           , DateJoined    DATETIME2 DEFAULT CURRENT_TIMESTAMP
            , ActiveStatus  BIT DEFAULT 1 NOT NULL
            , RoleId        INT DEFAULT 1
   CONSTRAINT fk_member_role FOREIGN KEY( RoleId ) REFERENCES ROLE( RoleId ) ON DELETE SET NULL

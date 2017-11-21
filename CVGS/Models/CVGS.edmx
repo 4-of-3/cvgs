@@ -52,9 +52,9 @@
           <Property Name="EventTitle" Type="nvarchar" MaxLength="64" Nullable="false" />
           <Property Name="Description" Type="nvarchar" MaxLength="1024" Nullable="false" />
           <Property Name="Location" Type="nvarchar" MaxLength="64" Nullable="false" />
-          <Property Name="EventDate" Type="datetime" Nullable="false" />
+          <Property Name="EventDate" Type="datetime2" Precision="7" Nullable="false" />
           <Property Name="ActiveStatus" Type="bit" Nullable="false" />
-          <Property Name="DateCreated" Type="date" />
+          <Property Name="DateCreated" Type="datetime2" Precision="7" />
         </EntityType>
         <EntityType Name="FRIENDSHIP">
           <Key>
@@ -103,7 +103,7 @@
           <Property Name="FavCategory" Type="nvarchar" MaxLength="25" />
           <Property Name="FavGame" Type="nvarchar" MaxLength="64" />
           <Property Name="FavQuote" Type="nvarchar" MaxLength="140" />
-          <Property Name="DateJoined" Type="date" />
+          <Property Name="DateJoined" Type="datetime2" Precision="7" />
           <Property Name="ActiveStatus" Type="bit" Nullable="false" />
           <Property Name="RoleId" Type="int" />
         </EntityType>
@@ -149,8 +149,8 @@
           <Property Name="GameId" Type="int" Nullable="false" />
           <Property Name="ReviewText" Type="nvarchar" MaxLength="1024" />
           <Property Name="Rating" Type="int" Nullable="false" />
-          <Property Name="DateCreated" Type="date" Nullable="false" />
-          <Property Name="DateModified" Type="date" />
+          <Property Name="DateCreated" Type="datetime2" Precision="7" Nullable="false" />
+          <Property Name="DateModified" Type="datetime2" Precision="7" />
         </EntityType>
         <EntityType Name="ROLE">
           <Key>
@@ -479,9 +479,9 @@
           <Property Name="EventId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="EventTitle" Type="String" MaxLength="64" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Description" Type="String" MaxLength="1024" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="EventDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="EventDate" Type="DateTime" Nullable="false" Precision="7" />
           <Property Name="ActiveStatus" Type="Boolean" Nullable="false" />
-          <Property Name="DateCreated" Type="DateTime" Precision="0" />
+          <Property Name="DateCreated" Type="DateTime" Precision="7" />
           <NavigationProperty Name="MEMBER_EVENT" Relationship="Self.fk_event_member" FromRole="EVENT" ToRole="MEMBER_EVENT" />
           <Property Name="Location" Type="String" Nullable="false" MaxLength="64" FixedLength="false" Unicode="true" />
         </EntityType>
@@ -516,7 +516,7 @@
           <Property Name="FavCategory" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
           <Property Name="FavGame" Type="String" MaxLength="64" FixedLength="false" Unicode="true" />
           <Property Name="FavQuote" Type="String" MaxLength="140" FixedLength="false" Unicode="true" />
-          <Property Name="DateJoined" Type="DateTime" Precision="0" />
+          <Property Name="DateJoined" Type="DateTime" Precision="7" />
           <Property Name="ActiveStatus" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="MEMBER_EVENT" Relationship="Self.fk_member_event" FromRole="MEMBER" ToRole="MEMBER_EVENT" />
           <Property Name="Pwd" Type="Binary" Nullable="false" MaxLength="64" FixedLength="false" />
@@ -769,8 +769,8 @@
           <Property Name="GameId" Type="Int32" Nullable="false" />
           <Property Name="ReviewText" Type="String" MaxLength="1024" FixedLength="false" Unicode="true" />
           <Property Name="Rating" Type="Int32" Nullable="false" />
-          <Property Name="DateCreated" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="DateModified" Type="DateTime" Precision="0" />
+          <Property Name="DateCreated" Type="DateTime" Nullable="false" Precision="7" />
+          <Property Name="DateModified" Type="DateTime" Precision="7" />
           <NavigationProperty Name="GAME" Relationship="CVGSModel.fk_review_game" FromRole="REVIEW" ToRole="GAME" />
           <NavigationProperty Name="MEMBER" Relationship="CVGSModel.fk_review_member" FromRole="REVIEW" ToRole="MEMBER" />
         </EntityType>
