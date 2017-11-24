@@ -91,6 +91,7 @@ namespace CVGS.Controllers
             {
                 return HttpNotFound();
             }
+            
             EditAccountViewModel account = new EditAccountViewModel()
             {
                 MemberId = member.MemberId,
@@ -111,7 +112,7 @@ namespace CVGS.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "MemberId,FName,LName,Email,FavPlatform,FavCategory,FavGame,FavQuote")] EditAccountViewModel account)
+        public ActionResult Edit([Bind(Include = "MemberId,FName,LName,Email,FavPlatform,FavCategory,FavGame,FavQuote,Address")] EditAccountViewModel account)
         {
             if (ModelState.IsValid)
             {
@@ -174,6 +175,21 @@ namespace CVGS.Controllers
             }
             Session.Clear();
             return RedirectToAction("Index", "Login");
+        }
+
+        // GET: Address
+        public ActionResult AddressIndex()
+        {
+            var memberId = this.Session["MemberId"];
+            var address = db.ADDRESSes.Where(r => r.MemberId == (int)memberId).ToList();
+            
+            // Redirect unauthenticated members
+            if (memberId == null)
+            {
+                return RedirectToAction("Index", "Login");
+            }
+
+            return View(address);
         }
 
         protected override void Dispose(bool disposing)

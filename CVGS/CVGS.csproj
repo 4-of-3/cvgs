@@ -311,6 +311,7 @@
     <Content Include="Views\Reviews\Delete.cshtml" />
     <Content Include="Views\Reviews\Edit.cshtml" />
     <Content Include="Views\Games\_GameReviews.cshtml" />
+    <Content Include="Views\Account\AddressIndex.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

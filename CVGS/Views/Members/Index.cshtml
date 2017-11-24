@@ -6,6 +6,12 @@
 
 <h2>@ViewBag.Title</h2>
 
+@using (Html.BeginForm("SearchFriends", "Friends"))
+{
+    <p>
+        <input id="username" type="text" placeholder="Search" name="username" class="search-bar pull-right">
+    </p>
+}
 <table class="table">
     <tr>
         <th>
