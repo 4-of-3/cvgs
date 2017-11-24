@@ -42,6 +42,7 @@
           <Property Name="MemberId" Type="int" Nullable="false" />
           <Property Name="CardNumber" Type="nvarchar" MaxLength="64" Nullable="false" />
           <Property Name="NameOnCard" Type="nvarchar" MaxLength="64" Nullable="false" />
+          <Property Name="CardDescription" Type="nvarchar" MaxLength="64" />
           <Property Name="ExpiryDate" Type="date" Nullable="false" />
         </EntityType>
         <EntityType Name="EVENT">
@@ -63,7 +64,7 @@
           </Key>
           <Property Name="MemberId" Type="int" Nullable="false" />
           <Property Name="FriendId" Type="int" Nullable="false" />
-          <Property Name="DateCreated" Type="date" Nullable="false" />
+          <Property Name="DateCreated" Type="datetime2" Precision="7" Nullable="false" />
         </EntityType>
         <EntityType Name="GAME">
           <Key>
@@ -172,9 +173,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="fk_address_member">
-          <End Role="MEMBER" Type="Self.MEMBER" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
+          <End Role="MEMBER" Type="Self.MEMBER" Multiplicity="1" />
           <End Role="ADDRESS" Type="Self.ADDRESS" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="MEMBER">
@@ -737,13 +736,14 @@
           <Property Name="NameOnCard" Type="String" Nullable="false" MaxLength="64" FixedLength="false" Unicode="true" />
           <Property Name="ExpiryDate" Type="DateTime" Nullable="false" Precision="0" />
           <NavigationProperty Name="MEMBER" Relationship="CVGSModel.fk_card_member" FromRole="CREDITCARD" ToRole="MEMBER" />
+          <Property Name="CardDescription" Type="String" MaxLength="64" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="FRIENDSHIP">
           <Key>
             <PropertyRef Name="MemberId" />
             <PropertyRef Name="FriendId" />
           </Key>
-          <Property Name="DateCreated" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="DateCreated" Type="DateTime" Nullable="false" Precision="7" />
           <Property Name="MemberId" Type="Int32" Nullable="false" />
           <Property Name="FriendId" Type="Int32" Nullable="false" />
           <NavigationProperty Name="FRIEND" Relationship="CVGSModel.fk_friendship_friend" FromRole="FRIENDSHIP" ToRole="MEMBER" />
@@ -1052,6 +1052,7 @@
           <EntitySetMapping Name="CREDITCARDs">
             <EntityTypeMapping TypeName="CVGSModel.CREDITCARD">
               <MappingFragment StoreEntitySet="CREDITCARD">
+                <ScalarProperty Name="CardDescription" ColumnName="CardDescription" />
                 <ScalarProperty Name="ExpiryDate" ColumnName="ExpiryDate" />
                 <ScalarProperty Name="NameOnCard" ColumnName="NameOnCard" />
                 <ScalarProperty Name="CardNumber" ColumnName="CardNumber" />

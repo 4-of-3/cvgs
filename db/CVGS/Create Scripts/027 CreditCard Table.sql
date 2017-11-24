@@ -7,6 +7,7 @@ CREATE TABLE CVGS.dbo.CREDITCARD(
            , MemberId         INT NOT NULL
            , CardNumber       NVARCHAR( 64 ) NOT NULL
            , NameOnCard       NVARCHAR( 64 ) NOT NULL
+		   , CardDescription  NVARCHAR( 64 )
            , ExpiryDate       DATE NOT NULL
   CONSTRAINT fk_card_member FOREIGN KEY( MemberId ) REFERENCES MEMBER( MemberId ) ON DELETE CASCADE
 );
