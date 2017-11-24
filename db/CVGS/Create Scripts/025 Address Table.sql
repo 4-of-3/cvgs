@@ -12,9 +12,10 @@ CREATE TABLE CVGS.dbo.ADDRESS(
            , PostCode         NVARCHAR( 12 ) NOT NULL
            , ProvStateId      INT
            , CountryId        INT NOT NULL
-  CONSTRAINT fk_address_member FOREIGN KEY( MemberId ) REFERENCES MEMBER( MemberId ) ON DELETE CASCADE,
+  CONSTRAINT fk_address_member FOREIGN KEY( MemberId ) REFERENCES MEMBER( MemberId ),
   CONSTRAINT fk_address_type FOREIGN KEY( AddressTypeId ) REFERENCES ADDRESSTYPE( AddressTypeId ), 
   CONSTRAINT fk_address_provstate FOREIGN KEY( ProvStateId ) REFERENCES PROVSTATE( ProvStateId ),
-  CONSTRAINT fk_address_country FOREIGN KEY( CountryId ) REFERENCES COUNTRY( CountryId )
+  CONSTRAINT fk_address_country FOREIGN KEY( CountryId ) REFERENCES COUNTRY( CountryId ), 
+  CONSTRAINT uk_member_type UNIQUE( MemberId, AddressTypeId )
 );
 GO
