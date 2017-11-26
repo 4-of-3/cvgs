@@ -1,0 +1,81 @@
+﻿@model CVGS.Models.ADDRESS
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Address Details</h2>
+
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            Primary Address
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.StreetAddress)
+        </dd>
+
+        <dt>
+            Secondary Address
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.StreetAddress2)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.City)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.City)
+        </dd>
+
+        <dt>
+            Postal Code
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PostCode)
+        </dd>
+
+        <dt>
+            Country
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.COUNTRY.CountryCode)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MEMBER.FName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MEMBER.FName)
+        </dd>
+
+        <dt>
+            Province
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PROVSTATE.ProvStateCode)
+        </dd>
+
+        <dt>
+            Address Type
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ADDRESSTYPE.AddressTypeName)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.AddressId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

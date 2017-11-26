@@ -172,6 +172,12 @@ namespace CVGS.Controllers
             return RedirectToAction("Index", "Members");
         }
 
+        // GET: Friends/Edit/5
+        public ActionResult SearchFriends(string username)
+        {
+            return RedirectToAction("Index", "Members");
+        }
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)
