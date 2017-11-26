@@ -46,7 +46,7 @@
             @Html.DisplayFor(modelItem => item.Email)
         </td>
         <td>
-            @if (item.MemberId != (int)Session["MemberId"])
+            @*@if (item.MemberId != (int)Session["MemberId"])
             {
                 if (item.FRIENDSHIPs2.Select(m => m.MemberId).ToList().Contains((int)Session["MemberId"]))
                 {
@@ -63,7 +63,7 @@
                 {
                     @:| @Html.ActionLink("Change member role", "Role", new { id = item.MemberId })
                 }
-            }
+            }*@
         </td>
     </tr>
 }
