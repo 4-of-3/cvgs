@@ -19,6 +19,7 @@ namespace CVGS.Models
         public string CardNumber { get; set; }
         public string NameOnCard { get; set; }
         public System.DateTime ExpiryDate { get; set; }
+        public string CardDescription { get; set; }
     
         public virtual MEMBER MEMBER { get; set; }
     }

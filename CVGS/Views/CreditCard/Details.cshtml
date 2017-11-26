@@ -1,0 +1,50 @@
+﻿@model CVGS.Models.CREDITCARD
+
+@{
+    ViewBag.Title = "Credit Card Details";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<div>
+    <h4>CREDITCARD</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.CardNumber)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CardNumber)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.NameOnCard)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NameOnCard)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ExpiryDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ExpiryDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MEMBER.FName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MEMBER.FName)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.CardId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
