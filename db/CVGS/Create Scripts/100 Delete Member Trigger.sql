@@ -19,27 +19,27 @@ INSTEAD OF DELETE
          
      DELETE FROM Member_Event
       WHERE MemberId IN( SELECT MemberId FROM deleted );
-	  
-	 UPDATE ADDRESS
-	    SET StreetAddress = '*****'
+      
+     UPDATE ADDRESS
+        SET StreetAddress = '*****'
           , StreetAddress2 = NULL
           , City = '*****'
           , PostCode = '******'
       WHERE MemberId IN( SELECT MemberId FROM deleted );
-	  
-	 UPDATE CREDITCARD
+      
+     UPDATE CREDITCARD
         SET CardNumber = '****************'
           , NameOnCard = '*****'
-		  , CardDescription = NULL
+          , CardDescription = NULL
           , ExpiryDate = CURRENT_TIMESTAMP
-		  , Deleted = 1
+          , Deleted = 1
       WHERE MemberId IN( SELECT MemberId FROM deleted );
-	  
+      
      UPDATE MEMBER
-	    SET FName = '*****'
+        SET FName = '*****'
           , LName = '*****'
           , Email = '*****'
-		  , Pwd = HASHBYTES('SHA2_256', '*****')
+          , Pwd = HASHBYTES('SHA2_256', '*****')
           , FavPlatform = '*****'
           , FavCategory = '*****'
           , FavGame = '*****'
