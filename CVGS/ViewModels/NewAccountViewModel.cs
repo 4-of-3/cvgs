@@ -46,21 +46,5 @@ namespace CVGS.ViewModels
         [Required]
         [StringLength(64, MinimumLength = 6)]
         public string PwdConfirm { get => pwdConfirm; set => pwdConfirm = value; }
-
-        [Display(Name = "Favourite Gaming Platform")]
-        [StringLength(25)]
-        public string FavPlatform { get => favPlatform; set => favPlatform = value; }
-
-        [Display(Name = "Favourite Game Category")]
-        [StringLength(25)]
-        public string FavCategory { get => favCategory; set => favCategory = value; }
-
-        [Display(Name = "Favourite Game")]
-        [StringLength(64)]
-        public string FavGame { get => favGame; set => favGame = value; }
-
-        [Display(Name = "Favourite Gaming Quote")]
-        [StringLength(140)]
-        public string FavQuote { get => favQuote; set => favQuote = value; }
     }
 }
