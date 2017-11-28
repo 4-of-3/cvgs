@@ -38,13 +38,6 @@ namespace CVGS.Controllers
         // GET: MEMBERs/Create
         public ActionResult Create()
         {
-            // Redirect unauthenticated members
-            var memberId = this.Session["MemberId"];
-            if (memberId == null)
-            {
-                return RedirectToAction("Index", "Login"); ;
-            }
-
             return View();
         }
 
@@ -55,13 +48,6 @@ namespace CVGS.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "FName,LName,Email,UserName,Pwd,PwdConfirm,FavPlatform,FavCategory,FavGame,FavQuote")] NewAccountViewModel account)
         {
-            // Redirect unauthenticated members
-            var memberId = this.Session["MemberId"];
-            if (memberId == null)
-            {
-                return RedirectToAction("Index", "Login"); ;
-            }
-
             // Validate and create the member account
             if (ModelState.IsValid)
             {
