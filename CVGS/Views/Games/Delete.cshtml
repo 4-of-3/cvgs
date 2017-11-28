@@ -61,8 +61,10 @@
     @using (Html.BeginForm()) {
         @Html.AntiForgeryToken()
         <div class="form-actions no-color">
-            @Html.ActionLink("Cancel", "Index")
-            <input type="submit" value="Delete" class="btn btn-default" />
+            <div class="col-md-offset-2 col-md-4 form__actions">
+                @Html.ActionLink("Cancel", "Details", new { id = Model.GameId }, new { @class="btn btn-default" })
+                <button type="submit" class="btn btn--delete"><i class="fa fa-check"></i>Delete</button>
+            </div>
         </div>
     }
 </div>

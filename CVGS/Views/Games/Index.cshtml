@@ -9,8 +9,10 @@
 @using (Html.BeginForm("Index", "Games"))
 {
     <p>
-        @Html.ActionLink("Create New Game", "Create")
-        <input id="search" type="text" placeholder="Search" name="search" class=" search-bar pull-right">
+        <a href="@Url.Action("Create")" class="btn btn--action">
+            <i class="fa fa-plus"></i>Add Game
+        </a>
+        <input id="search" type="text" placeholder="Search" name="search" class="search-bar pull-right">
     </p>
 }
 
@@ -27,19 +29,19 @@
         </th>
     </tr>
 
-@foreach (var item in Model)
-{
-    <tr>
-        <td>
-            @Html.ActionLink( item.Title,"Details", new { id = item.GameId })
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Category)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Cost)
-        </td>
-    </tr>
-}
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.ActionLink(item.Title, "Details", new { id = item.GameId })
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Category)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Cost)
+            </td>
+        </tr>
+    }
 
 </table>

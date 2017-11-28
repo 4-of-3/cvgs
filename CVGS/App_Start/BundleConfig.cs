@@ -25,7 +25,12 @@ namespace CVGS
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
+                      "~/Content/components.css",
                       "~/Content/site.css"));
+
+            bundles.Add(new StyleBundle("~/Content/font-awesome").Include(
+                "~/Content/font-awesome/css/font-awesome.css"
+                ));
         }
     }
 }
