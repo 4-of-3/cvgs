@@ -20,6 +20,7 @@ namespace CVGS.Models
         public string NameOnCard { get; set; }
         public System.DateTime ExpiryDate { get; set; }
         public string CardDescription { get; set; }
+        public Nullable<bool> Deleted { get; set; }
     
         public virtual MEMBER MEMBER { get; set; }
     }
