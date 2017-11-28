@@ -6,6 +6,10 @@
 
 <h2>Delete</h2>
 
+<a href="@Url.Action("Details", "Games", new {id = Model.GameId})" class="btn btn-default">
+    <i class="fa fa-arrow-left"></i>Game Details
+</a>
+
 <h3>Are you sure you want to delete this?</h3>
 <div>
     <h4>REVIEW</h4>
@@ -61,14 +65,17 @@
 
     </dl>
 
-    @using (Html.BeginForm()) {
+    @using (Html.BeginForm())
+    {
         @Html.AntiForgeryToken()
         @Html.HiddenFor(model => model.MemberId)
         @Html.HiddenFor(model => model.GameId)
 
-        <div class="form-actions no-color">
-            <input type="submit" value="Delete" class="btn btn-default" /> |
-            @Html.ActionLink("Back to Game", "Details", "Games", new { id = Model.GameId }, null)
+        <div class="form__actions no-color">
+            <div class="col-md-offset-2 col-md-10 form__actions">
+                @Html.ActionLink("Cancel", "Details", "Games", new { id = Model.GameId }, new { @class = "btn btn-default" })
+                <button type="submit" class="btn btn--delete"><i class="fa fa-trash"></i>Delete</button>
+            </div>
         </div>
     }
 </div>

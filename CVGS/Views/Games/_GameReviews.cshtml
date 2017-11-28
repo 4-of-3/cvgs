@@ -37,7 +37,7 @@
             @Html.DisplayFor(modelItem => item.DateCreated)
         </td>
         <td class="action-bar">
-            <div class="actions--small">
+            <div class="actions--inline">
                 @if (item.MemberId == (int)Session["MemberId"])
                 {
                     <a href="@Url.Action("Edit", "Reviews", new {memberId = item.MemberId, gameId = Model.GameId})" class="btn btn--action btn--inline btn--empty">

@@ -6,7 +6,7 @@
     justify-content: flex-start;
 }
 
-.action-bar .actions, .action-bar .actions--small {
+.action-bar .actions, .action-bar .actions--inline {
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -18,7 +18,7 @@
     margin-left: 15px;
 }
 
-.action-bar .actions--small a:not(:first-of-type) {
+.action-bar .actions--inline a:not(:first-of-type) {
     margin-left: 10px;
 }
 
