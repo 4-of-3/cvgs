@@ -19,16 +19,16 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.Title)
+            @Html.ActionLink("Title", "Index", new {search = ViewBag.search, sort = "title", order = @ViewBag.listSortAsc })
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Category)
+            @Html.ActionLink("Category", "Index", new {search = ViewBag.search, sort = "category", order = @ViewBag.listSortAsc })
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Cost)
+            @Html.ActionLink("Cost", "Index", new {search = ViewBag.search, sort = "cost", order = @ViewBag.listSortAsc })
         </th>
         <th>
-            Rating
+            @Html.ActionLink("Rating", "Index", new {search = ViewBag.search, sort = "rating", order = @ViewBag.listSortAsc })
         </th>
     </tr>
 

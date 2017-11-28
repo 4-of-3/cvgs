@@ -16,7 +16,7 @@ namespace CVGS.Controllers
         private CVGSEntities db = new CVGSEntities();
 
         // GET: Members
-        public ActionResult Index()
+        public ActionResult Index(string search, string sort, string order)
         {
             // Redirect unauthenticated members
             if (Session["MemberId"] == null)
@@ -33,6 +33,54 @@ namespace CVGS.Controllers
                 // Exclude inactive members from the list
                 members = db.MEMBERs.Where(m => m.ActiveStatus).ToList();
             }
+
+            if (search != null)
+            {
+                search = search.ToLower();
+                members = members.FindAll(x => x.UserName.ToLower().Contains(search) || x.FName.ToLower().Contains(search) || x.LName.ToLower().Contains(search) || x.Email.ToLower().Contains(search));
+                ViewBag.search = search;
+            }
+
+            bool asc = true;
+            ViewBag.listSortAsc = "asc";
+            if (order != null && order.Equals("asc"))
+            {
+                ViewBag.listSortAsc = "desc";
+                asc = true;
+            }
+            else if (order != null && order.Equals("desc"))
+            {
+                ViewBag.listSortAsc = "asc";
+                asc = false;
+            }
+
+            if (sort != null)
+            {
+                switch (sort)
+                {
+                    case "username":
+                        members = asc
+                            ? members.OrderBy(e => e.UserName).ToList()
+                            : members.OrderByDescending(e => e.UserName).ToList();
+                        break;
+                    case "name":
+                        members = asc
+                            ? members.OrderBy(e => e.FName).ToList()
+                            : members.OrderByDescending(e => e.FName).ToList();
+                        break;
+                    case "email":
+                        members = asc
+                            ? members.OrderBy(e => e.Email).ToList()
+                            : members.OrderByDescending(e => e.Email).ToList();
+                        break;
+                    case "role":
+                        members = asc
+                            ? members.OrderBy(e => e.ROLE.RoleName).ToList()
+                            : members.OrderByDescending(e => e.ROLE.RoleName).ToList();
+                        break;
+                }
+            }
+
             return View(members);
         }
 
