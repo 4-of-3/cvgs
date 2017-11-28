@@ -24,7 +24,7 @@ namespace CVGS.Controllers
                 return RedirectToAction("Index", "Login"); ;
             }
 
-            var aDDRESSes = db.ADDRESSes.Include(a => a.COUNTRY).Include(a => a.MEMBER).Include(a => a.PROVSTATE).Include(a => a.ADDRESSTYPE).ToList().FindAll(x => x.MemberId.Equals(memberId));
+            var aDDRESSes = db.ADDRESSes.Include(a => a.MEMBER).Include(a => a.PROVSTATE).Include(a => a.ADDRESSTYPE).ToList().FindAll(x => x.MemberId.Equals(memberId));
             return View(aDDRESSes.ToList());
         }
 
@@ -88,7 +88,7 @@ namespace CVGS.Controllers
                 return RedirectToAction("Index");
             }
 
-            ViewBag.CountryId = new SelectList(db.COUNTRies, "CountryId", "CountryCode", aDDRESS.CountryId);
+            //ViewBag.CountryId = new SelectList(db.COUNTRies, "CountryId", "CountryCode", aDDRESS.CountryId);
             ViewBag.MemberId = new SelectList(db.MEMBERs, "MemberId", "FName", aDDRESS.MemberId);
             ViewBag.ProvStateId = new SelectList(db.PROVSTATEs, "ProvStateId", "ProvStateCode", aDDRESS.ProvStateId);
             ViewBag.AddressTypeId = new SelectList(db.ADDRESSTYPEs, "AddressTypeId", "AddressTypeName", aDDRESS.AddressTypeId);
@@ -114,7 +114,7 @@ namespace CVGS.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.CountryId = new SelectList(db.COUNTRies, "CountryId", "CountryCode", aDDRESS.CountryId);
+            //ViewBag.CountryId = new SelectList(db.COUNTRies, "CountryId", "CountryCode", aDDRESS.CountryId);
             ViewBag.MemberId = new SelectList(db.MEMBERs, "MemberId", "FName", aDDRESS.MemberId);
             ViewBag.ProvStateId = new SelectList(db.PROVSTATEs, "ProvStateId", "ProvStateCode", aDDRESS.ProvStateId);
             ViewBag.AddressTypeId = new SelectList(db.ADDRESSTYPEs, "AddressTypeId", "AddressTypeName", aDDRESS.AddressTypeId);
@@ -141,7 +141,7 @@ namespace CVGS.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.CountryId = new SelectList(db.COUNTRies, "CountryId", "CountryCode", aDDRESS.CountryId);
+            //ViewBag.CountryId = new SelectList(db.COUNTRies, "CountryId", "CountryCode", aDDRESS.CountryId);
             ViewBag.MemberId = new SelectList(db.MEMBERs, "MemberId", "FName", aDDRESS.MemberId);
             ViewBag.ProvStateId = new SelectList(db.PROVSTATEs, "ProvStateId", "ProvStateCode", aDDRESS.ProvStateId);
             ViewBag.AddressTypeId = new SelectList(db.ADDRESSTYPEs, "AddressTypeId", "AddressTypeName", aDDRESS.AddressTypeId);
