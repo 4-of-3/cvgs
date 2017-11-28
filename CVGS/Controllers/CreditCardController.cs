@@ -42,7 +42,7 @@ namespace CVGS.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            CREDITCARD cREDITCARD = db.CREDITCARDs.Where(c => !c.Deleted).ToList().Find(id);
+            CREDITCARD cREDITCARD = db.CREDITCARDs.Where(c => !c.Deleted).ToList().Find(c=>c.CardId == id);
             if (cREDITCARD == null || !cREDITCARD.MemberId.Equals(memberId))
             {
                 return HttpNotFound();
@@ -103,7 +103,7 @@ namespace CVGS.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            CREDITCARD cREDITCARD = db.CREDITCARDs.Where(c => !c.Deleted).ToList().Find(id);
+            CREDITCARD cREDITCARD = db.CREDITCARDs.Where(c => !c.Deleted).ToList().Find(c => c.CardId == id);
             if (cREDITCARD == null || !cREDITCARD.MemberId.Equals(memberId))
             {
                 return HttpNotFound();
@@ -150,7 +150,7 @@ namespace CVGS.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            CREDITCARD cREDITCARD = db.CREDITCARDs.Where(c => !c.Deleted).ToList().Find(id);
+            CREDITCARD cREDITCARD = db.CREDITCARDs.Where(c => !c.Deleted).ToList().Find(c => c.CardId == id);
             if (cREDITCARD == null || !cREDITCARD.MemberId.Equals(memberId))
             {
                 return HttpNotFound();
