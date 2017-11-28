@@ -32,28 +32,28 @@
         </th>
     </tr>
 
-@foreach (var item in Model)
-{
-    <tr>
-        <td>
-            @Html.ActionLink( item.Title,"Details", new { id = item.GameId }) @((item.Digital)? "(Digital)" : "")
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Category)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Cost)
-        </td>
-        <td class="text-center">
-            @if (item.REVIEWs.Count > 0)
-            {
-                @Math.Rount(item.REVIEWs.Average(m => m.Rating))@:/5
-            }
-            else
-            {
-                @:N/A
-            }
-        </td>
-    </tr>
-}
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.ActionLink( item.Title,"Details", new { id = item.GameId }) @((item.Digital)? "(Digital)" : "")
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Category)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Cost)
+            </td>
+            <td class="text-center">
+                @if (item.REVIEWs.Count > 0)
+                {
+                    @Math.Round(item.REVIEWs.Average(m => m.Rating))@:/5
+                }
+                else
+                {
+                    @:N/A
+                }
+            </td>
+        </tr>
+    }
 </table>
