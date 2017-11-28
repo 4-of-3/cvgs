@@ -66,6 +66,11 @@ namespace CVGS.Controllers
                             ? members.OrderBy(e => e.Email).ToList()
                             : members.OrderByDescending(e => e.Email).ToList();
                         break;
+                    case "role":
+                        members = asc
+                            ? members.OrderBy(e => e.ROLE.RoleName).ToList()
+                            : members.OrderByDescending(e => e.ROLE.RoleName).ToList();
+                        break;
                 }
             }
 
