@@ -26,17 +26,7 @@ namespace CVGS.Controllers
                 return RedirectToAction("Index", "Login"); ;
             }
 
-            // Error catching for Address database call.
-            try
-            {
-                var address = db.ADDRESSes.Where(r => r.MemberId == 4).ToList();
-                ViewBag.address = address[0].StreetAddress;
-            }
-            catch (Exception)
-            {
-                ViewBag.address = "";
-            }
-
+            // Find and display the member profile
             MEMBER member = db.MEMBERs.Find(memberId);
             if (member == null)
             {
@@ -72,6 +62,7 @@ namespace CVGS.Controllers
                 return RedirectToAction("Index", "Login"); ;
             }
 
+            // Validate and create the member account
             if (ModelState.IsValid)
             {
                 try
@@ -102,17 +93,19 @@ namespace CVGS.Controllers
                 return RedirectToAction("Index", "Login"); ;
             }
 
-            //TODO: create ViewModel for editing account
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+
+            // Find the member for profile editing
             MEMBER member = db.MEMBERs.Find(id);
             if (member == null)
             {
                 return HttpNotFound();
             }
             
+            // Use ViewModel for display purposes
             EditAccountViewModel account = new EditAccountViewModel()
             {
                 MemberId = member.MemberId,
@@ -129,8 +122,6 @@ namespace CVGS.Controllers
         }
 
         // POST: MEMBERs/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "MemberId,FName,LName,Email,FavPlatform,FavCategory,FavGame,FavQuote,Address")] EditAccountViewModel account)
@@ -142,9 +133,16 @@ namespace CVGS.Controllers
                 return RedirectToAction("Index", "Login"); ;
             }
 
+            // Validate and update the member's profile
             if (ModelState.IsValid)
             {
                 var member = db.MEMBERs.Find(account.MemberId);
+
+                if (member == null)
+                {
+                    return HttpNotFound();
+                }
+
                 member.FName = account.FName;
                 member.LName = account.LName;
                 member.Email = account.Email;
@@ -174,11 +172,15 @@ namespace CVGS.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+
+            // Find the member and display for deletion
             MEMBER member = db.MEMBERs.Find(id);
             if (member == null)
             {
                 return HttpNotFound();
             }
+
+            // Use a ViewModel to display custom fields for deletion confirmation
             DeleteAccountViewModel account = new DeleteAccountViewModel()
             {
                 MemberId = member.MemberId,
@@ -201,7 +203,15 @@ namespace CVGS.Controllers
                 return RedirectToAction("Index", "Login"); ;
             }
 
+            // Find the member for deletion
             MEMBER member = db.MEMBERs.Find(memberId);
+
+            if (member == null)
+            {
+                return HttpNotFound();
+            }
+
+            // Accounts can be deleted or deactivated
             if (account.FullDelete)
             {
                 db.MEMBERs.Remove(member);
@@ -214,23 +224,10 @@ namespace CVGS.Controllers
                 db.SaveChanges();
 
             }
+
+            // Logout the user
             Session.Clear();
             return RedirectToAction("Index", "Login");
-        }
-
-        // GET: Address
-        public ActionResult AddressIndex()
-        {
-            // Redirect unauthenticated members
-            var memberId = this.Session["MemberId"];
-            if (memberId == null)
-            {
-                return RedirectToAction("Index", "Login"); ;
-            }
-
-            var address = db.ADDRESSes.Where(r => r.MemberId == (int)memberId).ToList();
-
-            return View(address);
         }
 
         protected override void Dispose(bool disposing)

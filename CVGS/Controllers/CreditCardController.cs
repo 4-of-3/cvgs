@@ -24,6 +24,7 @@ namespace CVGS.Controllers
                 return RedirectToAction("Index", "Login"); ;
             }
 
+            // Display all the member's credit cards
             var creditCards = db.CREDITCARDs.Include(c => c.MEMBER).Where(c => !c.Deleted).ToList().FindAll(x=>x.MemberId.Equals(memberId));
             return View(creditCards);
         }
@@ -42,12 +43,14 @@ namespace CVGS.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            CREDITCARD cREDITCARD = db.CREDITCARDs.Where(c => !c.Deleted).ToList().Find(c=>c.CardId == id);
-            if (cREDITCARD == null || !cREDITCARD.MemberId.Equals(memberId))
+
+            // Find and display the credit card details
+            CREDITCARD creditCard = db.CREDITCARDs.Where(c => !c.Deleted).ToList().Find(c=>c.CardId == id);
+            if (creditCard == null || !creditCard.MemberId.Equals(memberId))
             {
                 return HttpNotFound();
             }
-            return View(cREDITCARD);
+            return View(creditCard);
         }
 
         // GET: CreditCard/Create
@@ -65,11 +68,9 @@ namespace CVGS.Controllers
         }
 
         // POST: CreditCard/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "CardId,MemberId,CardNumber,NameOnCard,ExpiryDate")] CREDITCARD cREDITCARD)
+        public ActionResult Create([Bind(Include = "CardId,MemberId,CardNumber,NameOnCard,ExpiryDate")] CREDITCARD creditCard)
         {
             // Redirect unauthenticated members
             var memberId = this.Session["MemberId"];
@@ -78,15 +79,17 @@ namespace CVGS.Controllers
                 return RedirectToAction("Index", "Login"); ;
             }
 
+            // Validate and add credit card
             if (ModelState.IsValid)
             {
-                db.CREDITCARDs.Add(cREDITCARD);
+                db.CREDITCARDs.Add(creditCard);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            ViewBag.MemberId = new SelectList(db.MEMBERs, "MemberId", "FName", cREDITCARD.MemberId);
-            return View(cREDITCARD);
+            // Prepare form when validation errors are found
+            ViewBag.MemberId = new SelectList(db.MEMBERs, "MemberId", "FName", creditCard.MemberId);
+            return View(creditCard);
         }
 
         // GET: CreditCard/Edit/5
@@ -103,21 +106,22 @@ namespace CVGS.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            CREDITCARD cREDITCARD = db.CREDITCARDs.Where(c => !c.Deleted).ToList().Find(c => c.CardId == id);
-            if (cREDITCARD == null || !cREDITCARD.MemberId.Equals(memberId))
+
+            // Find and display credit card for editing
+            CREDITCARD creditCard = db.CREDITCARDs.Where(c => !c.Deleted).ToList().Find(c => c.CardId == id);
+            if (creditCard == null || !creditCard.MemberId.Equals(memberId))
             {
                 return HttpNotFound();
             }
-            ViewBag.MemberId = new SelectList(db.MEMBERs, "MemberId", "FName", cREDITCARD.MemberId);
-            return View(cREDITCARD);
+
+            ViewBag.MemberId = new SelectList(db.MEMBERs, "MemberId", "FName", creditCard.MemberId);
+            return View(creditCard);
         }
 
         // POST: CreditCard/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "CardId,MemberId,CardNumber,NameOnCard,ExpiryDate")] CREDITCARD cREDITCARD)
+        public ActionResult Edit([Bind(Include = "CardId,MemberId,CardNumber,NameOnCard,ExpiryDate")] CREDITCARD creditCard)
         {
             // Redirect unauthenticated members
             var memberId = this.Session["MemberId"];
@@ -126,14 +130,17 @@ namespace CVGS.Controllers
                 return RedirectToAction("Index", "Login"); ;
             }
 
+            // Validate and update the credit card
             if (ModelState.IsValid)
             {
-                db.Entry(cREDITCARD).State = EntityState.Modified;
+                db.Entry(creditCard).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Details", new { id = creditCard.CardId });
             }
-            ViewBag.MemberId = new SelectList(db.MEMBERs, "MemberId", "FName", cREDITCARD.MemberId);
-            return View(cREDITCARD);
+
+            // Prepare the form when validation errors are found
+            ViewBag.MemberId = new SelectList(db.MEMBERs, "MemberId", "FName", creditCard.MemberId);
+            return View(creditCard);
         }
 
         // GET: CreditCard/Delete/5
@@ -150,12 +157,15 @@ namespace CVGS.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            CREDITCARD cREDITCARD = db.CREDITCARDs.Where(c => !c.Deleted).ToList().Find(c => c.CardId == id);
-            if (cREDITCARD == null || !cREDITCARD.MemberId.Equals(memberId))
+
+            // Find and display the credit card for deletion confirmation
+            CREDITCARD creditCard = db.CREDITCARDs.Where(c => !c.Deleted).ToList().Find(c => c.CardId == id);
+            if (creditCard == null || !creditCard.MemberId.Equals(memberId))
             {
                 return HttpNotFound();
             }
-            return View(cREDITCARD);
+
+            return View(creditCard);
         }
 
         // POST: CreditCard/Delete/5
@@ -170,8 +180,14 @@ namespace CVGS.Controllers
                 return RedirectToAction("Index", "Login"); ;
             }
 
-            CREDITCARD cREDITCARD = db.CREDITCARDs.Find(id);
-            db.CREDITCARDs.Remove(cREDITCARD);
+            // Remove credit card and display list of cards
+            CREDITCARD creditCard = db.CREDITCARDs.Find(id);
+            if (creditCard == null)
+            {
+                return HttpNotFound();
+            }
+
+            db.CREDITCARDs.Remove(creditCard);
             db.SaveChanges();
             return RedirectToAction("Index");
         }
