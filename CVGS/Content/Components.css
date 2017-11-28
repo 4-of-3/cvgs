@@ -123,3 +123,8 @@
     color: #1E88E5;
     border-color: #1E88E5;
 }
+
+.indicator--registered {
+    color: #66BB6A;
+    border-color: #66BB6A;
+}
