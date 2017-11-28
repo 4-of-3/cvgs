@@ -10,12 +10,32 @@ CREATE TABLE CVGS.dbo.ADDRESS(
            , StreetAddress2   NVARCHAR( 64 )
            , City             NVARCHAR( 64 ) NOT NULL
            , PostCode         NVARCHAR( 12 ) NOT NULL
-           , ProvStateId      INT
+           , ProvStateId      INT NOT NULL
            , CountryId        INT NOT NULL
+           , Deleted          BIT DEFAULT 0
   CONSTRAINT fk_address_member FOREIGN KEY( MemberId ) REFERENCES MEMBER( MemberId ),
   CONSTRAINT fk_address_type FOREIGN KEY( AddressTypeId ) REFERENCES ADDRESSTYPE( AddressTypeId ), 
   CONSTRAINT fk_address_provstate FOREIGN KEY( ProvStateId ) REFERENCES PROVSTATE( ProvStateId ),
-  CONSTRAINT fk_address_country FOREIGN KEY( CountryId ) REFERENCES COUNTRY( CountryId ), 
-  CONSTRAINT uk_member_type UNIQUE( MemberId, AddressTypeId )
+  CONSTRAINT fk_address_country FOREIGN KEY( CountryId ) REFERENCES COUNTRY( CountryId )
 );
+GO
+
+IF OBJECT_ID ('[tr_address_soft_delete] ', 'TR') IS NOT NULL
+   DROP TRIGGER [tr_address_soft_delete];
+GO
+
+ CREATE TRIGGER tr_address_soft_delete
+     ON ADDRESS
+INSTEAD OF DELETE
+     AS
+      BEGIN
+        SET NOCOUNT ON;
+      
+     UPDATE ADDRESS
+        SET StreetAddress = '*****'
+          , StreetAddress2 = NULL
+          , City = '*****'
+          , PostCode = '******'
+      WHERE AddressId IN( SELECT AddressId FROM deleted );
+  END;
 GO
