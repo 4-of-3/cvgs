@@ -15,7 +15,7 @@ namespace CVGS.Controllers
         private CVGSEntities db = new CVGSEntities();
 
         // GET: Games
-        public ActionResult Index(string search)
+        public ActionResult Index(string search, string sort, string order)
         {
             var memberId = this.Session["memberId"];
             if (memberId == null)
@@ -26,7 +26,49 @@ namespace CVGS.Controllers
             if(search != null)
             {
                 gamesList = gamesList.FindAll(x => x.Title.ToLower().Contains(search.ToLower()));
+                ViewBag.search = search;
             }
+
+            bool asc = true;
+            ViewBag.listSortAsc = "asc";
+            if (order != null && order.Equals("asc"))
+            {
+                ViewBag.listSortAsc = "desc";
+                asc = true;
+            }
+            else if (order != null && order.Equals("desc"))
+            {
+                ViewBag.listSortAsc = "asc";
+                asc = false;
+            }
+
+            if (sort != null)
+            {
+                switch (sort)
+                {
+                    case "title":
+                        gamesList = asc
+                            ? gamesList.OrderBy(e => e.Title).ToList()
+                            : gamesList.OrderByDescending(e => e.Title).ToList();
+                        break;
+                    case "category":
+                        gamesList = asc
+                            ? gamesList.OrderBy(e => e.Category).ToList()
+                            : gamesList.OrderByDescending(e => e.Category).ToList();
+                        break;
+                    case "cost":
+                        gamesList = asc
+                            ? gamesList.OrderBy(e => e.Cost).ToList()
+                            : gamesList.OrderByDescending(e => e.Cost).ToList();
+                        break;
+                    case "rating":
+                        gamesList = asc
+                            ? gamesList.OrderBy(e => (e.REVIEWs.Count()) == 0 ? 0 : e.REVIEWs.Average(m => m.Rating)).ToList()
+                            : gamesList.OrderByDescending(e => (e.REVIEWs.Count()) == 0 ? 0 : e.REVIEWs.Average(m => m.Rating)).ToList();
+                        break;
+                }
+            }
+
             return View(gamesList);
         }
 
