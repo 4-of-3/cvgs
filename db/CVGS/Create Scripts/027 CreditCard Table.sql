@@ -7,8 +7,30 @@ CREATE TABLE CVGS.dbo.CREDITCARD(
            , MemberId         INT NOT NULL
            , CardNumber       NVARCHAR( 64 ) NOT NULL
            , NameOnCard       NVARCHAR( 64 ) NOT NULL
-		   , CardDescription  NVARCHAR( 64 )
+           , CardDescription  NVARCHAR( 64 )
            , ExpiryDate       DATE NOT NULL
-  CONSTRAINT fk_card_member FOREIGN KEY( MemberId ) REFERENCES MEMBER( MemberId ) ON DELETE CASCADE
+           , Deleted          BIT NOT NULL DEFAULT 0
+  CONSTRAINT fk_card_member FOREIGN KEY( MemberId ) REFERENCES MEMBER( MemberId )
 );
+GO
+
+IF OBJECT_ID ('[tr_creditcard_soft_delete] ', 'TR') IS NOT NULL
+   DROP TRIGGER [tr_creditcard_soft_delete];
+GO
+
+ CREATE TRIGGER tr_creditcard_soft_delete
+     ON CREDITCARD
+INSTEAD OF DELETE
+     AS
+      BEGIN
+        SET NOCOUNT ON;
+      
+     UPDATE CREDITCARD
+        SET CardNumber = '****************'
+          , NameOnCard = '*****'
+          , CardDescription = NULL
+          , ExpiryDate = CURRENT_TIMESTAMP
+          , Deleted = 1
+      WHERE CardId IN( SELECT CardId FROM deleted );
+  END;
 GO

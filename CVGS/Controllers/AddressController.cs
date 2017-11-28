@@ -24,7 +24,7 @@ namespace CVGS.Controllers
                 return RedirectToAction("Index", "Login");
             }
 
-            var aDDRESSes = db.ADDRESSes.Include(a => a.COUNTRY).Include(a => a.MEMBER).Include(a => a.PROVSTATE).Include(a => a.ADDRESSTYPE).ToList().FindAll(x => x.MemberId.Equals(memberId));
+            var aDDRESSes = db.ADDRESSes.Include(a => a.MEMBER).Include(a => a.PROVSTATE).Include(a => a.ADDRESSTYPE).Where(a=>!(bool)a.Deleted).ToList().FindAll(x => x.MemberId.Equals(memberId));
             return View(aDDRESSes.ToList());
         }
 
@@ -42,7 +42,7 @@ namespace CVGS.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            ADDRESS aDDRESS = db.ADDRESSes.Find(id);
+            ADDRESS aDDRESS = db.ADDRESSes.Where(a => !(bool)a.Deleted).ToList().Find(a => a.AddressId == id);
             if (aDDRESS == null)
             {
                 return HttpNotFound();
@@ -59,7 +59,7 @@ namespace CVGS.Controllers
             {
                 return RedirectToAction("Index", "Login");
             }
-            ViewBag.CountryId = new SelectList(db.COUNTRies, "CountryId", "CountryCode");
+            //ViewBag.CountryId = new SelectList(db.COUNTRies, "CountryId", "CountryCode");
             ViewBag.MemberId = new SelectList(db.MEMBERs, "MemberId", "FName");
             ViewBag.ProvStateId = new SelectList(db.PROVSTATEs, "ProvStateId", "ProvStateCode");
             ViewBag.AddressTypeId = new SelectList(db.ADDRESSTYPEs, "AddressTypeId", "AddressTypeName");
@@ -71,7 +71,7 @@ namespace CVGS.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "AddressId,MemberId,StreetAddress,StreetAddress2,City,PostCode,ProvStateId,CountryId,AddressTypeId")] ADDRESS aDDRESS)
+        public ActionResult Create([Bind(Include = "AddressId,MemberId,StreetAddress,StreetAddress2,City,PostCode,ProvStateId,AddressTypeId")] ADDRESS aDDRESS)
         {
             if (ModelState.IsValid)
             {
@@ -80,7 +80,7 @@ namespace CVGS.Controllers
                 return RedirectToAction("Index");
             }
 
-            ViewBag.CountryId = new SelectList(db.COUNTRies, "CountryId", "CountryCode", aDDRESS.CountryId);
+            //ViewBag.CountryId = new SelectList(db.COUNTRies, "CountryId", "CountryCode", aDDRESS.CountryId);
             ViewBag.MemberId = new SelectList(db.MEMBERs, "MemberId", "FName", aDDRESS.MemberId);
             ViewBag.ProvStateId = new SelectList(db.PROVSTATEs, "ProvStateId", "ProvStateCode", aDDRESS.ProvStateId);
             ViewBag.AddressTypeId = new SelectList(db.ADDRESSTYPEs, "AddressTypeId", "AddressTypeName", aDDRESS.AddressTypeId);
@@ -101,12 +101,12 @@ namespace CVGS.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            ADDRESS aDDRESS = db.ADDRESSes.Find(id);
+            ADDRESS aDDRESS = db.ADDRESSes.Where(a => !(bool)a.Deleted).ToList().Find(a => a.AddressId == id);
             if (aDDRESS == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.CountryId = new SelectList(db.COUNTRies, "CountryId", "CountryCode", aDDRESS.CountryId);
+            //ViewBag.CountryId = new SelectList(db.COUNTRies, "CountryId", "CountryCode", aDDRESS.CountryId);
             ViewBag.MemberId = new SelectList(db.MEMBERs, "MemberId", "FName", aDDRESS.MemberId);
             ViewBag.ProvStateId = new SelectList(db.PROVSTATEs, "ProvStateId", "ProvStateCode", aDDRESS.ProvStateId);
             ViewBag.AddressTypeId = new SelectList(db.ADDRESSTYPEs, "AddressTypeId", "AddressTypeName", aDDRESS.AddressTypeId);
@@ -118,7 +118,7 @@ namespace CVGS.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "AddressId,MemberId,StreetAddress,StreetAddress2,City,PostCode,ProvStateId,CountryId,AddressTypeId")] ADDRESS aDDRESS)
+        public ActionResult Edit([Bind(Include = "AddressId,MemberId,StreetAddress,StreetAddress2,City,PostCode,ProvStateId,AddressTypeId")] ADDRESS aDDRESS)
         {
             if (ModelState.IsValid)
             {
@@ -126,7 +126,7 @@ namespace CVGS.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.CountryId = new SelectList(db.COUNTRies, "CountryId", "CountryCode", aDDRESS.CountryId);
+            //ViewBag.CountryId = new SelectList(db.COUNTRies, "CountryId", "CountryCode", aDDRESS.CountryId);
             ViewBag.MemberId = new SelectList(db.MEMBERs, "MemberId", "FName", aDDRESS.MemberId);
             ViewBag.ProvStateId = new SelectList(db.PROVSTATEs, "ProvStateId", "ProvStateCode", aDDRESS.ProvStateId);
             ViewBag.AddressTypeId = new SelectList(db.ADDRESSTYPEs, "AddressTypeId", "AddressTypeName", aDDRESS.AddressTypeId);
@@ -147,7 +147,7 @@ namespace CVGS.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            ADDRESS aDDRESS = db.ADDRESSes.Find(id);
+            ADDRESS aDDRESS = db.ADDRESSes.Where(a => !(bool)a.Deleted).ToList().Find(a => a.AddressId == id);
             if (aDDRESS == null)
             {
                 return HttpNotFound();

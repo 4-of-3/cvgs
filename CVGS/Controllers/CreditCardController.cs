@@ -24,7 +24,7 @@ namespace CVGS.Controllers
                 return RedirectToAction("Index", "Login");
             }
 
-            var creditCards = db.CREDITCARDs.Include(c => c.MEMBER).ToList().FindAll(x=>x.MemberId.Equals(memberId));
+            var creditCards = db.CREDITCARDs.Include(c => c.MEMBER).Where(c => !c.Deleted).ToList().FindAll(x=>x.MemberId.Equals(memberId));
             return View(creditCards);
         }
 
@@ -42,7 +42,7 @@ namespace CVGS.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            CREDITCARD cREDITCARD = db.CREDITCARDs.Find(id);
+            CREDITCARD cREDITCARD = db.CREDITCARDs.Where(c => !c.Deleted).ToList().Find(c=>c.CardId == id);
             if (cREDITCARD == null || !cREDITCARD.MemberId.Equals(memberId))
             {
                 return HttpNotFound();
@@ -97,7 +97,7 @@ namespace CVGS.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            CREDITCARD cREDITCARD = db.CREDITCARDs.Find(id);
+            CREDITCARD cREDITCARD = db.CREDITCARDs.Where(c => !c.Deleted).ToList().Find(c => c.CardId == id);
             if (cREDITCARD == null || !cREDITCARD.MemberId.Equals(memberId))
             {
                 return HttpNotFound();
@@ -137,7 +137,7 @@ namespace CVGS.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            CREDITCARD cREDITCARD = db.CREDITCARDs.Find(id);
+            CREDITCARD cREDITCARD = db.CREDITCARDs.Where(c => !c.Deleted).ToList().Find(c => c.CardId == id);
             if (cREDITCARD == null || !cREDITCARD.MemberId.Equals(memberId))
             {
                 return HttpNotFound();

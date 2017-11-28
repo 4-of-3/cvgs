@@ -7,7 +7,7 @@ CREATE TABLE CVGS.dbo.MEMBER_EVENT(
            , EventId         INT NOT NULL
            , DateRegistered  DATETIME DEFAULT CURRENT_TIMESTAMP
   CONSTRAINT pk_member_event PRIMARY KEY( MemberId, EventId),
-  CONSTRAINT fk_member_event FOREIGN KEY( MemberId ) REFERENCES MEMBER(MemberId) ON DELETE CASCADE,
+  CONSTRAINT fk_member_event FOREIGN KEY( MemberId ) REFERENCES MEMBER(MemberId),
   CONSTRAINT fk_event_member FOREIGN KEY( EventId ) REFERENCES Event(EventId) ON DELETE CASCADE
 );
 GO
