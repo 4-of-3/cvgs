@@ -22,7 +22,7 @@ namespace CVGS.Models
         public string PostCode { get; set; }
         public int ProvStateId { get; set; }
         public int AddressTypeId { get; set; }
-        public Nullable<bool> Deleted { get; set; }
+        public bool Deleted { get; set; }
     
         public virtual MEMBER MEMBER { get; set; }
         public virtual PROVSTATE PROVSTATE { get; set; }

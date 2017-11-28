@@ -11,7 +11,7 @@ CREATE TABLE CVGS.dbo.ADDRESS(
            , City             NVARCHAR( 64 ) NOT NULL
            , PostCode         NVARCHAR( 12 ) NOT NULL
            , ProvStateId      INT NOT NULL
-           , Deleted          BIT DEFAULT 0
+           , Deleted          BIT NOT NULL DEFAULT 0
   CONSTRAINT fk_address_member FOREIGN KEY( MemberId ) REFERENCES MEMBER( MemberId ),
   CONSTRAINT fk_address_type FOREIGN KEY( AddressTypeId ) REFERENCES ADDRESSTYPE( AddressTypeId ), 
   CONSTRAINT fk_address_provstate FOREIGN KEY( ProvStateId ) REFERENCES PROVSTATE( ProvStateId )
@@ -34,6 +34,7 @@ INSTEAD OF DELETE
           , StreetAddress2 = NULL
           , City = '*****'
           , PostCode = '******'
+		  , Deleted = 1
       WHERE AddressId IN( SELECT AddressId FROM deleted );
   END;
 GO
