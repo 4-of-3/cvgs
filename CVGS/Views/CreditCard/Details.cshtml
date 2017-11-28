@@ -6,9 +6,18 @@
 
 <h2>@ViewData["Title"]</h2>
 
+<a href="@Url.Action("Index")" class="btn btn-default">
+    <i class="fa fa-arrow-left"></i>Cards
+</a>
+
 <div>
-    <h4>CREDITCARD</h4>
     <hr />
+    <div class="action-bar">
+        <div class="actions">
+            <a href="@Url.Action("Edit", new {id = Model.CardId})" class="btn btn--action btn--empty"><i class="fa fa-pencil"></i></a>
+            <a href="@Url.Action("Delete", new {id = Model.CardId})" class="btn btn--delete btn--empty"><i class="fa fa-trash"></i></a>
+        </div>
+    </div>
     <dl class="dl-horizontal">
         <dt>
             @Html.DisplayNameFor(model => model.CardNumber)
@@ -44,7 +53,3 @@
 
     </dl>
 </div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.CardId }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>
