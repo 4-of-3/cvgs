@@ -17,7 +17,6 @@ namespace CVGS.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public COUNTRY()
         {
-            this.ADDRESSes = new HashSet<ADDRESS>();
             this.PROVSTATEs = new HashSet<PROVSTATE>();
         }
     
@@ -25,8 +24,6 @@ namespace CVGS.Models
         public string CountryCode { get; set; }
         public string CountryName { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<ADDRESS> ADDRESSes { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PROVSTATE> PROVSTATEs { get; set; }
     }

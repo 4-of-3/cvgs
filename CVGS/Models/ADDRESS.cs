@@ -20,11 +20,10 @@ namespace CVGS.Models
         public string StreetAddress2 { get; set; }
         public string City { get; set; }
         public string PostCode { get; set; }
-        public Nullable<int> ProvStateId { get; set; }
-        public int CountryId { get; set; }
+        public int ProvStateId { get; set; }
         public int AddressTypeId { get; set; }
+        public Nullable<bool> Deleted { get; set; }
     
-        public virtual COUNTRY COUNTRY { get; set; }
         public virtual MEMBER MEMBER { get; set; }
         public virtual PROVSTATE PROVSTATE { get; set; }
         public virtual ADDRESSTYPE ADDRESSTYPE { get; set; }
