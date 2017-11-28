@@ -60,7 +60,7 @@ namespace CVGS.Controllers
                 return RedirectToAction("Index", "Login"); ;
             }
 
-            ViewBag.CountryId = new SelectList(db.COUNTRies, "CountryId", "CountryCode");
+            //ViewBag.CountryId = new SelectList(db.COUNTRies, "CountryId", "CountryCode");
             ViewBag.MemberId = new SelectList(db.MEMBERs, "MemberId", "FName");
             ViewBag.ProvStateId = new SelectList(db.PROVSTATEs, "ProvStateId", "ProvStateCode");
             ViewBag.AddressTypeId = new SelectList(db.ADDRESSTYPEs, "AddressTypeId", "AddressTypeName");
@@ -72,7 +72,7 @@ namespace CVGS.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "AddressId,MemberId,StreetAddress,StreetAddress2,City,PostCode,ProvStateId,CountryId,AddressTypeId")] ADDRESS aDDRESS)
+        public ActionResult Create([Bind(Include = "AddressId,MemberId,StreetAddress,StreetAddress2,City,PostCode,ProvStateId,AddressTypeId")] ADDRESS aDDRESS)
         {
             // Redirect unauthenticated members
             var memberId = this.Session["MemberId"];
@@ -126,7 +126,7 @@ namespace CVGS.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "AddressId,MemberId,StreetAddress,StreetAddress2,City,PostCode,ProvStateId,CountryId,AddressTypeId")] ADDRESS aDDRESS)
+        public ActionResult Edit([Bind(Include = "AddressId,MemberId,StreetAddress,StreetAddress2,City,PostCode,ProvStateId,AddressTypeId")] ADDRESS aDDRESS)
         {
             // Redirect unauthenticated members
             var memberId = this.Session["MemberId"];
