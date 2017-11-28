@@ -17,11 +17,11 @@ namespace CVGS.Controllers
         // GET: CreditCard
         public ActionResult Index()
         {
-            var memberId = this.Session["MemberId"];
             // Redirect unauthenticated members
+            var memberId = this.Session["MemberId"];
             if (memberId == null)
             {
-                return RedirectToAction("Index", "Login");
+                return RedirectToAction("Index", "Login"); ;
             }
 
             var creditCards = db.CREDITCARDs.Include(c => c.MEMBER).ToList().FindAll(x=>x.MemberId.Equals(memberId));
@@ -31,11 +31,11 @@ namespace CVGS.Controllers
         // GET: CreditCard/Details/5
         public ActionResult Details(int? id)
         {
-            var memberId = this.Session["MemberId"];
             // Redirect unauthenticated members
+            var memberId = this.Session["MemberId"];
             if (memberId == null)
             {
-                return RedirectToAction("Index", "Login");
+                return RedirectToAction("Index", "Login"); ;
             }
 
             if (id == null)
@@ -53,12 +53,11 @@ namespace CVGS.Controllers
         // GET: CreditCard/Create
         public ActionResult Create()
         {
-
-            var memberId = this.Session["MemberId"];
             // Redirect unauthenticated members
+            var memberId = this.Session["MemberId"];
             if (memberId == null)
             {
-                return RedirectToAction("Index", "Login");
+                return RedirectToAction("Index", "Login"); ;
             }
 
             ViewBag.MemberId = memberId;
@@ -72,6 +71,13 @@ namespace CVGS.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "CardId,MemberId,CardNumber,NameOnCard,ExpiryDate")] CREDITCARD cREDITCARD)
         {
+            // Redirect unauthenticated members
+            var memberId = this.Session["MemberId"];
+            if (memberId == null)
+            {
+                return RedirectToAction("Index", "Login"); ;
+            }
+
             if (ModelState.IsValid)
             {
                 db.CREDITCARDs.Add(cREDITCARD);
@@ -86,11 +92,11 @@ namespace CVGS.Controllers
         // GET: CreditCard/Edit/5
         public ActionResult Edit(int? id)
         {
-            var memberId = this.Session["MemberId"];
             // Redirect unauthenticated members
+            var memberId = this.Session["MemberId"];
             if (memberId == null)
             {
-                return RedirectToAction("Index", "Login");
+                return RedirectToAction("Index", "Login"); ;
             }
 
             if (id == null)
@@ -113,6 +119,13 @@ namespace CVGS.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "CardId,MemberId,CardNumber,NameOnCard,ExpiryDate")] CREDITCARD cREDITCARD)
         {
+            // Redirect unauthenticated members
+            var memberId = this.Session["MemberId"];
+            if (memberId == null)
+            {
+                return RedirectToAction("Index", "Login"); ;
+            }
+
             if (ModelState.IsValid)
             {
                 db.Entry(cREDITCARD).State = EntityState.Modified;
@@ -126,11 +139,11 @@ namespace CVGS.Controllers
         // GET: CreditCard/Delete/5
         public ActionResult Delete(int? id)
         {
-            var memberId = this.Session["MemberId"];
             // Redirect unauthenticated members
+            var memberId = this.Session["MemberId"];
             if (memberId == null)
             {
-                return RedirectToAction("Index", "Login");
+                return RedirectToAction("Index", "Login"); ;
             }
 
             if (id == null)
@@ -150,6 +163,13 @@ namespace CVGS.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
+            // Redirect unauthenticated members
+            var memberId = this.Session["MemberId"];
+            if (memberId == null)
+            {
+                return RedirectToAction("Index", "Login"); ;
+            }
+
             CREDITCARD cREDITCARD = db.CREDITCARDs.Find(id);
             db.CREDITCARDs.Remove(cREDITCARD);
             db.SaveChanges();

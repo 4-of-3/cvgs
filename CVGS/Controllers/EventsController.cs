@@ -17,7 +17,8 @@ namespace CVGS.Controllers
         // GET: Events
         public ActionResult Index(string sort, string order)
         {
-            var memberId = this.Session["memberId"];
+            // Redirect unauthenticated members
+            var memberId = this.Session["MemberId"];
             if (memberId == null)
             {
                 return RedirectToAction("Index", "Login"); ;
@@ -66,7 +67,8 @@ namespace CVGS.Controllers
         // GET: Events/Details/5
         public ActionResult Details(int? id)
         {
-            var memberId = this.Session["memberId"];
+            // Redirect unauthenticated members
+            var memberId = this.Session["MemberId"];
             if (memberId == null)
             {
                 return RedirectToAction("Index", "Login"); ;
@@ -90,7 +92,8 @@ namespace CVGS.Controllers
         // GET: Events/Create
         public ActionResult Create()
         {
-            var memberId = this.Session["memberId"];
+            // Redirect unauthenticated members
+            var memberId = this.Session["MemberId"];
             if (memberId == null)
             {
                 return RedirectToAction("Index", "Login"); ;
@@ -106,7 +109,8 @@ namespace CVGS.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "EventId,EventTitle,Description,EventDate,Location,ActiveStatus,DateCreated")] EVENT eVENT)
         {
-            var memberId = this.Session["memberId"];
+            // Redirect unauthenticated members
+            var memberId = this.Session["MemberId"];
             if (memberId == null)
             {
                 return RedirectToAction("Index", "Login"); ;
@@ -125,7 +129,8 @@ namespace CVGS.Controllers
         // GET: Events/Edit/5
         public ActionResult Edit(int? id)
         {
-            var memberId = this.Session["memberId"];
+            // Redirect unauthenticated members
+            var memberId = this.Session["MemberId"];
             if (memberId == null)
             {
                 return RedirectToAction("Index", "Login"); ;
@@ -151,6 +156,13 @@ namespace CVGS.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "EventId,EventTitle,Description,EventDate,Location,ActiveStatus,DateCreated")] EVENT eVENT)
         {
+            // Redirect unauthenticated members
+            var memberId = this.Session["MemberId"];
+            if (memberId == null)
+            {
+                return RedirectToAction("Index", "Login"); ;
+            }
+
             if (!ModelState.IsValid)
             {
                 return View(eVENT);
@@ -164,7 +176,8 @@ namespace CVGS.Controllers
         // GET: Events/Delete/5
         public ActionResult Delete(int? id)
         {
-            var memberId = this.Session["memberId"];
+            // Redirect unauthenticated members
+            var memberId = this.Session["MemberId"];
             if (memberId == null)
             {
                 return RedirectToAction("Index", "Login"); ;
@@ -188,7 +201,8 @@ namespace CVGS.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            var memberId = this.Session["memberId"];
+            // Redirect unauthenticated members
+            var memberId = this.Session["MemberId"];
             if (memberId == null)
             {
                 return RedirectToAction("Index", "Login"); ;
@@ -207,7 +221,8 @@ namespace CVGS.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Details(int id, string isRegistered)
         {
-            var memberId = this.Session["memberId"];
+            // Redirect unauthenticated members
+            var memberId = this.Session["MemberId"];
             if (memberId == null)
             {
                 return RedirectToAction("Index", "Login"); ;

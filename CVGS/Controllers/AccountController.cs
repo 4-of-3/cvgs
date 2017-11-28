@@ -19,7 +19,13 @@ namespace CVGS.Controllers
         // GET: MEMBERs
         public ActionResult Index()
         {
+            // Redirect unauthenticated members
             var memberId = this.Session["MemberId"];
+            if (memberId == null)
+            {
+                return RedirectToAction("Index", "Login"); ;
+            }
+
             // Error catching for Address database call.
             try
             {
@@ -29,12 +35,6 @@ namespace CVGS.Controllers
             catch (Exception)
             {
                 ViewBag.address = "";
-            }
-            
-            // Redirect unauthenticated members
-            if (memberId == null)
-            {
-                return RedirectToAction("Index", "Login");
             }
 
             MEMBER member = db.MEMBERs.Find(memberId);
@@ -48,6 +48,13 @@ namespace CVGS.Controllers
         // GET: MEMBERs/Create
         public ActionResult Create()
         {
+            // Redirect unauthenticated members
+            var memberId = this.Session["MemberId"];
+            if (memberId == null)
+            {
+                return RedirectToAction("Index", "Login"); ;
+            }
+
             return View();
         }
 
@@ -58,6 +65,13 @@ namespace CVGS.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "FName,LName,Email,UserName,Pwd,PwdConfirm,FavPlatform,FavCategory,FavGame,FavQuote")] NewAccountViewModel account)
         {
+            // Redirect unauthenticated members
+            var memberId = this.Session["MemberId"];
+            if (memberId == null)
+            {
+                return RedirectToAction("Index", "Login"); ;
+            }
+
             if (ModelState.IsValid)
             {
                 try
@@ -81,6 +95,13 @@ namespace CVGS.Controllers
         // GET: MEMBERs/Edit/5
         public ActionResult Edit(int? id)
         {
+            // Redirect unauthenticated members
+            var memberId = this.Session["MemberId"];
+            if (memberId == null)
+            {
+                return RedirectToAction("Index", "Login"); ;
+            }
+
             //TODO: create ViewModel for editing account
             if (id == null)
             {
@@ -114,6 +135,13 @@ namespace CVGS.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "MemberId,FName,LName,Email,FavPlatform,FavCategory,FavGame,FavQuote,Address")] EditAccountViewModel account)
         {
+            // Redirect unauthenticated members
+            var memberId = this.Session["MemberId"];
+            if (memberId == null)
+            {
+                return RedirectToAction("Index", "Login"); ;
+            }
+
             if (ModelState.IsValid)
             {
                 var member = db.MEMBERs.Find(account.MemberId);
@@ -135,6 +163,13 @@ namespace CVGS.Controllers
         // GET: MEMBERs/Delete/5
         public ActionResult Delete(int? id)
         {
+            // Redirect unauthenticated members
+            var memberId = this.Session["MemberId"];
+            if (memberId == null)
+            {
+                return RedirectToAction("Index", "Login"); ;
+            }
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -159,7 +194,13 @@ namespace CVGS.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed([Bind(Include = "MemberId,UserName,FullDelete")]DeleteAccountViewModel account)
         {
-            int memberId = account.MemberId;
+            // Redirect unauthenticated members
+            var memberId = this.Session["MemberId"];
+            if (memberId == null)
+            {
+                return RedirectToAction("Index", "Login"); ;
+            }
+
             MEMBER member = db.MEMBERs.Find(memberId);
             if (account.FullDelete)
             {
@@ -180,14 +221,14 @@ namespace CVGS.Controllers
         // GET: Address
         public ActionResult AddressIndex()
         {
-            var memberId = this.Session["MemberId"];
-            var address = db.ADDRESSes.Where(r => r.MemberId == (int)memberId).ToList();
-            
             // Redirect unauthenticated members
+            var memberId = this.Session["MemberId"];
             if (memberId == null)
             {
-                return RedirectToAction("Index", "Login");
+                return RedirectToAction("Index", "Login"); ;
             }
+
+            var address = db.ADDRESSes.Where(r => r.MemberId == (int)memberId).ToList();
 
             return View(address);
         }

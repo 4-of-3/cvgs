@@ -16,12 +16,6 @@ namespace CVGS.Controllers
         // GET: Login
         public ActionResult Index()
         {
-            if (Session["MemberId"] != null)
-            {
-                // TODO: This has been replaced by "/Logout" route (make sure it isn't used anymore)
-                Session.Clear();
-                return RedirectToAction("Index", "Login");
-            }
             return View();
         }
 

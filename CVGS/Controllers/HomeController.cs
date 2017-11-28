@@ -11,9 +11,10 @@ namespace CVGS.Controllers
         public ActionResult Index()
         {
             // Redirect unauthenticated members
-            if (Session["MemberId"] == null)
+            var memberId = this.Session["MemberId"];
+            if (memberId == null)
             {
-                return RedirectToAction("Index", "Login");
+                return RedirectToAction("Index", "Login"); ;
             }
 
             return View();
