@@ -24,7 +24,7 @@ namespace CVGS.Controllers
                 return RedirectToAction("Index", "Login"); ;
             }
 
-            var aDDRESSes = db.ADDRESSes.Include(a => a.MEMBER).Include(a => a.PROVSTATE).Include(a => a.ADDRESSTYPE).ToList().FindAll(x => x.MemberId.Equals(memberId));
+            var aDDRESSes = db.ADDRESSes.Include(a => a.MEMBER).Include(a => a.PROVSTATE).Include(a => a.ADDRESSTYPE).Where(a=>!(bool)a.Deleted).ToList().FindAll(x => x.MemberId.Equals(memberId));
             return View(aDDRESSes.ToList());
         }
 
@@ -42,7 +42,7 @@ namespace CVGS.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            ADDRESS aDDRESS = db.ADDRESSes.Find(id);
+            ADDRESS aDDRESS = db.ADDRESSes.Where(a => !(bool)a.Deleted).ToList().Find(a => a.AddressId == id);
             if (aDDRESS == null)
             {
                 return HttpNotFound();
@@ -109,7 +109,7 @@ namespace CVGS.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            ADDRESS aDDRESS = db.ADDRESSes.Find(id);
+            ADDRESS aDDRESS = db.ADDRESSes.Where(a => !(bool)a.Deleted).ToList().Find(a => a.AddressId == id);
             if (aDDRESS == null)
             {
                 return HttpNotFound();
@@ -162,7 +162,7 @@ namespace CVGS.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            ADDRESS aDDRESS = db.ADDRESSes.Find(id);
+            ADDRESS aDDRESS = db.ADDRESSes.Where(a => !(bool)a.Deleted).ToList().Find(a => a.AddressId == id);
             if (aDDRESS == null)
             {
                 return HttpNotFound();
