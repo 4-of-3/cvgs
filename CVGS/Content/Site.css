@@ -188,3 +188,15 @@ textarea {
 td.nowrap{
     white-space: nowrap;
 }
+
+
+/* Profile */
+
+.profile__quote {
+    display: block;
+    margin: 20px 0;
+    padding-left: 10px;
+    font-size: 16px;
+    font-style: italic;
+    border-left: 3px solid #EEEEEE;
+}

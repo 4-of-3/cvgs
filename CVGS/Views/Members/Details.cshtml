@@ -5,13 +5,24 @@
 }
 
 <h2>
-    @Html.DisplayFor(model=>model.FName) @Html.DisplayFor(model=>model.LName)<br />
-    <sub class="text-muted"><em>@Html.DisplayFor(model=>model.FavQuote)</em></sub>    
-
+    @Html.DisplayFor(model => model.FName) @Html.DisplayFor(model => model.LName)<br />
 </h2>
 
+<a href="@Url.Action("Index")" class="btn btn-default">
+    <i class="fa fa-arrow-left"></i>Members
+</a>
+
+
 <div>
-    <hr />
+    <hr/>
+
+    @if (!string.IsNullOrEmpty(Model.FavQuote))
+    {
+        <blockquote class="profile__quote">
+            @Html.DisplayFor(model => model.FavQuote)
+        </blockquote>
+    }
+
     <dl class="dl-horizontal">
         <dt>
             @Html.DisplayNameFor(model => model.UserName)
@@ -70,19 +81,22 @@
         </dd>
 
     </dl>
-    <h4>Friends</h4>
-    <dl class="dl-horizontal">
-        @foreach (var m in Model.FRIENDSHIPs1.Where(m=>m.FRIEND.ActiveStatus))
-        {
-            <dt>@m.FRIEND.FName @m.FRIEND.LName</dt>
-            <dd>@m.FRIEND.UserName</dd>
-        }
-    </dl>
+    @*<h4>Friends</h4>
+        <dl class="dl-horizontal">
+            @foreach (var m in Model.FRIENDSHIPs1.Where(m => m.FRIEND.ActiveStatus))
+            {
+                <dt>@m.FRIEND.FName @m.FRIEND.LName</dt>
+                <dd>@m.FRIEND.UserName</dd>
+            }
+        </dl>*@
 </div>
 <p>
-    @Html.ActionLink("Back to List", "Index")
     @if ((string)Session["MemberRole"] == "Admin")
     {
-        @:| @Html.ActionLink("Change Member Role", "Role", new { id = Model.MemberId })
+        <div class="col-md-offset-2 col-md-4 form__actions">
+            <a href="@Url.Action("Role", new {id = Model.MemberId})" class="btn btn--action">
+                <i class="fa fa-user"></i>Change Role
+            </a>
+        </div>
     }
 </p>
