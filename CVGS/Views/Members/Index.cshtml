@@ -15,13 +15,13 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.UserName)
+            @Html.ActionLink("Username", "Index", new { sort = "username", order = @ViewBag.listSortAsc })
         </th>
         <th>
-            Name
+            @Html.ActionLink("Name", "Index", new { sort = "name", order = @ViewBag.listSortAsc })
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Email)
+            @Html.ActionLink("Email", "Index", new { sort = "email", order = @ViewBag.listSortAsc })
         </th>
         <th></th>
     </tr>
