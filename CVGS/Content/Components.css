@@ -95,3 +95,31 @@
 .form__actions .btn {
     margin-right: 15px;
 }
+
+
+/* Inline item indicators */
+.flex-row {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.indicator {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    width: 16px;
+    height: 16px;
+    margin-left: 8px;
+    font-size: 10px;
+    line-height: 10px;
+    font-weight: bold;
+    border: 2px solid black;
+    border-radius: 1px;
+}
+
+.indicator--digital {
+    color: #1E88E5;
+    border-color: #1E88E5;
+}

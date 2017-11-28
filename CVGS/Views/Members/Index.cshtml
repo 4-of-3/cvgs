@@ -33,8 +33,17 @@
         <th>
             @Html.ActionLink("Role", "Index", new { search = ViewBag.search, sort = "role", order = @ViewBag.listSortAsc })
         </th>
-        <th></th>
+        <th style="width: 1px; white-space: nowrap;"></th>
     </tr>
+
+    @if (Model.ToList().Count == 0)
+    {
+        <tr>
+            <td colspan="5">
+                <em>No items found</em>
+            </td>
+        </tr>
+    }
 
     @foreach (var item in Model)
     {
@@ -61,7 +70,7 @@
             <td>
                 @Html.DisplayFor(modelItem => item.ROLE.RoleName)
             </td>
-            <td style="width: 1px; white-space: nowrap">
+            <td>
                 <a href="@Url.Action("Details", new {id = item.MemberId})" class="btn btn--action btn--empty btn--inline">
                     <i class="fa fa-search"></i>
                 </a>

@@ -37,13 +37,27 @@
         <th style="width: 1px;">
             @Html.ActionLink("Rating", "Index", new { search = ViewBag.search, sort = "rating", order = @ViewBag.listSortAsc })
         </th>
+        <th style="width: 1px; white-space: nowrap;"></th>
     </tr>
+
+    @if (Model.ToList().Count == 0)
+    {
+        <tr>
+            <td colspan="5">
+                <em>No items found</em>
+            </td>
+        </tr>
+    }
 
     @foreach (var item in Model)
     {
         <tr>
-            <td>
-                @Html.ActionLink(item.Title, "Details", new { id = item.GameId }) @((item.Digital) ? "(Digital)" : "")
+            <td class="flex-row">
+                @Html.ActionLink(item.Title, "Details", new { id = item.GameId })
+                @if (item.Digital)
+                {
+                    @:<span class="indicator indicator--digital">D</span>
+                }
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Category)
@@ -54,12 +68,17 @@
             <td class="text-center">
                 @if (item.REVIEWs.Count > 0)
                 {
-                    @Math.Round(item.REVIEWs.Average(m => m.Rating))@:/5
+                    @Math.Round(item.REVIEWs.Average(m => m.Rating))@:&thinsp;/&thinsp;5
                 }
                 else
                 {
-                    @:N/A
+                    @:<em style="color: darkgrey;">N/A</em>
                 }
+            </td>
+            <td>
+                <a href="@Url.Action("Details", new {id = item.GameId})" class="btn btn--action btn--empty btn--inline">
+                    <i class="fa fa-search"></i>
+                </a>
             </td>
         </tr>
     }
