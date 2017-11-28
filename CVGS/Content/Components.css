@@ -6,6 +6,10 @@
     justify-content: flex-start;
 }
 
+.actions--inline {
+    white-space: nowrap;
+}
+
 .action-bar .actions, .action-bar .actions--inline {
     display: flex;
     flex-direction: row;

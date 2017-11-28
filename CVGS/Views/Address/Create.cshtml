@@ -1,12 +1,16 @@
 ﻿@model CVGS.Models.ADDRESS
 
 @{
-    ViewBag.Title = "Create";
+    ViewBag.Title = "Create Address";
 }
 
-<h2>Add New Address</h2>
+<h2>@ViewBag.Title</h2>
 
-@using (Html.BeginForm()) 
+<a href="@Url.Action("Index")" class="btn btn-default">
+    <i class="fa fa-arrow-left"></i>Addresses
+</a>
+
+@using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
     <div class="form-horizontal">
@@ -77,13 +81,10 @@
         </div>
 
         <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
+            <div class="col-md-offset-2 col-md-4 form__actions">
+                @Html.ActionLink("Cancel", "Index", null, new { @class = "btn btn-default" })
+                <button type="submit" class="btn btn--save"><i class="fa fa-check"></i>Create</button>
             </div>
         </div>
     </div>
 }
-
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>

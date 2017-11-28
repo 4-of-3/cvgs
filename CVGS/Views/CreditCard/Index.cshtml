@@ -6,10 +6,6 @@
 
 <h2>@ViewData["Title"]</h2>
 
-<a href="@Url.Action("Index", "Account")" class="btn btn-default">
-    <i class="fa fa-arrow-left"></i>Profile
-</a>
-
 <hr/>
 
 <div class="row">
@@ -54,13 +50,13 @@
                         @Html.DisplayFor(modelItem => item.MEMBER.FName)
                     </td>
                     <td class="actions--inline">
-                        <a href="@Url.Action("Details", "CreditCard", new { id = item.CardId })" class="btn btn--action btn--inline btn--empty">
+                        <a href="@Url.Action("Details", new { id = item.CardId })" class="btn btn--action btn--inline btn--empty">
                             <i class="fa fa-search"></i>
                         </a>
-                        <a href="@Url.Action("Edit", "CreditCard", new { id = item.CardId })" class="btn btn--action btn--inline btn--empty">
+                        <a href="@Url.Action("Edit", new { id = item.CardId })" class="btn btn--action btn--inline btn--empty">
                             <i class="fa fa-pencil"></i>
                         </a>
-                        <a href="@Url.Action("Delete", "CreditCard", new { id = item.CardId })" class="btn btn--delete btn--inline btn--empty">
+                        <a href="@Url.Action("Delete", new { id = item.CardId })" class="btn btn--delete btn--inline btn--empty">
                             <i class="fa fa-trash"></i>
                         </a>
                     </td>
