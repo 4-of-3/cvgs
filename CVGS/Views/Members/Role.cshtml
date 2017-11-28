@@ -6,10 +6,14 @@
 
 <h2>Role</h2>
 
+<a href="@Url.Action("Details", new { id = Model.MemberId } )" class="btn btn-default">
+    <i class="fa fa-arrow-left"></i>Member Details
+</a>
+
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
+
     <div class="form-horizontal">
         <h4>UpdateRoleViewModel</h4>
         <hr />
@@ -19,19 +23,16 @@
         <div class="form-group">
             @Html.LabelFor(model => model.RoleId, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownListFor(model=>model.RoleId, Model.Roles)
+                @Html.DropDownListFor(model => model.RoleId, Model.Roles)
                 @Html.ValidationMessageFor(model => model.RoleId, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-default" />
+            <div class="col-md-offset-2 col-md-4 form__actions">
+                @Html.ActionLink("Cancel", "Index", new { id = Model.MemberId }, new { @class="btn btn-default" })
+                <button type="submit" class="btn btn--save"><i class="fa fa-check"></i>Save</button>
             </div>
         </div>
     </div>
 }
-
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
