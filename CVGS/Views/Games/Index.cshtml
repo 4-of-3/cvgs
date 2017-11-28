@@ -8,27 +8,34 @@
 
 @using (Html.BeginForm("Index", "Games"))
 {
-    <p>
-        <a href="@Url.Action("Create")" class="btn btn--action">
-            <i class="fa fa-plus"></i>Add Game
-        </a>
-        <input id="search" type="text" placeholder="Search" name="search" class="search-bar pull-right">
-    </p>
+    <a href="@Url.Action("Create")" class="btn btn--action">
+        <i class="fa fa-plus"></i>Add Game
+    </a>
+    <div class="search-bar">
+        <div class="input-group">
+            <input id="search" type="text" placeholder="Search" name="search" value="@ViewBag.search" class="form-control">
+            <span class="input-group-btn">
+                <button type="submit" class="btn btn--action">
+                    <i class="fa fa-search"></i>
+                </button>
+            </span>
+        </div>
+    </div>
 }
 
 <table class="table">
     <tr>
         <th>
-            @Html.ActionLink("Title", "Index", new {search = ViewBag.search, sort = "title", order = @ViewBag.listSortAsc })
+            @Html.ActionLink("Title", "Index", new { search = ViewBag.search, sort = "title", order = @ViewBag.listSortAsc })
         </th>
         <th>
-            @Html.ActionLink("Category", "Index", new {search = ViewBag.search, sort = "category", order = @ViewBag.listSortAsc })
+            @Html.ActionLink("Category", "Index", new { search = ViewBag.search, sort = "category", order = @ViewBag.listSortAsc })
         </th>
         <th>
-            @Html.ActionLink("Cost", "Index", new {search = ViewBag.search, sort = "cost", order = @ViewBag.listSortAsc })
+            @Html.ActionLink("Cost", "Index", new { search = ViewBag.search, sort = "cost", order = @ViewBag.listSortAsc })
         </th>
-        <th>
-            @Html.ActionLink("Rating", "Index", new {search = ViewBag.search, sort = "rating", order = @ViewBag.listSortAsc })
+        <th style="width: 1px;">
+            @Html.ActionLink("Rating", "Index", new { search = ViewBag.search, sort = "rating", order = @ViewBag.listSortAsc })
         </th>
     </tr>
 
@@ -36,7 +43,7 @@
     {
         <tr>
             <td>
-                @Html.ActionLink( item.Title,"Details", new { id = item.GameId }) @((item.Digital)? "(Digital)" : "")
+                @Html.ActionLink(item.Title, "Details", new { id = item.GameId }) @((item.Digital) ? "(Digital)" : "")
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Category)
