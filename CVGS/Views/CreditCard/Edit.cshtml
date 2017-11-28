@@ -6,19 +6,22 @@
 
 <h2>@ViewData["Title"]</h2>
 
+<a href="@Url.Action("Details", new { id = Model.CardId })" class="btn btn-default">
+    <i class="fa fa-arrow-left"></i>Card Details
+</a>
+
 
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
+
     <div class="form-horizontal">
-        <h4>CREDITCARD</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         @Html.HiddenFor(model => model.CardId)
         @Html.HiddenFor(model => model.MemberId)
 
-        
+
 
         <div class="form-group">
             @Html.LabelFor(model => model.CardNumber, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -45,16 +48,13 @@
         </div>
 
         <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-default" />
+            <div class="col-md-offset-2 col-md-4 form__actions">
+                @Html.ActionLink("Cancel", "Details", new { id = Model.CardId }, new { @class = "btn btn-default" })
+                <button type="submit" class="btn btn--save"><i class="fa fa-check"></i>Save</button>
             </div>
         </div>
     </div>
 }
-
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")

@@ -6,7 +6,7 @@
 
 <h3>Reviews</h3>
 <p>
-    @Html.ActionLink("Review Game", "Create", "Reviews", new { gameId = Model.GameId }, null)
+    <a href="@Url.Action("Create", "Reviews", new { gameId = Model.GameId })" class="btn btn--action"><i class="fa fa-plus"></i>Add Review</a>
 </p>
 <table class="table">
 
@@ -36,16 +36,24 @@
         <td class="nowrap">
             @Html.DisplayFor(modelItem => item.DateCreated)
         </td>
-        <td>
-            @if (item.MemberId == (int)Session["MemberId"])
-            {
-                @Html.ActionLink("Edit", "Edit", "Reviews", new { memberId = item.MemberId, gameId = item.GameId }, null) @:|
-                @Html.ActionLink("Delete", "Delete", "Reviews", new { memberId = item.MemberId, gameId = item.GameId }, null)
-            }
-            else if ((string)Session["MemberRole"] == "Employee" || (string)Session["MemberRole"] == "Admin")
-            {
-                @Html.ActionLink("Delete", "Delete", "Reviews", new { memberId = item.MemberId, gameId = item.GameId }, null)
-            }
+        <td class="action-bar">
+            <div class="actions--inline">
+                @if (item.MemberId == (int)Session["MemberId"])
+                {
+                    <a href="@Url.Action("Edit", "Reviews", new {memberId = item.MemberId, gameId = Model.GameId})" class="btn btn--action btn--inline btn--empty">
+                        <i class="fa fa-pencil"></i>
+                    </a>
+                    <a href="@Url.Action("Delete", "Reviews", new {memberId = item.MemberId, gameId = Model.GameId})" class="btn btn--delete btn--inline btn--empty">
+                        <i class="fa fa-trash"></i>
+                    </a>
+                }
+                else if ((string)Session["MemberRole"] == "Employee" || (string)Session["MemberRole"] == "Admin")
+                {
+                    <a href="@Url.Action("Delete", "Reviews", new {memberId = item.MemberId, gameId = Model.GameId})" class="btn btn--delete btn--inline btn--empty">
+                        <i class="fa fa-trash"></i>
+                    </a>
+                }
+            </div>
         </td>
     </tr>
 }

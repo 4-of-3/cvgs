@@ -6,6 +6,10 @@
 
 <h2>@ViewBag.Title</h2>
 
+<a href="@Url.Action("Index")" class="btn btn-default">
+    <i class="fa fa-arrow-left"></i>Profile
+</a>
+
 <h3>Are you sure you want to delete your account?</h3>
 <div>
     <h4>@Html.DisplayFor(model => model.UserName)</h4>
@@ -18,9 +22,9 @@
             Deactivate Account: @Html.RadioButtonFor(m => m.FullDelete, false)<br />
             Delete Account @Html.RadioButtonFor(m => m.FullDelete, true) <span class="text-warning" id="delete-warning">Are you sure? This cannot be undone.</span>
         </div>
-        <div class="form-actions no-color">
-            <input type="submit" value="Delete" class="btn btn-default" /> |
-            @Html.ActionLink("Back to Account", "Index")
+        <div class="form__actions">
+            @Html.ActionLink("Cancel", "Index", null, new { @class = "btn btn-default" })
+            <button type="submit" class="btn btn--delete"><i class="fa fa-trash"></i>Delete</button>
         </div>
     }
 </div>

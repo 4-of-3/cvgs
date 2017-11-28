@@ -9,8 +9,10 @@
 @using (Html.BeginForm("Index", "Games"))
 {
     <p>
-        @Html.ActionLink("Create New Game", "Create")
-        <input id="search" type="text" placeholder="Search" name="search" class=" search-bar pull-right">
+        <a href="@Url.Action("Create")" class="btn btn--action">
+            <i class="fa fa-plus"></i>Add Game
+        </a>
+        <input id="search" type="text" placeholder="Search" name="search" class="search-bar pull-right">
     </p>
 }
 
@@ -25,21 +27,27 @@
         <th>
             @Html.DisplayNameFor(model => model.Cost)
         </th>
+        <th></th>
     </tr>
 
-@foreach (var item in Model)
-{
-    <tr>
-        <td>
-            @Html.ActionLink( item.Title,"Details", new { id = item.GameId })
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Category)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Cost)
-        </td>
-    </tr>
-}
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.ActionLink(item.Title, "Details", new { id = item.GameId })
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Category)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Cost)
+            </td>
+            <td style="width: 1px; white-space: nowrap">
+                <a href="@Url.Action("Details", new {id = item.GameId})" class="btn btn--action btn--empty btn--inline">
+                    <i class="fa fa-search"></i>
+                </a>
+            </td>
+        </tr>
+    }
 
 </table>
