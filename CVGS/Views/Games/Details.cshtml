@@ -61,7 +61,7 @@
                 @Html.DisplayNameFor(model => model.Digital)
             </dt>
             <dd>
-                @Html.DisplayFor(model => model.Digital)
+                @((Model.Digital)? "Yes" : "No")
             </dd>
 
             <dt>
