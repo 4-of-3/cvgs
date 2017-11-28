@@ -27,14 +27,16 @@
         <th>
             @Html.DisplayNameFor(model => model.Cost)
         </th>
-        <th></th>
+        <th>
+            Rating
+        </th>
     </tr>
 
     @foreach (var item in Model)
     {
         <tr>
             <td>
-                @Html.ActionLink(item.Title, "Details", new { id = item.GameId })
+                @Html.ActionLink( item.Title,"Details", new { id = item.GameId }) @((item.Digital)? "(Digital)" : "")
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Category)
@@ -42,12 +44,16 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Cost)
             </td>
-            <td style="width: 1px; white-space: nowrap">
-                <a href="@Url.Action("Details", new {id = item.GameId})" class="btn btn--action btn--empty btn--inline">
-                    <i class="fa fa-search"></i>
-                </a>
+            <td class="text-center">
+                @if (item.REVIEWs.Count > 0)
+                {
+                    @Math.Round(item.REVIEWs.Average(m => m.Rating))@:/5
+                }
+                else
+                {
+                    @:N/A
+                }
             </td>
         </tr>
     }
-
 </table>
