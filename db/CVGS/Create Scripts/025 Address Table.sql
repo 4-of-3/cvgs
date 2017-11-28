@@ -11,12 +11,10 @@ CREATE TABLE CVGS.dbo.ADDRESS(
            , City             NVARCHAR( 64 ) NOT NULL
            , PostCode         NVARCHAR( 12 ) NOT NULL
            , ProvStateId      INT NOT NULL
-           , CountryId        INT NOT NULL
            , Deleted          BIT DEFAULT 0
   CONSTRAINT fk_address_member FOREIGN KEY( MemberId ) REFERENCES MEMBER( MemberId ),
   CONSTRAINT fk_address_type FOREIGN KEY( AddressTypeId ) REFERENCES ADDRESSTYPE( AddressTypeId ), 
-  CONSTRAINT fk_address_provstate FOREIGN KEY( ProvStateId ) REFERENCES PROVSTATE( ProvStateId ),
-  CONSTRAINT fk_address_country FOREIGN KEY( CountryId ) REFERENCES COUNTRY( CountryId )
+  CONSTRAINT fk_address_provstate FOREIGN KEY( ProvStateId ) REFERENCES PROVSTATE( ProvStateId )
 );
 GO
 
