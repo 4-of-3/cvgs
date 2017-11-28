@@ -47,7 +47,7 @@
         <td class="text-center">
             @if (item.REVIEWs.Count > 0)
             {
-                @item.REVIEWs.Average(m => m.Rating).ToString("#.##")@:/5
+                @Math.Rount(item.REVIEWs.Average(m => m.Rating))@:/5
             }
             else
             {
