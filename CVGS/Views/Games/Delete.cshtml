@@ -6,6 +6,10 @@
 
 <h2>@ViewBag.Title</h2>
 
+<a href="@Url.Action("Details", "Games", new { id = Model.GameId })" class="btn btn-default">
+    <i class="fa fa-arrow-left"></i>Game Details
+</a>
+
 <h3>Are you sure you want to delete this?</h3>
 <div>
     <hr />

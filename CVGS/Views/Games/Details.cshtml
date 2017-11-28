@@ -6,8 +6,11 @@
 
 <h2>@ViewBag.Title</h2>
 
+<a href="@Url.Action("Index")" class="btn btn-default">
+    <i class="fa fa-arrow-left"></i>Games
+</a>
+
 <div>
-    <a href="@Url.Action("Index")" class="btn btn-default"><i class="fa fa-arrow-left"></i>Games</a>
     <section class="action-bar">
         <h4>@Html.DisplayFor(model => model.Title)</h4>
         <div class="actions">
