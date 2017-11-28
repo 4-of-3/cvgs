@@ -6,25 +6,25 @@
 
 <h2>@ViewBag.Title</h2>
 
-@using (Html.BeginForm("SearchFriends", "Friends"))
+@using (Html.BeginForm("Index", "Members"))
 {
     <p>
-        <input id="username" type="text" placeholder="Search" name="username" class="search-bar pull-right">
+        <input id="search" type="text" placeholder="Search" name="search" class="search-bar pull-right">
     </p>
 }
 <table class="table">
     <tr>
         <th>
-            @Html.ActionLink("Username", "Index", new { sort = "username", order = @ViewBag.listSortAsc })
+            @Html.ActionLink("Username", "Index", new {search = ViewBag.search, sort = "username", order = @ViewBag.listSortAsc })
         </th>
         <th>
-            @Html.ActionLink("Name", "Index", new { sort = "name", order = @ViewBag.listSortAsc })
+            @Html.ActionLink("Name", "Index", new {search = ViewBag.search, sort = "name", order = @ViewBag.listSortAsc })
         </th>
         <th>
-            @Html.ActionLink("Email", "Index", new { sort = "email", order = @ViewBag.listSortAsc })
+            @Html.ActionLink("Email", "Index", new {search = ViewBag.search, sort = "email", order = @ViewBag.listSortAsc })
         </th>
         <th>
-            @Html.ActionLink("Role", "Index", new { sort = "role", order = @ViewBag.listSortAsc })
+            @Html.ActionLink("Role", "Index", new {search = ViewBag.search, sort = "role", order = @ViewBag.listSortAsc })
         </th>
     </tr>
 

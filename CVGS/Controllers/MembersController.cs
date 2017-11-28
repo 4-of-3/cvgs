@@ -16,7 +16,7 @@ namespace CVGS.Controllers
         private CVGSEntities db = new CVGSEntities();
 
         // GET: Members
-        public ActionResult Index(string sort, string order)
+        public ActionResult Index(string search, string sort, string order)
         {
             // Redirect unauthenticated members
             if (Session["MemberId"] == null)
@@ -32,6 +32,13 @@ namespace CVGS.Controllers
             {
                 // Exclude inactive members from the list
                 members = db.MEMBERs.Where(m => m.ActiveStatus).ToList();
+            }
+
+            if (search != null)
+            {
+                search = search.ToLower();
+                members = members.FindAll(x => x.UserName.ToLower().Contains(search) || x.FName.ToLower().Contains(search) || x.LName.ToLower().Contains(search) || x.Email.ToLower().Contains(search));
+                ViewBag.search = search;
             }
 
             bool asc = true;
