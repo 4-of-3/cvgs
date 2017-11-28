@@ -306,6 +306,16 @@ IF '%pauseRequired%'=='n' GOTO skip027
     PAUSE
 :skip027
 REM==================================================
+REM Add the 'Delete Member' trigger
+REM==================================================
+echo sqlcmd -S %servername% -E -d CVGS -i "100 Delete Member Trigger.sql"
+sqlcmd -S %servername% -E -d CVGS -i "100 Delete Member Trigger.sql"
+
+IF '%pauseRequired%'=='N' GOTO skip100
+IF '%pauseRequired%'=='n' GOTO skip100
+    PAUSE
+:skip100
+REM==================================================
 
 ECHO Build.bat Finished 
 

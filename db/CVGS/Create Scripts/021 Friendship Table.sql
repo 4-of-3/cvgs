@@ -12,25 +12,3 @@ CREATE TABLE CVGS.dbo.FRIENDSHIP(
   CONSTRAINT fk_friendship_friend FOREIGN KEY( FriendId ) REFERENCES Member( MemberId )
 );
 GO
-
-
--- Because we can't use ON CASCADE DELETE on the FRIENDSHIP table,
--- create a trigger to emulate the same behaviour
- CREATE OR ALTER TRIGGER friendship_cascade_delete
-     ON MEMBER
-INSTEAD OF DELETE
-     AS
-      BEGIN
-        SET NOCOUNT ON;
-      
-     DELETE FROM FRIENDSHIP
-      WHERE MemberId IN( SELECT MemberId FROM deleted );
-      
-     DELETE FROM FRIENDSHIP
-      WHERE FriendId IN( SELECT MemberId FROM deleted );
-         
-     DELETE FROM MEMBER
-      WHERE MemberId IN( SELECT MemberId FROM deleted );
-        END
-        
-GO
