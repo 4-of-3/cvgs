@@ -4,11 +4,12 @@
     ViewBag.Title = "Account Details";
 }
 
-<h2>@Html.DisplayFor(model=>model.UserName)</h2>
+<h2>@Html.DisplayFor(model => model.UserName)</h2>
 
-<div>
-    <hr />
-    <dl class="dl-horizontal">
+<hr />
+<div class="row">
+    @Html.Partial("_ProfileLinks")
+    <dl class="dl-horizontal col-md-9 col-lg-10" style="margin-top: 0;">
         <dt>
             @Html.DisplayNameFor(model => model.FName)
         </dt>
@@ -88,20 +89,11 @@
         <dd>
             @Html.DisplayFor(model => model.ActiveStatus)
         </dd>
-
-        <dt>
-            <p>Address</p>
-        </dt>
-
-        <dd>
-            <p>@ViewBag.address</p>
-        </dd>
-
     </dl>
 </div>
-<p>
-    @Html.ActionLink("Manage Credit Cards", "Index", "CreditCard") | 
-    @Html.ActionLink("Manage Addresses", "Index", "Address") | 
-    @Html.ActionLink("Edit", "Edit", new { id = Model.MemberId }) |
-    @Html.ActionLink("Delete My Account", "Delete", new { id = Model.MemberId })
-</p>
+<section class="action-bar" style="margin-bottom: 20px;">
+    <div class="actions">
+        <a href="@Url.Action("Edit", new {id = Model.MemberId})" class="btn btn--action"><i class="fa fa-pencil"></i>Edit Profile</a>
+        <a href="@Url.Action("Delete", new {id = Model.MemberId})" class="btn btn--delete"><i class="fa fa-trash"></i>Delete Account</a>
+    </div>
+</section>

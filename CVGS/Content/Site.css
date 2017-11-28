@@ -200,3 +200,33 @@ td.nowrap{
     font-style: italic;
     border-left: 3px solid #EEEEEE;
 }
+
+.profile__links {
+    display: flex;
+    flex-direction: column;
+}
+
+.profile__links a:first-of-type {
+    border-top: 2px solid #424242;
+}
+
+.profile__link {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    font-size: 16px;
+    padding: 8px;
+    border-bottom: 2px solid #424242;
+}
+
+.profile__link:not(.disabled):hover {
+    font-weight: bold;
+    text-decoration: none;
+    border-color: #1E88E5;
+}
+
+.profile__link.disabled {
+    color: #757575;
+    font-style: italic;
+    cursor: not-allowed;
+}
