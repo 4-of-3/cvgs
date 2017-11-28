@@ -13,9 +13,8 @@
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
+
     <div class="form-horizontal">
-        <h4>REVIEW</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         @Html.HiddenFor(model => model.MemberId)
@@ -28,7 +27,7 @@
                 @*TODO: Get rid of magic number "5"*@
                 @for (int i = 1; i <= 5; i++)
                 {
-                    @Html.RadioButtonFor(model => model.Rating, i, new { id = "rating" + i, @class="radio-inline" })
+                    @Html.RadioButtonFor(model => model.Rating, i, new { id = "rating" + i, @class = "radio-inline" })
                 }
             </div>
         </div>
