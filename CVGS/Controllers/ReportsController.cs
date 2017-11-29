@@ -19,9 +19,11 @@ namespace CVGS.Controllers
         // GET: Report List
         public ActionResult Index()
         {
-            if (Session["MemberId"] == null)
+            // Redirect unauthenticated members
+            var memberId = this.Session["MemberId"];
+            if (memberId == null)
             {
-                return RedirectToAction("Index", "Login");
+                return RedirectToAction("Index", "Login"); ;
             }
 
             return View(REPORT_TYPES);
@@ -29,9 +31,11 @@ namespace CVGS.Controllers
 
         public ActionResult Games()
         {
-            if (Session["MemberId"] == null)
+            // Redirect unauthenticated members
+            var memberId = this.Session["MemberId"];
+            if (memberId == null)
             {
-                return RedirectToAction("Index", "Login");
+                return RedirectToAction("Index", "Login"); ;
             }
 
             TempData.Add("error", "Games Report is not yet created");

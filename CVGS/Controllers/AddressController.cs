@@ -17,11 +17,11 @@ namespace CVGS.Controllers
         // GET: Address
         public ActionResult Index()
         {
-            var memberId = this.Session["MemberId"];
             // Redirect unauthenticated members
+            var memberId = this.Session["MemberId"];
             if (memberId == null)
             {
-                return RedirectToAction("Index", "Login");
+                return RedirectToAction("Index", "Login"); ;
             }
 
             var aDDRESSes = db.ADDRESSes.Include(a => a.MEMBER).Include(a => a.PROVSTATE).Include(a => a.ADDRESSTYPE).Where(a=>!(bool)a.Deleted).ToList().FindAll(x => x.MemberId.Equals(memberId));
@@ -31,11 +31,11 @@ namespace CVGS.Controllers
         // GET: Address/Details/5
         public ActionResult Details(int? id)
         {
-            var memberId = this.Session["MemberId"];
             // Redirect unauthenticated members
+            var memberId = this.Session["MemberId"];
             if (memberId == null)
             {
-                return RedirectToAction("Index", "Login");
+                return RedirectToAction("Index", "Login"); ;
             }
 
             if (id == null)
@@ -53,11 +53,11 @@ namespace CVGS.Controllers
         // GET: Address/Create
         public ActionResult Create()
         {
-            var memberId = this.Session["MemberId"];
             // Redirect unauthenticated members
+            var memberId = this.Session["MemberId"];
             if (memberId == null)
             {
-                return RedirectToAction("Index", "Login");
+                return RedirectToAction("Index", "Login"); ;
             }
             //ViewBag.CountryId = new SelectList(db.COUNTRies, "CountryId", "CountryCode");
             ViewBag.MemberId = new SelectList(db.MEMBERs, "MemberId", "FName");
@@ -73,6 +73,13 @@ namespace CVGS.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "AddressId,MemberId,StreetAddress,StreetAddress2,City,PostCode,ProvStateId,AddressTypeId")] ADDRESS aDDRESS)
         {
+            // Redirect unauthenticated members
+            var memberId = this.Session["MemberId"];
+            if (memberId == null)
+            {
+                return RedirectToAction("Index", "Login"); ;
+            }
+
             if (ModelState.IsValid)
             {
                 db.ADDRESSes.Add(aDDRESS);
@@ -90,11 +97,11 @@ namespace CVGS.Controllers
         // GET: Address/Edit/5
         public ActionResult Edit(int? id)
         {
-            var memberId = this.Session["MemberId"];
             // Redirect unauthenticated members
+            var memberId = this.Session["MemberId"];
             if (memberId == null)
             {
-                return RedirectToAction("Index", "Login");
+                return RedirectToAction("Index", "Login"); ;
             }
 
             if (id == null)
@@ -120,6 +127,13 @@ namespace CVGS.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "AddressId,MemberId,StreetAddress,StreetAddress2,City,PostCode,ProvStateId,AddressTypeId")] ADDRESS aDDRESS)
         {
+            // Redirect unauthenticated members
+            var memberId = this.Session["MemberId"];
+            if (memberId == null)
+            {
+                return RedirectToAction("Index", "Login"); ;
+            }
+
             if (ModelState.IsValid)
             {
                 db.Entry(aDDRESS).State = EntityState.Modified;
@@ -136,11 +150,11 @@ namespace CVGS.Controllers
         // GET: Address/Delete/5
         public ActionResult Delete(int? id)
         {
-            var memberId = this.Session["MemberId"];
             // Redirect unauthenticated members
+            var memberId = this.Session["MemberId"];
             if (memberId == null)
             {
-                return RedirectToAction("Index", "Login");
+                return RedirectToAction("Index", "Login"); ;
             }
 
             if (id == null)
@@ -160,6 +174,13 @@ namespace CVGS.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
+            // Redirect unauthenticated members
+            var memberId = this.Session["MemberId"];
+            if (memberId == null)
+            {
+                return RedirectToAction("Index", "Login"); ;
+            }
+
             ADDRESS aDDRESS = db.ADDRESSes.Find(id);
             db.ADDRESSes.Remove(aDDRESS);
             db.SaveChanges();

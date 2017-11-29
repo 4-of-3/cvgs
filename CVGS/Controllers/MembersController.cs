@@ -19,10 +19,12 @@ namespace CVGS.Controllers
         public ActionResult Index(string search, string sort, string order)
         {
             // Redirect unauthenticated members
-            if (Session["MemberId"] == null)
+            var memberId = this.Session["MemberId"];
+            if (memberId == null)
             {
-                return RedirectToAction("Index", "Login");
+                return RedirectToAction("Index", "Login"); ;
             }
+
             List<MEMBER> members;
             if ((string)Session["MemberRole"] == "Admin")
             {
@@ -87,10 +89,18 @@ namespace CVGS.Controllers
         // GET: Members/Details/5
         public ActionResult Details(int? id)
         {
+            // Redirect unauthenticated members
+            var memberId = this.Session["MemberId"];
+            if (memberId == null)
+            {
+                return RedirectToAction("Index", "Login"); ;
+            }
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+
             if (id == (int)Session["MemberId"])
             {
                 //Member is looking at their own details page; redirect to account
@@ -107,6 +117,13 @@ namespace CVGS.Controllers
 
         public ActionResult Role(int? id)
         {
+            // Redirect unauthenticated members
+            var memberId = this.Session["MemberId"];
+            if (memberId == null)
+            {
+                return RedirectToAction("Index", "Login"); ;
+            }
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -129,6 +146,13 @@ namespace CVGS.Controllers
         [HttpPost]
         public ActionResult Role([Bind(Include = "MemberId, RoleId")] UpdateRoleViewModel memberRole)
         {
+            // Redirect unauthenticated members
+            var memberId = this.Session["MemberId"];
+            if (memberId == null)
+            {
+                return RedirectToAction("Index", "Login"); ;
+            }
+
             if (ModelState.IsValid)
             {
                 MEMBER member = db.MEMBERs.Find(memberRole.MemberId);

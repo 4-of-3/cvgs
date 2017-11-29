@@ -17,11 +17,13 @@ namespace CVGS.Controllers
         // GET: Friends
         public ActionResult Index()
         {
-            var memberId = this.Session["memberId"];
+            // Redirect unauthenticated members
+            var memberId = this.Session["MemberId"];
             if (memberId == null)
             {
                 return RedirectToAction("Index", "Login"); ;
             }
+
             int member = (int)memberId;
 
             List<FRIENDSHIP> friends;
@@ -32,6 +34,13 @@ namespace CVGS.Controllers
         // GET: Friends/Details/5
         public ActionResult Details(int? id)
         {
+            // Redirect unauthenticated members
+            var memberId = this.Session["MemberId"];
+            if (memberId == null)
+            {
+                return RedirectToAction("Index", "Login"); ;
+            }
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -47,6 +56,13 @@ namespace CVGS.Controllers
         // GET: Friends/Create
         public ActionResult Create()
         {
+            // Redirect unauthenticated members
+            var memberId = this.Session["MemberId"];
+            if (memberId == null)
+            {
+                return RedirectToAction("Index", "Login"); ;
+            }
+
             ViewBag.FriendId = new SelectList(db.MEMBERs, "MemberId", "FName");
             ViewBag.MemberId = new SelectList(db.MEMBERs, "MemberId", "FName");
             return View();
@@ -59,6 +75,13 @@ namespace CVGS.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "DateCreated,MemberId,FriendId")] FRIENDSHIP fRIENDSHIP)
         {
+            // Redirect unauthenticated members
+            var memberId = this.Session["MemberId"];
+            if (memberId == null)
+            {
+                return RedirectToAction("Index", "Login"); ;
+            }
+
             if (ModelState.IsValid)
             {
                 db.FRIENDSHIPs.Add(fRIENDSHIP);
@@ -74,6 +97,13 @@ namespace CVGS.Controllers
         // GET: Friends/Edit/5
         public ActionResult Edit(int? id)
         {
+            // Redirect unauthenticated members
+            var memberId = this.Session["MemberId"];
+            if (memberId == null)
+            {
+                return RedirectToAction("Index", "Login"); ;
+            }
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -95,6 +125,13 @@ namespace CVGS.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "DateCreated,MemberId,FriendId")] FRIENDSHIP fRIENDSHIP)
         {
+            // Redirect unauthenticated members
+            var memberId = this.Session["MemberId"];
+            if (memberId == null)
+            {
+                return RedirectToAction("Index", "Login"); ;
+            }
+
             if (ModelState.IsValid)
             {
                 db.Entry(fRIENDSHIP).State = EntityState.Modified;
@@ -109,6 +146,13 @@ namespace CVGS.Controllers
         // GET: Friends/Delete/5
         public ActionResult Delete(int? id)
         {
+            // Redirect unauthenticated members
+            var memberId = this.Session["MemberId"];
+            if (memberId == null)
+            {
+                return RedirectToAction("Index", "Login"); ;
+            }
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -125,16 +169,17 @@ namespace CVGS.Controllers
         public ActionResult AddFriend(int id)
         {
             // Redirect unauthenticated members
-            if (Session["MemberId"] == null)
+            var memberId = this.Session["MemberId"];
+            if (memberId == null)
             {
-                return RedirectToAction("Index", "Login");
+                return RedirectToAction("Index", "Login"); ;
             }
-            int memberId = (int)this.Session["memberId"];
+            
             if (ModelState.IsValid)
             {
                 FRIENDSHIP friendship = new FRIENDSHIP();
                 friendship.FriendId = id;
-                friendship.MemberId = memberId;
+                friendship.MemberId = (int)memberId;
                 try
                 {
                     db.FRIENDSHIPs.Add(friendship);
@@ -153,11 +198,13 @@ namespace CVGS.Controllers
         // POST: Friends/Remove/3
         public ActionResult RemoveFriend(int? id)
         {
-            var memberId = this.Session["memberId"];
+            // Redirect unauthenticated members
+            var memberId = this.Session["MemberId"];
             if (memberId == null)
             {
                 return RedirectToAction("Index", "Login"); ;
             }
+
             try
             {
                 FRIENDSHIP friendship = db.FRIENDSHIPs.Find(memberId, id);
@@ -175,6 +222,13 @@ namespace CVGS.Controllers
         // GET: Friends/Edit/5
         public ActionResult SearchFriends(string username)
         {
+            // Redirect unauthenticated members
+            var memberId = this.Session["MemberId"];
+            if (memberId == null)
+            {
+                return RedirectToAction("Index", "Login"); ;
+            }
+
             return RedirectToAction("Index", "Members");
         }
 
