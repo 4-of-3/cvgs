@@ -16,8 +16,8 @@
           <Property Name="StreetAddress2" Type="nvarchar" MaxLength="64" />
           <Property Name="City" Type="nvarchar" MaxLength="64" Nullable="false" />
           <Property Name="PostCode" Type="nvarchar" MaxLength="12" Nullable="false" />
-          <Property Name="ProvStateId" Type="int" />
-          <Property Name="CountryId" Type="int" Nullable="false" />
+          <Property Name="ProvStateId" Type="int" Nullable="false" />
+          <Property Name="Deleted" Type="bit" />
         </EntityType>
         <EntityType Name="ADDRESSTYPE">
           <Key>
@@ -44,6 +44,7 @@
           <Property Name="NameOnCard" Type="nvarchar" MaxLength="64" Nullable="false" />
           <Property Name="CardDescription" Type="nvarchar" MaxLength="64" />
           <Property Name="ExpiryDate" Type="date" Nullable="false" />
+          <Property Name="Deleted" Type="bit" />
         </EntityType>
         <EntityType Name="EVENT">
           <Key>
@@ -160,18 +161,6 @@
           <Property Name="RoleId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="RoleName" Type="nvarchar" MaxLength="64" Nullable="false" />
         </EntityType>
-        <Association Name="fk_address_country">
-          <End Role="COUNTRY" Type="Self.COUNTRY" Multiplicity="1" />
-          <End Role="ADDRESS" Type="Self.ADDRESS" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="COUNTRY">
-              <PropertyRef Name="CountryId" />
-            </Principal>
-            <Dependent Role="ADDRESS">
-              <PropertyRef Name="CountryId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="fk_address_member">
           <End Role="MEMBER" Type="Self.MEMBER" Multiplicity="1" />
           <End Role="ADDRESS" Type="Self.ADDRESS" Multiplicity="*" />
@@ -185,7 +174,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="fk_address_provstate">
-          <End Role="PROVSTATE" Type="Self.PROVSTATE" Multiplicity="0..1" />
+          <End Role="PROVSTATE" Type="Self.PROVSTATE" Multiplicity="1" />
           <End Role="ADDRESS" Type="Self.ADDRESS" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="PROVSTATE">
@@ -209,9 +198,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="fk_card_member">
-          <End Role="MEMBER" Type="Self.MEMBER" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
+          <End Role="MEMBER" Type="Self.MEMBER" Multiplicity="1" />
           <End Role="CREDITCARD" Type="Self.CREDITCARD" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="MEMBER">
@@ -275,9 +262,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="fk_member_event">
-          <End Role="MEMBER" Type="Self.MEMBER" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
+          <End Role="MEMBER" Type="Self.MEMBER" Multiplicity="1" />
           <End Role="MEMBER_EVENT" Type="Self.MEMBER_EVENT" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="MEMBER">
@@ -402,10 +387,6 @@
           <EntitySet Name="REPORT" EntityType="Self.REPORT" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="REVIEW" EntityType="Self.REVIEW" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ROLE" EntityType="Self.ROLE" Schema="dbo" store:Type="Tables" />
-          <AssociationSet Name="fk_address_country" Association="Self.fk_address_country">
-            <End Role="COUNTRY" EntitySet="COUNTRY" />
-            <End Role="ADDRESS" EntitySet="ADDRESS" />
-          </AssociationSet>
           <AssociationSet Name="fk_address_member" Association="Self.fk_address_member">
             <End Role="MEMBER" EntitySet="MEMBER" />
             <End Role="ADDRESS" EntitySet="ADDRESS" />
@@ -622,10 +603,6 @@
           <EntitySet Name="FRIENDSHIPs" EntityType="CVGSModel.FRIENDSHIP" />
           <EntitySet Name="PROVSTATEs" EntityType="CVGSModel.PROVSTATE" />
           <EntitySet Name="REVIEWs" EntityType="CVGSModel.REVIEW" />
-          <AssociationSet Name="fk_address_country" Association="CVGSModel.fk_address_country">
-            <End Role="COUNTRY" EntitySet="COUNTRies" />
-            <End Role="ADDRESS" EntitySet="ADDRESSes" />
-          </AssociationSet>
           <AssociationSet Name="fk_address_member" Association="CVGSModel.fk_address_member">
             <End Role="MEMBER" EntitySet="MEMBERs" />
             <End Role="ADDRESS" EntitySet="ADDRESSes" />
@@ -700,13 +677,12 @@
           <Property Name="StreetAddress2" Type="String" MaxLength="64" FixedLength="false" Unicode="true" />
           <Property Name="City" Type="String" MaxLength="64" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="PostCode" Type="String" MaxLength="12" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="ProvStateId" Type="Int32" />
-          <Property Name="CountryId" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="COUNTRY" Relationship="CVGSModel.fk_address_country" FromRole="ADDRESS" ToRole="COUNTRY" />
+          <Property Name="ProvStateId" Type="Int32" Nullable="false" />
           <NavigationProperty Name="MEMBER" Relationship="CVGSModel.fk_address_member" FromRole="ADDRESS" ToRole="MEMBER" />
           <NavigationProperty Name="PROVSTATE" Relationship="CVGSModel.fk_address_provstate" FromRole="ADDRESS" ToRole="PROVSTATE" />
           <Property Name="AddressTypeId" Type="Int32" Nullable="false" />
           <NavigationProperty Name="ADDRESSTYPE" Relationship="CVGSModel.fk_address_type" FromRole="ADDRESS" ToRole="ADDRESSTYPE" />
+          <Property Name="Deleted" Type="Boolean" />
         </EntityType>
         <EntityType Name="ADDRESSTYPE">
           <Key>
@@ -723,7 +699,6 @@
           <Property Name="CountryId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="CountryCode" Type="String" Nullable="false" MaxLength="3" FixedLength="false" Unicode="true" />
           <Property Name="CountryName" Type="String" Nullable="false" MaxLength="64" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="ADDRESSes" Relationship="CVGSModel.fk_address_country" FromRole="COUNTRY" ToRole="ADDRESS" />
           <NavigationProperty Name="PROVSTATEs" Relationship="CVGSModel.fk_provstate_country" FromRole="COUNTRY" ToRole="PROVSTATE" />
         </EntityType>
         <EntityType Name="CREDITCARD">
@@ -737,6 +712,7 @@
           <Property Name="ExpiryDate" Type="DateTime" Nullable="false" Precision="0" />
           <NavigationProperty Name="MEMBER" Relationship="CVGSModel.fk_card_member" FromRole="CREDITCARD" ToRole="MEMBER" />
           <Property Name="CardDescription" Type="String" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Name="Deleted" Type="Boolean" />
         </EntityType>
         <EntityType Name="FRIENDSHIP">
           <Key>
@@ -774,18 +750,6 @@
           <NavigationProperty Name="GAME" Relationship="CVGSModel.fk_review_game" FromRole="REVIEW" ToRole="GAME" />
           <NavigationProperty Name="MEMBER" Relationship="CVGSModel.fk_review_member" FromRole="REVIEW" ToRole="MEMBER" />
         </EntityType>
-        <Association Name="fk_address_country">
-          <End Type="CVGSModel.COUNTRY" Role="COUNTRY" Multiplicity="1" />
-          <End Type="CVGSModel.ADDRESS" Role="ADDRESS" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="COUNTRY">
-              <PropertyRef Name="CountryId" />
-            </Principal>
-            <Dependent Role="ADDRESS">
-              <PropertyRef Name="CountryId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="fk_address_member">
           <End Type="CVGSModel.MEMBER" Role="MEMBER" Multiplicity="1">
             <OnDelete Action="Cascade" />
@@ -801,7 +765,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="fk_address_provstate">
-          <End Type="CVGSModel.PROVSTATE" Role="PROVSTATE" Multiplicity="0..1" />
+          <End Type="CVGSModel.PROVSTATE" Role="PROVSTATE" Multiplicity="1" />
           <End Type="CVGSModel.ADDRESS" Role="ADDRESS" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="PROVSTATE">
@@ -1020,8 +984,8 @@
           <EntitySetMapping Name="ADDRESSes">
             <EntityTypeMapping TypeName="CVGSModel.ADDRESS">
               <MappingFragment StoreEntitySet="ADDRESS">
+                <ScalarProperty Name="Deleted" ColumnName="Deleted" />
                 <ScalarProperty Name="AddressTypeId" ColumnName="AddressTypeId" />
-                <ScalarProperty Name="CountryId" ColumnName="CountryId" />
                 <ScalarProperty Name="ProvStateId" ColumnName="ProvStateId" />
                 <ScalarProperty Name="PostCode" ColumnName="PostCode" />
                 <ScalarProperty Name="City" ColumnName="City" />
@@ -1052,6 +1016,7 @@
           <EntitySetMapping Name="CREDITCARDs">
             <EntityTypeMapping TypeName="CVGSModel.CREDITCARD">
               <MappingFragment StoreEntitySet="CREDITCARD">
+                <ScalarProperty Name="Deleted" ColumnName="Deleted" />
                 <ScalarProperty Name="CardDescription" ColumnName="CardDescription" />
                 <ScalarProperty Name="ExpiryDate" ColumnName="ExpiryDate" />
                 <ScalarProperty Name="NameOnCard" ColumnName="NameOnCard" />
