@@ -4,7 +4,7 @@
     ViewBag.Title = "Edit Credit Card";
 }
 
-<h2>@ViewData["Title"]</h2>
+<h2>@ViewBag.Title</h2>
 
 <a href="@Url.Action("Details", new { id = Model.CardId })" class="btn btn-default">
     <i class="fa fa-arrow-left"></i>Card Details
