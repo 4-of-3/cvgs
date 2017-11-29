@@ -167,6 +167,7 @@
     <Compile Include="Models\ADDRESS.cs">
       <DependentUpon>CVGS.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\CreditCardMeta.cs" />
     <Compile Include="Models\AddressTypeMeta.cs" />
     <Compile Include="Models\ProvStateMeta.cs" />
     <Compile Include="Models\CountryMeta.cs" />

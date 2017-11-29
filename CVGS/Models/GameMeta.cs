@@ -33,10 +33,13 @@ namespace CVGS.Models
         [DisplayName("Category")]
         [Required]
         public string Category { get; set; }
+
         [DisplayName("Image URL")]
+        [DataType(DataType.ImageUrl)]
         public string ImageUrl { get; set; }
 
         [DisplayName("Published")]
+        [DataType(DataType.DateTime)]
         [DisplayFormat(DataFormatString = "{0:MMM-dd-yyyy}", ApplyFormatInEditMode = true)]
         public DateTime PublicationDate { get; set; }
 
