@@ -11,19 +11,11 @@
     @Html.Partial("_ProfileLinks")
     <dl class="dl-horizontal col-md-9 col-lg-10" style="margin-top: 0;">
         <dt>
-            @Html.DisplayNameFor(model => model.FName)
+            Name
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.FName)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.LName)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.LName)
+            @Model.FName @Model.LName
         </dd>
 
         <dt>
@@ -87,7 +79,7 @@
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.ActiveStatus)
+            @((Model.ActiveStatus) ? "Yes" : "No")
         </dd>
     </dl>
 </div>
