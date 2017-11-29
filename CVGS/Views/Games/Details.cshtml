@@ -6,12 +6,16 @@
 
 <h2>@ViewBag.Title</h2>
 
+<a href="@Url.Action("Index")" class="btn btn-default">
+    <i class="fa fa-arrow-left"></i>Games
+</a>
+
 <div>
-    <section>
-        <h4 style="display:inline-block">@Html.DisplayFor(model => model.Title)</h4>
-        <div style="float:right">
-            <p style="display:inline-block">@Html.ActionLink("Edit", "Edit", new { id = Model.GameId })</p>&ensp;|&ensp;
-            <p style="display:inline-block">@Html.ActionLink("Delete", "Delete", new { id = Model.GameId })</p>
+    <section class="action-bar">
+        <h4>@Html.DisplayFor(model => model.Title)</h4>
+        <div class="actions">
+            <a href="@Url.Action("Edit", new {id = Model.GameId})" class="btn btn--action btn--empty"><i class="fa fa-pencil"></i></a>
+            <a href="@Url.Action("Delete", new {id = Model.GameId})" class="btn btn--delete btn--empty"><i class="fa fa-trash"></i></a>
         </div>
     </section>
     <section class="row">
@@ -61,7 +65,7 @@
                 @Html.DisplayNameFor(model => model.Digital)
             </dt>
             <dd>
-                @Html.DisplayFor(model => model.Digital)
+                @((Model.Digital)? "Yes" : "No")
             </dd>
 
             <dt>
@@ -71,7 +75,7 @@
                 @Html.DisplayFor(model => model.Cost)
             </dd>
             <dt>
-                Average Member Rating
+                Average Rating
             </dt>
             <dd>
                 @if (Model.REVIEWs.Count > 0)
@@ -87,10 +91,5 @@
         </dl>
     </section>
 
-    <div style="margin-top: 25px;" class="col-md-offset-3">
-        @Html.ActionLink("Back", "Index")
-    </div>
-    <div class="row">
-        @Html.Partial("_GameReviews", Model)
-    </div>
+    @Html.Partial("_GameReviews", Model)
 </div>

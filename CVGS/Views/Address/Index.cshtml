@@ -1,75 +1,87 @@
 ﻿@model IEnumerable<CVGS.Models.ADDRESS>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Addresses";
 }
 
-<h2>Addresses</h2>
+<h2>@ViewBag.Title</h2>
 
-<p>
-    @Html.ActionLink("Add New Address", "Create")
-</p>
-<table class="table">
-    <tr>
-        <th>
-            <p>Primary Address</p>
-        </th>
-        <th>
-            <p>Secondary Address</p>
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.City)
-        </th>
-        <th>
-            <p>Postal Code</p>
-        </th>
-        <th>
-            <p>Country</p>
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.MEMBER.FName)
-        </th>
-        <th>
-            <p>Province</p>
-        </th>
-        <th>
-            <p>Address Type</p>
-        </th>
-        <th></th>
-    </tr>
+<hr/>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.StreetAddress)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.StreetAddress2)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.City)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.PostCode)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.COUNTRY.CountryCode)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.MEMBER.FName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.PROVSTATE.ProvStateCode)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ADDRESSTYPE.AddressTypeName)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.AddressId }) |
-            @Html.ActionLink("Details", "Details", new { id=item.AddressId }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.AddressId })
-        </td>
-    </tr>
-}
+<div class="row">
+    @Html.Partial("../Account/_ProfileLinks")
 
-</table>
+    <section class="col-md-9 col-lg-10">
+        <p>
+            <a href="@Url.Action("Create")" class="btn btn--action">
+                <i class="fa fa-plus"></i>Add Address
+            </a>
+        </p>
+
+        <table class="table">
+            <tr>
+                <th>
+                    <p>Primary Address</p>
+                </th>
+                <th>
+                    <p>Secondary Address</p>
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.City)
+                </th>
+                <th>
+                    <p>Postal Code</p>
+                </th>
+                <th>
+                    <p>Country</p>
+                </th>
+                <th>
+                    <p>Province</p>
+                </th>
+                <th>
+                    <p>Address Type</p>
+                </th>
+                <th></th>
+            </tr>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.StreetAddress)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.StreetAddress2)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.City)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.PostCode)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.PROVSTATE.COUNTRY.CountryCode)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.PROVSTATE.ProvStateCode)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ADDRESSTYPE.AddressTypeName)
+                    </td>
+                    <td class="actions--inline">
+                        <a href="@Url.Action("Details", new { id = item.AddressId })" class="btn btn--action btn--inline btn--empty">
+                            <i class="fa fa-search"></i>
+                        </a>
+                        <a href="@Url.Action("Edit", new { id = item.AddressId })" class="btn btn--action btn--inline btn--empty">
+                            <i class="fa fa-pencil"></i>
+                        </a>
+                        <a href="@Url.Action("Delete", new { id = item.AddressId })" class="btn btn--delete btn--inline btn--empty">
+                            <i class="fa fa-trash"></i>
+                        </a>
+                    </td>
+                </tr>
+            }
+
+        </table>
+    </section>
+</div>

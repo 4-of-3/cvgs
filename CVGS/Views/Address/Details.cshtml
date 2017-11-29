@@ -1,13 +1,23 @@
 ﻿@model CVGS.Models.ADDRESS
 
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = "Address Details";
 }
 
-<h2>Address Details</h2>
+<h2>@ViewBag.Title</h2>
+
+<a href="@Url.Action("Index")" class="btn btn-default">
+    <i class="fa fa-arrow-left"></i>Addresses
+</a>
 
 <div>
     <hr />
+    <div class="action-bar">
+        <div class="actions">
+            <a href="@Url.Action("Edit", new {id = Model.AddressId})" class="btn btn--action btn--empty"><i class="fa fa-pencil"></i></a>
+            <a href="@Url.Action("Delete", new {id = Model.AddressId})" class="btn btn--delete btn--empty"><i class="fa fa-trash"></i></a>
+        </div>
+    </div>
     <dl class="dl-horizontal">
         <dt>
             Primary Address
@@ -46,15 +56,7 @@
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.COUNTRY.CountryCode)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.MEMBER.FName)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.MEMBER.FName)
+            @Html.DisplayFor(model => model.PROVSTATE.COUNTRY.CountryCode)
         </dd>
 
         <dt>
@@ -75,7 +77,3 @@
 
     </dl>
 </div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.AddressId }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>

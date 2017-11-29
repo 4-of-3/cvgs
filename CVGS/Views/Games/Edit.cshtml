@@ -6,11 +6,15 @@
 
 <h2>@ViewBag.Title</h2>
 
+<a href="@Url.Action("Details", "Games", new { id = Model.GameId })" class="btn btn-default">
+    <i class="fa fa-arrow-left"></i>Game Details
+</a>
+
 
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
+
     <div class="form-horizontal">
         <hr />
         <h3 style="margin-bottom: 20px;">@ViewBag.gameTitle</h3>
@@ -93,9 +97,9 @@
 
 
         <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                @Html.ActionLink("Cancel", "Index")
-                <input type="submit" value="Save" class="btn btn-default" />
+            <div class="col-md-offset-2 col-md-4 form__actions">
+                @Html.ActionLink("Cancel", "Details", new { id = Model.GameId }, new { @class = "btn btn-default" })
+                <button type="submit" class="btn btn--save"><i class="fa fa-check"></i>Save</button>
             </div>
         </div>
     </div>

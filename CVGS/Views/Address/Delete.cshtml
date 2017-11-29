@@ -1,14 +1,17 @@
 ﻿@model CVGS.Models.ADDRESS
 
 @{
-    ViewBag.Title = "Delete";
+    ViewBag.Title = "Delete Address";
 }
 
-<h2>Delete</h2>
+<h2>@ViewBag.Title</h2>
+
+<a href="@Url.Action("Details", new { id = Model.AddressId })" class="btn btn-default">
+    <i class="fa fa-arrow-left"></i>Card Details
+</a>
 
 <h3>Are you sure you want to delete this?</h3>
 <div>
-    <h4>ADDRESS</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
@@ -44,11 +47,11 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.COUNTRY.CountryCode)
+            @Html.DisplayNameFor(model => model.PROVSTATE.COUNTRY.CountryCode)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.COUNTRY.CountryCode)
+            @Html.DisplayFor(model => model.PROVSTATE.COUNTRY.CountryCode)
         </dd>
 
         <dt>
@@ -77,12 +80,13 @@
 
     </dl>
 
-    @using (Html.BeginForm()) {
+    @using (Html.BeginForm())
+    {
         @Html.AntiForgeryToken()
 
-        <div class="form-actions no-color">
-            <input type="submit" value="Delete" class="btn btn-default" /> |
-            @Html.ActionLink("Back to List", "Index")
+        <div class="col-md-offset-2 col-md-4 form__actions">
+            @Html.ActionLink("Cancel", "Details", new { id = Model.AddressId }, new { @class = "btn btn-default" })
+            <button type="submit" class="btn btn--delete"><i class="fa fa-trash"></i>Delete</button>
         </div>
     }
 </div>
