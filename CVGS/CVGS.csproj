@@ -167,6 +167,9 @@
     <Compile Include="Models\ADDRESS.cs">
       <DependentUpon>CVGS.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\AddressTypeMeta.cs" />
+    <Compile Include="Models\ProvStateMeta.cs" />
+    <Compile Include="Models\CountryMeta.cs" />
     <Compile Include="Models\ADDRESSTYPE.cs">
       <DependentUpon>CVGS.tt</DependentUpon>
     </Compile>
@@ -194,6 +197,7 @@
     <Compile Include="Models\EVENT.cs">
       <DependentUpon>CVGS.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\AddressMeta.cs" />
     <Compile Include="Models\EventMeta.cs" />
     <Compile Include="Models\FRIENDSHIP.cs">
       <DependentUpon>CVGS.tt</DependentUpon>
