@@ -10,12 +10,11 @@ namespace CVGS.ViewModels
 {
     public class UpdateRoleViewModel
     {
-        private int memberId;
-        private int roleId;
+        public int MemberId { get; set; }
 
-        public int MemberId { get => memberId; set => memberId = value; }
         [Display(Name = "Role")]
-        public int RoleId { get => roleId; set => roleId = value; }
+        public int RoleId { get; set; }
+
         public SelectList Roles { get; set; }
     }
 }
