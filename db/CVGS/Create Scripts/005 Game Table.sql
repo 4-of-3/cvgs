@@ -15,3 +15,23 @@ CREATE TABLE CVGS.dbo.GAME(
            , Digital            BIT NOT NULL DEFAULT 0
            , Deleted            BIT NOT NULL DEFAULT 0
 );
+
+IF OBJECT_ID ('[tr_game_soft_delete] ', 'TR') IS NOT NULL
+   DROP TRIGGER [tr_game_soft_delete];
+GO
+
+ CREATE TRIGGER tr_game_soft_delete
+     ON GAME
+INSTEAD OF DELETE
+     AS
+      BEGIN
+        SET NOCOUNT ON;
+
+--     DELETE FROM REVIEW
+--      WHERE GameId IN SELECT( GameId FROM deleted );
+      
+     UPDATE GAME
+        SET Deleted = 1
+      WHERE GameId IN( SELECT GameId FROM deleted );
+  END;
+GO
