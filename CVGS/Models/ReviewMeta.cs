@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
@@ -14,17 +15,26 @@ namespace CVGS.Models
     {
         [Required]
         public int MemberId { get; set; }
+
         [Required]
         public int GameId { get; set; }
-        [Display(Name = "Review")]
-        [StringLength(1024)]
+
+        [DisplayName("Review")]
+        [Required, StringLength(1024)]
         public string ReviewText { get; set; }
-        [Display(Name = "Rating")]
+
+        [DisplayName("Rating")]
         [Required, Range(1,5)]
         public int Rating { get; set; }
+
+        [DisplayName("Date Created")]
+        [DataType(DataType.DateTime)]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd h:mm tt}", ApplyFormatInEditMode = true)]
-        public System.DateTime DateCreated { get; set; }
+        public DateTime DateCreated { get; set; }
+
+        [DisplayName("Date Modified")]
+        [DataType(DataType.DateTime)]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd h:mm tt}", ApplyFormatInEditMode = true)]
-        public Nullable<System.DateTime> DateModified { get; set; }
+        public DateTime DateModified { get; set; }
     }
 }

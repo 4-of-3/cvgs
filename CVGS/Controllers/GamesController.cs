@@ -24,7 +24,10 @@ namespace CVGS.Controllers
                 return RedirectToAction("Index", "Login"); ;
             }
 
+            // Games can be filtered and ordered
             var gamesList = db.GAMEs.ToList();
+
+            // Only filter the list if a search term was provided
             if(search != null)
             {
                 gamesList = gamesList.FindAll(x => x.Title.ToLower().Contains(search.ToLower()));
@@ -44,31 +47,31 @@ namespace CVGS.Controllers
                 asc = false;
             }
 
-            if (sort != null)
+            if (sort == null) return View(gamesList);
+
+            // Handle list sorting
+            switch (sort)
             {
-                switch (sort)
-                {
-                    case "title":
-                        gamesList = asc
-                            ? gamesList.OrderBy(e => e.Title).ToList()
-                            : gamesList.OrderByDescending(e => e.Title).ToList();
-                        break;
-                    case "category":
-                        gamesList = asc
-                            ? gamesList.OrderBy(e => e.Category).ToList()
-                            : gamesList.OrderByDescending(e => e.Category).ToList();
-                        break;
-                    case "cost":
-                        gamesList = asc
-                            ? gamesList.OrderBy(e => e.Cost).ToList()
-                            : gamesList.OrderByDescending(e => e.Cost).ToList();
-                        break;
-                    case "rating":
-                        gamesList = asc
-                            ? gamesList.OrderBy(e => (e.REVIEWs.Count()) == 0 ? 0 : e.REVIEWs.Average(m => m.Rating)).ToList()
-                            : gamesList.OrderByDescending(e => (e.REVIEWs.Count()) == 0 ? 0 : e.REVIEWs.Average(m => m.Rating)).ToList();
-                        break;
-                }
+                case "title":
+                    gamesList = asc
+                        ? gamesList.OrderBy(e => e.Title).ToList()
+                        : gamesList.OrderByDescending(e => e.Title).ToList();
+                    break;
+                case "category":
+                    gamesList = asc
+                        ? gamesList.OrderBy(e => e.Category).ToList()
+                        : gamesList.OrderByDescending(e => e.Category).ToList();
+                    break;
+                case "cost":
+                    gamesList = asc
+                        ? gamesList.OrderBy(e => e.Cost).ToList()
+                        : gamesList.OrderByDescending(e => e.Cost).ToList();
+                    break;
+                case "rating":
+                    gamesList = asc
+                        ? gamesList.OrderBy(e => (e.REVIEWs.Count()) == 0 ? 0 : e.REVIEWs.Average(m => m.Rating)).ToList()
+                        : gamesList.OrderByDescending(e => (e.REVIEWs.Count()) == 0 ? 0 : e.REVIEWs.Average(m => m.Rating)).ToList();
+                    break;
             }
 
             return View(gamesList);
@@ -89,13 +92,15 @@ namespace CVGS.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            GAME gAME = db.GAMEs.Find(id);
-            ViewBag.gameTitle = gAME.Title;
-            if (gAME == null)
+            // Find and display game details
+            GAME game = db.GAMEs.Find(id);
+            if (game == null)
             {
                 return HttpNotFound();
             }
-            return View(gAME);
+
+            ViewBag.gameTitle = game.Title;
+            return View(game);
         }
 
         // GET: Games/Create
@@ -112,11 +117,9 @@ namespace CVGS.Controllers
         }
 
         // POST: Games/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "GameId,Title,ISBN,Developer,Description,Category,PublicationDate,Cost,ImageUrl,Digital")] GAME gAME)
+        public ActionResult Create([Bind(Include = "GameId,Title,ISBN,Developer,Description,Category,PublicationDate,Cost,ImageUrl,Digital")] GAME game)
         {
             // Redirect unauthenticated members
             var memberId = this.Session["MemberId"];
@@ -125,12 +128,13 @@ namespace CVGS.Controllers
                 return RedirectToAction("Index", "Login"); ;
             }
 
+            // Validate and add game
             if (!ModelState.IsValid)
             {
-                return View(gAME);
+                return View(game);
             }
 
-            db.GAMEs.Add(gAME);
+            db.GAMEs.Add(game);
             db.SaveChanges();
 
             return RedirectToAction("Index");
@@ -151,21 +155,21 @@ namespace CVGS.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            GAME gAME = db.GAMEs.Find(id);
-            ViewBag.gameTitle = gAME.Title;
-            if (gAME == null)
+            // Find and display game for editing
+            GAME game = db.GAMEs.Find(id);
+            if (game == null)
             {
                 return HttpNotFound();
             }
-            return View(gAME);
+
+            ViewBag.gameTitle = game.Title;
+            return View(game);
         }
 
         // POST: Games/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "GameId,Title,ISBN,Developer,Description,Category,PublicationDate,Cost,ImageUrl,Digital")] GAME gAME)
+        public ActionResult Edit([Bind(Include = "GameId,Title,ISBN,Developer,Description,Category,PublicationDate,Cost,ImageUrl,Digital")] GAME game)
         {
             // Redirect unauthenticated members
             var memberId = this.Session["MemberId"];
@@ -174,14 +178,15 @@ namespace CVGS.Controllers
                 return RedirectToAction("Index", "Login"); ;
             }
 
+            // Validate and update game
             if (!ModelState.IsValid)
             {
-                return View(gAME);
+                return View(game);
             }
 
-            db.Entry(gAME).State = EntityState.Modified;
+            db.Entry(game).State = EntityState.Modified;
             db.SaveChanges();
-            return RedirectToAction("Index");
+            return RedirectToAction("Details", new { id = game.GameId });
         }
 
         // GET: Games/Delete/5
@@ -199,13 +204,15 @@ namespace CVGS.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            GAME gAME = db.GAMEs.Find(id);
-            ViewBag.gameTitle = gAME.Title;
-            if (gAME == null)
+            // Find and display game for deletion confirmation
+            GAME game = db.GAMEs.Find(id);
+            if (game == null)
             {
                 return HttpNotFound();
             }
-            return View(gAME);
+
+            ViewBag.gameTitle = game.Title;
+            return View(game);
         }
 
         // POST: Games/Delete/5
@@ -220,8 +227,14 @@ namespace CVGS.Controllers
                 return RedirectToAction("Index", "Login"); ;
             }
 
-            GAME gAME = db.GAMEs.Find(id);
-            db.GAMEs.Remove(gAME);
+            // Remove game and display all games
+            GAME game = db.GAMEs.Find(id);
+            if (game == null)
+            {
+                return HttpNotFound();
+            }
+
+            db.GAMEs.Remove(game);
             db.SaveChanges();
             return RedirectToAction("Index");
         }

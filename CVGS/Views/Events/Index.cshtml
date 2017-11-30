@@ -28,8 +28,13 @@
     @foreach (var item in Model)
     {
         <tr>
-            <td>
+            <td class="flex-row">
                 @Html.DisplayFor(modelItem => item.EventTitle)
+                @* TODO: Add to a ViewModel *@
+                @if (item.MEMBER_EVENT.ToList().Find(x => x.EventId == item.EventId && x.MemberId == (int)@Session["MemberId"]) != null)
+                {
+                    @:<span class="indicator indicator--registered">R</span>
+                }
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Location)
