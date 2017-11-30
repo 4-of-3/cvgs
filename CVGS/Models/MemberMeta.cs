@@ -51,8 +51,9 @@ namespace CVGS.Models
         public string FavQuote { get; set; }
 
         [DisplayName("Date Joined")]
+        [DataType(DataType.DateTime)]
         [DisplayFormat(DataFormatString = "{0:MMM-dd-yyyy}", ApplyFormatInEditMode = true)]
-        public Nullable<System.DateTime> DateJoined { get; set; }
+        public DateTime? DateJoined { get; set; }
 
         [DisplayName("Active")]
         [Required]

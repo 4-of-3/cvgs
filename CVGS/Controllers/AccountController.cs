@@ -46,14 +46,14 @@ namespace CVGS.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "FName,LName,Email,UserName,Pwd,PwdConfirm,FavPlatform,FavCategory,FavGame,FavQuote")] NewAccountViewModel account)
+        public ActionResult Create([Bind(Include = "FName,LName,Email,UserName,Pwd,PwdConfirm")] NewAccountViewModel account)
         {
             // Validate and create the member account
             if (ModelState.IsValid)
             {
                 try
                 {
-                    db.SP_ADD_MEMBER(account.FName, account.LName, account.UserName, account.Email, account.Pwd, account.FavPlatform, account.FavCategory, account.FavGame, account.FavQuote);
+                    db.SP_ADD_MEMBER(account.FName, account.LName, account.UserName, account.Email, account.Pwd, null, null, null, null );
 
                     var member = db.MEMBERs.Find(db.MEMBERs.Max(m => m.MemberId));
                     Session["MemberId"] = member.MemberId;

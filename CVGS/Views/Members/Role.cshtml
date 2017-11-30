@@ -1,10 +1,10 @@
 ﻿@model CVGS.ViewModels.UpdateRoleViewModel
 
 @{
-    ViewBag.Title = "Role";
+    ViewBag.Title = "Change Role";
 }
 
-<h2>Role</h2>
+<h2>@ViewBag.Title</h2>
 
 <a href="@Url.Action("Details", new { id = Model.MemberId } )" class="btn btn-default">
     <i class="fa fa-arrow-left"></i>Member Details

@@ -8,54 +8,60 @@
 <p>
     <a href="@Url.Action("Create", "Reviews", new { gameId = Model.GameId })" class="btn btn--action"><i class="fa fa-plus"></i>Add Review</a>
 </p>
-<table class="table">
 
-@foreach (var item in Model.REVIEWs) {
-    <tr>
-        <td class="text-primary">
-            @Html.ActionLink(item.MEMBER.UserName, "Details", "Members", new { id = item.MemberId }, null)
-        </td>
-        <td class="nowrap">
-            @Html.DisplayFor(modelItem => item.Rating) / 5
-        </td>
-        <td>
-            @if (item.ReviewText != null && item.ReviewText != "")
-            {
-                @Html.Raw(item.ReviewText.Replace(Environment.NewLine, "<br/>"))
-            }
-            else
-            {
-                <em class="text-muted">No review provided</em>
-            }
-            @if (item.DateModified != null)
-            {
-                <br />
-                <small class="text-muted">Edited on @item.DateModified</small>
-            }
-        </td>
-        <td class="nowrap">
-            @Html.DisplayFor(modelItem => item.DateCreated)
-        </td>
-        <td class="action-bar">
-            <div class="actions--inline">
-                @if (item.MemberId == (int)Session["MemberId"])
-                {
-                    <a href="@Url.Action("Edit", "Reviews", new {memberId = item.MemberId, gameId = Model.GameId})" class="btn btn--action btn--inline btn--empty">
-                        <i class="fa fa-pencil"></i>
-                    </a>
-                    <a href="@Url.Action("Delete", "Reviews", new {memberId = item.MemberId, gameId = Model.GameId})" class="btn btn--delete btn--inline btn--empty">
-                        <i class="fa fa-trash"></i>
-                    </a>
-                }
-                else if ((string)Session["MemberRole"] == "Employee" || (string)Session["MemberRole"] == "Admin")
-                {
-                    <a href="@Url.Action("Delete", "Reviews", new {memberId = item.MemberId, gameId = Model.GameId})" class="btn btn--delete btn--inline btn--empty">
-                        <i class="fa fa-trash"></i>
-                    </a>
-                }
-            </div>
-        </td>
-    </tr>
+@if (Model.REVIEWs.Count == 0)
+{
+    <em>Be the first to add a Review!</em>
 }
+
+<table class="table">
+    @foreach (var item in Model.REVIEWs)
+    {
+        <tr>
+            <td class="text-primary">
+                @Html.ActionLink(item.MEMBER.UserName, "Details", "Members", new { id = item.MemberId }, null)
+            </td>
+            <td class="nowrap">
+                @Html.DisplayFor(modelItem => item.Rating) / 5
+            </td>
+            <td>
+                @if (item.ReviewText != null && item.ReviewText != "")
+                {
+                    @Html.Raw(item.ReviewText.Replace(Environment.NewLine, "<br/>"))
+                }
+                else
+                {
+                    <em class="text-muted">No review provided</em>
+                }
+                @if (item.DateModified != null)
+                {
+                    <br />
+                    <small class="text-muted">Edited on @item.DateModified</small>
+                }
+            </td>
+            <td class="nowrap">
+                @Html.DisplayFor(modelItem => item.DateCreated)
+            </td>
+            <td class="action-bar">
+                <div class="actions--inline">
+                    @if (item.MemberId == (int)Session["MemberId"])
+                {
+                        <a href="@Url.Action("Edit", "Reviews", new {memberId = item.MemberId, gameId = Model.GameId})" class="btn btn--action btn--inline btn--empty">
+                            <i class="fa fa-pencil"></i>
+                        </a>
+                        <a href="@Url.Action("Delete", "Reviews", new {memberId = item.MemberId, gameId = Model.GameId})" class="btn btn--delete btn--inline btn--empty">
+                            <i class="fa fa-trash"></i>
+                        </a>
+                    }
+                    else if ((string)Session["MemberRole"] == "Employee" || (string)Session["MemberRole"] == "Admin")
+                    {
+                        <a href="@Url.Action("Delete", "Reviews", new {memberId = item.MemberId, gameId = Model.GameId})" class="btn btn--delete btn--inline btn--empty">
+                            <i class="fa fa-trash"></i>
+                        </a>
+                    }
+                </div>
+            </td>
+        </tr>
+    }
 
 </table>
