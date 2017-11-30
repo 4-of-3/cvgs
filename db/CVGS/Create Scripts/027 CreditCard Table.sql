@@ -9,6 +9,7 @@ CREATE TABLE CVGS.dbo.CREDITCARD(
            , NameOnCard       NVARCHAR( 64 ) NOT NULL
            , CardDescription  NVARCHAR( 64 )
            , ExpiryDate       DATE NOT NULL
+           , CVV              NVARCHAR(  4 )
            , Deleted          BIT NOT NULL DEFAULT 0
   CONSTRAINT fk_card_member FOREIGN KEY( MemberId ) REFERENCES MEMBER( MemberId )
 );

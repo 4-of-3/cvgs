@@ -17,7 +17,7 @@
           <Property Name="City" Type="nvarchar" MaxLength="64" Nullable="false" />
           <Property Name="PostCode" Type="nvarchar" MaxLength="12" Nullable="false" />
           <Property Name="ProvStateId" Type="int" Nullable="false" />
-          <Property Name="Deleted" Type="bit" />
+          <Property Name="Deleted" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="ADDRESSTYPE">
           <Key>
@@ -44,7 +44,8 @@
           <Property Name="NameOnCard" Type="nvarchar" MaxLength="64" Nullable="false" />
           <Property Name="CardDescription" Type="nvarchar" MaxLength="64" />
           <Property Name="ExpiryDate" Type="date" Nullable="false" />
-          <Property Name="Deleted" Type="bit" />
+          <Property Name="CVV" Type="nvarchar" MaxLength="4" />
+          <Property Name="Deleted" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="EVENT">
           <Key>
@@ -682,7 +683,7 @@
           <NavigationProperty Name="PROVSTATE" Relationship="CVGSModel.fk_address_provstate" FromRole="ADDRESS" ToRole="PROVSTATE" />
           <Property Name="AddressTypeId" Type="Int32" Nullable="false" />
           <NavigationProperty Name="ADDRESSTYPE" Relationship="CVGSModel.fk_address_type" FromRole="ADDRESS" ToRole="ADDRESSTYPE" />
-          <Property Name="Deleted" Type="Boolean" />
+          <Property Name="Deleted" Type="Boolean" Nullable="false" />
         </EntityType>
         <EntityType Name="ADDRESSTYPE">
           <Key>
@@ -712,7 +713,8 @@
           <Property Name="ExpiryDate" Type="DateTime" Nullable="false" Precision="0" />
           <NavigationProperty Name="MEMBER" Relationship="CVGSModel.fk_card_member" FromRole="CREDITCARD" ToRole="MEMBER" />
           <Property Name="CardDescription" Type="String" MaxLength="64" FixedLength="false" Unicode="true" />
-          <Property Name="Deleted" Type="Boolean" />
+          <Property Name="Deleted" Type="Boolean" Nullable="false" />
+          <Property Name="CVV" Type="String" MaxLength="4" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="FRIENDSHIP">
           <Key>
@@ -1016,6 +1018,7 @@
           <EntitySetMapping Name="CREDITCARDs">
             <EntityTypeMapping TypeName="CVGSModel.CREDITCARD">
               <MappingFragment StoreEntitySet="CREDITCARD">
+                <ScalarProperty Name="CVV" ColumnName="CVV" />
                 <ScalarProperty Name="Deleted" ColumnName="Deleted" />
                 <ScalarProperty Name="CardDescription" ColumnName="CardDescription" />
                 <ScalarProperty Name="ExpiryDate" ColumnName="ExpiryDate" />

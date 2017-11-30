@@ -20,7 +20,7 @@ namespace CVGS.Models
         public int GameId { get; set; }
 
         [DisplayName("Review")]
-        [Required, StringLength(1024)]
+        [StringLength(1024)]
         public string ReviewText { get; set; }
 
         [DisplayName("Rating")]

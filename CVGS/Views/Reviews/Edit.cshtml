@@ -29,6 +29,9 @@
                 {
                     @Html.RadioButtonFor(model => model.Rating, i, new { id = "rating" + i, @class = "radio-inline" })
                 }
+                <div>
+                    @Html.ValidationMessageFor(model => model.Rating, "", new { @class = "text-danger" })
+                </div>
             </div>
         </div>
 
