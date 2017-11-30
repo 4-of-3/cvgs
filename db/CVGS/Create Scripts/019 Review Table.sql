@@ -11,6 +11,6 @@ CREATE TABLE CVGS.dbo.REVIEW(
            , DateModified     DATETIME2
   CONSTRAINT pk_review PRIMARY KEY( MemberId, GameId ),
   CONSTRAINT fk_review_member FOREIGN KEY( MemberId ) REFERENCES Member( MemberId ),
-  CONSTRAINT fk_
+  CONSTRAINT fk_review_game FOREIGN KEY( GameId ) REFERENCES Game( GameId )
 );
 GO
