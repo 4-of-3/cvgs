@@ -35,6 +35,9 @@ INSTEAD OF DELETE
           , Deleted = 1
       WHERE MemberId IN( SELECT MemberId FROM deleted );
       
+     DELETE FROM REVIEW
+      WHERE MemberId IN( SELECT MemberId FROM deleted );
+      
      UPDATE MEMBER
         SET FName = '*****'
           , LName = '*****'
