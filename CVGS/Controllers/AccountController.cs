@@ -48,6 +48,10 @@ namespace CVGS.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "FName,LName,Email,UserName,Pwd,PwdConfirm")] NewAccountViewModel account)
         {
+            if (db.MEMBERs.Where(m=>m.UserName == account.UserName).Count() != 0)
+            {
+                ModelState.AddModelError("UserName", "That user name is already in use.");
+            }
             // Validate and create the member account
             if (ModelState.IsValid)
             {
@@ -62,7 +66,7 @@ namespace CVGS.Controllers
                 }
                 catch (Exception ex)
                 {
-                    ModelState.AddModelError("", ex.GetBaseException());
+                    ModelState.AddModelError("", ex.GetBaseException().Message);
                 }
             }
 
