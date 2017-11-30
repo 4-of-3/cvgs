@@ -15,25 +15,73 @@ namespace CVGS.Controllers
         private CVGSEntities db = new CVGSEntities();
 
         // GET: Games
-        public ActionResult Index(string search)
+        public ActionResult Index(string search, string sort, string order)
         {
-            var memberId = this.Session["memberId"];
+            // Redirect unauthenticated members
+            var memberId = this.Session["MemberId"];
             if (memberId == null)
             {
                 return RedirectToAction("Index", "Login"); ;
             }
+
+            // Games can be filtered and ordered
             var gamesList = db.GAMEs.ToList();
+
+            // Only filter the list if a search term was provided
             if(search != null)
             {
                 gamesList = gamesList.FindAll(x => x.Title.ToLower().Contains(search.ToLower()));
+                ViewBag.search = search;
             }
+
+            bool asc = true;
+            ViewBag.listSortAsc = "asc";
+            if (order != null && order.Equals("asc"))
+            {
+                ViewBag.listSortAsc = "desc";
+                asc = true;
+            }
+            else if (order != null && order.Equals("desc"))
+            {
+                ViewBag.listSortAsc = "asc";
+                asc = false;
+            }
+
+            if (sort == null) return View(gamesList);
+
+            // Handle list sorting
+            switch (sort)
+            {
+                case "title":
+                    gamesList = asc
+                        ? gamesList.OrderBy(e => e.Title).ToList()
+                        : gamesList.OrderByDescending(e => e.Title).ToList();
+                    break;
+                case "category":
+                    gamesList = asc
+                        ? gamesList.OrderBy(e => e.Category).ToList()
+                        : gamesList.OrderByDescending(e => e.Category).ToList();
+                    break;
+                case "cost":
+                    gamesList = asc
+                        ? gamesList.OrderBy(e => e.Cost).ToList()
+                        : gamesList.OrderByDescending(e => e.Cost).ToList();
+                    break;
+                case "rating":
+                    gamesList = asc
+                        ? gamesList.OrderBy(e => (e.REVIEWs.Count()) == 0 ? 0 : e.REVIEWs.Average(m => m.Rating)).ToList()
+                        : gamesList.OrderByDescending(e => (e.REVIEWs.Count()) == 0 ? 0 : e.REVIEWs.Average(m => m.Rating)).ToList();
+                    break;
+            }
+
             return View(gamesList);
         }
 
         // GET: Games/Details/5
         public ActionResult Details(int? id)
         {
-            var memberId = this.Session["memberId"];
+            // Redirect unauthenticated members
+            var memberId = this.Session["MemberId"];
             if (memberId == null)
             {
                 return RedirectToAction("Index", "Login"); ;
@@ -44,19 +92,22 @@ namespace CVGS.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            GAME gAME = db.GAMEs.Find(id);
-            ViewBag.gameTitle = gAME.Title;
-            if (gAME == null)
+            // Find and display game details
+            GAME game = db.GAMEs.Find(id);
+            if (game == null)
             {
                 return HttpNotFound();
             }
-            return View(gAME);
+
+            ViewBag.gameTitle = game.Title;
+            return View(game);
         }
 
         // GET: Games/Create
         public ActionResult Create()
         {
-            var memberId = this.Session["memberId"];
+            // Redirect unauthenticated members
+            var memberId = this.Session["MemberId"];
             if (memberId == null)
             {
                 return RedirectToAction("Index", "Login"); ;
@@ -66,24 +117,24 @@ namespace CVGS.Controllers
         }
 
         // POST: Games/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "GameId,Title,ISBN,Developer,Description,Category,PublicationDate,Cost,ImageUrl,Digital")] GAME gAME)
+        public ActionResult Create([Bind(Include = "GameId,Title,ISBN,Developer,Description,Category,PublicationDate,Cost,ImageUrl,Digital")] GAME game)
         {
-            var memberId = this.Session["memberId"];
+            // Redirect unauthenticated members
+            var memberId = this.Session["MemberId"];
             if (memberId == null)
             {
                 return RedirectToAction("Index", "Login"); ;
             }
 
+            // Validate and add game
             if (!ModelState.IsValid)
             {
-                return View(gAME);
+                return View(game);
             }
 
-            db.GAMEs.Add(gAME);
+            db.GAMEs.Add(game);
             db.SaveChanges();
 
             return RedirectToAction("Index");
@@ -92,7 +143,8 @@ namespace CVGS.Controllers
         // GET: Games/Edit/5
         public ActionResult Edit(int? id)
         {
-            var memberId = this.Session["memberId"];
+            // Redirect unauthenticated members
+            var memberId = this.Session["MemberId"];
             if (memberId == null)
             {
                 return RedirectToAction("Index", "Login"); ;
@@ -103,42 +155,45 @@ namespace CVGS.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            GAME gAME = db.GAMEs.Find(id);
-            ViewBag.gameTitle = gAME.Title;
-            if (gAME == null)
+            // Find and display game for editing
+            GAME game = db.GAMEs.Find(id);
+            if (game == null)
             {
                 return HttpNotFound();
             }
-            return View(gAME);
+
+            ViewBag.gameTitle = game.Title;
+            return View(game);
         }
 
         // POST: Games/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "GameId,Title,ISBN,Developer,Description,Category,PublicationDate,Cost,ImageUrl,Digital")] GAME gAME)
+        public ActionResult Edit([Bind(Include = "GameId,Title,ISBN,Developer,Description,Category,PublicationDate,Cost,ImageUrl,Digital")] GAME game)
         {
-            var memberId = this.Session["memberId"];
+            // Redirect unauthenticated members
+            var memberId = this.Session["MemberId"];
             if (memberId == null)
             {
                 return RedirectToAction("Index", "Login"); ;
             }
 
+            // Validate and update game
             if (!ModelState.IsValid)
             {
-                return View(gAME);
+                return View(game);
             }
 
-            db.Entry(gAME).State = EntityState.Modified;
+            db.Entry(game).State = EntityState.Modified;
             db.SaveChanges();
-            return RedirectToAction("Index");
+            return RedirectToAction("Details", new { id = game.GameId });
         }
 
         // GET: Games/Delete/5
         public ActionResult Delete(int? id)
         {
-            var memberId = this.Session["memberId"];
+            // Redirect unauthenticated members
+            var memberId = this.Session["MemberId"];
             if (memberId == null)
             {
                 return RedirectToAction("Index", "Login"); ;
@@ -149,13 +204,15 @@ namespace CVGS.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            GAME gAME = db.GAMEs.Find(id);
-            ViewBag.gameTitle = gAME.Title;
-            if (gAME == null)
+            // Find and display game for deletion confirmation
+            GAME game = db.GAMEs.Find(id);
+            if (game == null)
             {
                 return HttpNotFound();
             }
-            return View(gAME);
+
+            ViewBag.gameTitle = game.Title;
+            return View(game);
         }
 
         // POST: Games/Delete/5
@@ -163,14 +220,21 @@ namespace CVGS.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            var memberId = this.Session["memberId"];
+            // Redirect unauthenticated members
+            var memberId = this.Session["MemberId"];
             if (memberId == null)
             {
                 return RedirectToAction("Index", "Login"); ;
             }
 
-            GAME gAME = db.GAMEs.Find(id);
-            db.GAMEs.Remove(gAME);
+            // Remove game and display all games
+            GAME game = db.GAMEs.Find(id);
+            if (game == null)
+            {
+                return HttpNotFound();
+            }
+
+            db.GAMEs.Remove(game);
             db.SaveChanges();
             return RedirectToAction("Index");
         }

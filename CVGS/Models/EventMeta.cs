@@ -23,15 +23,15 @@ namespace CVGS.Models
         public string Description { get; set; }
 
         [DisplayName("Date")]
-        [Required]
+        [Required, DataType(DataType.DateTime)]
         [DisplayFormat(DataFormatString = "{0:MMM-dd-yyyy h:mm tt}", ApplyFormatInEditMode = true)]
-        public System.DateTime EventDate { get; set; }
+        public DateTime EventDate { get; set; }
 
         [DisplayName("Active")]
         public bool ActiveStatus { get; set; }
 
         [DisplayName("Date Created")]
-        public Nullable<System.DateTime> DateCreated { get; set; }
+        public DateTime? DateCreated { get; set; }
 
         [DisplayName("Location")]
         [Required, MaxLength(64)]

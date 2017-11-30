@@ -6,74 +6,76 @@
 
 <h2>@ViewBag.Title</h2>
 
-@using (Html.BeginForm("SearchFriends", "Friends"))
+@using (Html.BeginForm("Index", "Members"))
 {
-    <p>
-        <input id="username" type="text" placeholder="Search" name="username" class="search-bar pull-right">
-    </p>
+    <div class="search-bar">
+        <div class="input-group">
+            <input id="search" type="text" placeholder="Search" name="search" value="@ViewBag.search" class="form-control">
+            <span class="input-group-btn">
+                <button type="submit" class="btn btn--action">
+                    <i class="fa fa-search"></i>
+                </button>
+            </span>
+        </div>
+    </div>
 }
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.UserName)
+            @Html.ActionLink("Username", "Index", new { search = ViewBag.search, sort = "username", order = @ViewBag.listSortAsc })
         </th>
         <th>
-            Name
+            @Html.ActionLink("Name", "Index", new { search = ViewBag.search, sort = "name", order = @ViewBag.listSortAsc })
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Email)
+            @Html.ActionLink("Email", "Index", new { search = ViewBag.search, sort = "email", order = @ViewBag.listSortAsc })
         </th>
-        <th></th>
+        <th>
+            @Html.ActionLink("Role", "Index", new { search = ViewBag.search, sort = "role", order = @ViewBag.listSortAsc })
+        </th>
+        <th style="width: 1px; white-space: nowrap;"></th>
     </tr>
 
-@foreach (var item in Model)
-{
-    <tr>
-        <td>
-            @Html.ActionLink(item.UserName, "Details", new { id = item.MemberId })<br />
-            <small class="text-muted">
-                <em>
-                    @Html.DisplayFor(modelItem => item.ROLE.RoleName) since @Html.DisplayFor(modelItem => item.DateJoined)
-                    @if (!item.ActiveStatus)
-                    {
-                        <br />
-                        <span class="text-warning">Account Deactivated</span>
-                    }
-                </em>
-            </small>
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.FName) @Html.DisplayFor(modelItem => item.LName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Email)
-        </td>
-        <td style="width: 1px; white-space: nowrap">
-            <a href="@Url.Action("Details", new {id = item.MemberId})" class="btn btn--action btn--empty btn--inline">
-                <i class="fa fa-search"></i>
-            </a>
-        </td>
-        @*<td>
-                @if (item.MemberId != (int)Session["MemberId"])
-                {
-                    if (item.FRIENDSHIPs2.Select(m => m.MemberId).ToList().Contains((int)Session["MemberId"]))
-                    {
-                        //Member is already in friends list
-                        <a href="@Url.Action("RemoveFriend", "Friends", new { id = item.MemberId })">Remove Friend</a>
-                    }
-                    else
-                    {
-                        //Member is not in friends list
-                        <a href="@Url.Action("AddFriend", "Friends", new { id = item.MemberId })">Add Friend</a>
+    @if (Model.ToList().Count == 0)
+    {
+        <tr>
+            <td colspan="5">
+                <em>No items found</em>
+            </td>
+        </tr>
+    }
 
-                    }
-                    if ((string)Session["MemberRole"] == "Admin")
-                    {
-                        @:| @Html.ActionLink("Change member role", "Role", new { id = item.MemberId })
-                    }
-                }
-            </td>*@
-    </tr>
-}
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.ActionLink(item.UserName, "Details", new { id = item.MemberId })<br />
+                <small class="text-muted">
+                    <em>
+                        @Html.DisplayFor(modelItem => item.ROLE.RoleName) since @Html.DisplayFor(modelItem => item.DateJoined)
+                        @if (!item.ActiveStatus)
+                        {
+                            <br />
+                            <span class="text-warning">Account Deactivated</span>
+                        }
+                    </em>
+                </small>
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FName) @Html.DisplayFor(modelItem => item.LName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Email)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ROLE.RoleName)
+            </td>
+            <td>
+                <a href="@Url.Action("Details", new {id = item.MemberId})" class="btn btn--action btn--empty btn--inline">
+                    <i class="fa fa-search"></i>
+                </a>
+            </td>
+        </tr>
+    }
 
 </table>

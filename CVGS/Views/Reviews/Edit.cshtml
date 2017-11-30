@@ -1,10 +1,10 @@
 ﻿@model CVGS.Models.REVIEW
 
 @{
-    ViewBag.Title = "Edit";
+    ViewBag.Title = "Edit Review";
 }
 
-<h2>Edit</h2>
+<h2>@ViewBag.Title</h2>
 
 <a href="@Url.Action("Details", "Games", new {id = Model.GameId})" class="btn btn-default">
     <i class="fa fa-arrow-left"></i>Game Details
@@ -29,6 +29,9 @@
                 {
                     @Html.RadioButtonFor(model => model.Rating, i, new { id = "rating" + i, @class = "radio-inline" })
                 }
+                <div>
+                    @Html.ValidationMessageFor(model => model.Rating, "", new { @class = "text-danger" })
+                </div>
             </div>
         </div>
 

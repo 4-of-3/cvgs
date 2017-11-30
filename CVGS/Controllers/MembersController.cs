@@ -16,13 +16,16 @@ namespace CVGS.Controllers
         private CVGSEntities db = new CVGSEntities();
 
         // GET: Members
-        public ActionResult Index()
+        public ActionResult Index(string search, string sort, string order)
         {
             // Redirect unauthenticated members
-            if (Session["MemberId"] == null)
+            var memberId = this.Session["MemberId"];
+            if (memberId == null)
             {
-                return RedirectToAction("Index", "Login");
+                return RedirectToAction("Index", "Login"); ;
             }
+
+            // Members can be filtered and sorted
             List<MEMBER> members;
             if ((string)Session["MemberRole"] == "Admin")
             {
@@ -30,25 +33,83 @@ namespace CVGS.Controllers
             }
             else
             {
-                // Exclude inactive members from the list
+                // Non-admins can only see active members
                 members = db.MEMBERs.Where(m => m.ActiveStatus).ToList();
             }
+
+            // Only filter the list if a search term is specified
+            if (search != null)
+            {
+                string tempSearch = search.ToLower();
+                members = members.FindAll(x => x.UserName.ToLower().Contains(tempSearch) || x.FName.ToLower().Contains(tempSearch) || x.LName.ToLower().Contains(tempSearch) || x.Email.ToLower().Contains(tempSearch));
+                ViewBag.search = search;
+            }
+
+            bool asc = true;
+            ViewBag.listSortAsc = "asc";
+            if (order != null && order.Equals("asc"))
+            {
+                ViewBag.listSortAsc = "desc";
+                asc = true;
+            }
+            else if (order != null && order.Equals("desc"))
+            {
+                ViewBag.listSortAsc = "asc";
+                asc = false;
+            }
+
+            if (sort == null) return View(members);
+
+            // Handle list sorting
+            switch (sort)
+            {
+                case "username":
+                    members = asc
+                        ? members.OrderBy(e => e.UserName).ToList()
+                        : members.OrderByDescending(e => e.UserName).ToList();
+                    break;
+                case "name":
+                    members = asc
+                        ? members.OrderBy(e => e.FName).ToList()
+                        : members.OrderByDescending(e => e.FName).ToList();
+                    break;
+                case "email":
+                    members = asc
+                        ? members.OrderBy(e => e.Email).ToList()
+                        : members.OrderByDescending(e => e.Email).ToList();
+                    break;
+                case "role":
+                    members = asc
+                        ? members.OrderBy(e => e.ROLE.RoleName).ToList()
+                        : members.OrderByDescending(e => e.ROLE.RoleName).ToList();
+                    break;
+            }
+
             return View(members);
         }
 
         // GET: Members/Details/5
         public ActionResult Details(int? id)
         {
+            // Redirect unauthenticated members
+            var memberId = this.Session["MemberId"];
+            if (memberId == null)
+            {
+                return RedirectToAction("Index", "Login"); ;
+            }
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+
+            // When members view their own account they should be redirected to their profile page
             if (id == (int)Session["MemberId"])
             {
-                //Member is looking at their own details page; redirect to account
                 return RedirectToAction("Index", "Account");
             }
 
+            // Find and display member details
             MEMBER member = db.MEMBERs.Find(id);
             if (member == null)
             {
@@ -59,14 +120,25 @@ namespace CVGS.Controllers
 
         public ActionResult Role(int? id)
         {
+            // Redirect unauthenticated members
+            var memberId = this.Session["MemberId"];
+            if (memberId == null)
+            {
+                return RedirectToAction("Index", "Login"); ;
+            }
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+
+            // Only admins can change a member's role
             if((string)Session["MemberRole"] != "Admin")
             {
                 return new HttpStatusCodeResult(HttpStatusCode.Unauthorized);
             }
+
+            // Find and display the member for role editing
             MEMBER member = db.MEMBERs.Find(id);
             UpdateRoleViewModel memberRole = new UpdateRoleViewModel()
             {
@@ -81,15 +153,29 @@ namespace CVGS.Controllers
         [HttpPost]
         public ActionResult Role([Bind(Include = "MemberId, RoleId")] UpdateRoleViewModel memberRole)
         {
+            // Redirect unauthenticated members
+            var memberId = this.Session["MemberId"];
+            if (memberId == null)
+            {
+                return RedirectToAction("Index", "Login"); ;
+            }
+
+            // Validate and update the member's role
             if (ModelState.IsValid)
             {
                 MEMBER member = db.MEMBERs.Find(memberRole.MemberId);
+                if (member == null)
+                {
+                    return HttpNotFound();
+                }
+
                 member.RoleId = memberRole.RoleId;
 
                 db.Entry(member).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Details", new { id = member.MemberId });
             }
+
             return View(memberRole);
         }
 

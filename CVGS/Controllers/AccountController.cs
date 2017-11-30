@@ -19,24 +19,14 @@ namespace CVGS.Controllers
         // GET: MEMBERs
         public ActionResult Index()
         {
-            var memberId = this.Session["MemberId"];
-            // Error catching for Address database call.
-            try
-            {
-                var address = db.ADDRESSes.Where(r => r.MemberId == 4).ToList();
-                ViewBag.address = address[0].StreetAddress;
-            }
-            catch (Exception)
-            {
-                ViewBag.address = "";
-            }
-            
             // Redirect unauthenticated members
+            var memberId = this.Session["MemberId"];
             if (memberId == null)
             {
-                return RedirectToAction("Index", "Login");
+                return RedirectToAction("Index", "Login"); ;
             }
 
+            // Find and display the member profile
             MEMBER member = db.MEMBERs.Find(memberId);
             if (member == null)
             {
@@ -56,13 +46,14 @@ namespace CVGS.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "FName,LName,Email,UserName,Pwd,PwdConfirm,FavPlatform,FavCategory,FavGame,FavQuote")] NewAccountViewModel account)
+        public ActionResult Create([Bind(Include = "FName,LName,Email,UserName,Pwd,PwdConfirm")] NewAccountViewModel account)
         {
+            // Validate and create the member account
             if (ModelState.IsValid)
             {
                 try
                 {
-                    db.SP_ADD_MEMBER(account.FName, account.LName, account.UserName, account.Email, account.Pwd, account.FavPlatform, account.FavCategory, account.FavGame, account.FavQuote);
+                    db.SP_ADD_MEMBER(account.FName, account.LName, account.UserName, account.Email, account.Pwd, null, null, null, null );
 
                     var member = db.MEMBERs.Find(db.MEMBERs.Max(m => m.MemberId));
                     Session["MemberId"] = member.MemberId;
@@ -81,17 +72,26 @@ namespace CVGS.Controllers
         // GET: MEMBERs/Edit/5
         public ActionResult Edit(int? id)
         {
-            //TODO: create ViewModel for editing account
+            // Redirect unauthenticated members
+            var memberId = this.Session["MemberId"];
+            if (memberId == null)
+            {
+                return RedirectToAction("Index", "Login"); ;
+            }
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+
+            // Find the member for profile editing
             MEMBER member = db.MEMBERs.Find(id);
             if (member == null)
             {
                 return HttpNotFound();
             }
             
+            // Use ViewModel for display purposes
             EditAccountViewModel account = new EditAccountViewModel()
             {
                 MemberId = member.MemberId,
@@ -108,15 +108,27 @@ namespace CVGS.Controllers
         }
 
         // POST: MEMBERs/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "MemberId,FName,LName,Email,FavPlatform,FavCategory,FavGame,FavQuote,Address")] EditAccountViewModel account)
         {
+            // Redirect unauthenticated members
+            var memberId = this.Session["MemberId"];
+            if (memberId == null)
+            {
+                return RedirectToAction("Index", "Login"); ;
+            }
+
+            // Validate and update the member's profile
             if (ModelState.IsValid)
             {
                 var member = db.MEMBERs.Find(account.MemberId);
+
+                if (member == null)
+                {
+                    return HttpNotFound();
+                }
+
                 member.FName = account.FName;
                 member.LName = account.LName;
                 member.Email = account.Email;
@@ -135,15 +147,26 @@ namespace CVGS.Controllers
         // GET: MEMBERs/Delete/5
         public ActionResult Delete(int? id)
         {
+            // Redirect unauthenticated members
+            var memberId = this.Session["MemberId"];
+            if (memberId == null)
+            {
+                return RedirectToAction("Index", "Login"); ;
+            }
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+
+            // Find the member and display for deletion
             MEMBER member = db.MEMBERs.Find(id);
             if (member == null)
             {
                 return HttpNotFound();
             }
+
+            // Use a ViewModel to display custom fields for deletion confirmation
             DeleteAccountViewModel account = new DeleteAccountViewModel()
             {
                 MemberId = member.MemberId,
@@ -159,8 +182,22 @@ namespace CVGS.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed([Bind(Include = "MemberId,UserName,FullDelete")]DeleteAccountViewModel account)
         {
-            int memberId = account.MemberId;
+            // Redirect unauthenticated members
+            var memberId = this.Session["MemberId"];
+            if (memberId == null)
+            {
+                return RedirectToAction("Index", "Login"); ;
+            }
+
+            // Find the member for deletion
             MEMBER member = db.MEMBERs.Find(memberId);
+
+            if (member == null)
+            {
+                return HttpNotFound();
+            }
+
+            // Accounts can be deleted or deactivated
             if (account.FullDelete)
             {
                 db.MEMBERs.Remove(member);
@@ -173,23 +210,10 @@ namespace CVGS.Controllers
                 db.SaveChanges();
 
             }
+
+            // Logout the user
             Session.Clear();
             return RedirectToAction("Index", "Login");
-        }
-
-        // GET: Address
-        public ActionResult AddressIndex()
-        {
-            var memberId = this.Session["MemberId"];
-            var address = db.ADDRESSes.Where(r => r.MemberId == (int)memberId).ToList();
-            
-            // Redirect unauthenticated members
-            if (memberId == null)
-            {
-                return RedirectToAction("Index", "Login");
-            }
-
-            return View(address);
         }
 
         protected override void Dispose(bool disposing)

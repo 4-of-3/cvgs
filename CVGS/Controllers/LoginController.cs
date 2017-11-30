@@ -16,12 +16,6 @@ namespace CVGS.Controllers
         // GET: Login
         public ActionResult Index()
         {
-            if (Session["MemberId"] != null)
-            {
-                // TODO: This has been replaced by "/Logout" route (make sure it isn't used anymore)
-                Session.Clear();
-                return RedirectToAction("Index", "Login");
-            }
             return View();
         }
 
@@ -41,16 +35,20 @@ namespace CVGS.Controllers
             {
                 // Attempt to authenticate the member and redirect to the Dashboard
                 db.SP_MEMBER_LOGIN(login.UserName, login.Pwd, loginMemberId);
+
+                // Set member id and role in Session
                 int memberId = (int)loginMemberId.Value;
                 Session["MemberId"] = memberId;
                 string memberRole = db.MEMBERs.Find(memberId).ROLE.RoleName;
                 Session["MemberRole"] = memberRole;
+
                 return RedirectToAction("Index", "Home");
             }
             catch (Exception)
             {
                 ModelState.AddModelError("", "Incorrect username or password");
             }
+
             return View(login);
         }
     }

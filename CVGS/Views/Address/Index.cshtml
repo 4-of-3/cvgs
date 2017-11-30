@@ -6,7 +6,7 @@
 
 <h2>@ViewBag.Title</h2>
 
-<hr/>
+<hr />
 
 <div class="row">
     @Html.Partial("../Account/_ProfileLinks")
@@ -21,28 +21,37 @@
         <table class="table">
             <tr>
                 <th>
-                    <p>Primary Address</p>
+                    @Html.DisplayNameFor(model => model.StreetAddress)
                 </th>
                 <th>
-                    <p>Secondary Address</p>
+                    @Html.DisplayNameFor(model => model.StreetAddress2)
                 </th>
                 <th>
                     @Html.DisplayNameFor(model => model.City)
                 </th>
                 <th>
-                    <p>Postal Code</p>
+                    @Html.DisplayNameFor(model => model.PostCode)
                 </th>
                 <th>
-                    <p>Country</p>
+                    @Html.DisplayNameFor(model => model.PROVSTATE.COUNTRY.CountryName)
                 </th>
                 <th>
-                    <p>Province</p>
+                    @Html.DisplayNameFor(model => model.PROVSTATE.ProvStateName)
                 </th>
                 <th>
-                    <p>Address Type</p>
+                    @Html.DisplayNameFor(model => model.ADDRESSTYPE.AddressTypeName)
                 </th>
                 <th></th>
             </tr>
+
+            @if (Model.ToList().Count == 0)
+            {
+                <tr>
+                    <td colspan="8">
+                        <em>No items found</em>
+                    </td>
+                </tr>
+            }
 
             @foreach (var item in Model)
             {

@@ -4,7 +4,7 @@
     ViewBag.Title = "Credit Card Details";
 }
 
-<h2>@ViewData["Title"]</h2>
+<h2>@ViewBag.Title</h2>
 
 <a href="@Url.Action("Index")" class="btn btn-default">
     <i class="fa fa-arrow-left"></i>Cards
@@ -28,6 +28,14 @@
         </dd>
 
         <dt>
+            @Html.DisplayNameFor(model => model.CardDescription)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CardDescription)
+        </dd>
+
+        <dt>
             @Html.DisplayNameFor(model => model.NameOnCard)
         </dt>
 
@@ -44,12 +52,11 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.MEMBER.FName)
+            @Html.DisplayNameFor(model => model.CVV)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.MEMBER.FName)
+            @Html.DisplayFor(model => model.CVV)
         </dd>
-
     </dl>
 </div>

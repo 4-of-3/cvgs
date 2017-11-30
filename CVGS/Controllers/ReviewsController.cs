@@ -17,19 +17,21 @@ namespace CVGS.Controllers
         // GET: Reviews/Create
         public ActionResult Create(int? gameId)
         {
+            // Redirect unauthenticated members
+            var memberId = this.Session["MemberId"];
+            if (memberId == null)
+            {
+                return RedirectToAction("Index", "Login"); ;
+            }
+
             if (gameId == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            if (Session["MemberId"] == null)
-            {
-                return RedirectToAction("Index", "Login");
-            }
-            int memberId = (int)Session["MemberId"];
-
+            
+            // Members who have already reviewed the game should be redirected to edit their review
             if (db.REVIEWs.Find(memberId, gameId) != null)
             {
-                // Member has already reviewed this game; redirect to edit
                 return RedirectToAction("Edit", new { memberId = memberId, gameId = gameId });
             }
 
@@ -37,19 +39,25 @@ namespace CVGS.Controllers
             {
                 GameId = (int)gameId,
                 GAME = db.GAMEs.Find(gameId),
-                MemberId = (int)Session["MemberId"]
+                MemberId = (int)memberId
             };
 
             return View(review);
         }
 
         // POST: Reviews/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "MemberId,GameId,ReviewText,Rating")] REVIEW review)
         {
+            // Redirect unauthenticated members
+            var memberId = this.Session["MemberId"];
+            if (memberId == null)
+            {
+                return RedirectToAction("Index", "Login"); ;
+            }
+
+            // Validate and add the review
             if (ModelState.IsValid)
             {
                 review.DateCreated = DateTime.Now;
@@ -57,6 +65,7 @@ namespace CVGS.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Details", "Games", new { id = review.GameId });
             }
+
             review.GAME = db.GAMEs.Find(review.GameId);
             return View(review);
         }
@@ -64,54 +73,74 @@ namespace CVGS.Controllers
         // GET: Reviews/Edit/5
         public ActionResult Edit(int? memberId, int? gameId)
         {
+            // Redirect unauthenticated members
+            if (this.Session["MemberId"] == null)
+            {
+                return RedirectToAction("Index", "Login"); ;
+            }
+
             if (memberId == null || gameId == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            if (Session["MemberId"] == null)
-            {
-                return RedirectToAction("Index", "Login");
-            }
+
             if (memberId != (int)Session["MemberId"])
             {
                 return new HttpStatusCodeResult(HttpStatusCode.Unauthorized);
             }
+
+            // Find and display the review for editing
             REVIEW review = db.REVIEWs.Find(memberId, gameId);
             if (review == null)
             {
                 return HttpNotFound();
             }
+
             return View(review);
         }
 
         // POST: Reviews/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "MemberId,GameId,ReviewText,Rating,DateCreated")] REVIEW review)
         {
-            if (ModelState.IsValid)
+            // Redirect unauthenticated members
+            var memberId = this.Session["MemberId"];
+            if (memberId == null)
             {
-                review.DateModified = DateTime.Now;
-                db.Entry(review).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Details", "Games", new { id=review.GameId });
+                return RedirectToAction("Index", "Login"); ;
             }
-            return View(review);
+
+            // Validate and update the review
+            if (!ModelState.IsValid) return View(review);
+
+            review.DateModified = DateTime.Now;
+            db.Entry(review).State = EntityState.Modified;
+            db.SaveChanges();
+            return RedirectToAction("Details", "Games", new { id = review.GameId });
         }
 
         // GET: Reviews/Delete/5
         public ActionResult Delete(int? memberId, int? gameId)
         {
+            // Redirect unauthenticated members
+            if (this.Session["MemberId"] == null)
+            {
+                return RedirectToAction("Index", "Login"); ;
+            }
+
             if (memberId == null || gameId == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+
+            // Ensure only admins or the owner can delete a review
             if (memberId != (int)Session["MemberId"] && (string)Session["MemberRole"] != "Employee" && (string)Session["MemberRole"] != "Admin" )
             {
                 return new HttpStatusCodeResult(HttpStatusCode.Unauthorized);
             }
+
+            // Find and display the review for deletion confirmation
             REVIEW review = db.REVIEWs.Find(memberId, gameId);
             if (review == null)
             {
@@ -125,7 +154,16 @@ namespace CVGS.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed([Bind(Include = "MemberId,GameId")] REVIEW reviewToDelete)
         {
-            //TODO Implement Delete, probably with a view model
+            // Redirect unauthenticated members
+            var memberId = this.Session["MemberId"];
+            if (memberId == null)
+            {
+                return RedirectToAction("Index", "Login"); ;
+            }
+
+            //TODO: Implement Delete, probably with a view model
+
+            // Remove review and display the game details with all reviews
             REVIEW review = db.REVIEWs.Find(reviewToDelete.MemberId, reviewToDelete.GameId);
             db.REVIEWs.Remove(review);
             db.SaveChanges();

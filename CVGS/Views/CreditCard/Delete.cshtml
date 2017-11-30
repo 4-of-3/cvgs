@@ -4,7 +4,7 @@
     ViewBag.Title = "Delete Credit Card";
 }
 
-<h2>@ViewData["Title"]</h2>
+<h2>@ViewBag.Title</h2>
 
 <a href="@Url.Action("Details", new { id = Model.CardId })" class="btn btn-default">
     <i class="fa fa-arrow-left"></i>Card Details
@@ -20,6 +20,14 @@
 
         <dd>
             @Html.DisplayFor(model => model.CardNumber)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CardDescription)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CardDescription)
         </dd>
 
         <dt>
@@ -39,11 +47,11 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.MEMBER.FName)
+            @Html.DisplayNameFor(model => model.CVV)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.MEMBER.FName)
+            @Html.DisplayFor(model => model.CVV)
         </dd>
 
     </dl>

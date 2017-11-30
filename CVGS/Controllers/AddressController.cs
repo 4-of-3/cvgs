@@ -17,48 +17,52 @@ namespace CVGS.Controllers
         // GET: Address
         public ActionResult Index()
         {
-            var memberId = this.Session["MemberId"];
             // Redirect unauthenticated members
+            var memberId = this.Session["MemberId"];
             if (memberId == null)
             {
-                return RedirectToAction("Index", "Login");
+                return RedirectToAction("Index", "Login"); ;
             }
 
-            var aDDRESSes = db.ADDRESSes.Include(a => a.MEMBER).Include(a => a.PROVSTATE).Include(a => a.ADDRESSTYPE).Where(a=>!(bool)a.Deleted).ToList().FindAll(x => x.MemberId.Equals(memberId));
-            return View(aDDRESSes.ToList());
+            // Display all the member's addresses
+            var addresses = db.ADDRESSes.Include(a => a.MEMBER).Include(a => a.PROVSTATE).Include(a => a.ADDRESSTYPE).Where(a=>!(bool)a.Deleted).ToList().FindAll(x => x.MemberId.Equals(memberId));
+            return View(addresses.ToList());
         }
 
         // GET: Address/Details/5
         public ActionResult Details(int? id)
         {
-            var memberId = this.Session["MemberId"];
             // Redirect unauthenticated members
+            var memberId = this.Session["MemberId"];
             if (memberId == null)
             {
-                return RedirectToAction("Index", "Login");
+                return RedirectToAction("Index", "Login"); ;
             }
 
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            ADDRESS aDDRESS = db.ADDRESSes.Where(a => !(bool)a.Deleted).ToList().Find(a => a.AddressId == id);
-            if (aDDRESS == null)
+
+            // Find and display the address details
+            ADDRESS address = db.ADDRESSes.Where(a => !(bool)a.Deleted).ToList().Find(a => a.AddressId == id);
+            if (address == null)
             {
                 return HttpNotFound();
             }
-            return View(aDDRESS);
+            return View(address);
         }
 
         // GET: Address/Create
         public ActionResult Create()
         {
-            var memberId = this.Session["MemberId"];
             // Redirect unauthenticated members
+            var memberId = this.Session["MemberId"];
             if (memberId == null)
             {
-                return RedirectToAction("Index", "Login");
+                return RedirectToAction("Index", "Login"); ;
             }
+
             //ViewBag.CountryId = new SelectList(db.COUNTRies, "CountryId", "CountryCode");
             ViewBag.MemberId = new SelectList(db.MEMBERs, "MemberId", "FName");
             ViewBag.ProvStateId = new SelectList(db.PROVSTATEs, "ProvStateId", "ProvStateCode");
@@ -67,92 +71,113 @@ namespace CVGS.Controllers
         }
 
         // POST: Address/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "AddressId,MemberId,StreetAddress,StreetAddress2,City,PostCode,ProvStateId,AddressTypeId")] ADDRESS aDDRESS)
+        public ActionResult Create([Bind(Include = "AddressId,MemberId,StreetAddress,StreetAddress2,City,PostCode,ProvStateId,AddressTypeId")] ADDRESS address)
         {
+            // Redirect unauthenticated members
+            var memberId = this.Session["MemberId"];
+            if (memberId == null)
+            {
+                return RedirectToAction("Index", "Login"); ;
+            }
+
+            // Validate and add the address
             if (ModelState.IsValid)
             {
-                db.ADDRESSes.Add(aDDRESS);
+                db.ADDRESSes.Add(address);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            //ViewBag.CountryId = new SelectList(db.COUNTRies, "CountryId", "CountryCode", aDDRESS.CountryId);
-            ViewBag.MemberId = new SelectList(db.MEMBERs, "MemberId", "FName", aDDRESS.MemberId);
-            ViewBag.ProvStateId = new SelectList(db.PROVSTATEs, "ProvStateId", "ProvStateCode", aDDRESS.ProvStateId);
-            ViewBag.AddressTypeId = new SelectList(db.ADDRESSTYPEs, "AddressTypeId", "AddressTypeName", aDDRESS.AddressTypeId);
-            return View(aDDRESS);
+            // Prepare form when validation errors are found
+            //ViewBag.CountryId = new SelectList(db.COUNTRies, "CountryId", "CountryCode", address.CountryId);
+            ViewBag.MemberId = new SelectList(db.MEMBERs, "MemberId", "FName", address.MemberId);
+            ViewBag.ProvStateId = new SelectList(db.PROVSTATEs, "ProvStateId", "ProvStateCode", address.ProvStateId);
+            ViewBag.AddressTypeId = new SelectList(db.ADDRESSTYPEs, "AddressTypeId", "AddressTypeName", address.AddressTypeId);
+            return View(address);
         }
 
         // GET: Address/Edit/5
         public ActionResult Edit(int? id)
         {
-            var memberId = this.Session["MemberId"];
             // Redirect unauthenticated members
+            var memberId = this.Session["MemberId"];
             if (memberId == null)
             {
-                return RedirectToAction("Index", "Login");
+                return RedirectToAction("Index", "Login"); ;
             }
 
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            ADDRESS aDDRESS = db.ADDRESSes.Where(a => !(bool)a.Deleted).ToList().Find(a => a.AddressId == id);
-            if (aDDRESS == null)
+
+            // Find and display the address for editing
+            ADDRESS address = db.ADDRESSes.Where(a => !(bool)a.Deleted).ToList().Find(a => a.AddressId == id);
+            if (address == null)
             {
                 return HttpNotFound();
             }
-            //ViewBag.CountryId = new SelectList(db.COUNTRies, "CountryId", "CountryCode", aDDRESS.CountryId);
-            ViewBag.MemberId = new SelectList(db.MEMBERs, "MemberId", "FName", aDDRESS.MemberId);
-            ViewBag.ProvStateId = new SelectList(db.PROVSTATEs, "ProvStateId", "ProvStateCode", aDDRESS.ProvStateId);
-            ViewBag.AddressTypeId = new SelectList(db.ADDRESSTYPEs, "AddressTypeId", "AddressTypeName", aDDRESS.AddressTypeId);
-            return View(aDDRESS);
+
+            //ViewBag.CountryId = new SelectList(db.COUNTRies, "CountryId", "CountryCode", address.CountryId);
+            ViewBag.MemberId = new SelectList(db.MEMBERs, "MemberId", "FName", address.MemberId);
+            ViewBag.ProvStateId = new SelectList(db.PROVSTATEs, "ProvStateId", "ProvStateCode", address.ProvStateId);
+            ViewBag.AddressTypeId = new SelectList(db.ADDRESSTYPEs, "AddressTypeId", "AddressTypeName", address.AddressTypeId);
+            return View(address);
         }
 
         // POST: Address/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "AddressId,MemberId,StreetAddress,StreetAddress2,City,PostCode,ProvStateId,AddressTypeId")] ADDRESS aDDRESS)
+        public ActionResult Edit([Bind(Include = "AddressId,MemberId,StreetAddress,StreetAddress2,City,PostCode,ProvStateId,AddressTypeId")] ADDRESS address)
         {
+            // Redirect unauthenticated members
+            var memberId = this.Session["MemberId"];
+            if (memberId == null)
+            {
+                return RedirectToAction("Index", "Login"); ;
+            }
+
+            // Validate and update the address
             if (ModelState.IsValid)
             {
-                db.Entry(aDDRESS).State = EntityState.Modified;
+                db.Entry(address).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Details", new {id = address.AddressId});
             }
-            //ViewBag.CountryId = new SelectList(db.COUNTRies, "CountryId", "CountryCode", aDDRESS.CountryId);
-            ViewBag.MemberId = new SelectList(db.MEMBERs, "MemberId", "FName", aDDRESS.MemberId);
-            ViewBag.ProvStateId = new SelectList(db.PROVSTATEs, "ProvStateId", "ProvStateCode", aDDRESS.ProvStateId);
-            ViewBag.AddressTypeId = new SelectList(db.ADDRESSTYPEs, "AddressTypeId", "AddressTypeName", aDDRESS.AddressTypeId);
-            return View(aDDRESS);
+
+            // Prepare form when validation errors are found
+            //ViewBag.CountryId = new SelectList(db.COUNTRies, "CountryId", "CountryCode", address.CountryId);
+            ViewBag.MemberId = new SelectList(db.MEMBERs, "MemberId", "FName", address.MemberId);
+            ViewBag.ProvStateId = new SelectList(db.PROVSTATEs, "ProvStateId", "ProvStateCode", address.ProvStateId);
+            ViewBag.AddressTypeId = new SelectList(db.ADDRESSTYPEs, "AddressTypeId", "AddressTypeName", address.AddressTypeId);
+            return View(address);
         }
 
         // GET: Address/Delete/5
         public ActionResult Delete(int? id)
         {
-            var memberId = this.Session["MemberId"];
             // Redirect unauthenticated members
+            var memberId = this.Session["MemberId"];
             if (memberId == null)
             {
-                return RedirectToAction("Index", "Login");
+                return RedirectToAction("Index", "Login"); ;
             }
 
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            ADDRESS aDDRESS = db.ADDRESSes.Where(a => !(bool)a.Deleted).ToList().Find(a => a.AddressId == id);
-            if (aDDRESS == null)
+
+            // Find and display address for deletion confirmation
+            ADDRESS address = db.ADDRESSes.Where(a => !(bool)a.Deleted).ToList().Find(a => a.AddressId == id);
+            if (address == null)
             {
                 return HttpNotFound();
             }
-            return View(aDDRESS);
+
+            return View(address);
         }
 
         // POST: Address/Delete/5
@@ -160,9 +185,23 @@ namespace CVGS.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            ADDRESS aDDRESS = db.ADDRESSes.Find(id);
-            db.ADDRESSes.Remove(aDDRESS);
+            // Redirect unauthenticated members
+            var memberId = this.Session["MemberId"];
+            if (memberId == null)
+            {
+                return RedirectToAction("Index", "Login"); ;
+            }
+
+            // Remove address and display address list
+            ADDRESS address = db.ADDRESSes.Find(id);
+            if (address == null)
+            {
+                return HttpNotFound();
+            }
+
+            db.ADDRESSes.Remove(address);
             db.SaveChanges();
+
             return RedirectToAction("Index");
         }
 

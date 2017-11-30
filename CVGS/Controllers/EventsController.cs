@@ -17,12 +17,14 @@ namespace CVGS.Controllers
         // GET: Events
         public ActionResult Index(string sort, string order)
         {
-            var memberId = this.Session["memberId"];
+            // Redirect unauthenticated members
+            var memberId = this.Session["MemberId"];
             if (memberId == null)
             {
                 return RedirectToAction("Index", "Login"); ;
             }
 
+            // Display all events in a sorted list
             var eventList = db.EVENTs.ToList();
 
             bool asc = true;
@@ -37,36 +39,37 @@ namespace CVGS.Controllers
                 ViewBag.listSortAsc = "asc";
                 asc = false;
             }
-            
-            if (sort!= null)
+
+            if (sort == null) return View(eventList);
+
+            // Events can be sorted by several model properties
+            switch (sort)
             {
-                switch (sort)
-                {
-                    case "title":
-                        eventList = asc
-                            ? eventList.OrderBy(e => e.EventTitle).ToList()
-                            : eventList.OrderByDescending(e => e.EventTitle).ToList();
-                        break;
-                    case "location":
-                        eventList = asc
-                            ? eventList.OrderBy(e => e.Location).ToList()
-                            : eventList.OrderByDescending(e => e.Location).ToList();
-                        break;
-                    case "date":
-                        eventList = asc
-                            ? eventList.OrderBy(e => e.EventDate).ToList()
-                            : eventList.OrderByDescending(e => e.EventDate).ToList();
-                        break;
-                }
+                case "title":
+                    eventList = asc
+                        ? eventList.OrderBy(e => e.EventTitle).ToList()
+                        : eventList.OrderByDescending(e => e.EventTitle).ToList();
+                    break;
+                case "location":
+                    eventList = asc
+                        ? eventList.OrderBy(e => e.Location).ToList()
+                        : eventList.OrderByDescending(e => e.Location).ToList();
+                    break;
+                case "date":
+                    eventList = asc
+                        ? eventList.OrderBy(e => e.EventDate).ToList()
+                        : eventList.OrderByDescending(e => e.EventDate).ToList();
+                    break;
             }
-            
+
             return View(eventList);
         }
 
         // GET: Events/Details/5
         public ActionResult Details(int? id)
         {
-            var memberId = this.Session["memberId"];
+            // Redirect unauthenticated members
+            var memberId = this.Session["MemberId"];
             if (memberId == null)
             {
                 return RedirectToAction("Index", "Login"); ;
@@ -77,20 +80,23 @@ namespace CVGS.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            bool registered = isRegistered((int)id, (int)memberId);
-            EVENT eVENT = db.EVENTs.Find(id);
-            if (eVENT == null)
+            // Find and display event details
+            EVENT @event = db.EVENTs.Find(id);
+            if (@event == null)
             {
                 return HttpNotFound();
             }
+
+            bool registered = IsRegisteredForEvent((int)id, (int)memberId);
             ViewBag.isRegistered = registered; 
-            return View(eVENT);
+            return View(@event);
         }
 
         // GET: Events/Create
         public ActionResult Create()
         {
-            var memberId = this.Session["memberId"];
+            // Redirect unauthenticated members
+            var memberId = this.Session["MemberId"];
             if (memberId == null)
             {
                 return RedirectToAction("Index", "Login"); ;
@@ -100,24 +106,24 @@ namespace CVGS.Controllers
         }
 
         // POST: Events/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "EventId,EventTitle,Description,EventDate,Location,ActiveStatus,DateCreated")] EVENT eVENT)
+        public ActionResult Create([Bind(Include = "EventId,EventTitle,Description,EventDate,Location,ActiveStatus,DateCreated")] EVENT @event)
         {
-            var memberId = this.Session["memberId"];
+            // Redirect unauthenticated members
+            var memberId = this.Session["MemberId"];
             if (memberId == null)
             {
                 return RedirectToAction("Index", "Login"); ;
             }
 
+            // Validate and add event
             if (!ModelState.IsValid)
             {
-                return View(eVENT);
+                return View(@event);
             }
 
-            db.EVENTs.Add(eVENT);
+            db.EVENTs.Add(@event);
             db.SaveChanges();
             return RedirectToAction("Index");
         }
@@ -125,7 +131,8 @@ namespace CVGS.Controllers
         // GET: Events/Edit/5
         public ActionResult Edit(int? id)
         {
-            var memberId = this.Session["memberId"];
+            // Redirect unauthenticated members
+            var memberId = this.Session["MemberId"];
             if (memberId == null)
             {
                 return RedirectToAction("Index", "Login"); ;
@@ -136,35 +143,43 @@ namespace CVGS.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            EVENT eVENT = db.EVENTs.Find(id);
-            if (eVENT == null)
+            // Find and display event for editing
+            EVENT @event = db.EVENTs.Find(id);
+            if (@event == null)
             {
                 return HttpNotFound();
             }
-            return View(eVENT);
+            return View(@event);
         }
 
         // POST: Events/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "EventId,EventTitle,Description,EventDate,Location,ActiveStatus,DateCreated")] EVENT eVENT)
+        public ActionResult Edit([Bind(Include = "EventId,EventTitle,Description,EventDate,Location,ActiveStatus,DateCreated")] EVENT @event)
         {
-            if (!ModelState.IsValid)
+            // Redirect unauthenticated members
+            var memberId = this.Session["MemberId"];
+            if (memberId == null)
             {
-                return View(eVENT);
+                return RedirectToAction("Index", "Login"); ;
             }
 
-            db.Entry(eVENT).State = EntityState.Modified;
+            // Validate and update event
+            if (!ModelState.IsValid)
+            {
+                return View(@event);
+            }
+
+            db.Entry(@event).State = EntityState.Modified;
             db.SaveChanges();
-            return RedirectToAction("Index");
+            return RedirectToAction("Details", new { id = @event.EventId });
         }
 
         // GET: Events/Delete/5
         public ActionResult Delete(int? id)
         {
-            var memberId = this.Session["memberId"];
+            // Redirect unauthenticated members
+            var memberId = this.Session["MemberId"];
             if (memberId == null)
             {
                 return RedirectToAction("Index", "Login"); ;
@@ -175,12 +190,13 @@ namespace CVGS.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            EVENT eVENT = db.EVENTs.Find(id);
-            if (eVENT == null)
+            // Find and display event details for deletion confirmation
+            EVENT @event = db.EVENTs.Find(id);
+            if (@event == null)
             {
                 return HttpNotFound();
             }
-            return View(eVENT);
+            return View(@event);
         }
 
         // POST: Events/Delete/5
@@ -188,63 +204,83 @@ namespace CVGS.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            var memberId = this.Session["memberId"];
+            // Redirect unauthenticated members
+            var memberId = this.Session["MemberId"];
             if (memberId == null)
             {
                 return RedirectToAction("Index", "Login"); ;
             }
 
-            EVENT eVENT = db.EVENTs.Find(id);
-            db.EVENTs.Remove(eVENT);
+            // Remove event and display list of events
+            EVENT @event = db.EVENTs.Find(id);
+            if (@event == null)
+            {
+                return HttpNotFound();
+            }
+
+            db.EVENTs.Remove(@event);
             db.SaveChanges();
             return RedirectToAction("Index");
         }
 
         // POST: Events/Details/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost, ActionName("Details")]
         [ValidateAntiForgeryToken]
         public ActionResult Details(int id, string isRegistered)
         {
-            var memberId = this.Session["memberId"];
+            // Redirect unauthenticated members
+            var memberId = this.Session["MemberId"];
             if (memberId == null)
             {
                 return RedirectToAction("Index", "Login"); ;
             }
 
-            if (ModelState.IsValid)
+            // Validate and update member/event registration
+            if (!ModelState.IsValid) return RedirectToAction("Details", new {id = id});
+
+            // Remove registration if it exists
+            if (isRegistered == "true")
             {
-                if (isRegistered == "true")
+                MEMBER_EVENT memberEvent = db.MEMBER_EVENT.ToList().Find(x => x.EventId == id && x.MemberId == (int)memberId);
+
+                if (memberEvent == null)
                 {
-                    MEMBER_EVENT memberEvent = db.MEMBER_EVENT.ToList().Find(x => x.EventId == id && x.MemberId == (int)memberId);
-                    db.MEMBER_EVENT.Remove(memberEvent);    
-                    db.SaveChanges();
-                    return RedirectToAction("Details",  new { id = id });
+                    return HttpNotFound();
                 }
 
-                MEMBER_EVENT memberRegister = new MEMBER_EVENT();
-                memberRegister.EventId = id;
-                memberRegister.MemberId = (int)this.Session["MemberId"];
-                memberRegister.DateRegistered = System.DateTime.Now;
+                db.MEMBER_EVENT.Remove(memberEvent);    
+                db.SaveChanges();
+                return RedirectToAction("Details",  new { id = id });
+            }
 
-                if (memberRegister.ToString() != "")
+            // Create new member/event registration
+            MEMBER_EVENT memberRegister = new MEMBER_EVENT();
+            memberRegister.EventId = id;
+            memberRegister.MemberId = (int)this.Session["MemberId"];
+            memberRegister.DateRegistered = System.DateTime.Now;
+
+            if (memberRegister.ToString() != "")
+            {
+                try
                 {
-                    try
-                    {
-                        db.MEMBER_EVENT.Add(memberRegister);
-                        db.SaveChanges();
-                    }
-                    catch (Exception ex)
-                    {
-                        return new HttpStatusCodeResult(HttpStatusCode.BadRequest); // sad path
-                    }
+                    db.MEMBER_EVENT.Add(memberRegister);
+                    db.SaveChanges();
+                }
+                catch (Exception ex)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest); // sad path
                 }
             }
             return RedirectToAction("Details", new { id = id });
         }
 
-        private bool isRegistered(int eventId, int memberId)
+        /// <summary>
+        /// Determine if a member is registered for an event
+        /// </summary>
+        /// <param name="eventId">Event ID</param>
+        /// <param name="memberId">Member ID</param>
+        /// <returns></returns>
+        private bool IsRegisteredForEvent(int eventId, int memberId)
         {
             MEMBER_EVENT memberEvent = new MEMBER_EVENT();
             try
