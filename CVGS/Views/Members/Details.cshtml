@@ -77,7 +77,7 @@
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.ActiveStatus)
+            @((Model.ActiveStatus) ? "Yes" : "No")
         </dd>
 
     </dl>
