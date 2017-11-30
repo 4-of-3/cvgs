@@ -30,8 +30,12 @@ namespace CVGS.Models
         public DateTime ExpiryDate { get; set; }
 
         [DisplayName("Description")]
-        [Required, MaxLength(25)]
+        [MaxLength(25)]
         public string CardDescription { get; set; }
+
+        [DisplayName("CVV")]
+        [Required, MaxLength(4)]
+        public string CVV { get; set; }
 
         [DisplayName("Deleted")]
         [Required]

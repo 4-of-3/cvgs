@@ -70,7 +70,7 @@ namespace CVGS.Controllers
         // POST: CreditCard/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "CardId,MemberId,CardNumber,CardDescription,NameOnCard,ExpiryDate")] CREDITCARD creditCard)
+        public ActionResult Create([Bind(Include = "CardId,MemberId,CardNumber,CardDescription,NameOnCard,ExpiryDate,CVV")] CREDITCARD creditCard)
         {
             // Redirect unauthenticated members
             var memberId = this.Session["MemberId"];
@@ -121,7 +121,7 @@ namespace CVGS.Controllers
         // POST: CreditCard/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "CardId,MemberId,CardNumber,CardDescription,NameOnCard,ExpiryDate")] CREDITCARD creditCard)
+        public ActionResult Edit([Bind(Include = "CardId,MemberId,CardNumber,CardDescription,NameOnCard,ExpiryDate,CVV")] CREDITCARD creditCard)
         {
             // Redirect unauthenticated members
             var memberId = this.Session["MemberId"];

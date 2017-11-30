@@ -21,6 +21,7 @@ namespace CVGS.Models
         public System.DateTime ExpiryDate { get; set; }
         public string CardDescription { get; set; }
         public bool Deleted { get; set; }
+        public string CVV { get; set; }
     
         public virtual MEMBER MEMBER { get; set; }
     }
