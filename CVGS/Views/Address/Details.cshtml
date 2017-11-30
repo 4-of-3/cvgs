@@ -20,7 +20,7 @@
     </div>
     <dl class="dl-horizontal">
         <dt>
-            Primary Address
+            @Html.DisplayNameFor(model => model.StreetAddress)
         </dt>
 
         <dd>
@@ -52,19 +52,19 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.PROVSTATE.COUNTRY.CountryCode)
+            @Html.DisplayNameFor(model => model.PROVSTATE.COUNTRY.CountryName)
         </dt>
 
         <dd>
-            @Html.DisplayNameFor(model => model.PROVSTATE.COUNTRY.CountryCode)
+            @Html.DisplayFor(model => model.PROVSTATE.COUNTRY.CountryName)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.PROVSTATE.ProvStateCode)
+            @Html.DisplayNameFor(model => model.PROVSTATE.ProvStateName)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.PROVSTATE.ProvStateCode)
+            @Html.DisplayFor(model => model.PROVSTATE.ProvStateName)
         </dd>
 
         <dt>
