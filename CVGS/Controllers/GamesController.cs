@@ -25,7 +25,7 @@ namespace CVGS.Controllers
             }
 
             // Games can be filtered and ordered
-            var gamesList = db.GAMEs.ToList();
+            var gamesList = db.GAMEs.Where(g => !g.Deleted).ToList();
 
             // Only filter the list if a search term was provided
             if(search != null)
@@ -93,7 +93,7 @@ namespace CVGS.Controllers
             }
 
             // Find and display game details
-            GAME game = db.GAMEs.Find(id);
+            GAME game = db.GAMEs.Where(g => !g.Deleted).ToList().Find(g=>g.GameId == id);
             if (game == null)
             {
                 return HttpNotFound();
@@ -156,7 +156,7 @@ namespace CVGS.Controllers
             }
 
             // Find and display game for editing
-            GAME game = db.GAMEs.Find(id);
+            GAME game = db.GAMEs.Where(g => !g.Deleted).ToList().Find(g => g.GameId == id);
             if (game == null)
             {
                 return HttpNotFound();
@@ -205,7 +205,7 @@ namespace CVGS.Controllers
             }
 
             // Find and display game for deletion confirmation
-            GAME game = db.GAMEs.Find(id);
+            GAME game = db.GAMEs.Where(g => !g.Deleted).ToList().Find(g => g.GameId == id);
             if (game == null)
             {
                 return HttpNotFound();
