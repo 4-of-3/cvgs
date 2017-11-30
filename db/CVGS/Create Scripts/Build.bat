@@ -306,6 +306,16 @@ IF '%pauseRequired%'=='n' GOTO skip027
     PAUSE
 :skip027
 REM==================================================
+REM Create the CartItem table
+REM==================================================
+echo sqlcmd -S %servername% -E -d CVGS -i "031 CartItem Table.sql"
+sqlcmd -S %servername% -E -d CVGS -i "031 CartItem Table.sql"
+
+IF '%pauseRequired%'=='N' GOTO skip031
+IF '%pauseRequired%'=='n' GOTO skip031
+    PAUSE
+:skip031
+REM==================================================
 REM Add the 'Delete Member' trigger
 REM==================================================
 echo sqlcmd -S %servername% -E -d CVGS -i "100 Delete Member Trigger.sql"
