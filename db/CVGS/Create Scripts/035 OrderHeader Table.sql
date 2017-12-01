@@ -9,7 +9,6 @@ CREATE TABLE CVGS.dbo.ORDERHEADER(
            , ShippingAddressId  INT
            , CreditCardId       INT NOT NULL
            , DateCreated        DATETIME2 NOT NULL DEFAULT CURRENT_TIMESTAMP
-  CONSTRAINT pk_orderheader PRIMARY KEY( OrderId),
   CONSTRAINT fk_order_member FOREIGN KEY( MemberId ) REFERENCES MEMBER( MemberId ),
   CONSTRAINT fk_order_billingaddress FOREIGN KEY( BillingAddressId ) REFERENCES ADDRESS( AddressId ),
   CONSTRAINT fk_order_shippingaddress FOREIGN KEY( ShippingAddressId ) REFERENCES ADDRESS( AddressId ),

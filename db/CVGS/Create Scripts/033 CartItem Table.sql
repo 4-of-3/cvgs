@@ -9,6 +9,6 @@ CREATE TABLE CVGS.dbo.CARTITEM(
            , DateAdded        DATETIME2 NOT NULL DEFAULT CURRENT_TIMESTAMP
   CONSTRAINT pk_cartitem PRIMARY KEY( MemberId, GameId ),
   CONSTRAINT fk_cartitem_member FOREIGN KEY( MemberId ) REFERENCES Member( MemberId ),
-  CONSTRAINT fk_review_game FOREIGN KEY( GameId ) REFERENCES Game( GameId ) ON DELETE CASCADE
+  CONSTRAINT fk_cartitem_game FOREIGN KEY( GameId ) REFERENCES Game( GameId ) ON DELETE CASCADE
 );
 GO
