@@ -113,6 +113,13 @@ namespace CVGS.Controllers
                 return RedirectToAction("Index", "Login"); ;
             }
 
+            // Only admins and employees can manage games
+            string memberRole = this.Session["MemberRole"].ToString();
+            if (memberRole != "Admin" && memberRole != "Employee")
+            {
+                return new HttpUnauthorizedResult("You are not authorized to manage Games");
+            }
+
             return View();
         }
 
@@ -126,6 +133,13 @@ namespace CVGS.Controllers
             if (memberId == null)
             {
                 return RedirectToAction("Index", "Login"); ;
+            }
+
+            // Only admins and employees can manage games
+            string memberRole = this.Session["MemberRole"].ToString();
+            if (memberRole != "Admin" && memberRole != "Employee")
+            {
+                return new HttpUnauthorizedResult("You are not authorized to manage Games");
             }
 
             // Validate and add game
@@ -148,6 +162,13 @@ namespace CVGS.Controllers
             if (memberId == null)
             {
                 return RedirectToAction("Index", "Login"); ;
+            }
+
+            // Only admins and employees can manage games
+            string memberRole = this.Session["MemberRole"].ToString();
+            if (memberRole != "Admin" && memberRole != "Employee")
+            {
+                return new HttpUnauthorizedResult("You are not authorized to manage Games");
             }
 
             if (id == null)
@@ -178,6 +199,13 @@ namespace CVGS.Controllers
                 return RedirectToAction("Index", "Login"); ;
             }
 
+            // Only admins and employees can manage games
+            string memberRole = this.Session["MemberRole"].ToString();
+            if (memberRole != "Admin" && memberRole != "Employee")
+            {
+                return new HttpUnauthorizedResult("You are not authorized to manage Games");
+            }
+
             // Validate and update game
             if (!ModelState.IsValid)
             {
@@ -197,6 +225,13 @@ namespace CVGS.Controllers
             if (memberId == null)
             {
                 return RedirectToAction("Index", "Login"); ;
+            }
+
+            // Only admins and employees can manage games
+            string memberRole = this.Session["MemberRole"].ToString();
+            if (memberRole != "Admin" && memberRole != "Employee")
+            {
+                return new HttpUnauthorizedResult("You are not authorized to manage Games");
             }
 
             if (id == null)
@@ -225,6 +260,13 @@ namespace CVGS.Controllers
             if (memberId == null)
             {
                 return RedirectToAction("Index", "Login"); ;
+            }
+
+            // Only admins and employees can manage games
+            string memberRole = this.Session["MemberRole"].ToString();
+            if (memberRole != "Admin" && memberRole != "Employee")
+            {
+                return new HttpUnauthorizedResult("You are not authorized to manage Games");
             }
 
             // Remove game and display all games

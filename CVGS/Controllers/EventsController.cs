@@ -102,6 +102,13 @@ namespace CVGS.Controllers
                 return RedirectToAction("Index", "Login"); ;
             }
 
+            // Only admins and employees can manage events
+            string memberRole = this.Session["MemberRole"].ToString();
+            if (memberRole != "Admin" && memberRole != "Employee")
+            {
+                return new HttpUnauthorizedResult("You are not authorized to manage Events");
+            }
+
             return View();
         }
 
@@ -115,6 +122,13 @@ namespace CVGS.Controllers
             if (memberId == null)
             {
                 return RedirectToAction("Index", "Login"); ;
+            }
+
+            // Only admins and employees can manage events
+            string memberRole = this.Session["MemberRole"].ToString();
+            if (memberRole != "Admin" && memberRole != "Employee")
+            {
+                return new HttpUnauthorizedResult("You are not authorized to manage Events");
             }
 
             // Validate and add event
@@ -136,6 +150,13 @@ namespace CVGS.Controllers
             if (memberId == null)
             {
                 return RedirectToAction("Index", "Login"); ;
+            }
+
+            // Only admins and employees can manage events
+            string memberRole = this.Session["MemberRole"].ToString();
+            if (memberRole != "Admin" && memberRole != "Employee")
+            {
+                return new HttpUnauthorizedResult("You are not authorized to manage Events");
             }
 
             if (id == null)
@@ -164,6 +185,13 @@ namespace CVGS.Controllers
                 return RedirectToAction("Index", "Login"); ;
             }
 
+            // Only admins and employees can manage events
+            string memberRole = this.Session["MemberRole"].ToString();
+            if (memberRole != "Admin" && memberRole != "Employee")
+            {
+                return new HttpUnauthorizedResult("You are not authorized to manage Events");
+            }
+
             // Validate and update event
             if (!ModelState.IsValid)
             {
@@ -183,6 +211,13 @@ namespace CVGS.Controllers
             if (memberId == null)
             {
                 return RedirectToAction("Index", "Login"); ;
+            }
+
+            // Only admins and employees can manage events
+            string memberRole = this.Session["MemberRole"].ToString();
+            if (memberRole != "Admin" && memberRole != "Employee")
+            {
+                return new HttpUnauthorizedResult("You are not authorized to manage Events");
             }
 
             if (id == null)
@@ -209,6 +244,13 @@ namespace CVGS.Controllers
             if (memberId == null)
             {
                 return RedirectToAction("Index", "Login"); ;
+            }
+
+            // Only admins and employees can manage events
+            string memberRole = this.Session["MemberRole"].ToString();
+            if (memberRole != "Admin" && memberRole != "Employee")
+            {
+                return new HttpUnauthorizedResult("You are not authorized to manage Events");
             }
 
             // Remove event and display list of events

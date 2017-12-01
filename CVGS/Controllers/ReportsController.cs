@@ -26,6 +26,13 @@ namespace CVGS.Controllers
                 return RedirectToAction("Index", "Login"); ;
             }
 
+            // Only admins and employees can generate reports
+            string memberRole = this.Session["MemberRole"].ToString();
+            if (memberRole != "Admin" && memberRole != "Employee")
+            {
+                return new HttpUnauthorizedResult("You are not authorized to generate Reports");
+            }
+
             return View(REPORT_TYPES);
         }
 
@@ -36,6 +43,13 @@ namespace CVGS.Controllers
             if (memberId == null)
             {
                 return RedirectToAction("Index", "Login"); ;
+            }
+
+            // Only admins and employees can generate reports
+            string memberRole = this.Session["MemberRole"].ToString();
+            if (memberRole != "Admin" && memberRole != "Employee")
+            {
+                return new HttpUnauthorizedResult("You are not authorized to generate Reports");
             }
 
             TempData.Add("error", "Games Report is not yet created");

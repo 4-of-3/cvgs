@@ -8,9 +8,12 @@
 
 @using (Html.BeginForm("Index", "Games"))
 {
-    <a href="@Url.Action("Create")" class="btn btn--action">
-        <i class="fa fa-plus"></i>Add Game
-    </a>
+    if (Session["MemberRole"].ToString() == "Admin" || Session["MemberRole"].ToString() == "Employee")
+    {
+        <a href="@Url.Action("Create")" class="btn btn--action">
+            <i class="fa fa-plus"></i>Add Game
+        </a>
+    }
     <div class="search-bar">
         <div class="input-group">
             <input id="search" type="text" placeholder="Search" name="search" value="@ViewBag.search" class="form-control">

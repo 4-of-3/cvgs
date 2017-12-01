@@ -52,7 +52,7 @@
                 @Html.ActionLink(item.UserName, "Details", new { id = item.MemberId })<br />
                 <small class="text-muted">
                     <em>
-                        @Html.DisplayFor(modelItem => item.ROLE.RoleName) since @Html.DisplayFor(modelItem => item.DateJoined)
+                        Joined @Html.DisplayFor(modelItem => item.DateJoined)
                         @if (!item.ActiveStatus)
                         {
                             <br />
