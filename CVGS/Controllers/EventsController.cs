@@ -223,10 +223,10 @@ namespace CVGS.Controllers
             return RedirectToAction("Index");
         }
 
-        // POST: Events/Details/5
-        [HttpPost, ActionName("Details")]
+        // POST: Events/Register/5
+        [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Details(int id, string isRegistered)
+        public ActionResult Register(int id, string isRegistered)
         {
             // Redirect unauthenticated members
             var memberId = this.Session["MemberId"];
@@ -237,6 +237,19 @@ namespace CVGS.Controllers
 
             // Validate and update member/event registration
             if (!ModelState.IsValid) return RedirectToAction("Details", new {id = id});
+
+            // Find the event
+            EVENT @event = db.EVENTs.ToList().Find(x => x.EventId == id);
+
+            // Cancelled events cannot be registered/unregistered while unactive
+            if (@event == null)
+            {
+                return HttpNotFound();
+            }
+            else if (@event.ActiveStatus == false)
+            {
+                return RedirectToAction("Details", new { id = id });
+            }
 
             // Remove registration if it exists
             if (isRegistered == "true")
@@ -271,6 +284,7 @@ namespace CVGS.Controllers
                     return new HttpStatusCodeResult(HttpStatusCode.BadRequest); // sad path
                 }
             }
+
             return RedirectToAction("Details", new { id = id });
         }
 

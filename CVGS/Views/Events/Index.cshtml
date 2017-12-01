@@ -29,7 +29,12 @@
     {
         <tr>
             <td class="flex-row">
-                @Html.DisplayFor(modelItem => item.EventTitle)
+                @if (item.ActiveStatus)
+                {
+                    @Html.DisplayFor(modelItem => item.EventTitle)
+                } else {
+                    <em style="color: dimgrey;">@Html.DisplayFor(modelItem => item.EventTitle)</em>
+                }
                 @* TODO: Add to a ViewModel *@
                 @if (item.MEMBER_EVENT.ToList().Find(x => x.EventId == item.EventId && x.MemberId == (int)@Session["MemberId"]) != null)
                 {

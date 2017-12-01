@@ -51,27 +51,31 @@
         </dd>
 
     </dl>
-    @using (Html.BeginForm())
+
+    @* Only allow register/unregistering for active events (non-cancelled) *@
+    @if (Model.ActiveStatus)
     {
-        @Html.AntiForgeryToken()
-        @Html.HiddenFor(model => model.EventId)
+        using (Html.BeginForm("Register", "Events", new { id = Model.EventId }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.HiddenFor(model => model.EventId)
 
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                @if (ViewBag.isRegistered == false)
-                {
-                    <button type="submit" class="btn btn--action"><i class="fa fa-square-o"></i>Register</button>
-                    <input type="hidden" id="" value="false" name="isRegistered" />
-                }
-                else
-                {
-                    <button type="submit" class="btn btn--delete"><i class="fa fa-trash"></i>Unregister</button>
-                    <input type="hidden" id="" value="true" name="isRegistered" />
-                }
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    @if (ViewBag.isRegistered == false)
+                    {
+                        <button type="submit" class="btn btn--action"><i class="fa fa-square-o"></i>Register</button>
+                        <input type="hidden" id="" value="false" name="isRegistered" />
+                    }
+                    else
+                    {
+                        <button type="submit" class="btn btn--delete"><i class="fa fa-trash"></i>Unregister</button>
+                        <input type="hidden" id="" value="true" name="isRegistered" />
+                    }
 
 
+                </div>
             </div>
-        </div>
+        }
     }
-
 </div>
