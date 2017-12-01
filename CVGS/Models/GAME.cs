@@ -19,6 +19,9 @@ namespace CVGS.Models
         {
             this.PLATFORMs = new HashSet<PLATFORM>();
             this.REVIEWs = new HashSet<REVIEW>();
+            this.CARTITEMs = new HashSet<CARTITEM>();
+            this.ORDERITEMs = new HashSet<ORDERITEM>();
+            this.WISHLISTITEMs = new HashSet<WISHLISTITEM>();
         }
     
         public int GameId { get; set; }
@@ -37,5 +40,11 @@ namespace CVGS.Models
         public virtual ICollection<PLATFORM> PLATFORMs { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<REVIEW> REVIEWs { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<CARTITEM> CARTITEMs { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<ORDERITEM> ORDERITEMs { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<WISHLISTITEM> WISHLISTITEMs { get; set; }
     }
 }

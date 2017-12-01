@@ -24,6 +24,9 @@ namespace CVGS.Models
             this.REVIEWs = new HashSet<REVIEW>();
             this.FRIENDSHIPs2 = new HashSet<FRIENDSHIP>();
             this.FRIENDSHIPs1 = new HashSet<FRIENDSHIP>();
+            this.CARTITEMs = new HashSet<CARTITEM>();
+            this.ORDERHEADERs = new HashSet<ORDERHEADER>();
+            this.WISHLISTITEMs = new HashSet<WISHLISTITEM>();
         }
     
         public int MemberId { get; set; }
@@ -55,5 +58,11 @@ namespace CVGS.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<FRIENDSHIP> FRIENDSHIPs1 { get; set; }
         public virtual ROLE ROLE { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<CARTITEM> CARTITEMs { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<ORDERHEADER> ORDERHEADERs { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<WISHLISTITEM> WISHLISTITEMs { get; set; }
     }
 }

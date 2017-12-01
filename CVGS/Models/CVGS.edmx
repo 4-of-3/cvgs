@@ -26,6 +26,16 @@
           <Property Name="AddressTypeId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="AddressTypeName" Type="nvarchar" MaxLength="64" Nullable="false" />
         </EntityType>
+        <EntityType Name="CARTITEM">
+          <Key>
+            <PropertyRef Name="MemberId" />
+            <PropertyRef Name="GameId" />
+          </Key>
+          <Property Name="MemberId" Type="int" Nullable="false" />
+          <Property Name="GameId" Type="int" Nullable="false" />
+          <Property Name="Quantity" Type="int" Nullable="false" />
+          <Property Name="DateAdded" Type="datetime2" Precision="7" Nullable="false" />
+        </EntityType>
         <EntityType Name="COUNTRY">
           <Key>
             <PropertyRef Name="CountryId" />
@@ -119,6 +129,26 @@
           <Property Name="EventId" Type="int" Nullable="false" />
           <Property Name="DateRegistered" Type="datetime" />
         </EntityType>
+        <EntityType Name="ORDERHEADER">
+          <Key>
+            <PropertyRef Name="OrderId" />
+          </Key>
+          <Property Name="OrderId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MemberId" Type="int" Nullable="false" />
+          <Property Name="BillingAddressId" Type="int" Nullable="false" />
+          <Property Name="ShippingAddressId" Type="int" />
+          <Property Name="CreditCardId" Type="int" Nullable="false" />
+          <Property Name="DateCreated" Type="datetime2" Precision="7" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ORDERITEM">
+          <Key>
+            <PropertyRef Name="OrderId" />
+            <PropertyRef Name="GameId" />
+          </Key>
+          <Property Name="OrderId" Type="int" Nullable="false" />
+          <Property Name="GameId" Type="int" Nullable="false" />
+          <Property Name="Quantity" Type="int" Nullable="false" />
+        </EntityType>
         <EntityType Name="PLATFORM">
           <Key>
             <PropertyRef Name="PlatformId" />
@@ -161,6 +191,15 @@
           </Key>
           <Property Name="RoleId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="RoleName" Type="nvarchar" MaxLength="64" Nullable="false" />
+        </EntityType>
+        <EntityType Name="WISHLISTITEM">
+          <Key>
+            <PropertyRef Name="MemberId" />
+            <PropertyRef Name="GameId" />
+          </Key>
+          <Property Name="MemberId" Type="int" Nullable="false" />
+          <Property Name="GameId" Type="int" Nullable="false" />
+          <Property Name="DateAdded" Type="datetime2" Precision="7" Nullable="false" />
         </EntityType>
         <Association Name="fk_address_member">
           <End Role="MEMBER" Type="Self.MEMBER" Multiplicity="1" />
@@ -206,6 +245,32 @@
               <PropertyRef Name="MemberId" />
             </Principal>
             <Dependent Role="CREDITCARD">
+              <PropertyRef Name="MemberId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_cartitem_game">
+          <End Role="GAME" Type="Self.GAME" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="CARTITEM" Type="Self.CARTITEM" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GAME">
+              <PropertyRef Name="GameId" />
+            </Principal>
+            <Dependent Role="CARTITEM">
+              <PropertyRef Name="GameId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_cartitem_member">
+          <End Role="MEMBER" Type="Self.MEMBER" Multiplicity="1" />
+          <End Role="CARTITEM" Type="Self.CARTITEM" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MEMBER">
+              <PropertyRef Name="MemberId" />
+            </Principal>
+            <Dependent Role="CARTITEM">
               <PropertyRef Name="MemberId" />
             </Dependent>
           </ReferentialConstraint>
@@ -286,6 +351,80 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="fk_order_billingaddress">
+          <End Role="ADDRESS" Type="Self.ADDRESS" Multiplicity="1" />
+          <End Role="ORDERHEADER" Type="Self.ORDERHEADER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ADDRESS">
+              <PropertyRef Name="AddressId" />
+            </Principal>
+            <Dependent Role="ORDERHEADER">
+              <PropertyRef Name="BillingAddressId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_order_creditcard">
+          <End Role="CREDITCARD" Type="Self.CREDITCARD" Multiplicity="1" />
+          <End Role="ORDERHEADER" Type="Self.ORDERHEADER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CREDITCARD">
+              <PropertyRef Name="CardId" />
+            </Principal>
+            <Dependent Role="ORDERHEADER">
+              <PropertyRef Name="CreditCardId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_order_member">
+          <End Role="MEMBER" Type="Self.MEMBER" Multiplicity="1" />
+          <End Role="ORDERHEADER" Type="Self.ORDERHEADER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MEMBER">
+              <PropertyRef Name="MemberId" />
+            </Principal>
+            <Dependent Role="ORDERHEADER">
+              <PropertyRef Name="MemberId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_order_shippingaddress">
+          <End Role="ADDRESS" Type="Self.ADDRESS" Multiplicity="0..1" />
+          <End Role="ORDERHEADER" Type="Self.ORDERHEADER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ADDRESS">
+              <PropertyRef Name="AddressId" />
+            </Principal>
+            <Dependent Role="ORDERHEADER">
+              <PropertyRef Name="ShippingAddressId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_orderitem_game">
+          <End Role="GAME" Type="Self.GAME" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="ORDERITEM" Type="Self.ORDERITEM" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GAME">
+              <PropertyRef Name="GameId" />
+            </Principal>
+            <Dependent Role="ORDERITEM">
+              <PropertyRef Name="GameId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_orderitem_order">
+          <End Role="ORDERHEADER" Type="Self.ORDERHEADER" Multiplicity="1" />
+          <End Role="ORDERITEM" Type="Self.ORDERITEM" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ORDERHEADER">
+              <PropertyRef Name="OrderId" />
+            </Principal>
+            <Dependent Role="ORDERITEM">
+              <PropertyRef Name="OrderId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="fk_platform_game">
           <End Role="PLATFORM" Type="Self.PLATFORM" Multiplicity="1">
             <OnDelete Action="Cascade" />
@@ -356,6 +495,32 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="fk_wishlist_game">
+          <End Role="GAME" Type="Self.GAME" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="WISHLISTITEM" Type="Self.WISHLISTITEM" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GAME">
+              <PropertyRef Name="GameId" />
+            </Principal>
+            <Dependent Role="WISHLISTITEM">
+              <PropertyRef Name="GameId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_wishlist_member">
+          <End Role="MEMBER" Type="Self.MEMBER" Multiplicity="1" />
+          <End Role="WISHLISTITEM" Type="Self.WISHLISTITEM" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MEMBER">
+              <PropertyRef Name="MemberId" />
+            </Principal>
+            <Dependent Role="WISHLISTITEM">
+              <PropertyRef Name="MemberId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Function Name="SP_ADD_MEMBER" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="FName" Type="nvarchar" Mode="In" />
           <Parameter Name="LName" Type="nvarchar" Mode="In" />
@@ -375,6 +540,7 @@
         <EntityContainer Name="CVGSModelStoreContainer">
           <EntitySet Name="ADDRESS" EntityType="Self.ADDRESS" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ADDRESSTYPE" EntityType="Self.ADDRESSTYPE" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CARTITEM" EntityType="Self.CARTITEM" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="COUNTRY" EntityType="Self.COUNTRY" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CREDITCARD" EntityType="Self.CREDITCARD" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="EVENT" EntityType="Self.EVENT" Schema="dbo" store:Type="Tables" />
@@ -383,11 +549,14 @@
           <EntitySet Name="GAME_PLATFORM" EntityType="Self.GAME_PLATFORM" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MEMBER" EntityType="Self.MEMBER" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MEMBER_EVENT" EntityType="Self.MEMBER_EVENT" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ORDERHEADER" EntityType="Self.ORDERHEADER" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ORDERITEM" EntityType="Self.ORDERITEM" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PLATFORM" EntityType="Self.PLATFORM" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PROVSTATE" EntityType="Self.PROVSTATE" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="REPORT" EntityType="Self.REPORT" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="REVIEW" EntityType="Self.REVIEW" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ROLE" EntityType="Self.ROLE" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="WISHLISTITEM" EntityType="Self.WISHLISTITEM" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="fk_address_member" Association="Self.fk_address_member">
             <End Role="MEMBER" EntitySet="MEMBER" />
             <End Role="ADDRESS" EntitySet="ADDRESS" />
@@ -403,6 +572,14 @@
           <AssociationSet Name="fk_card_member" Association="Self.fk_card_member">
             <End Role="MEMBER" EntitySet="MEMBER" />
             <End Role="CREDITCARD" EntitySet="CREDITCARD" />
+          </AssociationSet>
+          <AssociationSet Name="fk_cartitem_game" Association="Self.fk_cartitem_game">
+            <End Role="GAME" EntitySet="GAME" />
+            <End Role="CARTITEM" EntitySet="CARTITEM" />
+          </AssociationSet>
+          <AssociationSet Name="fk_cartitem_member" Association="Self.fk_cartitem_member">
+            <End Role="MEMBER" EntitySet="MEMBER" />
+            <End Role="CARTITEM" EntitySet="CARTITEM" />
           </AssociationSet>
           <AssociationSet Name="fk_event_member" Association="Self.fk_event_member">
             <End Role="EVENT" EntitySet="EVENT" />
@@ -428,6 +605,30 @@
             <End Role="ROLE" EntitySet="ROLE" />
             <End Role="MEMBER" EntitySet="MEMBER" />
           </AssociationSet>
+          <AssociationSet Name="fk_order_billingaddress" Association="Self.fk_order_billingaddress">
+            <End Role="ADDRESS" EntitySet="ADDRESS" />
+            <End Role="ORDERHEADER" EntitySet="ORDERHEADER" />
+          </AssociationSet>
+          <AssociationSet Name="fk_order_creditcard" Association="Self.fk_order_creditcard">
+            <End Role="CREDITCARD" EntitySet="CREDITCARD" />
+            <End Role="ORDERHEADER" EntitySet="ORDERHEADER" />
+          </AssociationSet>
+          <AssociationSet Name="fk_order_member" Association="Self.fk_order_member">
+            <End Role="MEMBER" EntitySet="MEMBER" />
+            <End Role="ORDERHEADER" EntitySet="ORDERHEADER" />
+          </AssociationSet>
+          <AssociationSet Name="fk_order_shippingaddress" Association="Self.fk_order_shippingaddress">
+            <End Role="ADDRESS" EntitySet="ADDRESS" />
+            <End Role="ORDERHEADER" EntitySet="ORDERHEADER" />
+          </AssociationSet>
+          <AssociationSet Name="fk_orderitem_game" Association="Self.fk_orderitem_game">
+            <End Role="GAME" EntitySet="GAME" />
+            <End Role="ORDERITEM" EntitySet="ORDERITEM" />
+          </AssociationSet>
+          <AssociationSet Name="fk_orderitem_order" Association="Self.fk_orderitem_order">
+            <End Role="ORDERHEADER" EntitySet="ORDERHEADER" />
+            <End Role="ORDERITEM" EntitySet="ORDERITEM" />
+          </AssociationSet>
           <AssociationSet Name="fk_platform_game" Association="Self.fk_platform_game">
             <End Role="PLATFORM" EntitySet="PLATFORM" />
             <End Role="GAME_PLATFORM" EntitySet="GAME_PLATFORM" />
@@ -447,6 +648,14 @@
           <AssociationSet Name="fk_review_member" Association="Self.fk_review_member">
             <End Role="MEMBER" EntitySet="MEMBER" />
             <End Role="REVIEW" EntitySet="REVIEW" />
+          </AssociationSet>
+          <AssociationSet Name="fk_wishlist_game" Association="Self.fk_wishlist_game">
+            <End Role="GAME" EntitySet="GAME" />
+            <End Role="WISHLISTITEM" EntitySet="WISHLISTITEM" />
+          </AssociationSet>
+          <AssociationSet Name="fk_wishlist_member" Association="Self.fk_wishlist_member">
+            <End Role="MEMBER" EntitySet="MEMBER" />
+            <End Role="WISHLISTITEM" EntitySet="WISHLISTITEM" />
           </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
@@ -483,6 +692,9 @@
           <Property Name="Deleted" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="REVIEWs" Relationship="CVGSModel.fk_review_game" FromRole="GAME" ToRole="REVIEW" />
           <Property Name="ImageUrl" Type="String" MaxLength="1024" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="CARTITEMs" Relationship="CVGSModel.fk_cartitem_game" FromRole="GAME" ToRole="CARTITEM" />
+          <NavigationProperty Name="ORDERITEMs" Relationship="CVGSModel.fk_orderitem_game" FromRole="GAME" ToRole="ORDERITEM" />
+          <NavigationProperty Name="WISHLISTITEMs" Relationship="CVGSModel.fk_wishlist_game" FromRole="GAME" ToRole="WISHLISTITEM" />
         </EntityType>
         <EntityType Name="MEMBER">
           <Key>
@@ -509,6 +721,9 @@
           <NavigationProperty Name="FRIENDSHIPs1" Relationship="CVGSModel.fk_friendship_member" FromRole="MEMBER" ToRole="FRIENDSHIP" />
           <Property Name="RoleId" Type="Int32" />
           <NavigationProperty Name="ROLE" Relationship="CVGSModel.fk_member_role" FromRole="MEMBER" ToRole="ROLE" />
+          <NavigationProperty Name="CARTITEMs" Relationship="CVGSModel.fk_cartitem_member" FromRole="MEMBER" ToRole="CARTITEM" />
+          <NavigationProperty Name="ORDERHEADERs" Relationship="CVGSModel.fk_order_member" FromRole="MEMBER" ToRole="ORDERHEADER" />
+          <NavigationProperty Name="WISHLISTITEMs" Relationship="CVGSModel.fk_wishlist_member" FromRole="MEMBER" ToRole="WISHLISTITEM" />
         </EntityType>
         <EntityType Name="MEMBER_EVENT">
           <Key>
@@ -645,6 +860,50 @@
             <End Role="ADDRESSTYPE" EntitySet="ADDRESSTYPEs" />
             <End Role="ADDRESS" EntitySet="ADDRESSes" />
           </AssociationSet>
+          <EntitySet Name="CARTITEMs" EntityType="CVGSModel.CARTITEM" />
+          <EntitySet Name="ORDERHEADERs" EntityType="CVGSModel.ORDERHEADER" />
+          <EntitySet Name="ORDERITEMs" EntityType="CVGSModel.ORDERITEM" />
+          <EntitySet Name="WISHLISTITEMs" EntityType="CVGSModel.WISHLISTITEM" />
+          <AssociationSet Name="fk_order_billingaddress" Association="CVGSModel.fk_order_billingaddress">
+            <End Role="ADDRESS" EntitySet="ADDRESSes" />
+            <End Role="ORDERHEADER" EntitySet="ORDERHEADERs" />
+          </AssociationSet>
+          <AssociationSet Name="fk_order_shippingaddress" Association="CVGSModel.fk_order_shippingaddress">
+            <End Role="ADDRESS" EntitySet="ADDRESSes" />
+            <End Role="ORDERHEADER" EntitySet="ORDERHEADERs" />
+          </AssociationSet>
+          <AssociationSet Name="fk_cartitem_game" Association="CVGSModel.fk_cartitem_game">
+            <End Role="GAME" EntitySet="GAMEs" />
+            <End Role="CARTITEM" EntitySet="CARTITEMs" />
+          </AssociationSet>
+          <AssociationSet Name="fk_cartitem_member" Association="CVGSModel.fk_cartitem_member">
+            <End Role="MEMBER" EntitySet="MEMBERs" />
+            <End Role="CARTITEM" EntitySet="CARTITEMs" />
+          </AssociationSet>
+          <AssociationSet Name="fk_order_creditcard" Association="CVGSModel.fk_order_creditcard">
+            <End Role="CREDITCARD" EntitySet="CREDITCARDs" />
+            <End Role="ORDERHEADER" EntitySet="ORDERHEADERs" />
+          </AssociationSet>
+          <AssociationSet Name="fk_orderitem_game" Association="CVGSModel.fk_orderitem_game">
+            <End Role="GAME" EntitySet="GAMEs" />
+            <End Role="ORDERITEM" EntitySet="ORDERITEMs" />
+          </AssociationSet>
+          <AssociationSet Name="fk_wishlist_game" Association="CVGSModel.fk_wishlist_game">
+            <End Role="GAME" EntitySet="GAMEs" />
+            <End Role="WISHLISTITEM" EntitySet="WISHLISTITEMs" />
+          </AssociationSet>
+          <AssociationSet Name="fk_order_member" Association="CVGSModel.fk_order_member">
+            <End Role="MEMBER" EntitySet="MEMBERs" />
+            <End Role="ORDERHEADER" EntitySet="ORDERHEADERs" />
+          </AssociationSet>
+          <AssociationSet Name="fk_wishlist_member" Association="CVGSModel.fk_wishlist_member">
+            <End Role="MEMBER" EntitySet="MEMBERs" />
+            <End Role="WISHLISTITEM" EntitySet="WISHLISTITEMs" />
+          </AssociationSet>
+          <AssociationSet Name="fk_orderitem_order" Association="CVGSModel.fk_orderitem_order">
+            <End Role="ORDERHEADER" EntitySet="ORDERHEADERs" />
+            <End Role="ORDERITEM" EntitySet="ORDERITEMs" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="REPORT">
           <Key>
@@ -684,6 +943,8 @@
           <Property Name="AddressTypeId" Type="Int32" Nullable="false" />
           <NavigationProperty Name="ADDRESSTYPE" Relationship="CVGSModel.fk_address_type" FromRole="ADDRESS" ToRole="ADDRESSTYPE" />
           <Property Name="Deleted" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="ORDERHEADERs" Relationship="CVGSModel.fk_order_billingaddress" FromRole="ADDRESS" ToRole="ORDERHEADER" />
+          <NavigationProperty Name="ORDERHEADERs1" Relationship="CVGSModel.fk_order_shippingaddress" FromRole="ADDRESS" ToRole="ORDERHEADER" />
         </EntityType>
         <EntityType Name="ADDRESSTYPE">
           <Key>
@@ -715,6 +976,7 @@
           <Property Name="CardDescription" Type="String" MaxLength="64" FixedLength="false" Unicode="true" />
           <Property Name="Deleted" Type="Boolean" Nullable="false" />
           <Property Name="CVV" Type="String" MaxLength="4" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="ORDERHEADERs" Relationship="CVGSModel.fk_order_creditcard" FromRole="CREDITCARD" ToRole="ORDERHEADER" />
         </EntityType>
         <EntityType Name="FRIENDSHIP">
           <Key>
@@ -892,6 +1154,182 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="CARTITEM">
+          <Key>
+            <PropertyRef Name="MemberId" />
+            <PropertyRef Name="GameId" />
+          </Key>
+          <Property Name="MemberId" Type="Int32" Nullable="false" />
+          <Property Name="GameId" Type="Int32" Nullable="false" />
+          <Property Name="Quantity" Type="Int32" Nullable="false" />
+          <Property Name="DateAdded" Type="DateTime" Nullable="false" Precision="7" />
+          <NavigationProperty Name="GAME" Relationship="CVGSModel.fk_cartitem_game" FromRole="CARTITEM" ToRole="GAME" />
+          <NavigationProperty Name="MEMBER" Relationship="CVGSModel.fk_cartitem_member" FromRole="CARTITEM" ToRole="MEMBER" />
+        </EntityType>
+        <EntityType Name="ORDERHEADER">
+          <Key>
+            <PropertyRef Name="OrderId" />
+          </Key>
+          <Property Name="OrderId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MemberId" Type="Int32" Nullable="false" />
+          <Property Name="BillingAddressId" Type="Int32" Nullable="false" />
+          <Property Name="ShippingAddressId" Type="Int32" />
+          <Property Name="CreditCardId" Type="Int32" Nullable="false" />
+          <Property Name="DateCreated" Type="DateTime" Nullable="false" Precision="7" />
+          <NavigationProperty Name="ADDRESS" Relationship="CVGSModel.fk_order_billingaddress" FromRole="ORDERHEADER" ToRole="ADDRESS" />
+          <NavigationProperty Name="ADDRESS1" Relationship="CVGSModel.fk_order_shippingaddress" FromRole="ORDERHEADER" ToRole="ADDRESS" />
+          <NavigationProperty Name="CREDITCARD" Relationship="CVGSModel.fk_order_creditcard" FromRole="ORDERHEADER" ToRole="CREDITCARD" />
+          <NavigationProperty Name="MEMBER" Relationship="CVGSModel.fk_order_member" FromRole="ORDERHEADER" ToRole="MEMBER" />
+          <NavigationProperty Name="ORDERITEMs" Relationship="CVGSModel.fk_orderitem_order" FromRole="ORDERHEADER" ToRole="ORDERITEM" />
+        </EntityType>
+        <EntityType Name="ORDERITEM">
+          <Key>
+            <PropertyRef Name="OrderId" />
+            <PropertyRef Name="GameId" />
+          </Key>
+          <Property Name="OrderId" Type="Int32" Nullable="false" />
+          <Property Name="GameId" Type="Int32" Nullable="false" />
+          <Property Name="Quantity" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="GAME" Relationship="CVGSModel.fk_orderitem_game" FromRole="ORDERITEM" ToRole="GAME" />
+          <NavigationProperty Name="ORDERHEADER" Relationship="CVGSModel.fk_orderitem_order" FromRole="ORDERITEM" ToRole="ORDERHEADER" />
+        </EntityType>
+        <EntityType Name="WISHLISTITEM">
+          <Key>
+            <PropertyRef Name="MemberId" />
+            <PropertyRef Name="GameId" />
+          </Key>
+          <Property Name="MemberId" Type="Int32" Nullable="false" />
+          <Property Name="GameId" Type="Int32" Nullable="false" />
+          <Property Name="DateAdded" Type="DateTime" Nullable="false" Precision="7" />
+          <NavigationProperty Name="GAME" Relationship="CVGSModel.fk_wishlist_game" FromRole="WISHLISTITEM" ToRole="GAME" />
+          <NavigationProperty Name="MEMBER" Relationship="CVGSModel.fk_wishlist_member" FromRole="WISHLISTITEM" ToRole="MEMBER" />
+        </EntityType>
+        <Association Name="fk_order_billingaddress">
+          <End Type="CVGSModel.ADDRESS" Role="ADDRESS" Multiplicity="1" />
+          <End Type="CVGSModel.ORDERHEADER" Role="ORDERHEADER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ADDRESS">
+              <PropertyRef Name="AddressId" />
+            </Principal>
+            <Dependent Role="ORDERHEADER">
+              <PropertyRef Name="BillingAddressId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_order_shippingaddress">
+          <End Type="CVGSModel.ADDRESS" Role="ADDRESS" Multiplicity="0..1" />
+          <End Type="CVGSModel.ORDERHEADER" Role="ORDERHEADER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ADDRESS">
+              <PropertyRef Name="AddressId" />
+            </Principal>
+            <Dependent Role="ORDERHEADER">
+              <PropertyRef Name="ShippingAddressId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_cartitem_game">
+          <End Type="CVGSModel.GAME" Role="GAME" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="CVGSModel.CARTITEM" Role="CARTITEM" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GAME">
+              <PropertyRef Name="GameId" />
+            </Principal>
+            <Dependent Role="CARTITEM">
+              <PropertyRef Name="GameId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_cartitem_member">
+          <End Type="CVGSModel.MEMBER" Role="MEMBER" Multiplicity="1" />
+          <End Type="CVGSModel.CARTITEM" Role="CARTITEM" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MEMBER">
+              <PropertyRef Name="MemberId" />
+            </Principal>
+            <Dependent Role="CARTITEM">
+              <PropertyRef Name="MemberId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_order_creditcard">
+          <End Type="CVGSModel.CREDITCARD" Role="CREDITCARD" Multiplicity="1" />
+          <End Type="CVGSModel.ORDERHEADER" Role="ORDERHEADER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CREDITCARD">
+              <PropertyRef Name="CardId" />
+            </Principal>
+            <Dependent Role="ORDERHEADER">
+              <PropertyRef Name="CreditCardId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_orderitem_game">
+          <End Type="CVGSModel.GAME" Role="GAME" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="CVGSModel.ORDERITEM" Role="ORDERITEM" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GAME">
+              <PropertyRef Name="GameId" />
+            </Principal>
+            <Dependent Role="ORDERITEM">
+              <PropertyRef Name="GameId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_wishlist_game">
+          <End Type="CVGSModel.GAME" Role="GAME" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="CVGSModel.WISHLISTITEM" Role="WISHLISTITEM" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GAME">
+              <PropertyRef Name="GameId" />
+            </Principal>
+            <Dependent Role="WISHLISTITEM">
+              <PropertyRef Name="GameId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_order_member">
+          <End Type="CVGSModel.MEMBER" Role="MEMBER" Multiplicity="1" />
+          <End Type="CVGSModel.ORDERHEADER" Role="ORDERHEADER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MEMBER">
+              <PropertyRef Name="MemberId" />
+            </Principal>
+            <Dependent Role="ORDERHEADER">
+              <PropertyRef Name="MemberId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_wishlist_member">
+          <End Type="CVGSModel.MEMBER" Role="MEMBER" Multiplicity="1" />
+          <End Type="CVGSModel.WISHLISTITEM" Role="WISHLISTITEM" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MEMBER">
+              <PropertyRef Name="MemberId" />
+            </Principal>
+            <Dependent Role="WISHLISTITEM">
+              <PropertyRef Name="MemberId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_orderitem_order">
+          <End Type="CVGSModel.ORDERHEADER" Role="ORDERHEADER" Multiplicity="1" />
+          <End Type="CVGSModel.ORDERITEM" Role="ORDERITEM" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ORDERHEADER">
+              <PropertyRef Name="OrderId" />
+            </Principal>
+            <Dependent Role="ORDERITEM">
+              <PropertyRef Name="OrderId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1065,6 +1503,46 @@
               <MappingFragment StoreEntitySet="ROLE">
                 <ScalarProperty Name="RoleName" ColumnName="RoleName" />
                 <ScalarProperty Name="RoleId" ColumnName="RoleId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CARTITEMs">
+            <EntityTypeMapping TypeName="CVGSModel.CARTITEM">
+              <MappingFragment StoreEntitySet="CARTITEM">
+                <ScalarProperty Name="DateAdded" ColumnName="DateAdded" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="GameId" ColumnName="GameId" />
+                <ScalarProperty Name="MemberId" ColumnName="MemberId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ORDERHEADERs">
+            <EntityTypeMapping TypeName="CVGSModel.ORDERHEADER">
+              <MappingFragment StoreEntitySet="ORDERHEADER">
+                <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
+                <ScalarProperty Name="CreditCardId" ColumnName="CreditCardId" />
+                <ScalarProperty Name="ShippingAddressId" ColumnName="ShippingAddressId" />
+                <ScalarProperty Name="BillingAddressId" ColumnName="BillingAddressId" />
+                <ScalarProperty Name="MemberId" ColumnName="MemberId" />
+                <ScalarProperty Name="OrderId" ColumnName="OrderId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ORDERITEMs">
+            <EntityTypeMapping TypeName="CVGSModel.ORDERITEM">
+              <MappingFragment StoreEntitySet="ORDERITEM">
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="GameId" ColumnName="GameId" />
+                <ScalarProperty Name="OrderId" ColumnName="OrderId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="WISHLISTITEMs">
+            <EntityTypeMapping TypeName="CVGSModel.WISHLISTITEM">
+              <MappingFragment StoreEntitySet="WISHLISTITEM">
+                <ScalarProperty Name="DateAdded" ColumnName="DateAdded" />
+                <ScalarProperty Name="GameId" ColumnName="GameId" />
+                <ScalarProperty Name="MemberId" ColumnName="MemberId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

@@ -14,6 +14,13 @@ namespace CVGS.Models
     
     public partial class ADDRESS
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public ADDRESS()
+        {
+            this.ORDERHEADERs = new HashSet<ORDERHEADER>();
+            this.ORDERHEADERs1 = new HashSet<ORDERHEADER>();
+        }
+    
         public int AddressId { get; set; }
         public int MemberId { get; set; }
         public string StreetAddress { get; set; }
@@ -27,5 +34,9 @@ namespace CVGS.Models
         public virtual MEMBER MEMBER { get; set; }
         public virtual PROVSTATE PROVSTATE { get; set; }
         public virtual ADDRESSTYPE ADDRESSTYPE { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<ORDERHEADER> ORDERHEADERs { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<ORDERHEADER> ORDERHEADERs1 { get; set; }
     }
 }

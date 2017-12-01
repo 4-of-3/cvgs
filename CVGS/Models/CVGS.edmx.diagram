@@ -34,6 +34,20 @@
         <EntityTypeShape EntityType="CVGSModel.ROLE" Width="1.5" PointX="7.375" PointY="0.75" />
         <AssociationConnector Association="CVGSModel.fk_member_role" />
         <AssociationConnector Association="CVGSModel.fk_address_type" />
+        <EntityTypeShape EntityType="CVGSModel.CARTITEM" Width="1.5" PointX="8" PointY="5.375" />
+        <EntityTypeShape EntityType="CVGSModel.ORDERHEADER" Width="1.5" PointX="8.25" PointY="12.125" />
+        <EntityTypeShape EntityType="CVGSModel.ORDERITEM" Width="1.5" PointX="11.5" PointY="9.125" />
+        <EntityTypeShape EntityType="CVGSModel.WISHLISTITEM" Width="1.5" PointX="9" PointY="8.5" />
+        <AssociationConnector Association="CVGSModel.fk_order_billingaddress" />
+        <AssociationConnector Association="CVGSModel.fk_order_shippingaddress" />
+        <AssociationConnector Association="CVGSModel.fk_cartitem_game" />
+        <AssociationConnector Association="CVGSModel.fk_cartitem_member" />
+        <AssociationConnector Association="CVGSModel.fk_order_creditcard" />
+        <AssociationConnector Association="CVGSModel.fk_orderitem_game" />
+        <AssociationConnector Association="CVGSModel.fk_wishlist_game" />
+        <AssociationConnector Association="CVGSModel.fk_order_member" />
+        <AssociationConnector Association="CVGSModel.fk_wishlist_member" />
+        <AssociationConnector Association="CVGSModel.fk_orderitem_order" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
