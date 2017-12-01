@@ -306,6 +306,46 @@ IF '%pauseRequired%'=='n' GOTO skip027
     PAUSE
 :skip027
 REM==================================================
+REM Create the WishListItem table
+REM==================================================
+echo sqlcmd -S %servername% -E -d CVGS -i "031 WishListItem Table.sql"
+sqlcmd -S %servername% -E -d CVGS -i "031 WishListItem Table.sql"
+
+IF '%pauseRequired%'=='N' GOTO skip031
+IF '%pauseRequired%'=='n' GOTO skip031
+    PAUSE
+:skip031
+REM==================================================
+REM Create the CartItem table
+REM==================================================
+echo sqlcmd -S %servername% -E -d CVGS -i "033 CartItem Table.sql"
+sqlcmd -S %servername% -E -d CVGS -i "033 CartItem Table.sql"
+
+IF '%pauseRequired%'=='N' GOTO skip033
+IF '%pauseRequired%'=='n' GOTO skip033
+    PAUSE
+:skip033
+REM==================================================
+REM Create the OrderHeader table
+REM==================================================
+echo sqlcmd -S %servername% -E -d CVGS -i "035 OrderHeader Table.sql"
+sqlcmd -S %servername% -E -d CVGS -i "035 OrderHeader Table.sql"
+
+IF '%pauseRequired%'=='N' GOTO skip035
+IF '%pauseRequired%'=='n' GOTO skip035
+    PAUSE
+:skip035
+REM==================================================
+REM Create the OrderItem table
+REM==================================================
+echo sqlcmd -S %servername% -E -d CVGS -i "037 OrderItem Table.sql"
+sqlcmd -S %servername% -E -d CVGS -i "037 OrderItem Table.sql"
+
+IF '%pauseRequired%'=='N' GOTO skip037
+IF '%pauseRequired%'=='n' GOTO skip037
+    PAUSE
+:skip037
+REM==================================================
 REM Add the 'Delete Member' trigger
 REM==================================================
 echo sqlcmd -S %servername% -E -d CVGS -i "100 Delete Member Trigger.sql"

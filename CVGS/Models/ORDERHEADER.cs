@@ -12,25 +12,26 @@ namespace CVGS.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class CREDITCARD
+    public partial class ORDERHEADER
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public CREDITCARD()
+        public ORDERHEADER()
         {
-            this.ORDERHEADERs = new HashSet<ORDERHEADER>();
+            this.ORDERITEMs = new HashSet<ORDERITEM>();
         }
     
-        public int CardId { get; set; }
+        public int OrderId { get; set; }
         public int MemberId { get; set; }
-        public string CardNumber { get; set; }
-        public string NameOnCard { get; set; }
-        public System.DateTime ExpiryDate { get; set; }
-        public string CardDescription { get; set; }
-        public bool Deleted { get; set; }
-        public string CVV { get; set; }
+        public int BillingAddressId { get; set; }
+        public Nullable<int> ShippingAddressId { get; set; }
+        public int CreditCardId { get; set; }
+        public System.DateTime DateCreated { get; set; }
     
+        public virtual ADDRESS ADDRESS { get; set; }
+        public virtual ADDRESS ADDRESS1 { get; set; }
+        public virtual CREDITCARD CREDITCARD { get; set; }
         public virtual MEMBER MEMBER { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<ORDERHEADER> ORDERHEADERs { get; set; }
+        public virtual ICollection<ORDERITEM> ORDERITEMs { get; set; }
     }
 }
