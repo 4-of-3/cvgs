@@ -13,10 +13,13 @@
 <div>
     <section class="action-bar">
         <h4>@Html.DisplayFor(model => model.Title)</h4>
-        <div class="actions">
-            <a href="@Url.Action("Edit", new {id = Model.GameId})" class="btn btn--action btn--empty"><i class="fa fa-pencil"></i></a>
-            <a href="@Url.Action("Delete", new {id = Model.GameId})" class="btn btn--delete btn--empty"><i class="fa fa-trash"></i></a>
-        </div>
+        @if (Session["MemberRole"].ToString() == "Admin" || Session["MemberRole"].ToString() == "Employee")
+        {
+            <div class="actions">
+                <a href="@Url.Action("Edit", new { id = Model.GameId })" class="btn btn--action btn--empty"><i class="fa fa-pencil"></i></a>
+                <a href="@Url.Action("Delete", new { id = Model.GameId })" class="btn btn--delete btn--empty"><i class="fa fa-trash"></i></a>
+            </div>
+        }
     </section>
     <section class="row">
         @{

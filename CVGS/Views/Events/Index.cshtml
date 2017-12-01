@@ -6,11 +6,15 @@
 
 <h2>@ViewBag.Title</h2>
 
-<p>
-    <a href="@Url.Action("Create")" class="btn btn--action">
-        <i class="fa fa-plus"></i>Add Event
-    </a>
-</p>
+@if (Session["MemberRole"].ToString() == "Admin" || Session["MemberRole"].ToString() == "Employee")
+{
+    <p>
+        <a href="@Url.Action("Create")" class="btn btn--action">
+            <i class="fa fa-plus"></i>Add Event
+        </a>
+    </p>
+}
+
 <table class="table">
     <tr>
         <th>
