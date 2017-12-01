@@ -7,7 +7,7 @@ CREATE TABLE CVGS.dbo.ORDERITEM(
            , GameId          INT NOT NULL
            , Quantity        INT NOT NULL DEFAULT 1
   CONSTRAINT pk_orderitem PRIMARY KEY( OrderId, GameId ),
-  CONSTRAINT fk_orderitem_order FOREIGN KEY( OrderId ) REFERENCES OrderHeader( OrderId ),
+  CONSTRAINT fk_orderitem_order FOREIGN KEY( OrderId ) REFERENCES OrderHeader( OrderId ) ON DELETE CASCADE,
   CONSTRAINT fk_orderitem_game FOREIGN KEY( GameId ) REFERENCES Game( GameId ) ON DELETE CASCADE
 );
 GO

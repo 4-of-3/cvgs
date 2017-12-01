@@ -38,6 +38,15 @@ INSTEAD OF DELETE
      DELETE FROM REVIEW
       WHERE MemberId IN( SELECT MemberId FROM deleted );
       
+     DELETE FROM WISHLISTITEM
+      WHERE MemberId IN( SELECT MemberId FROM deleted );
+      
+     DELETE FROM CARTITEM
+      WHERE MemberId IN( SELECT MemberId FROM deleted );
+      
+     DELETE FROM ORDERHEADER
+      WHERE MemberId IN( SELECT MemberId FROM deleted );
+      
      UPDATE MEMBER
         SET FName = '*****'
           , LName = '*****'
