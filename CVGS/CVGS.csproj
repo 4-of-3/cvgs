@@ -167,8 +167,17 @@
     <Compile Include="Models\ADDRESS.cs">
       <DependentUpon>CVGS.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\CARTITEM.cs">
+      <DependentUpon>CVGS.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\CreditCardMeta.cs" />
     <Compile Include="Models\AddressTypeMeta.cs" />
+    <Compile Include="Models\ORDERHEADER.cs">
+      <DependentUpon>CVGS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ORDERITEM.cs">
+      <DependentUpon>CVGS.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\ProvStateMeta.cs" />
     <Compile Include="Models\CountryMeta.cs" />
     <Compile Include="Models\ADDRESSTYPE.cs">
@@ -228,6 +237,9 @@
     </Compile>
     <Compile Include="Models\ReviewMeta.cs" />
     <Compile Include="Models\ROLE.cs">
+      <DependentUpon>CVGS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\WISHLISTITEM.cs">
       <DependentUpon>CVGS.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
