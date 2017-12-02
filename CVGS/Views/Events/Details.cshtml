@@ -13,10 +13,13 @@
 <div>
     <section class="action-bar">
         <h4 style="display:inline-block">@Html.DisplayFor(model => model.EventTitle)</h4>
-        <div class="actions">
-            <a href="@Url.Action("Edit", new {id = Model.EventId})" class="btn btn--action btn--empty"><i class="fa fa-pencil"></i></a>
-            <a href="@Url.Action("Delete", new {id = Model.EventId})" class="btn btn--delete btn--empty"><i class="fa fa-trash"></i></a>
-        </div>
+        @if (Session["MemberRole"].ToString() == "Admin" || Session["MemberRole"].ToString() == "Employee")
+        {
+            <div class="actions">
+                <a href="@Url.Action("Edit", new { id = Model.EventId })" class="btn btn--action btn--empty"><i class="fa fa-pencil"></i></a>
+                <a href="@Url.Action("Delete", new { id = Model.EventId })" class="btn btn--delete btn--empty"><i class="fa fa-trash"></i></a>
+            </div>
+        }
     </section>
     <dl class="dl-horizontal">
         <dt>
@@ -51,27 +54,31 @@
         </dd>
 
     </dl>
-    @using (Html.BeginForm())
+
+    @* Only allow register/unregistering for active events (non-cancelled) *@
+    @if (Model.ActiveStatus)
     {
-        @Html.AntiForgeryToken()
-        @Html.HiddenFor(model => model.EventId)
+        using (Html.BeginForm("Register", "Events", new { id = Model.EventId }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.HiddenFor(model => model.EventId)
 
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                @if (ViewBag.isRegistered == false)
-                {
-                    <button type="submit" class="btn btn--action"><i class="fa fa-square-o"></i>Register</button>
-                    <input type="hidden" id="" value="false" name="isRegistered" />
-                }
-                else
-                {
-                    <button type="submit" class="btn btn--delete"><i class="fa fa-trash"></i>Unregister</button>
-                    <input type="hidden" id="" value="true" name="isRegistered" />
-                }
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    @if (ViewBag.isRegistered == false)
+                    {
+                        <button type="submit" class="btn btn--action"><i class="fa fa-square-o"></i>Register</button>
+                        <input type="hidden" id="" value="false" name="isRegistered" />
+                    }
+                    else
+                    {
+                        <button type="submit" class="btn btn--delete"><i class="fa fa-trash"></i>Unregister</button>
+                        <input type="hidden" id="" value="true" name="isRegistered" />
+                    }
 
 
+                </div>
             </div>
-        </div>
+        }
     }
-
 </div>

@@ -27,32 +27,27 @@
             <div class="tile__content">
                 N/A
             </div>
-            <div class="tile__label">Friends</div>
+            <div class="tile__label">Library</div>
         </div>
     </div>
 </div>
 
 <div class="row">
-    <div class="col-md-4">
-        <div class="dashboard__tile disabled">
-            <div class="tile__content">
-                N/A
-            </div>
-            <div class="tile__label">Library</div>
+    @if (Session["MemberRole"].ToString() == "Admin" || Session["MemberRole"].ToString() == "Employee")
+    {
+        <div class="col-md-4">
+            <a href="@Url.Action("Index", "Members")" class="dashboard__tile">
+                <div class="tile__content">
+                </div>
+                <div class="tile__label">Accounts</div>
+            </a>
         </div>
-    </div>
-    <div class="col-md-4">
-        <a href="@Url.Action("Index", "Members")" class="dashboard__tile">
-            <div class="tile__content">
-            </div>
-            <div class="tile__label">Accounts</div>
-        </a>
-    </div>
-    <div class="col-md-4">
-        <a href="@Url.Action("Index", "Reports")" class="dashboard__tile">
-            <div class="tile__content">
-            </div>
-            <div class="tile__label">Reports</div>
-        </a>
-    </div>
+        <div class="col-md-4">
+            <a href="@Url.Action("Index", "Reports")" class="dashboard__tile">
+                <div class="tile__content">
+                </div>
+                <div class="tile__label">Reports</div>
+            </a>
+        </div>
+    }
 </div>

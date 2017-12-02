@@ -25,6 +25,13 @@ namespace CVGS.Controllers
                 return RedirectToAction("Index", "Login"); ;
             }
 
+            // Only admins and employees can view members
+            string memberRole = this.Session["MemberRole"].ToString();
+            if (memberRole != "Admin" && memberRole != "Employee")
+            {
+                return new HttpUnauthorizedResult("You are not authorized to view members");
+            }
+
             // Members can be filtered and sorted
             List<MEMBER> members;
             if ((string)Session["MemberRole"] == "Admin")
@@ -98,6 +105,13 @@ namespace CVGS.Controllers
                 return RedirectToAction("Index", "Login"); ;
             }
 
+            // Only admins and employees can view members
+            string memberRole = this.Session["MemberRole"].ToString();
+            if (memberRole != "Admin" && memberRole != "Employee")
+            {
+                return new HttpUnauthorizedResult("You are not authorized to view members");
+            }
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -127,31 +141,32 @@ namespace CVGS.Controllers
                 return RedirectToAction("Index", "Login"); ;
             }
 
+            // Only admins can change a member's role
+            string memberRole = this.Session["MemberRole"].ToString();
+            if (memberRole != "Admin")
+            {
+                return new HttpUnauthorizedResult("You are not authorized to change member roles");
+            }
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            // Only admins can change a member's role
-            if((string)Session["MemberRole"] != "Admin")
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.Unauthorized);
-            }
-
             // Find and display the member for role editing
             MEMBER member = db.MEMBERs.Find(id);
-            UpdateRoleViewModel memberRole = new UpdateRoleViewModel()
+            UpdateRoleViewModel accountRole = new UpdateRoleViewModel()
             {
                 MemberId = member.MemberId,
                 RoleId = (int)member.RoleId,
                 Roles = new SelectList(db.ROLEs,"RoleId","RoleName", (int)member.RoleId)
             };
 
-            return View(memberRole);
+            return View(accountRole);
         }
 
         [HttpPost]
-        public ActionResult Role([Bind(Include = "MemberId, RoleId")] UpdateRoleViewModel memberRole)
+        public ActionResult Role([Bind(Include = "MemberId, RoleId")] UpdateRoleViewModel accountRole)
         {
             // Redirect unauthenticated members
             var memberId = this.Session["MemberId"];
@@ -160,23 +175,30 @@ namespace CVGS.Controllers
                 return RedirectToAction("Index", "Login"); ;
             }
 
+            // Only admins can change a member's role
+            string memberRole = this.Session["MemberRole"].ToString();
+            if (memberRole != "Admin")
+            {
+                return new HttpUnauthorizedResult("You are not authorized to change member roles");
+            }
+
             // Validate and update the member's role
             if (ModelState.IsValid)
             {
-                MEMBER member = db.MEMBERs.Find(memberRole.MemberId);
+                MEMBER member = db.MEMBERs.Find(accountRole.MemberId);
                 if (member == null)
                 {
                     return HttpNotFound();
                 }
 
-                member.RoleId = memberRole.RoleId;
+                member.RoleId = accountRole.RoleId;
 
                 db.Entry(member).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Details", new { id = member.MemberId });
             }
 
-            return View(memberRole);
+            return View(accountRole);
         }
 
         protected override void Dispose(bool disposing)
