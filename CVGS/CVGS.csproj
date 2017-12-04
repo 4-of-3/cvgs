@@ -171,6 +171,7 @@
     <Compile Include="Models\CARTITEM.cs">
       <DependentUpon>CVGS.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\CartMeta.cs" />
     <Compile Include="Models\CreditCardMeta.cs" />
     <Compile Include="Models\AddressTypeMeta.cs" />
     <Compile Include="Models\ORDERHEADER.cs">
@@ -244,6 +245,7 @@
       <DependentUpon>CVGS.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModels\CartViewModel.cs" />
     <Compile Include="ViewModels\DeleteAccountViewModel.cs" />
     <Compile Include="ViewModels\EditAccountViewModel.cs" />
     <Compile Include="ViewModels\LoginViewModel.cs" />
@@ -347,10 +349,7 @@
     <Content Include="Views\Address\Edit.cshtml" />
     <Content Include="Views\Address\Index.cshtml" />
     <Content Include="Views\Account\_ProfileLinks.cshtml" />
-    <Content Include="Views\Cart\Create.cshtml" />
-    <Content Include="Views\Cart\Delete.cshtml" />
-    <Content Include="Views\Cart\Details.cshtml" />
-    <Content Include="Views\Cart\Edit.cshtml" />
+    <Content Include="Views\Cart\IndexOld.cshtml" />
     <Content Include="Views\Cart\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
