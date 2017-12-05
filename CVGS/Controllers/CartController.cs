@@ -57,8 +57,20 @@ namespace CVGS.Controllers
             {
                 return RedirectToAction("Index", "Login");
             }
+
+            // Ensure that quantity is not below zero
+            for (int i = 0; i < newCart.CartItems.Count; i++)
+            {
+                if (newCart.CartItems[i].Quantity < 0)
+                {
+                    ModelState.AddModelError("CartItems[" + i + "].Quantity", "Quantity cannot be below 0");
+                }
+                newCart.CartItems[i].GAME = db.GAMEs.Find(newCart.CartItems[i].GameId);
+            }
+
             if (ModelState.IsValid)
             {
+                // Update all items in the cart
                 for (int i = 0; i < newCart.CartItems.Count; i++)
                 {
                     var item = newCart.CartItems[i];

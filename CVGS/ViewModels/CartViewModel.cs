@@ -11,6 +11,7 @@ namespace CVGS.ViewModels
     public class CartViewModel
     {
         public int MemberId { get; set; }
+
         [Required]
         [ItemQuantityMin(MinQuantity = 0,ErrorMessage = "Quantity cannot be less than 0")]
         public List<CARTITEM> CartItems { get; set; }
