@@ -26,7 +26,7 @@
                 <div class="form-group">
                     @Html.Label("Quantity", Model.CartItems[i].GAME.Title, htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-10">
-                        @Html.EditorFor(modelItem => Model.CartItems[i].Quantity, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.EditorFor(modelItem => Model.CartItems[i].Quantity, new { htmlAttributes = new { @class = "form-control", min=0 } })
                         @Html.ValidationMessageFor(modelItem => Model.CartItems[i].Quantity, "", new { @class = "text-danger" })
                     </div>
                 </div>
