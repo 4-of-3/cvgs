@@ -28,6 +28,7 @@
                     @{
                         if (Session["MemberId"] != null)
                         {
+                            <li>@Html.ActionLink("My Cart", "Index","Cart") </li>
                             <li>@Html.ActionLink("Profile", "Index", "Account")</li>
                             <li>@Html.ActionLink("Logout", "Logout", "Login")</li>
                         }
