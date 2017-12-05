@@ -131,6 +131,29 @@ namespace CVGS.Controllers
             return View(cartItem);
         }
 
+        public ActionResult Delete(int id)
+        {
+            // Redirect unauthenticated members
+            var memberId = Session["MemberId"];
+            if (memberId == null)
+            {
+                return RedirectToAction("Index", "Login");
+            }
+            
+            try
+            {
+                CARTITEM cartItem = db.CARTITEMs.Find((int)memberId, (int)id);
+                db.CARTITEMs.Remove(cartItem);
+                db.SaveChanges();
+            }
+            catch (Exception)
+            {
+                return HttpNotFound();
+            }
+
+            return RedirectToAction("Index");
+        }
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)
