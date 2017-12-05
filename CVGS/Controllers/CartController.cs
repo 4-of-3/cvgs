@@ -131,50 +131,6 @@ namespace CVGS.Controllers
             return View(cartItem);
         }
 
-        // POST: Cart/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "MemberId,GameId,Quantity,DateAdded")] CARTITEM cartItem)
-        {
-            if (ModelState.IsValid)
-            {
-                db.Entry(cartItem).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-            ViewBag.GameId = new SelectList(db.GAMEs, "GameId", "Title", cartItem.GameId);
-            ViewBag.MemberId = new SelectList(db.MEMBERs, "MemberId", "FName", cartItem.MemberId);
-            return View(cartItem);
-        }
-
-        // GET: Cart/Delete/5
-        public ActionResult Delete(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            CARTITEM cartItem = db.CARTITEMs.Find(id);
-            if (cartItem == null)
-            {
-                return HttpNotFound();
-            }
-            return View(cartItem);
-        }
-
-        // POST: Cart/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
-        {
-            CARTITEM cartItem = db.CARTITEMs.Find(id);
-            db.CARTITEMs.Remove(cartItem);
-            db.SaveChanges();
-            return RedirectToAction("Index");
-        }
-
         protected override void Dispose(bool disposing)
         {
             if (disposing)
