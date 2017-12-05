@@ -350,7 +350,6 @@
     <Content Include="Views\Address\Index.cshtml" />
     <Content Include="Views\Account\_ProfileLinks.cshtml" />
     <Content Include="Views\Cart\Index.cshtml" />
-    <Content Include="Views\Cart\Add.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
