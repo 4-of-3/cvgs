@@ -83,16 +83,16 @@ namespace CVGS.Controllers
 
         public ActionResult Add(int? id)
         {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
             // Redirect unauthenticated members
             var memberId = Session["MemberId"];
             if (memberId == null)
             {
                 return RedirectToAction("Index", "Login");
-            }
-
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
             CARTITEM cartItem = new CARTITEM()
@@ -102,33 +102,10 @@ namespace CVGS.Controllers
                 Quantity = 1
             };
 
-            cartItem.GAME = db.GAMEs.Find(id);
+            db.CARTITEMs.Add(cartItem);
+            db.SaveChanges();
 
-            return View(cartItem);
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Add([Bind(Include = "MemberId,GameId,Quantity")] CARTITEM cartItem)
-        {
-            // Redirect unauthenticated members
-            var memberId = Session["MemberId"];
-            if (memberId == null)
-            {
-                return RedirectToAction("Index", "Login");
-            }
-
-            if (ModelState.IsValid)
-            {
-                if(cartItem.Quantity > 0)
-                {
-                    db.CARTITEMs.Add(cartItem);
-                    db.SaveChanges();
-                }
-                return RedirectToAction("Index");
-            }
-
-            return View(cartItem);
+            return RedirectToAction("Index");
         }
 
         public ActionResult Delete(int id)
