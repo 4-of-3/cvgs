@@ -9,6 +9,7 @@ CREATE TABLE CVGS.dbo.REVIEW(
            , Rating           INT NOT NULL
            , DateCreated      DATETIME2 NOT NULL DEFAULT CURRENT_TIMESTAMP
            , DateModified     DATETIME2
+           , Approved		  BIT NOT NULL DEFAULT 0
   CONSTRAINT pk_review PRIMARY KEY( MemberId, GameId ),
   CONSTRAINT fk_review_member FOREIGN KEY( MemberId ) REFERENCES Member( MemberId ),
   CONSTRAINT fk_review_game FOREIGN KEY( GameId ) REFERENCES Game( GameId )
