@@ -20,6 +20,7 @@ namespace CVGS.Models
         public int GameId { get; set; }
 
         [Required]
+        [Range(0, Int32.MaxValue, ErrorMessage ="Quantity cannot be below 0")]
         public int Quantity { get; set; }
 
         [DisplayName("Date Added")]

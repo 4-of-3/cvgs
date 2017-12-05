@@ -14,21 +14,6 @@ namespace CVGS.Controllers
     public class CartController : Controller
     {
         private CVGSEntities db = new CVGSEntities();
-
-        // GET: Cart
-        public ActionResult IndexOld()
-        {
-            // Redirect unauthenticated members
-            int? memberId = (int)Session["MemberId"];
-            if (memberId == null)
-            {
-                return RedirectToAction("Index", "Login"); ;
-            }
-            
-            var cartItems = db.CARTITEMs.Where(c => c.MemberId == memberId).Include(c => c.GAME).Include(c => c.MEMBER);
-            return View(cartItems.ToList());
-        }
-
         public ActionResult Index()
         {
             // Redirect unauthenticated members
@@ -57,27 +42,26 @@ namespace CVGS.Controllers
             {
                 return RedirectToAction("Index", "Login");
             }
-
-            // Ensure that quantity is not below zero
-            for (int i = 0; i < newCart.CartItems.Count; i++)
-            {
-                if (newCart.CartItems[i].Quantity < 0)
-                {
-                    ModelState.AddModelError("CartItems[" + i + "].Quantity", "Quantity cannot be below 0");
-                }
-                newCart.CartItems[i].GAME = db.GAMEs.Find(newCart.CartItems[i].GameId);
-            }
-
+            
             if (ModelState.IsValid)
             {
                 // Update all items in the cart
                 for (int i = 0; i < newCart.CartItems.Count; i++)
                 {
                     var item = newCart.CartItems[i];
-                    cartItem = db.CARTITEMs.ToList().Find(c => c.MemberId == item.MemberId && c.GameId == item.GameId);
+                    cartItem = db.CARTITEMs.Find(item.MemberId, item.GameId);
 
                     cartItem.Quantity = item.Quantity;
-                    db.Entry(cartItem).State = EntityState.Modified;
+
+                    if (cartItem.Quantity == 0)
+                    {
+                        db.CARTITEMs.Remove(cartItem);
+                    }
+                    else
+                    {
+                        db.Entry(cartItem).State = EntityState.Modified;
+                    }
+
                     db.SaveChanges();
                 }
 
@@ -88,7 +72,63 @@ namespace CVGS.Controllers
                 };
                 return View(cart);
             }
+
+            for (int i = 0; i < newCart.CartItems.Count; i++)
+            {
+                newCart.CartItems[i].GAME = db.GAMEs.Find(newCart.CartItems[i].GameId);
+            }
+
             return View(newCart);
+        }
+
+        public ActionResult Add(int? id)
+        {
+            // Redirect unauthenticated members
+            var memberId = Session["MemberId"];
+            if (memberId == null)
+            {
+                return RedirectToAction("Index", "Login");
+            }
+
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            CARTITEM cartItem = new CARTITEM()
+            {
+                MemberId = (int)memberId,
+                GameId = (int)id,
+                Quantity = 1
+            };
+
+            cartItem.GAME = db.GAMEs.Find(id);
+
+            return View(cartItem);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Add([Bind(Include = "MemberId,GameId,Quantity")] CARTITEM cartItem)
+        {
+            // Redirect unauthenticated members
+            var memberId = Session["MemberId"];
+            if (memberId == null)
+            {
+                return RedirectToAction("Index", "Login");
+            }
+
+            if (ModelState.IsValid)
+            {
+                if(cartItem.Quantity > 0)
+                {
+                    db.CARTITEMs.Add(cartItem);
+                    db.SaveChanges();
+                }
+                return RedirectToAction("Index");
+            }
+
+            return View(cartItem);
         }
 
         // POST: Cart/Edit/5

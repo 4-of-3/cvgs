@@ -5,37 +5,44 @@
 }
 
 <h2>My Cart</h2>
-
-@using (Html.BeginForm())
+@if (Model.CartItems.Count > 0)
 {
-    @Html.AntiForgeryToken()
-    
-    <div class="form-horizontal">
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        @Html.HiddenFor(Model => Model.MemberId)
-        @for (int i = 0; i < Model.CartItems.Count; i++)
-        {
-        @Html.HiddenFor(m => Model.CartItems[i].MemberId)
+    using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
 
-        @Html.HiddenFor(m => Model.CartItems[i].GameId)
+        <div class="form-horizontal">
+            <hr />
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            @Html.HiddenFor(Model => Model.MemberId)
+            @for (int i = 0; i < Model.CartItems.Count; i++)
+            {
+                @Html.HiddenFor(m => Model.CartItems[i].MemberId)
 
-        @Html.HiddenFor(m => Model.CartItems[i].DateAdded)
-            
-        <div class="form-group">
-            @Html.Label("Quantity", Model.CartItems[i].GAME.Title, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(modelItem => Model.CartItems[i].Quantity, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(modelItem => Model.CartItems[i].Quantity, "", new { @class = "text-danger" })
+                @Html.HiddenFor(m => Model.CartItems[i].GameId)
+
+                @Html.HiddenFor(m => Model.CartItems[i].DateAdded)
+
+                <div class="form-group">
+                    @Html.Label("Quantity", Model.CartItems[i].GAME.Title, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(modelItem => Model.CartItems[i].Quantity, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(modelItem => Model.CartItems[i].Quantity, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            }
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Save" class="btn btn-default" />
+                </div>
             </div>
         </div>
-        }
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-default" />
-            </div>
-        </div>
-    </div>
+    }
+}
+else
+{
+    <hr />
+    <h4>There are no items in your cart.</h4>
 }
 
 <div>

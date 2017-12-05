@@ -87,11 +87,20 @@
             }
             else
             {
-                @:<em style="color: darkgrey;">No ratings available</em>
+                <em style="color: darkgrey;">No ratings available</em>
             }
 
             </dd>
         </dl>
+        @if (Model.CARTITEMs.Select(c => c.MemberId).ToList().Contains((int)Session["MemberId"]))
+        {
+
+            <em style="color: darkgrey;">This game is already in your cart.</em>
+        }
+        else
+        {
+            @Html.ActionLink("Add to Cart", "Add", "Cart", new { id = Model.GameId }, null)
+        }
     </section>
 
     @Html.Partial("_GameReviews", Model)
