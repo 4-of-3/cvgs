@@ -100,37 +100,8 @@ namespace CVGS.Controllers
                 return HttpNotFound();
             }
 
-            // Add associated game data
-            double avgRating = -1;
-            bool isInCart = false;
-            bool isPurchased = false;
-            bool isOnWishlist = false;
-
-            if (game.REVIEWs.Any())
-            {
-                avgRating = Math.Round(game.REVIEWs.Average(g => g.Rating), 2);
-            }
-            isInCart = game.CARTITEMs.Select(c => c.MemberId).ToList().Contains((int)memberId);
-
-            // Create custom view model to display game associations (avg reviews, purchased, in cart, etc)
-            GameAssociationsViewModel gameWithAssociations = new GameAssociationsViewModel()
-            {
-                GameId = game.GameId,
-                Title = game.Title,
-                ISBN = game.ISBN,
-                Developer = game.Developer,
-                Category = game.Category,
-                Description = game.Description,
-                ImageUrl = game.ImageUrl,
-                PublicationDate = game.PublicationDate,
-                Cost = game.Cost,
-                Digital = game.Digital,
-                Deleted = game.Deleted,
-                AvgRating = avgRating,
-                InCart = isInCart,
-                Purchased = isPurchased,
-                OnWishlist = isOnWishlist
-            };
+            // Create extended view model with basic associations
+            GameAssociationsViewModel gameWithAssociations = GameMeta.CreateGameAssociationFromModel(game, (int) memberId);
 
             return View(gameWithAssociations);
         }

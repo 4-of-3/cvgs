@@ -106,6 +106,7 @@
                 <div class="actions">
                     @if (Model.InCart)
                     {
+                        // Allow members to return to the current Game Details page after viewing their cart
                         <a href="@Url.Action("Index", "Cart", new { redirectGameId = Model.GameId })" class="btn btn--default">
                             <i class="fa fa-shopping-cart"></i>In Cart
                         </a>
@@ -120,6 +121,8 @@
             </div>
         </div>
     </section>
+
+
 
     @Html.Partial("_GameReviews", Model)
 </div>
