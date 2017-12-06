@@ -248,6 +248,7 @@
     <Compile Include="ViewModels\CartViewModel.cs" />
     <Compile Include="ViewModels\DeleteAccountViewModel.cs" />
     <Compile Include="ViewModels\EditAccountViewModel.cs" />
+    <Compile Include="ViewModels\EventAssociationsViewModel.cs" />
     <Compile Include="ViewModels\GameAssociationsViewModel.cs" />
     <Compile Include="ViewModels\LoginViewModel.cs" />
     <Compile Include="ViewModels\NewAccountViewModel.cs" />

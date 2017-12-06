@@ -1,4 +1,4 @@
-﻿@model CVGS.Models.EVENT
+﻿@model CVGS.ViewModels.EventAssociationsViewModel
 
 @{
     ViewBag.Title = "Event Details";
@@ -65,15 +65,15 @@
 
             <div class="form-group">
                 <div class="col-md-offset-2 col-md-10">
-                    @if (ViewBag.isRegistered == false)
-                    {
-                        <button type="submit" class="btn btn--action"><i class="fa fa-square-o"></i>Register</button>
-                        <input type="hidden" id="" value="false" name="isRegistered" />
-                    }
-                    else
+                    @if (Model.IsRegistered)
                     {
                         <button type="submit" class="btn btn--delete"><i class="fa fa-trash"></i>Unregister</button>
                         <input type="hidden" id="" value="true" name="isRegistered" />
+                    }
+                    else
+                    {
+                        <button type="submit" class="btn btn--action"><i class="fa fa-square-o"></i>Register</button>
+                        <input type="hidden" id="" value="false" name="isRegistered" />
                     }
 
 

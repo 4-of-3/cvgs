@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using CVGS.Models;
+using CVGS.ViewModels;
 
 namespace CVGS.Controllers
 {
@@ -40,7 +41,7 @@ namespace CVGS.Controllers
                 asc = false;
             }
 
-            if (sort == null) return View(eventList);
+            if (sort == null) return View(EventMeta.CreateEventAssociationsListFromModels(eventList, (int)memberId));
 
             // Events can be sorted by several model properties
             switch (sort)
@@ -62,7 +63,7 @@ namespace CVGS.Controllers
                     break;
             }
 
-            return View(eventList);
+            return View(EventMeta.CreateEventAssociationsListFromModels(eventList, (int)memberId));
         }
 
         // GET: Events/Details/5
@@ -87,9 +88,10 @@ namespace CVGS.Controllers
                 return HttpNotFound();
             }
 
-            bool registered = IsRegisteredForEvent((int)id, (int)memberId);
-            ViewBag.isRegistered = registered; 
-            return View(@event);
+            // Create extended view model with basic associations
+            EventAssociationsViewModel eventWithAssociations = EventMeta.CreateEventAssociationsFromModel(@event, (int)memberId);
+
+            return View(eventWithAssociations);
         }
 
         // GET: Events/Create
@@ -328,31 +330,6 @@ namespace CVGS.Controllers
             }
 
             return RedirectToAction("Details", new { id = id });
-        }
-
-        /// <summary>
-        /// Determine if a member is registered for an event
-        /// </summary>
-        /// <param name="eventId">Event ID</param>
-        /// <param name="memberId">Member ID</param>
-        /// <returns></returns>
-        private bool IsRegisteredForEvent(int eventId, int memberId)
-        {
-            MEMBER_EVENT memberEvent = new MEMBER_EVENT();
-            try
-            {
-                memberEvent = db.MEMBER_EVENT.ToList().Find(x => x.EventId == eventId && x.MemberId == memberId);
-            }
-            catch (Exception)
-            {
-                return false;
-            }
-
-            if (memberEvent == null)
-            {
-                return false;
-            }
-            return true;
         }
 
         protected override void Dispose(bool disposing)

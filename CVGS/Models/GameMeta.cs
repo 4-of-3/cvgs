@@ -88,10 +88,17 @@ namespace CVGS.Models
                 Cost = game.Cost,
                 Digital = game.Digital,
                 Deleted = game.Deleted,
+                // Associated information (added)
                 AvgRating = avgRating,
                 InCart = isInCart,
                 Purchased = isPurchased,
-                OnWishlist = isOnWishlist
+                OnWishlist = isOnWishlist,
+                // Associated lists
+                PLATFORMs = game.PLATFORMs,
+                REVIEWs = game.REVIEWs,
+                CARTITEMs = game.CARTITEMs,
+                ORDERITEMs = game.ORDERITEMs,
+                WISHLISTITEMs = game.WISHLISTITEMs
             };
 
             return gameWithAssociations;
