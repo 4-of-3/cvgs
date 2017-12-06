@@ -20,6 +20,7 @@ namespace CVGS.Models
         public int Rating { get; set; }
         public System.DateTime DateCreated { get; set; }
         public Nullable<System.DateTime> DateModified { get; set; }
+        public bool Approved { get; set; }
     
         public virtual GAME GAME { get; set; }
         public virtual MEMBER MEMBER { get; set; }

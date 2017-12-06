@@ -26,6 +26,7 @@ namespace CVGS.Models
         public Nullable<int> ShippingAddressId { get; set; }
         public int CreditCardId { get; set; }
         public System.DateTime DateCreated { get; set; }
+        public bool Processed { get; set; }
     
         public virtual ADDRESS ADDRESS { get; set; }
         public virtual ADDRESS ADDRESS1 { get; set; }

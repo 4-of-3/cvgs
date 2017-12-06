@@ -1,0 +1,58 @@
+﻿@model CVGS.Models.ORDERHEADER
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>ORDERHEADER</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.DateCreated)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DateCreated)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ADDRESS.StreetAddress)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ADDRESS.StreetAddress)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ADDRESS1.StreetAddress)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ADDRESS1.StreetAddress)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CREDITCARD.CardNumber)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CREDITCARD.CardNumber)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MEMBER.FName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MEMBER.FName)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.OrderId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
