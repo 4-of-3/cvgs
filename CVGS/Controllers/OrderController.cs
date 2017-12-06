@@ -47,7 +47,7 @@ namespace CVGS.Controllers
         public ActionResult ProcessConfirmed(int id)
         {
             ORDERHEADER oRDERHEADER = db.ORDERHEADERs.Find(id);
-            
+            oRDERHEADER.Processed = true;
             db.ORDERHEADERs.Remove(oRDERHEADER);
             db.SaveChanges();
             return RedirectToAction("Index");
