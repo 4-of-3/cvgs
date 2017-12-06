@@ -34,26 +34,17 @@
 
                 <div class="form-group">
                     @Html.Label("Quantity", Model.CartItems[i].GAME.Title, htmlAttributes: new { @class = "control-label col-md-4" })
-
                     <div class="col-md-2">
                         <div class="input-group">
                             @Html.EditorFor(modelItem => Model.CartItems[i].Quantity, new { htmlAttributes = new { @class = "form-control", min = 0 } })
                             <span class="input-group-btn">
                                 <a href="@Url.Action("Delete", new { id = Model.CartItems[i].GameId })" class="btn btn--empty btn--delete">
-                                    <i class="fa fa-trash"></i>
+                                    <i class="fa fa-times"></i>
                                 </a>
                             </span>
                         </div>
                         @Html.ValidationMessageFor(modelItem => Model.CartItems[i].Quantity, "", new { @class = "text-danger" })
                     </div>
-
-                    @*<div class="col-md-2">
-                            @Html.EditorFor(modelItem => Model.CartItems[i].Quantity, new { htmlAttributes = new { @class = "form-control", min = 0 } })
-                            @Html.ValidationMessageFor(modelItem => Model.CartItems[i].Quantity, "", new { @class = "text-danger" })
-                        </div>
-                        <div class="col-md-2">
-                            @Html.ActionLink("Remove Item", "Delete", new { id = Model.CartItems[i].GameId }, new { @class = "btn btn--default" })
-                        </div>*@
                 </div>
             }
             <div class="form-group">
