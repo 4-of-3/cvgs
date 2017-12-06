@@ -41,7 +41,7 @@ namespace CVGS.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Index(CartViewModel newCart)
+        public ActionResult Update(CartViewModel newCart)
         {
             // Redirect unauthenticated members
             var memberId = Session["MemberId"];
@@ -79,14 +79,7 @@ namespace CVGS.Controllers
                     db.SaveChanges();
                 }
 
-                // Create the list of custom viewmodels for displaying the cart items
-                CartViewModel cart = new CartViewModel()
-                {
-                    MemberId = (int)memberId,
-                    CartItems = db.CARTITEMs.Where(c => c.MemberId == (int)memberId).Include(c => c.GAME).Include(c => c.MEMBER).ToList()
-                };
-
-                return View(cart);
+                return RedirectToAction("Index");
             }
 
             // Prepare items for error display
@@ -95,7 +88,7 @@ namespace CVGS.Controllers
                 item.GAME = db.GAMEs.Find(item.GameId);
             }
 
-            return View(newCart);
+            return View("Index", newCart);
         }
 
         public ActionResult Add(int? id)

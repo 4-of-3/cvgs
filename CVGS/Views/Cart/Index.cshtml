@@ -16,7 +16,7 @@
 
 @if (Model.CartItems.Count > 0)
 {
-    using (Html.BeginForm())
+    using (Html.BeginForm("Update", "Cart"))
     {
         @Html.AntiForgeryToken()
 
