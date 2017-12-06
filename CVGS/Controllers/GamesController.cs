@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using CVGS.Models;
+using CVGS.ViewModels;
 
 namespace CVGS.Controllers
 {
@@ -99,8 +100,39 @@ namespace CVGS.Controllers
                 return HttpNotFound();
             }
 
-            ViewBag.gameTitle = game.Title;
-            return View(game);
+            // Add associated game data
+            double avgRating = -1;
+            bool isInCart = false;
+            bool isPurchased = false;
+            bool isOnWishlist = false;
+
+            if (game.REVIEWs.Any())
+            {
+                avgRating = Math.Round(game.REVIEWs.Average(g => g.Rating), 2);
+            }
+            isInCart = game.CARTITEMs.Select(c => c.MemberId).ToList().Contains((int)memberId);
+
+            // Create custom view model to display game associations (avg reviews, purchased, in cart, etc)
+            GameAssociationsViewModel gameWithAssociations = new GameAssociationsViewModel()
+            {
+                GameId = game.GameId,
+                Title = game.Title,
+                ISBN = game.ISBN,
+                Developer = game.Developer,
+                Category = game.Category,
+                Description = game.Description,
+                ImageUrl = game.ImageUrl,
+                PublicationDate = game.PublicationDate,
+                Cost = game.Cost,
+                Digital = game.Digital,
+                Deleted = game.Deleted,
+                AvgRating = avgRating,
+                InCart = isInCart,
+                Purchased = isPurchased,
+                OnWishlist = isOnWishlist
+            };
+
+            return View(gameWithAssociations);
         }
 
         // GET: Games/Create

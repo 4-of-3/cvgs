@@ -50,6 +50,17 @@
     color: white;
 }
 
+.btn--default {
+    border-color: #cccccc;
+    background-color: #ffffff;
+    color: #333333;
+}
+
+.btn--default:hover {
+    background-color: #efefef;
+    color: black;
+}
+
 .btn--save {
     background-color: #43A047;
     color: white;

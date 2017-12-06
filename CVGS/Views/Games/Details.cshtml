@@ -1,7 +1,13 @@
-﻿@model CVGS.Models.GAME
+﻿@*@model CVGS.Models.GAME*@
+@model CVGS.ViewModels.GameAssociationsViewModel
 
 @{
     ViewBag.Title = "Game Details";
+}
+
+@{
+    // A game without a picture should take up the full width
+    int detailsColSize = String.IsNullOrEmpty(Model.ImageUrl) ? 12 : 9;
 }
 
 <h2>@ViewBag.Title</h2>
@@ -12,7 +18,8 @@
 
 <div>
     <section class="action-bar">
-        <h4>@Html.DisplayFor(model => model.Title)</h4>
+        <h4 class="game__title">@Html.DisplayFor(model => model.Title)</h4>
+
         @if (Session["MemberRole"].ToString() == "Admin" || Session["MemberRole"].ToString() == "Employee")
         {
             <div class="actions">
@@ -23,84 +30,95 @@
     </section>
     <section class="row">
         @{
-            if (Model.ImageUrl != null && Model.ImageUrl != "")
+            if (!String.IsNullOrEmpty(Model.ImageUrl))
             {
                 <img src="@Url.Content(Model.ImageUrl)" class="game-image col-md-3" />
             }
         }
-        <dl class="dl-horizontal col-md-9">
-            <dt>
-                @Html.DisplayNameFor(model => model.Category)
-            </dt>
-            <dd>
-                @Html.DisplayFor(model => model.Category)
-            </dd>
+        <div class="col-md-@detailsColSize">
+            <dl class="dl-horizontal">
+                <dt>
+                    @Html.DisplayNameFor(model => model.Category)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Category)
+                </dd>
 
-            <dt>
-                @Html.DisplayNameFor(model => model.Developer)
-            </dt>
-            <dd>
-                @Html.DisplayFor(model => model.Developer)
-            </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.Developer)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Developer)
+                </dd>
 
-            <dt>
-                @Html.DisplayNameFor(model => model.PublicationDate)
-            </dt>
-            <dd>
-                @Html.DisplayFor(model => model.PublicationDate)
-            </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.PublicationDate)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.PublicationDate)
+                </dd>
 
-            <dt>
-                @Html.DisplayNameFor(model => model.Description)
-            </dt>
-            <dd>
-                @Html.DisplayFor(model => model.Description)
-            </dd>
-            <dt>Playable on:</dt>
-            <dd>
-                @foreach (var p in Model.PLATFORMs)
-                {
-                    @p.Developer @: @p.PlatformName <br />
-            }
-            </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.Description)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Description)
+                </dd>
+                <dt>Playable on:</dt>
+                <dd>
+                    @foreach (var p in Model.PLATFORMs)
+                    {
+                        @p.Developer @: @p.PlatformName <br />
+                    }
+                </dd>
 
-            <dt>
-                @Html.DisplayNameFor(model => model.Digital)
-            </dt>
-            <dd>
-                @((Model.Digital)? "Yes" : "No")
-            </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.Digital)
+                </dt>
+                <dd>
+                    @((Model.Digital) ? "Yes" : "No")
+                </dd>
 
-            <dt>
-                @Html.DisplayNameFor(model => model.Cost)
-            </dt>
-            <dd>
-                @Html.DisplayFor(model => model.Cost)
-            </dd>
-            <dt>
-                Average Rating
-            </dt>
-            <dd>
-                @if (Model.REVIEWs.Count > 0)
-            {
-                    @Model.REVIEWs.Average(m => m.Rating).ToString("#.##")@:/5
-            }
-            else
-            {
-                <em style="color: darkgrey;">No ratings available</em>
-            }
+                <dt>
+                    @Html.DisplayNameFor(model => model.Cost)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Cost)
+                </dd>
+                <dt>
+                    Average Rating
+                </dt>
+                <dd>
+                    @if (Model.AvgRating >= 0)
+                    {
+                        @Model.AvgRating.ToString("#.##")@:/5
+                    }
+                    else
+                    {
+                        <em style="color: darkgrey;">No ratings available</em>
+                    }
 
-            </dd>
-        </dl>
-        @if (Model.CARTITEMs.Select(c => c.MemberId).ToList().Contains((int)Session["MemberId"]))
-        {
+                </dd>
+            </dl>
 
-            <em style="color: darkgrey;">This game is already in your cart.</em>
-        }
-        else
-        {
-            @Html.ActionLink("Add to Cart", "Add", "Cart", new { id = Model.GameId }, null)
-        }
+            @* Indicate whether item can be added to cart or is already in cart *@
+            <div class="action-bar reverse">
+                <div class="actions">
+                    @if (Model.InCart)
+                    {
+                        <a href="@Url.Action("Index", "Cart", new { redirectGameId = Model.GameId })" class="btn btn--default">
+                            <i class="fa fa-shopping-cart"></i>In Cart
+                        </a>
+                    }
+                    else
+                    {
+                        <a href="@Url.Action("Add", "Cart", new {id = Model.GameId})" class="btn btn--action">
+                            <i class="fa fa-cart-plus"></i>Add to Cart
+                        </a>
+                    }
+                </div>
+            </div>
+        </div>
     </section>
 
     @Html.Partial("_GameReviews", Model)
