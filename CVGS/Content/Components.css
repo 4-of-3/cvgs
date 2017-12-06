@@ -27,7 +27,7 @@
 }
 
 /* Buttons */
-.btn i {
+.btn i,.link i {
     margin-right: 5px;
 }
 

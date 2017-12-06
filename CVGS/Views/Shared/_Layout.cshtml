@@ -28,8 +28,18 @@
                     @{
                         if (Session["MemberId"] != null)
                         {
-                            <li>@Html.ActionLink("My Cart", "Index","Cart") </li>
-                            <li>@Html.ActionLink("Profile", "Index", "Account")</li>
+                            <li>
+                                <a href="@Url.Action("Index", "Cart")" class="link">
+                                    <i class="fa fa-shopping-cart"></i>
+                                    Cart
+                                </a>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("Index", "Account")" class="link">
+                                    <i class="fa fa-user"></i>
+                                    Profile
+                                </a>
+                            </li>
                             <li>@Html.ActionLink("Logout", "Logout", "Login")</li>
                         }
                     }

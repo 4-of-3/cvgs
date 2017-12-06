@@ -280,7 +280,7 @@ namespace CVGS.Controllers
             }
 
             // Validate and update member/event registration
-            if (!ModelState.IsValid) return RedirectToAction("Details", new {id = id});
+            if (!ModelState.IsValid) return RedirectToAction("Details", new { id });
 
             // Find the event
             EVENT @event = db.EVENTs.ToList().Find(x => x.EventId == id);
@@ -292,7 +292,7 @@ namespace CVGS.Controllers
             }
             else if (@event.ActiveStatus == false)
             {
-                return RedirectToAction("Details", new { id = id });
+                return RedirectToAction("Details", new { id });
             }
 
             // Remove registration if it exists
@@ -307,14 +307,16 @@ namespace CVGS.Controllers
 
                 db.MEMBER_EVENT.Remove(memberEvent);    
                 db.SaveChanges();
-                return RedirectToAction("Details",  new { id = id });
+                return RedirectToAction("Details",  new { id });
             }
 
             // Create new member/event registration
-            MEMBER_EVENT memberRegister = new MEMBER_EVENT();
-            memberRegister.EventId = id;
-            memberRegister.MemberId = (int)this.Session["MemberId"];
-            memberRegister.DateRegistered = System.DateTime.Now;
+            MEMBER_EVENT memberRegister = new MEMBER_EVENT()
+            {
+                EventId = id,
+                MemberId = (int)this.Session["MemberId"],
+                DateRegistered = DateTime.Now
+            };
 
             if (memberRegister.ToString() != "")
             {
@@ -329,7 +331,7 @@ namespace CVGS.Controllers
                 }
             }
 
-            return RedirectToAction("Details", new { id = id });
+            return RedirectToAction("Details", new { id });
         }
 
         protected override void Dispose(bool disposing)
