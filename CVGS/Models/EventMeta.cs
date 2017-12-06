@@ -46,7 +46,7 @@ namespace CVGS.Models
         /// </summary>
         /// <param name="event">Event model object to convert</param>
         /// <param name="memberId">Member id that defines several associations</param>
-        /// <returns></returns>
+        /// <returns>Extended viewmodel for Event model with associations</returns>
         public static EventAssociationsViewModel CreateEventAssociationsFromModel(EVENT @event, int memberId)
         {
             // Determine associated information
@@ -76,7 +76,7 @@ namespace CVGS.Models
         /// </summary>
         /// <param name="events">List of Event models</param>
         /// <param name="memberId">Member id that defines several assocations</param>
-        /// <returns></returns>
+        /// <returns>List of extended viewmodels for Event model with associations</returns>
         public static List<EventAssociationsViewModel> CreateEventAssociationsListFromModels(IEnumerable<EVENT> events, int memberId)
         {
             List<EventAssociationsViewModel> eventAssociations = new List<EventAssociationsViewModel>();

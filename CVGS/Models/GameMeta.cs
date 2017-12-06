@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -59,7 +60,7 @@ namespace CVGS.Models
         /// </summary>
         /// <param name="game">Game model object to convert</param>
         /// <param name="memberId">Member id that defines several associations</param>
-        /// <returns></returns>
+        /// <returns>Extended viewmodel for Game model with associations</returns>
         public static GameAssociationsViewModel CreateGameAssociationFromModel(GAME game, int memberId)
         {
             // Add associated game data
@@ -102,6 +103,25 @@ namespace CVGS.Models
             };
 
             return gameWithAssociations;
+        }
+
+
+        /// <summary>
+        /// Convert a list of Games models into a list of the extended Games viewmodel with assocations
+        /// </summary>
+        /// <param name="games">List of Game models</param>
+        /// <param name="memberId">Member id that defines several assocations</param>
+        /// <returns>List of extended viewmodels for Game model with associations</returns>
+        public static List<GameAssociationsViewModel> CreateEventAssociationsListFromModels(IEnumerable<GAME> games, int memberId)
+        {
+            List<GameAssociationsViewModel> gameAssociations = new List<GameAssociationsViewModel>();
+
+            foreach (GAME game in games)
+            {
+                gameAssociations.Add(CreateGameAssociationFromModel(game, memberId));
+            }
+
+            return gameAssociations;
         }
     }
 }

@@ -48,7 +48,7 @@ namespace CVGS.Controllers
                 asc = false;
             }
 
-            if (sort == null) return View(gamesList);
+            if (sort == null) return View(GameMeta.CreateEventAssociationsListFromModels(gamesList, (int)memberId));
 
             // Handle list sorting
             switch (sort)
@@ -75,7 +75,7 @@ namespace CVGS.Controllers
                     break;
             }
 
-            return View(gamesList);
+            return View(GameMeta.CreateEventAssociationsListFromModels(gamesList, (int)memberId));
         }
 
         // GET: Games/Details/5
