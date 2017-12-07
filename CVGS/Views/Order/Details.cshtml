@@ -4,10 +4,10 @@
     ViewBag.Title = "Details";
 }
 
-<h2>Details</h2>
+<h2>Order Details</h2>
 
 <div>
-    <h4>ORDERHEADER</h4>
+    <h4>Order</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
@@ -51,6 +51,30 @@
         </dd>
 
     </dl>
+    <table class="table">
+        <tr>
+            <th>
+                Quantity
+            </th>
+            <th>
+                Title
+            </th>
+        </tr>
+
+        @foreach (var item in Model.ORDERITEMs)
+            {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Quantity)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.GAME.Title)
+                </td>
+            </tr>
+        }
+    </table>
+
+
 </div>
 <p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.OrderId }) |

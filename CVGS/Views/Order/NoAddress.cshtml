@@ -1,0 +1,12 @@
+﻿
+@{
+    ViewBag.Title = "No Address";
+}
+
+<h2>You have not added any addresses</h2>
+
+<h4>In order to proceed, you must add at least one address.</h4>
+
+@Html.ActionLink("Add an address", "Create", "Address", null, new { @class="btn btn--action" })
+@Html.ActionLink("Cancel", "Index", "Cart", null, new { @class = "btn btn--default" })
+

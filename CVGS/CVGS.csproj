@@ -178,6 +178,7 @@
     <Compile Include="Models\ORDERHEADER.cs">
       <DependentUpon>CVGS.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\OrderHeaderMeta.cs" />
     <Compile Include="Models\ORDERITEM.cs">
       <DependentUpon>CVGS.tt</DependentUpon>
     </Compile>
@@ -357,6 +358,9 @@
     <Content Include="Views\Order\Edit.cshtml" />
     <Content Include="Views\Order\Index.cshtml" />
     <Content Include="Views\Order\Process.cshtml" />
+    <Content Include="Views\Order\Checkout.cshtml" />
+    <Content Include="Views\Order\NoAddress.cshtml" />
+    <Content Include="Views\Order\NoCreditCard.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
