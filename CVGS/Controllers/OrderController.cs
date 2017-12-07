@@ -108,12 +108,18 @@ namespace CVGS.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Checkout([Bind(Include = "OrderId,MemberId,BillingAddressId,ShippingAddressId,CreditCardId,DateCreated")] ORDERHEADER orderHeader)
         {
+            // Redirect unauthenticated members
+            var memberId = Session["MemberId"];
+            if (memberId == null)
+            {
+                return RedirectToAction("Index", "Login");
+            }
             if (ModelState.IsValid)
             {
                 db.ORDERHEADERs.Add(orderHeader);
 
                 // Add all items from user's cart into the new order
-                var cartItems = db.CARTITEMs.Where(c => c.MemberId == orderHeader.MemberId).Include(c => c.GAME);
+                var cartItems = db.CARTITEMs.Where(c => c.MemberId == orderHeader.MemberId);
                 foreach (var cartItem in cartItems)
                 {
                     ORDERITEM orderItem = new ORDERITEM()
@@ -130,10 +136,12 @@ namespace CVGS.Controllers
                 db.SaveChanges();
                 return RedirectToAction("MyOrders");
             }
+            var memberAddresses = db.ADDRESSes.Where(a => a.MemberId == (int)memberId && !a.Deleted);
+            var memberCreditCards = db.CREDITCARDs.Where(c => c.MemberId == (int)memberId && !c.Deleted);
 
-            ViewBag.BillingAddressId = new SelectList(db.ADDRESSes, "AddressId", "StreetAddress", orderHeader.BillingAddressId);
-            ViewBag.ShippingAddressId = new SelectList(db.ADDRESSes, "AddressId", "StreetAddress", orderHeader.ShippingAddressId);
-            ViewBag.CreditCardId = new SelectList(db.CREDITCARDs, "CardId", "CardNumber", orderHeader.CreditCardId);
+            ViewBag.BillingAddressId = new SelectList(memberAddresses, "AddressId", "StreetAddress");
+            ViewBag.ShippingAddressId = new SelectList(memberAddresses, "AddressId", "StreetAddress");
+            ViewBag.CreditCardId = new SelectList(memberCreditCards, "CardId", "CardNumber");
             return View(orderHeader);
         }
 
