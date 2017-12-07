@@ -57,10 +57,15 @@
         <tr>
             <td class="flex-row">
                 @Html.ActionLink(item.Title, "Details", new { id = item.GameId })
+                @* Quick indicators for game associations *@
                 <div class="indicators">
                     @if (item.Digital)
                     {
                         @:<i class="indicator blue fa fa-floppy-o" title="Digital"></i>
+                    }
+                    @if (item.OnWishlist)
+                    {
+                        @:<i class="indicator gold fa fa-gift" title="In Wishlist"></i>
                     }
                     @if (item.InCart)
                     {

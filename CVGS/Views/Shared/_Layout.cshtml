@@ -28,6 +28,11 @@
                     @{
                         if (Session["MemberId"] != null)
                         {
+                            <li>
+                                <a href="@Url.Action("Index", "Wishlist")" class="btn btn--">
+                                    <i class="fa fa-gift"></i>Wishlist
+                                </a>
+                            </li>
                             <li>@Html.ActionLink("My Cart", "Index","Cart") </li>
                             <li>@Html.ActionLink("Profile", "Index", "Account")</li>
                             <li>@Html.ActionLink("Logout", "Logout", "Login")</li>
