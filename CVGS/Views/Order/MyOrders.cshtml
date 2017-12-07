@@ -1,10 +1,10 @@
 ﻿@model IEnumerable<CVGS.Models.ORDERHEADER>
 
 @{
-    ViewBag.Title = "MyOrders";
+    ViewBag.Title = "My Orders";
 }
 
-<h2>MyOrders</h2>
+<h2>My Orders</h2>
 
 <p>
     @Html.ActionLink("Create New", "Create")
@@ -27,7 +27,7 @@
             @Html.DisplayNameFor(model => model.CREDITCARD.CardNumber)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.MEMBER.FName)
+            Name
         </th>
         <th></th>
     </tr>
@@ -50,7 +50,7 @@
             @Html.DisplayFor(modelItem => item.CREDITCARD.CardNumber)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.MEMBER.FName)
+            @Html.DisplayFor(modelItem => item.MEMBER.FName) @Html.DisplayFor(modelItem => item.MEMBER.LName) 
         </td>
         <td>
             @Html.ActionLink("Details", "Details", new { id=item.OrderId }) |

@@ -43,11 +43,11 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.MEMBER.FName)
+            Name
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.MEMBER.FName)
+            @Html.DisplayFor(model => model.MEMBER.FName) @Html.DisplayFor(model => model.MEMBER.LName)
         </dd>
 
     </dl>
@@ -78,5 +78,13 @@
 </div>
 <p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.OrderId }) |
-    @Html.ActionLink("Back to List", "Index")
+    @if ((string)Session["MemberRole"] != "Employee" && (string)Session["MemberRole"] != "Admin")
+    {
+        @Html.ActionLink("Back to List", "MyOrders")
+    }
+    else
+    {
+        @Html.ActionLink("Back to List", "Index")
+    }
+
 </p>

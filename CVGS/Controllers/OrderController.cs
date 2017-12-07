@@ -128,7 +128,7 @@ namespace CVGS.Controllers
                     db.CARTITEMs.Remove(cartItem);
                 }
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("MyOrders");
             }
 
             ViewBag.BillingAddressId = new SelectList(db.ADDRESSes, "AddressId", "StreetAddress", orderHeader.BillingAddressId);
