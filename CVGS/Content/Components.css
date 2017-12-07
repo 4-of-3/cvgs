@@ -50,6 +50,17 @@
     color: white;
 }
 
+.btn--default {
+    border-color: #cccccc;
+    background-color: #ffffff;
+    color: #333333;
+}
+
+.btn--default:hover {
+    background-color: #efefef;
+    color: black;
+}
+
 .btn--save {
     background-color: #43A047;
     color: white;
@@ -98,33 +109,42 @@
 
 
 /* Inline item indicators */
-.flex-row {
+.flex-row,.indicators {
     display: flex;
     flex-direction: row;
     align-items: center;
 }
 
 .indicator {
-    display: flex;
+    display: flex !important; /* Necessary to override FontAwesome */
     flex-direction: row;
     align-items: center;
     justify-content: center;
     width: 16px;
     height: 16px;
     margin-left: 8px;
+}
+
+.indicator.blue {
+    color: #1E88E5;
+}
+.indicator.gold {
+    color: #C18B0D;
+}
+.indicator.grey {
+    color: #a7a49d;
+}
+.indicator.green {
+    color: #43A047;
+}
+.indicator.darkred {
+    color: ##9A1515;
+}
+
+.indicator--text {
     font-size: 10px;
     line-height: 10px;
     font-weight: bold;
     border: 2px solid black;
     border-radius: 1px;
-}
-
-.indicator--digital {
-    color: #1E88E5;
-    border-color: #1E88E5;
-}
-
-.indicator--registered {
-    color: #66BB6A;
-    border-color: #66BB6A;
 }
