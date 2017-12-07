@@ -50,6 +50,20 @@
             @Html.DisplayFor(model => model.MEMBER.FName) @Html.DisplayFor(model => model.MEMBER.LName)
         </dd>
 
+        <dt>
+            @Html.DisplayNameFor(model => model.Processed)
+        </dt>
+
+            @if (Model.Processed)
+            {
+                <dd>Yes</dd>
+            }
+            else
+            {
+                <dd>No</dd>
+                    @Html.ActionLink("Process Order", "Process", new { id = Model.OrderId }, new { @class = "btn btn--action" })
+                    }
+
     </dl>
     <table class="table">
         <tr>
@@ -77,7 +91,6 @@
 
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.OrderId }) |
     @if ((string)Session["MemberRole"] != "Employee" && (string)Session["MemberRole"] != "Admin")
     {
         @Html.ActionLink("Back to List", "MyOrders")

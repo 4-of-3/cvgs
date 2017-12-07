@@ -186,7 +186,7 @@ namespace CVGS.Controllers
             orderHeader.Processed = true;
             db.Entry(orderHeader).State = EntityState.Modified;
             db.SaveChanges();
-            return RedirectToAction("Index");
+            return RedirectToAction("Pending");
         }
 
         // GET: Order/Details/5
