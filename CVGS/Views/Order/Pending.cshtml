@@ -1,10 +1,10 @@
 ﻿@model IEnumerable<CVGS.Models.ORDERHEADER>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "InProcess";
 }
 
-<h2>Index</h2>
+<h2>InProcess</h2>
 
 <p>
     @Html.ActionLink("Create New", "Create")
@@ -53,7 +53,7 @@
             @Html.DisplayFor(modelItem => item.MEMBER.FName)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.OrderId }) |
+            @Html.ActionLink("Process", "Process", new { id=item.OrderId }) |
             @Html.ActionLink("Details", "Details", new { id=item.OrderId }) |
             @Html.ActionLink("Delete", "Delete", new { id=item.OrderId })
         </td>

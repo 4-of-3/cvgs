@@ -111,6 +111,8 @@ namespace CVGS.Controllers
             if (ModelState.IsValid)
             {
                 db.ORDERHEADERs.Add(orderHeader);
+
+                // Add all items from user's cart into the new order
                 var cartItems = db.CARTITEMs.Where(c => c.MemberId == orderHeader.MemberId).Include(c => c.GAME);
                 foreach (var cartItem in cartItems)
                 {
@@ -121,6 +123,9 @@ namespace CVGS.Controllers
                         Quantity = cartItem.Quantity
                     };
                     db.ORDERITEMs.Add(orderItem);
+                    
+                    // remove the item from the cart
+                    db.CARTITEMs.Remove(cartItem);
                 }
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -129,11 +134,10 @@ namespace CVGS.Controllers
             ViewBag.BillingAddressId = new SelectList(db.ADDRESSes, "AddressId", "StreetAddress", orderHeader.BillingAddressId);
             ViewBag.ShippingAddressId = new SelectList(db.ADDRESSes, "AddressId", "StreetAddress", orderHeader.ShippingAddressId);
             ViewBag.CreditCardId = new SelectList(db.CREDITCARDs, "CardId", "CardNumber", orderHeader.CreditCardId);
-            ViewBag.MemberId = new SelectList(db.MEMBERs, "MemberId", "FName", orderHeader.MemberId);
             return View(orderHeader);
         }
 
-        public ActionResult InProcess()
+        public ActionResult Pending()
         {
             // Redirect unauthenticated members
             var memberId = Session["MemberId"];

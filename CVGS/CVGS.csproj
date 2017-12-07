@@ -352,16 +352,15 @@
     <Content Include="Views\Address\Index.cshtml" />
     <Content Include="Views\Account\_ProfileLinks.cshtml" />
     <Content Include="Views\Cart\Index.cshtml" />
-    <Content Include="Views\Order\Create.cshtml" />
     <Content Include="Views\Order\Delete.cshtml" />
     <Content Include="Views\Order\Details.cshtml" />
-    <Content Include="Views\Order\Edit.cshtml" />
-    <Content Include="Views\Order\Index.cshtml" />
     <Content Include="Views\Order\Process.cshtml" />
     <Content Include="Views\Order\Checkout.cshtml" />
     <Content Include="Views\Order\NoAddress.cshtml" />
     <Content Include="Views\Order\NoCreditCard.cshtml" />
     <Content Include="Views\Order\MyOrders.cshtml" />
+    <Content Include="Views\Order\InProcess.cshtml" />
+    <Content Include="Views\Order\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
