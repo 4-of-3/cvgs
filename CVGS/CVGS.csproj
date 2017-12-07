@@ -359,7 +359,7 @@
     <Content Include="Views\Order\NoAddress.cshtml" />
     <Content Include="Views\Order\NoCreditCard.cshtml" />
     <Content Include="Views\Order\MyOrders.cshtml" />
-    <Content Include="Views\Order\InProcess.cshtml" />
+    <Content Include="Views\Order\Pending.cshtml" />
     <Content Include="Views\Order\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
