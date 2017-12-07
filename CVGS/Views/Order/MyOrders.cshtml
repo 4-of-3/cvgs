@@ -6,9 +6,6 @@
 
 <h2>My Orders</h2>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
 <table class="table">
     <tr>
         <th>
@@ -18,10 +15,10 @@
             @Html.DisplayNameFor(model => model.Processed)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.ADDRESS.StreetAddress)
+            Billing Address
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.ADDRESS1.StreetAddress)
+            Shipping Address
         </th>
         <th>
             @Html.DisplayNameFor(model => model.CREDITCARD.CardNumber)
@@ -29,7 +26,6 @@
         <th>
             Name
         </th>
-        <th></th>
     </tr>
 
 @foreach (var item in Model) {
@@ -38,7 +34,7 @@
             @Html.ActionLink(item.DateCreated.ToString(), "Details", new { id = item.OrderId})
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Processed)
+                @((item.Processed) ? "Yes" : "No")
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.ADDRESS.StreetAddress)
@@ -51,9 +47,6 @@
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.MEMBER.FName) @Html.DisplayFor(modelItem => item.MEMBER.LName) 
-        </td>
-        <td>
-            @Html.ActionLink("Details", "Details", new { id=item.OrderId }) |
         </td>
     </tr>
 }

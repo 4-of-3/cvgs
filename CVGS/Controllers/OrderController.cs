@@ -99,7 +99,7 @@ namespace CVGS.Controllers
             
             ViewBag.BillingAddressId = new SelectList(memberAddresses, "AddressId", "StreetAddress", billingAddressIndex);
             ViewBag.ShippingAddressId = new SelectList(memberAddresses, "AddressId", "StreetAddress", shippingAddressIndex);
-            ViewBag.CreditCardId = new SelectList(memberCreditCards, "CardId", "CardNumber");
+            ViewBag.CreditCardId = new SelectList(memberCreditCards, "CardId", "CardDescription");
 
             return View(order);
         }
@@ -141,7 +141,7 @@ namespace CVGS.Controllers
 
             ViewBag.BillingAddressId = new SelectList(memberAddresses, "AddressId", "StreetAddress");
             ViewBag.ShippingAddressId = new SelectList(memberAddresses, "AddressId", "StreetAddress");
-            ViewBag.CreditCardId = new SelectList(memberCreditCards, "CardId", "CardNumber");
+            ViewBag.CreditCardId = new SelectList(memberCreditCards, "CardId", "CardDescription");
             return View(orderHeader);
         }
 
