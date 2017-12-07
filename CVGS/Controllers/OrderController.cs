@@ -48,6 +48,8 @@ namespace CVGS.Controllers
 
         public ActionResult Checkout()
         {
+            // TODO: Save cart item quantity changes from Cart page
+
             // Redirect unauthenticated members
             var memberId = Session["MemberId"];
             if (memberId == null)
@@ -58,6 +60,7 @@ namespace CVGS.Controllers
             var memberCreditCards = db.CREDITCARDs.Where(c => c.MemberId == (int)memberId && !c.Deleted);
             int shippingAddressIndex = 0;
             int billingAddressIndex = 0;
+
             // If no address exists for the user, prompt them to add an address
             if (memberAddresses.Count() <1)
             {

@@ -22,7 +22,7 @@ namespace CVGS.Models
         public Nullable<int> ShippingAddressId { get; set; }
         [Display(Name = "Credit Card")]
         public int CreditCardId { get; set; }
-        [Display(Name = "Date Created")]
+        [Display(Name = "Order Date")]
         public System.DateTime DateCreated { get; set; }
         [Display(Name = "Processed")]
         public bool Processed { get; set; }

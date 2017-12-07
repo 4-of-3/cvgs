@@ -53,6 +53,12 @@
                 <th>
                     Title
                 </th>
+                <th>
+                    Unit Price
+                </th>
+                <th>
+                    Cost
+                </th>
             </tr>
 
             @foreach (var item in Model.ORDERITEMs)
@@ -63,6 +69,12 @@
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.GAME.Title)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.GAME.Cost)
+                    </td>
+                    <td>
+                        @((item.GAME.Cost * item.Quantity).ToString("C"))
                     </td>
                 </tr>
             }

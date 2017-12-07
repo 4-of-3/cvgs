@@ -6,6 +6,22 @@
 
 <h2>Order Details</h2>
 
+@if ((string)Session["MemberRole"] != "Employee" && (string)Session["MemberRole"] != "Admin")
+{
+    <a href="@Url.Action("MyOrders")" class="btn btn-default">
+        <i class="fa fa-arrow-left"></i>My Orders
+    </a>
+}
+else
+{
+    <a href="@Url.Action("Index")" class="btn btn-default">
+        <i class="fa fa-arrow-left"></i>Orders
+    </a>
+}
+
+
+
+
 <div>
     <hr />
     <dl class="dl-horizontal row">
@@ -56,13 +72,16 @@
                 <dd>
                     @Html.DisplayFor(model => model.ADDRESS.StreetAddress)
                 </dd>
-                <dt>
-                    @Html.DisplayNameFor(model => model.ADDRESS.StreetAddress2)
-                </dt>
+                @if (Model.ADDRESS.StreetAddress2 != null && Model.ADDRESS.StreetAddress2 != "")
+                {
+                    <dt>
+                        @Html.DisplayNameFor(model => model.ADDRESS.StreetAddress2)
+                    </dt>
 
-                <dd>
-                    @Html.DisplayFor(model => model.ADDRESS.StreetAddress2)
-                </dd>
+                    <dd>
+                        @Html.DisplayFor(model => model.ADDRESS.StreetAddress2)
+                    </dd>
+                }
 
                 <dt>
                     @Html.DisplayNameFor(model => model.ADDRESS.City)
@@ -107,13 +126,17 @@
                 <dd>
                     @Html.DisplayFor(model => model.ADDRESS1.StreetAddress)
                 </dd>
-                <dt>
-                    @Html.DisplayNameFor(model => model.ADDRESS1.StreetAddress2)
-                </dt>
+                
+                @if (Model.ADDRESS.StreetAddress2 != null && Model.ADDRESS1.StreetAddress2 != "")
+                {
+                    <dt>
+                        @Html.DisplayNameFor(model => model.ADDRESS1.StreetAddress2)
+                    </dt>
 
-                <dd>
-                    @Html.DisplayFor(model => model.ADDRESS1.StreetAddress2)
-                </dd>
+                    <dd>
+                        @Html.DisplayFor(model => model.ADDRESS1.StreetAddress2)
+                    </dd>
+                }
 
                 <dt>
                     @Html.DisplayNameFor(model => model.ADDRESS1.City)
@@ -160,44 +183,76 @@
                 <dd>
                     @Html.DisplayFor(model => model.CREDITCARD.CardNumber)
                 </dd>
-                <dt></dt>
-                <dd></dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.CREDITCARD.CardDescription)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.CREDITCARD.CardDescription)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.CREDITCARD.NameOnCard)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.CREDITCARD.NameOnCard)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.CREDITCARD.ExpiryDate)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.CREDITCARD.ExpiryDate)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.CREDITCARD.CVV)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.CREDITCARD.CVV)
+                </dd>
             </dl>
         </div>
     </div>
-    <table class="table">
-        <tr>
-            <th>
-                Quantity
-            </th>
-            <th>
-                Title
-            </th>
-        </tr>
-
-        @foreach (var item in Model.ORDERITEMs)
-            {
+    <div class="row">
+        <h4>Order Items</h4>
+        <table class="table">
             <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Quantity)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.GAME.Title)
-                </td>
+                <th>
+                    Quantity
+                </th>
+                <th>
+                    Title
+                </th>
+                <th>
+                    Unit Price
+                </th>
+                <th>
+                    Cost
+                </th>
             </tr>
-        }
-    </table>
 
-
+            @foreach (var item in Model.ORDERITEMs)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Quantity)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.GAME.Title)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.GAME.Cost)
+                    </td>
+                    <td>
+                        @((item.GAME.Cost * item.Quantity).ToString("C"))
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
 </div>
-<p>
-    @if ((string)Session["MemberRole"] != "Employee" && (string)Session["MemberRole"] != "Admin")
-    {
-        @Html.ActionLink("Back to List", "MyOrders")
-    }
-    else
-    {
-        @Html.ActionLink("Back to List", "Index")
-    }
-
-</p>

@@ -6,10 +6,14 @@
 
 <h2>Process</h2>
 
+<a href="@Url.Action("Pending")" class="btn btn-default">
+    <i class="fa fa-arrow-left"></i>Pending Orders
+</a>
+
 <h3>Are you ready to process this order?</h3>
 <div>
     <hr />
-    <dl class="dl-horizontal">
+    <dl class="dl-horizontal row">
         <dt>
             @Html.DisplayNameFor(model => model.DateCreated)
         </dt>
@@ -19,45 +23,215 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.ADDRESS.StreetAddress)
+            Name
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.ADDRESS.StreetAddress)
+            @Html.DisplayFor(model => model.MEMBER.FName) @Html.DisplayFor(model => model.MEMBER.LName)
         </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.ADDRESS1.StreetAddress)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.ADDRESS1.StreetAddress)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.CREDITCARD.CardNumber)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.CREDITCARD.CardNumber)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.MEMBER.FName)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.MEMBER.FName)
-        </dd>
-
     </dl>
+
+    <div class="row">
+        <div class="col-md-4">
+            <h4>Billing Address</h4>
+            <dl class="dl-horizontal">
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.ADDRESS.StreetAddress)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.ADDRESS.StreetAddress)
+                </dd>
+                @if (Model.ADDRESS.StreetAddress2 != null && Model.ADDRESS.StreetAddress2 != "")
+                {
+                    <dt>
+                        @Html.DisplayNameFor(model => model.ADDRESS.StreetAddress2)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.ADDRESS.StreetAddress2)
+                    </dd>
+                }
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.ADDRESS.City)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.ADDRESS.City)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.ADDRESS.PostCode)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.ADDRESS.PostCode)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.ADDRESS.PROVSTATE.ProvStateName)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.ADDRESS.PROVSTATE.ProvStateName)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.ADDRESS.PROVSTATE.COUNTRY.CountryName)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.ADDRESS.PROVSTATE.COUNTRY.CountryName)
+                </dd>
+            </dl>
+        </div>
+        <div class="col-md-4">
+            <h4>Shipping Address</h4>
+            <dl class="dl-horizontal">
+                <dt>
+                    @Html.DisplayNameFor(model => model.ADDRESS1.StreetAddress)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.ADDRESS1.StreetAddress)
+                </dd>
+
+                @if (Model.ADDRESS.StreetAddress2 != null && Model.ADDRESS1.StreetAddress2 != "")
+                {
+                    <dt>
+                        @Html.DisplayNameFor(model => model.ADDRESS1.StreetAddress2)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.ADDRESS1.StreetAddress2)
+                    </dd>
+                }
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.ADDRESS1.City)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.ADDRESS1.City)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.ADDRESS1.PostCode)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.ADDRESS1.PostCode)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.ADDRESS1.PROVSTATE.ProvStateName)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.ADDRESS1.PROVSTATE.ProvStateName)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.ADDRESS1.PROVSTATE.COUNTRY.CountryName)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.ADDRESS1.PROVSTATE.COUNTRY.CountryName)
+                </dd>
+            </dl>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <h4>Credit Card</h4>
+            <dl class="dl-horizontal">
+                <dt>
+                    @Html.DisplayNameFor(model => model.CREDITCARD.CardNumber)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.CREDITCARD.CardNumber)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.CREDITCARD.CardDescription)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.CREDITCARD.CardDescription)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.CREDITCARD.NameOnCard)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.CREDITCARD.NameOnCard)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.CREDITCARD.ExpiryDate)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.CREDITCARD.ExpiryDate)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.CREDITCARD.CVV)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.CREDITCARD.CVV)
+                </dd>
+            </dl>
+        </div>
+    </div>
+    <div class="row">
+        <h4>Order Items</h4>
+        <table class="table">
+            <tr>
+                <th>
+                    Quantity
+                </th>
+                <th>
+                    Title
+                </th>
+                <th>
+                    Unit Price
+                </th>
+                <th>
+                    Cost
+                </th>
+            </tr>
+
+            @foreach (var item in Model.ORDERITEMs)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Quantity)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.GAME.Title)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.GAME.Cost)
+                    </td>
+                    <td>
+                        @((item.GAME.Cost * item.Quantity).ToString("C"))
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
 
     @using (Html.BeginForm()) {
         @Html.AntiForgeryToken()
 
         <div class="form-actions no-color">
-            <input type="submit" value="Process" class="btn btn-default" /> |
-            @Html.ActionLink("Back to Pending Orders", "Pending")
+            <input type="submit" value="Process" class="btn btn-default" />
         </div>
     }
 </div>
