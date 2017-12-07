@@ -41,7 +41,7 @@ namespace CVGS.Controllers
                 asc = false;
             }
 
-            if (sort == null) return View(EventMeta.CreateEventAssociationsListFromModels(eventList, (int)memberId));
+            if (sort == null) return View(EventAssociationsViewModel.CreateEventAssociationsListFromModels(eventList, (int)memberId));
 
             // Events can be sorted by several model properties
             switch (sort)
@@ -63,7 +63,7 @@ namespace CVGS.Controllers
                     break;
             }
 
-            return View(EventMeta.CreateEventAssociationsListFromModels(eventList, (int)memberId));
+            return View(EventAssociationsViewModel.CreateEventAssociationsListFromModels(eventList, (int)memberId));
         }
 
         // GET: Events/Details/5
@@ -89,7 +89,7 @@ namespace CVGS.Controllers
             }
 
             // Create extended view model with basic associations
-            EventAssociationsViewModel eventWithAssociations = EventMeta.CreateEventAssociationsFromModel(@event, (int)memberId);
+            EventAssociationsViewModel eventWithAssociations = EventAssociationsViewModel.CreateEventAssociationsFromModel(@event, (int)memberId);
 
             return View(eventWithAssociations);
         }

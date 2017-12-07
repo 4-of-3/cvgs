@@ -48,7 +48,7 @@ namespace CVGS.Controllers
                 asc = false;
             }
 
-            if (sort == null) return View(GameMeta.CreateEventAssociationsListFromModels(gamesList, (int)memberId));
+            if (sort == null) return View(GameAssociationsViewModel.CreateEventAssociationsListFromModels(gamesList, (int)memberId));
 
             // Handle list sorting
             switch (sort)
@@ -75,7 +75,7 @@ namespace CVGS.Controllers
                     break;
             }
 
-            return View(GameMeta.CreateEventAssociationsListFromModels(gamesList, (int)memberId));
+            return View(GameAssociationsViewModel.CreateEventAssociationsListFromModels(gamesList, (int)memberId));
         }
 
         // GET: Games/Details/5
@@ -101,7 +101,7 @@ namespace CVGS.Controllers
             }
 
             // Create extended view model with basic associations
-            GameAssociationsViewModel gameWithAssociations = GameMeta.CreateGameAssociationFromModel(game, (int) memberId);
+            GameAssociationsViewModel gameWithAssociations = GameAssociationsViewModel.CreateGameAssociationFromModel(game, (int) memberId);
 
             return View(gameWithAssociations);
         }
