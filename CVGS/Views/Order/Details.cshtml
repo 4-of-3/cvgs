@@ -52,10 +52,6 @@ else
         else 
         {
             <dd>No</dd>
-            if ((string)Session["MemberRole"] == "Employee" || (string)Session["MemberRole"] == "Admin")
-            {
-                @Html.ActionLink("Process Order", "Process", new { id = Model.OrderId }, new { @class = "btn btn--action" })
-            }
         }
 
     </dl>
@@ -256,4 +252,9 @@ else
         </table>
         <h4>Total Cost:</h4>@(Model.ORDERITEMs.Sum(i=>i.Quantity * i.GAME.Cost).ToString("C"))
     </div>
+    <hr />
+    @if (!Model.Processed && ((string)Session["MemberRole"] == "Employee" || (string)Session["MemberRole"] == "Admin"))
+    {
+        @Html.ActionLink("Process Order", "Process", new { id = Model.OrderId }, new { @class = "btn btn--action" })
+    }
 </div>

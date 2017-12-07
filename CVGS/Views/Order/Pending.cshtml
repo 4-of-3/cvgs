@@ -26,6 +26,9 @@
         <th>
             @Html.DisplayNameFor(model => model.MEMBER.FName)
         </th>
+        <th>
+            Cost
+        </th>
         <th></th>
     </tr>
 
@@ -48,6 +51,11 @@
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.MEMBER.FName) @Html.DisplayFor(modelItem => item.MEMBER.LName)
+        </td>
+        <td>
+            @(item.ORDERITEMs.Sum(i => i.Quantity * i.GAME.Cost).ToString("C"))
+
+
         </td>
         <td>
             @Html.ActionLink("Process", "Process", new { id=item.OrderId }) |
