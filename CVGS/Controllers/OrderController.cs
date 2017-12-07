@@ -23,8 +23,26 @@ namespace CVGS.Controllers
             {
                 return RedirectToAction("Index", "Login");
             }
+            var memberRole = (string)Session["MemberRole"];
+            if (memberRole != "Employee" && memberRole != "Admin")
+            {
+                return new HttpUnauthorizedResult("You are not authorized to see all orders");
+            }
 
             var oRDERHEADERs = db.ORDERHEADERs.Include(o => o.ADDRESS).Include(o => o.ADDRESS1).Include(o => o.CREDITCARD).Include(o => o.MEMBER);
+            return View(oRDERHEADERs.ToList());
+        }
+
+        public ActionResult MyOrders()
+        {
+            // Redirect unauthenticated members
+            var memberId = Session["MemberId"];
+            if (memberId == null)
+            {
+                return RedirectToAction("Index", "Login");
+            }
+
+            var oRDERHEADERs = db.ORDERHEADERs.Where(o=>o.MemberId == (int)memberId).Include(o => o.ADDRESS).Include(o => o.ADDRESS1).Include(o => o.CREDITCARD).Include(o => o.MEMBER);
             return View(oRDERHEADERs.ToList());
         }
 
@@ -126,10 +144,10 @@ namespace CVGS.Controllers
             string memberRole = (string)Session["MemberRole"];
             if(memberRole != "Admin" && memberRole != "Employee")
             {
-                return new HttpUnauthorizedResult("You are not authorized to manage Events");
+                return new HttpUnauthorizedResult("You are not authorized to process Orders");
             }
 
-            var orderHeaders = db.ORDERHEADERs.Include(o => o.ADDRESS).Include(o => o.ADDRESS1).Include(o => o.CREDITCARD).Include(o => o.MEMBER);
+            var orderHeaders = db.ORDERHEADERs.Where(o => !o.Processed).Include(o => o.ADDRESS).Include(o => o.ADDRESS1).Include(o => o.CREDITCARD).Include(o => o.MEMBER);
             return View(orderHeaders.ToList());
         }
 
@@ -139,12 +157,12 @@ namespace CVGS.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            ORDERHEADER oRDERHEADER = db.ORDERHEADERs.Find(id);
-            if (oRDERHEADER == null)
+            ORDERHEADER orderHeader = db.ORDERHEADERs.Find(id);
+            if (orderHeader == null)
             {
                 return HttpNotFound();
             }
-            return View(oRDERHEADER);
+            return View(orderHeader);
         }
 
         // POST: Order/Process/5
@@ -152,9 +170,9 @@ namespace CVGS.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult ProcessConfirmed(int id)
         {
-            ORDERHEADER oRDERHEADER = db.ORDERHEADERs.Find(id);
-            oRDERHEADER.Processed = true;
-            db.Entry(oRDERHEADER).State = EntityState.Modified;
+            ORDERHEADER orderHeader = db.ORDERHEADERs.Find(id);
+            orderHeader.Processed = true;
+            db.Entry(orderHeader).State = EntityState.Modified;
             db.SaveChanges();
             return RedirectToAction("Index");
         }
@@ -166,84 +184,14 @@ namespace CVGS.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            ORDERHEADER oRDERHEADER = db.ORDERHEADERs.Find(id);
-            if (oRDERHEADER == null)
+            ORDERHEADER orderHeader = db.ORDERHEADERs.Find(id);
+            if (orderHeader == null)
             {
                 return HttpNotFound();
             }
-            return View(oRDERHEADER);
+            return View(orderHeader);
         }
-
-        // GET: Order/Create
-        public ActionResult Create()
-        {
-            ViewBag.BillingAddressId = new SelectList(db.ADDRESSes, "AddressId", "StreetAddress");
-            ViewBag.ShippingAddressId = new SelectList(db.ADDRESSes, "AddressId", "StreetAddress");
-            ViewBag.CreditCardId = new SelectList(db.CREDITCARDs, "CardId", "CardNumber");
-            ViewBag.MemberId = new SelectList(db.MEMBERs, "MemberId", "FName");
-            return View();
-        }
-
-        // POST: Order/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "OrderId,MemberId,BillingAddressId,ShippingAddressId,CreditCardId,DateCreated")] ORDERHEADER oRDERHEADER)
-        {
-            if (ModelState.IsValid)
-            {
-                db.ORDERHEADERs.Add(oRDERHEADER);
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-
-            ViewBag.BillingAddressId = new SelectList(db.ADDRESSes, "AddressId", "StreetAddress", oRDERHEADER.BillingAddressId);
-            ViewBag.ShippingAddressId = new SelectList(db.ADDRESSes, "AddressId", "StreetAddress", oRDERHEADER.ShippingAddressId);
-            ViewBag.CreditCardId = new SelectList(db.CREDITCARDs, "CardId", "CardNumber", oRDERHEADER.CreditCardId);
-            ViewBag.MemberId = new SelectList(db.MEMBERs, "MemberId", "FName", oRDERHEADER.MemberId);
-            return View(oRDERHEADER);
-        }
-
-        // GET: Order/Edit/5
-        public ActionResult Edit(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            ORDERHEADER oRDERHEADER = db.ORDERHEADERs.Find(id);
-            if (oRDERHEADER == null)
-            {
-                return HttpNotFound();
-            }
-            ViewBag.BillingAddressId = new SelectList(db.ADDRESSes, "AddressId", "StreetAddress", oRDERHEADER.BillingAddressId);
-            ViewBag.ShippingAddressId = new SelectList(db.ADDRESSes, "AddressId", "StreetAddress", oRDERHEADER.ShippingAddressId);
-            ViewBag.CreditCardId = new SelectList(db.CREDITCARDs, "CardId", "CardNumber", oRDERHEADER.CreditCardId);
-            ViewBag.MemberId = new SelectList(db.MEMBERs, "MemberId", "FName", oRDERHEADER.MemberId);
-            return View(oRDERHEADER);
-        }
-
-        // POST: Order/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "OrderId,MemberId,BillingAddressId,ShippingAddressId,CreditCardId,DateCreated")] ORDERHEADER oRDERHEADER)
-        {
-            if (ModelState.IsValid)
-            {
-                db.Entry(oRDERHEADER).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-            ViewBag.BillingAddressId = new SelectList(db.ADDRESSes, "AddressId", "StreetAddress", oRDERHEADER.BillingAddressId);
-            ViewBag.ShippingAddressId = new SelectList(db.ADDRESSes, "AddressId", "StreetAddress", oRDERHEADER.ShippingAddressId);
-            ViewBag.CreditCardId = new SelectList(db.CREDITCARDs, "CardId", "CardNumber", oRDERHEADER.CreditCardId);
-            ViewBag.MemberId = new SelectList(db.MEMBERs, "MemberId", "FName", oRDERHEADER.MemberId);
-            return View(oRDERHEADER);
-        }
-
+        
         // GET: Order/Delete/5
         public ActionResult Delete(int? id)
         {
@@ -251,12 +199,12 @@ namespace CVGS.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            ORDERHEADER oRDERHEADER = db.ORDERHEADERs.Find(id);
-            if (oRDERHEADER == null)
+            ORDERHEADER orderHeader = db.ORDERHEADERs.Find(id);
+            if (orderHeader == null)
             {
                 return HttpNotFound();
             }
-            return View(oRDERHEADER);
+            return View(orderHeader);
         }
 
         // POST: Order/Delete/5
@@ -264,8 +212,8 @@ namespace CVGS.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            ORDERHEADER oRDERHEADER = db.ORDERHEADERs.Find(id);
-            db.ORDERHEADERs.Remove(oRDERHEADER);
+            ORDERHEADER orderHeader = db.ORDERHEADERs.Find(id);
+            db.ORDERHEADERs.Remove(orderHeader);
             db.SaveChanges();
             return RedirectToAction("Index");
         }

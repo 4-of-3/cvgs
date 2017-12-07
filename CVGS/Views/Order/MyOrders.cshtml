@@ -1,0 +1,61 @@
+﻿@model IEnumerable<CVGS.Models.ORDERHEADER>
+
+@{
+    ViewBag.Title = "MyOrders";
+}
+
+<h2>MyOrders</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.DateCreated)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Processed)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ADDRESS.StreetAddress)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ADDRESS1.StreetAddress)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CREDITCARD.CardNumber)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.MEMBER.FName)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.ActionLink(item.DateCreated.ToString(), "Details", new { id = item.OrderId})
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Processed)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ADDRESS.StreetAddress)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ADDRESS1.StreetAddress)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CREDITCARD.CardNumber)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.MEMBER.FName)
+        </td>
+        <td>
+            @Html.ActionLink("Details", "Details", new { id=item.OrderId }) |
+        </td>
+    </tr>
+}
+
+</table>
