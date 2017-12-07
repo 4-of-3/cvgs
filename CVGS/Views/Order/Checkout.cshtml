@@ -6,10 +6,10 @@
 
 <h2>Checkout</h2>
 
-@using (Html.BeginForm()) 
+@using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
+
     <div class="form-horizontal">
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
@@ -79,14 +79,13 @@
                 </tr>
             }
         </table>
+
+        <h4>Total Cost:</h4>@(Model.ORDERITEMs.Sum(i => i.Quantity * i.GAME.Cost).ToString("C"))
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Checkout" class="btn btn-default" />
+                <input type="submit" value="Checkout" class="btn btn--action" />
+                @Html.ActionLink("Back to Cart", "Index", "Cart", null, new { @class="btn btn--default" })
             </div>
         </div>
     </div>
 }
-
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>

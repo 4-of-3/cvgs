@@ -254,5 +254,6 @@ else
                 </tr>
             }
         </table>
+        <h4>Total Cost:</h4>@(Model.ORDERITEMs.Sum(i=>i.Quantity * i.GAME.Cost).ToString("C"))
     </div>
 </div>
