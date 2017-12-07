@@ -7,39 +7,14 @@
 <h2>Order Details</h2>
 
 <div>
-    <h4>Order</h4>
     <hr />
-    <dl class="dl-horizontal">
+    <dl class="dl-horizontal row">
         <dt>
             @Html.DisplayNameFor(model => model.DateCreated)
         </dt>
 
         <dd>
             @Html.DisplayFor(model => model.DateCreated)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.ADDRESS.StreetAddress)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.ADDRESS.StreetAddress)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.ADDRESS1.StreetAddress)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.ADDRESS1.StreetAddress)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.CREDITCARD.CardNumber)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.CREDITCARD.CardNumber)
         </dd>
 
         <dt>
@@ -54,17 +29,142 @@
             @Html.DisplayNameFor(model => model.Processed)
         </dt>
 
-            @if (Model.Processed)
+        @if (Model.Processed)
             {
-                <dd>Yes</dd>
+            <dd>Yes</dd>
+        }
+        else 
+        {
+            <dd>No</dd>
+            if ((string)Session["MemberRole"] == "Employee" || (string)Session["MemberRole"] == "Admin")
+            {
+                @Html.ActionLink("Process Order", "Process", new { id = Model.OrderId }, new { @class = "btn btn--action" })
             }
-            else
-            {
-                <dd>No</dd>
-                    @Html.ActionLink("Process Order", "Process", new { id = Model.OrderId }, new { @class = "btn btn--action" })
-                    }
+        }
 
     </dl>
+
+    <div class="row">
+        <div class="col-md-4">
+            <h4>Billing Address</h4>
+            <dl class="dl-horizontal">
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.ADDRESS.StreetAddress)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.ADDRESS.StreetAddress)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.ADDRESS.StreetAddress2)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.ADDRESS.StreetAddress2)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.ADDRESS.City)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.ADDRESS.City)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.ADDRESS.PostCode)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.ADDRESS.PostCode)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.ADDRESS.PROVSTATE.ProvStateName)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.ADDRESS.PROVSTATE.ProvStateName)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.ADDRESS.PROVSTATE.COUNTRY.CountryName)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.ADDRESS.PROVSTATE.COUNTRY.CountryName)
+                </dd>
+            </dl>
+        </div>
+        <div class="col-md-4">
+            <h4>Shipping Address</h4>
+            <dl class="dl-horizontal">
+                <dt>
+                    @Html.DisplayNameFor(model => model.ADDRESS1.StreetAddress)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.ADDRESS1.StreetAddress)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.ADDRESS1.StreetAddress2)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.ADDRESS1.StreetAddress2)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.ADDRESS1.City)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.ADDRESS1.City)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.ADDRESS1.PostCode)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.ADDRESS1.PostCode)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.ADDRESS1.PROVSTATE.ProvStateName)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.ADDRESS1.PROVSTATE.ProvStateName)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.ADDRESS1.PROVSTATE.COUNTRY.CountryName)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.ADDRESS1.PROVSTATE.COUNTRY.CountryName)
+                </dd>
+            </dl>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <h4>Credit Card</h4>
+            <dl class="dl-horizontal">
+                <dt>
+                    @Html.DisplayNameFor(model => model.CREDITCARD.CardNumber)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.CREDITCARD.CardNumber)
+                </dd>
+                <dt></dt>
+                <dd></dd>
+            </dl>
+        </div>
+    </div>
     <table class="table">
         <tr>
             <th>
