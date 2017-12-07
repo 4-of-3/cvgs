@@ -14,7 +14,8 @@ namespace CVGS.Controllers
     public class CartController : Controller
     {
         private CVGSEntities db = new CVGSEntities();
-        public ActionResult Index()
+
+        public ActionResult Index(int redirectGameId = -1)
         {
             // Redirect unauthenticated members
             var memberId = Session["MemberId"];
@@ -22,20 +23,26 @@ namespace CVGS.Controllers
             {
                 return RedirectToAction("Index", "Login");
             }
+
             CartViewModel cart = new CartViewModel()
             {
                 MemberId = (int)memberId,
                 CartItems = db.CARTITEMs.Where(c => c.MemberId == (int)memberId).Include(c => c.GAME).Include(c => c.MEMBER).ToList()
             };
+
+            // Enable user to return to a game after viewing the cart (can be from add/update)
+            if (redirectGameId >= 0)
+            {
+                ViewBag.ReturnGameId = redirectGameId;
+            }
+
             return View(cart);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Index(CartViewModel newCart)
+        public ActionResult Update(CartViewModel newCart)
         {
-            CARTITEM cartItem;
-
             // Redirect unauthenticated members
             var memberId = Session["MemberId"];
             if (memberId == null)
@@ -43,16 +50,23 @@ namespace CVGS.Controllers
                 return RedirectToAction("Index", "Login");
             }
             
+            // Validate model and display errors
             if (ModelState.IsValid)
             {
                 // Update all items in the cart
-                for (int i = 0; i < newCart.CartItems.Count; i++)
+                foreach (var item in newCart.CartItems)
                 {
-                    var item = newCart.CartItems[i];
-                    cartItem = db.CARTITEMs.Find(item.MemberId, item.GameId);
+                    CARTITEM cartItem = db.CARTITEMs.Find(item.MemberId, item.GameId);
+
+                    // Handle invalid cart items (simply skip, don't throw an exception)
+                    if (cartItem == null)
+                    {
+                        continue;
+                    }
 
                     cartItem.Quantity = item.Quantity;
 
+                    // Remove cart items with a quantity of zero
                     if (cartItem.Quantity == 0)
                     {
                         db.CARTITEMs.Remove(cartItem);
@@ -65,20 +79,16 @@ namespace CVGS.Controllers
                     db.SaveChanges();
                 }
 
-                CartViewModel cart = new CartViewModel()
-                {
-                    MemberId = (int)memberId,
-                    CartItems = db.CARTITEMs.Where(c => c.MemberId == (int)memberId).Include(c => c.GAME).Include(c => c.MEMBER).ToList()
-                };
-                return View(cart);
+                return RedirectToAction("Index");
             }
 
-            for (int i = 0; i < newCart.CartItems.Count; i++)
+            // Prepare items for error display
+            foreach (CARTITEM item in newCart.CartItems)
             {
-                newCart.CartItems[i].GAME = db.GAMEs.Find(newCart.CartItems[i].GameId);
+                item.GAME = db.GAMEs.Find(item.GameId);
             }
 
-            return View(newCart);
+            return View("Index", newCart);
         }
 
         public ActionResult Add(int? id)
@@ -95,6 +105,7 @@ namespace CVGS.Controllers
                 return RedirectToAction("Index", "Login");
             }
 
+            // Create and add new cart item
             CARTITEM cartItem = new CARTITEM()
             {
                 MemberId = (int)memberId,
@@ -102,10 +113,13 @@ namespace CVGS.Controllers
                 Quantity = 1
             };
 
+            // Enable users to return to Game Details page after adding a game to the cart
+            int redirectGameId = (int)id;
+
             db.CARTITEMs.Add(cartItem);
             db.SaveChanges();
 
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", new { redirectGameId });
         }
 
         public ActionResult Delete(int id)
@@ -116,17 +130,17 @@ namespace CVGS.Controllers
             {
                 return RedirectToAction("Index", "Login");
             }
-            
-            try
+
+            CARTITEM cartItem = db.CARTITEMs.Find((int)memberId, (int)id);
+
+            // Handle invalid cart item removals
+            if (cartItem == null)
             {
-                CARTITEM cartItem = db.CARTITEMs.Find((int)memberId, (int)id);
-                db.CARTITEMs.Remove(cartItem);
-                db.SaveChanges();
+                return new HttpNotFoundResult();
             }
-            catch (Exception)
-            {
-                return HttpNotFound();
-            }
+
+            db.CARTITEMs.Remove(cartItem);
+            db.SaveChanges();
 
             return RedirectToAction("Index");
         }

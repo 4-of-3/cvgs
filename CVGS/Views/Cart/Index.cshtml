@@ -4,17 +4,26 @@
     ViewBag.Title = "My Cart";
 }
 
-<h2>My Cart</h2>
+<h2>@ViewBag.Title</h2>
+
+@* Display back button to allow users to go back to the Game Details page (if arriving from there) *@
+@if (ViewBag.ReturnGameId != null)
+{
+    <a href="@Url.Action("Details", "Games", new { id = (int)ViewBag.ReturnGameId })" class="btn btn--default">
+        <i class="fa fa-arrow-left"></i>Back to Game
+    </a>
+}
+
 @if (Model.CartItems.Count > 0)
 {
-    using (Html.BeginForm())
+    using (Html.BeginForm("Update", "Cart"))
     {
         @Html.AntiForgeryToken()
 
         <div class="form-horizontal">
             <hr />
             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-            @Html.HiddenFor(Model => Model.MemberId)
+            @Html.HiddenFor(model => model.MemberId)
             @for (int i = 0; i < Model.CartItems.Count; i++)
             {
                 @Html.HiddenFor(m => Model.CartItems[i].MemberId)
@@ -24,19 +33,23 @@
                 @Html.HiddenFor(m => Model.CartItems[i].DateAdded)
 
                 <div class="form-group">
-                    @Html.Label("Quantity", Model.CartItems[i].GAME.Title, htmlAttributes: new { @class = "control-label col-md-2" })
+                    @Html.Label("Quantity", Model.CartItems[i].GAME.Title, htmlAttributes: new { @class = "control-label col-md-4" })
                     <div class="col-md-2">
-                        @Html.EditorFor(modelItem => Model.CartItems[i].Quantity, new { htmlAttributes = new { @class = "form-control", min=0 } })
+                        <div class="input-group">
+                            @Html.EditorFor(modelItem => Model.CartItems[i].Quantity, new { htmlAttributes = new { @class = "form-control", min = 0 } })
+                            <span class="input-group-btn">
+                                <a href="@Url.Action("Delete", new { id = Model.CartItems[i].GameId })" class="btn btn--empty btn--delete">
+                                    <i class="fa fa-times"></i>
+                                </a>
+                            </span>
+                        </div>
                         @Html.ValidationMessageFor(modelItem => Model.CartItems[i].Quantity, "", new { @class = "text-danger" })
-                    </div>
-                    <div class="col-md-2">
-                        @Html.ActionLink("Remove Item", "Delete", new { id = Model.CartItems[i].GameId}, new { @class = "btn btn-default" })
                     </div>
                 </div>
             }
             <div class="form-group">
-                <div class="col-md-offset-2 col-md-10">
-                    <input type="submit" value="Save" class="btn btn-default" />
+                <div class="col-md-offset-4 col-md-8">
+                    <input type="submit" value="Update Cart" class="btn btn--save" />
                 </div>
             </div>
         </div>
@@ -48,6 +61,8 @@ else
     <h4>There are no items in your cart.</h4>
 }
 
-<div>
-    @Html.ActionLink("Continue Shopping", "Index", "Games")
+<div class="action-bar">
+    <a href="@Url.Action("Index", "Games")" class="btn btn--action">
+        <i class="fa fa-shopping-cart"></i>Continue Shopping
+    </a>
 </div>
