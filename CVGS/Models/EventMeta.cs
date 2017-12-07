@@ -51,7 +51,6 @@ namespace CVGS.Models
         {
             // Determine associated information
             bool isRegistered = @event.MEMBER_EVENT.Count(e => e.EventId == @event.EventId && e.MemberId == memberId) > 0;
-            int registeredCount = @event.MEMBER_EVENT.Count(e => e.EventId == @event.EventId);
 
             return new EventAssociationsViewModel()
             {
@@ -64,7 +63,6 @@ namespace CVGS.Models
                 DateCreated = @event.DateCreated,
                 // Associated information (added)
                 IsRegistered = isRegistered,
-                RegisteredCount = registeredCount,
                 // Associated lists
                 MEMBER_EVENT = @event.MEMBER_EVENT,
             };
