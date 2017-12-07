@@ -1,10 +1,12 @@
 ﻿using CVGS.Models;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 
 namespace CVGS.ViewModels
 {
+    [MetadataType(typeof(GameMeta))]
     public class GameAssociationsViewModel : GAME
     {
         /// <summary>
@@ -47,6 +49,7 @@ namespace CVGS.ViewModels
                 avgRating = Math.Round(game.REVIEWs.Average(g => g.Rating), 2);
             }
             isInCart = game.CARTITEMs.Select(c => c.MemberId).ToList().Contains(memberId);
+            isOnWishlist = game.WISHLISTITEMs.Select(w => w.MemberId).ToList().Contains(memberId);
 
             // Create custom view model to display game associations (avg reviews, purchased, in cart, etc)
             GameAssociationsViewModel gameWithAssociations = new GameAssociationsViewModel()

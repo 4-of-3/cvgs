@@ -1,9 +1,11 @@
 ﻿using CVGS.Models;
 using System.Linq;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace CVGS.ViewModels
 {
+    [MetadataType(typeof(EventMeta))]
     public class EventAssociationsViewModel : EVENT
     {
         /// <summary>

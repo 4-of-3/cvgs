@@ -162,6 +162,7 @@
     <Compile Include="Controllers\MembersController.cs" />
     <Compile Include="Controllers\ReportsController.cs" />
     <Compile Include="Controllers\ReviewsController.cs" />
+    <Compile Include="Controllers\WishlistController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -172,6 +173,7 @@
       <DependentUpon>CVGS.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\CartMeta.cs" />
+    <Compile Include="Models\WishlistItemMeta.cs" />
     <Compile Include="Models\CreditCardMeta.cs" />
     <Compile Include="Models\AddressTypeMeta.cs" />
     <Compile Include="Models\ORDERHEADER.cs">
@@ -254,6 +256,7 @@
     <Compile Include="ViewModels\NewAccountViewModel.cs" />
     <Compile Include="ViewModels\ReportTypeViewModel.cs" />
     <Compile Include="ViewModels\UpdateRoleViewModel.cs" />
+    <Compile Include="ViewModels\WishlistItemViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
@@ -352,6 +355,7 @@
     <Content Include="Views\Address\Index.cshtml" />
     <Content Include="Views\Account\_ProfileLinks.cshtml" />
     <Content Include="Views\Cart\Index.cshtml" />
+    <Content Include="Views\Wishlist\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

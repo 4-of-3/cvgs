@@ -93,16 +93,16 @@ namespace CVGS.Controllers
 
         public ActionResult Add(int? id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-
             // Redirect unauthenticated members
             var memberId = Session["MemberId"];
             if (memberId == null)
             {
                 return RedirectToAction("Index", "Login");
+            }
+
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
             // Create and add new cart item
@@ -122,13 +122,18 @@ namespace CVGS.Controllers
             return RedirectToAction("Index", new { redirectGameId });
         }
 
-        public ActionResult Delete(int id)
+        public ActionResult Delete(int? id)
         {
             // Redirect unauthenticated members
             var memberId = Session["MemberId"];
             if (memberId == null)
             {
                 return RedirectToAction("Index", "Login");
+            }
+
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
             CARTITEM cartItem = db.CARTITEMs.Find((int)memberId, (int)id);
