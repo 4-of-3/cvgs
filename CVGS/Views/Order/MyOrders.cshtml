@@ -37,7 +37,7 @@
             @Html.ActionLink(item.DateCreated.ToString(), "Details", new { id = item.OrderId})
         </td>
         <td>
-                @((item.Processed) ? "Yes" : "No")
+            @((item.Processed) ? "Yes" : "No")
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.ADDRESS.StreetAddress)

@@ -19,9 +19,6 @@ else
     </a>
 }
 
-
-
-
 <div>
     <hr />
     <dl class="dl-horizontal row">
@@ -53,14 +50,12 @@ else
         {
             <dd>No</dd>
         }
-
     </dl>
 
     <div class="row">
         <div class="col-md-4">
             <h4>Billing Address</h4>
             <dl class="dl-horizontal">
-
                 <dt>
                     @Html.DisplayNameFor(model => model.ADDRESS.StreetAddress)
                 </dt>
@@ -68,6 +63,7 @@ else
                 <dd>
                     @Html.DisplayFor(model => model.ADDRESS.StreetAddress)
                 </dd>
+
                 @if (Model.ADDRESS.StreetAddress2 != null && Model.ADDRESS.StreetAddress2 != "")
                 {
                     <dt>
