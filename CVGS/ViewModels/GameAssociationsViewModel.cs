@@ -9,6 +9,8 @@ namespace CVGS.ViewModels
     [MetadataType(typeof(GameMeta))]
     public class GameAssociationsViewModel : GAME
     {
+        public IEnumerable<REVIEW> ApprovedReviews;
+
         /// <summary>
         /// Game's average rating
         /// </summary>
@@ -44,9 +46,11 @@ namespace CVGS.ViewModels
             bool isPurchased = false;
             bool isOnWishlist = false;
 
-            if (game.REVIEWs.Any())
+
+            IEnumerable<REVIEW> approvedReviews = game.REVIEWs.Where(r => r.Approved);
+            if (approvedReviews.Any())
             {
-                avgRating = Math.Round(game.REVIEWs.Average(g => g.Rating), 2);
+                avgRating = Math.Round(approvedReviews.Average(g => g.Rating), 2);
             }
             isInCart = game.CARTITEMs.Select(c => c.MemberId).ToList().Contains(memberId);
             isOnWishlist = game.WISHLISTITEMs.Select(w => w.MemberId).ToList().Contains(memberId);
@@ -66,6 +70,7 @@ namespace CVGS.ViewModels
                 Digital = game.Digital,
                 Deleted = game.Deleted,
                 // Associated information (added)
+                ApprovedReviews = approvedReviews,
                 AvgRating = avgRating,
                 InCart = isInCart,
                 Purchased = isPurchased,

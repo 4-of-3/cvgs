@@ -367,6 +367,8 @@
     <Content Include="Views\Order\Pending.cshtml" />
     <Content Include="Views\Order\All.cshtml" />
     <Content Include="Views\Wishlist\Index.cshtml" />
+    <Content Include="Views\Reviews\Pending.cshtml" />
+    <Content Include="Views\Reviews\Details.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

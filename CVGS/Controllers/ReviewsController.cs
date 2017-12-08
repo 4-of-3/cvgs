@@ -14,6 +14,111 @@ namespace CVGS.Controllers
     {
         private CVGSEntities db = new CVGSEntities();
 
+        // GET: Reviews/Pending
+        public ActionResult Pending()
+        {
+            // Redirect unauthenticated members
+            if (this.Session["MemberId"] == null)
+            {
+                return RedirectToAction("Index", "Login"); ;
+            }
+
+            // Make Page Accessible to Employees and Admins only
+            if ((string)Session["MemberRole"] != "Employee" && (string)Session["MemberRole"] != "Admin")
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.Unauthorized);
+            }
+
+            var pendingList = db.REVIEWs.Include(x => x.MEMBER).Where(x => !x.Approved).OrderBy(x => x.DateCreated);
+
+            return View(pendingList);
+        }
+
+        public ActionResult Approve(int? memberId, int? gameId)
+        {
+            // Redirect unauthenticated members
+            if (this.Session["MemberId"] == null)
+            {
+                return RedirectToAction("Index", "Login"); ;
+            }
+
+            // Make Page Accessible to Employees and Admins only
+            if ((string)Session["MemberRole"] != "Employee" && (string)Session["MemberRole"] != "Admin")
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.Unauthorized);
+            }
+
+            if (memberId == null || gameId == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            REVIEW review = db.REVIEWs.Find(memberId, gameId);
+
+            if(review == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            review.Approved = true;
+            db.Entry(review).State = EntityState.Modified;
+            db.SaveChanges();
+
+
+            return RedirectToAction("Pending", "Reviews");
+        }
+
+        public ActionResult Deny(int? memberId, int? gameId)
+        {
+            // Redirect unauthenticated members
+            if (this.Session["MemberId"] == null)
+            {
+                return RedirectToAction("Index", "Login"); ;
+            }
+
+            // Make Page Accessible to Employees and Admins only
+            if ((string)Session["MemberRole"] != "Employee" && (string)Session["MemberRole"] != "Admin")
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.Unauthorized);
+            }
+
+            if (memberId == null || gameId == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            REVIEW review = db.REVIEWs.Find(memberId, gameId);
+
+            if (review == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            db.Entry(review).State = EntityState.Deleted;
+            db.SaveChanges();
+
+            return RedirectToAction("Pending", "Reviews");
+        }
+
+        // GET: Reviews/Detials
+        public ActionResult Details(int? memberId, int? gameId)
+        {
+            // Redirect unauthenticated members
+            if (this.Session["MemberId"] == null)
+            {
+                return RedirectToAction("Index", "Login"); ;
+            }
+
+            if (memberId == null || gameId == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            REVIEW review = db.REVIEWs.Where(x => x.MemberId == memberId).ToList().Find(x => x.GameId == gameId);
+
+            return View(review);
+        }
+
         // GET: Reviews/Create
         public ActionResult Create(int? gameId)
         {
@@ -115,6 +220,7 @@ namespace CVGS.Controllers
             if (!ModelState.IsValid) return View(review);
 
             review.DateModified = DateTime.Now;
+            review.Approved = false;    //Review Needs to be approved after editing
             db.Entry(review).State = EntityState.Modified;
             db.SaveChanges();
             return RedirectToAction("Details", "Games", new { id = review.GameId });
@@ -146,6 +252,7 @@ namespace CVGS.Controllers
             {
                 return HttpNotFound();
             }
+
             return View(review);
         }
 

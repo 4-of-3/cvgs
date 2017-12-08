@@ -1,0 +1,69 @@
+﻿@model CVGS.Models.REVIEW
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<a href="@Url.Action("Pending")" class="btn btn-default">
+    <i class="fa fa-arrow-left"></i>Reviews
+</a>
+
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            User
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.MEMBER.FName) @Html.DisplayFor(model => model.MEMBER.LName)
+            (@Html.DisplayFor(model => model.MEMBER.UserName))
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.GAME.Title)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.GAME.Title)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Rating)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Rating)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ReviewText)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ReviewText)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DateCreated)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DateCreated)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DateModified)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DateModified)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    <a href="@Url.Action("Approve", new { memberId = Model.MemberId, gameId = Model.GameId })" class="btn btn--action btn--save"><i class="fa fa-check"></i>Approve</a>
+    <a href="@Url.Action("Deny", new { memberId = Model.MemberId, gameId = Model.GameId })" class="btn btn-default btn btn--delete"><i class="fa fa-close"></i>Deny</a>
+</p>
