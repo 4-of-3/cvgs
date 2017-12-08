@@ -1,0 +1,65 @@
+﻿@model IEnumerable<CVGS.Models.REVIEW>
+
+@{
+    ViewBag.Title = "Pending Reviews";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<table class="table">
+    <tr>
+        <th>
+            User
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.GAME.Title)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Rating)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ReviewText)
+        </th>
+        <th style="width: 1px;"></th>
+    </tr>
+
+
+@if (Model.Count() == 0)
+{
+    <tr>
+        <td colspan="4">
+        <em>No pending reviews</em>
+        </td>
+    </tr>
+}
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.MEMBER.FName) @Html.DisplayFor(modelItem => item.MEMBER.LName)
+            (@Html.DisplayFor(modelItem => item.MEMBER.UserName))
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.GAME.Title)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Rating)
+        </td>
+        <td>
+            @if (item.ReviewText != null && item.ReviewText.Length > 140)
+            {
+                item.ReviewText = item.ReviewText.Substring(0, 137) + "...";
+            }
+            @Html.DisplayFor(modelItem => item.ReviewText)
+        </td>
+        <td style="white-space:nowrap;">
+            <a href="@Url.Action("Approve", new { memberId = item.MemberId, gameId = item.GameId })" class="btn btn--empty btn--save"><i class="fa fa-check"></i></a>
+            <a href="@Url.Action("Deny", new { memberId = item.MemberId, gameId = item.GameId })" class="btn btn--empty btn btn--delete"><i class="fa fa-close btn--empty"></i></a>
+            <a href="@Url.Action("Details", new { memberId = item.MemberId, gameId = item.GameId })" class="btn btn--default">
+                <i class="fa fa-search"></i>Details
+            </a>
+        </td>
+    </tr>
+}
+
+</table>
