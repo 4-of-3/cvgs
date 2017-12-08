@@ -15,7 +15,7 @@ namespace CVGS.Controllers
         private CVGSEntities db = new CVGSEntities();
 
         // GET: Order
-        public ActionResult Index()
+        public ActionResult All()
         {
             // Redirect unauthenticated members
             var memberId = Session["MemberId"];
@@ -168,6 +168,12 @@ namespace CVGS.Controllers
 
         public ActionResult Process(int? id)
         {
+            // Redirect unauthenticated members
+            var memberId = Session["MemberId"];
+            if (memberId == null)
+            {
+                return RedirectToAction("Index", "Login");
+            }
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -195,6 +201,12 @@ namespace CVGS.Controllers
         // GET: Order/Details/5
         public ActionResult Details(int? id)
         {
+            // Redirect unauthenticated members
+            var memberId = Session["MemberId"];
+            if (memberId == null)
+            {
+                return RedirectToAction("Index", "Login");
+            }
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -210,6 +222,12 @@ namespace CVGS.Controllers
         // GET: Order/Delete/5
         public ActionResult Delete(int? id)
         {
+            // Redirect unauthenticated members
+            var memberId = Session["MemberId"];
+            if (memberId == null)
+            {
+                return RedirectToAction("Index", "Login");
+            }
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -230,7 +248,7 @@ namespace CVGS.Controllers
             ORDERHEADER orderHeader = db.ORDERHEADERs.Find(id);
             db.ORDERHEADERs.Remove(orderHeader);
             db.SaveChanges();
-            return RedirectToAction("Index");
+            return RedirectToAction("All");
         }
 
         public ActionResult NoAddress()
