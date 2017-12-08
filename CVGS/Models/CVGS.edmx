@@ -184,6 +184,7 @@
           <Property Name="Rating" Type="int" Nullable="false" />
           <Property Name="DateCreated" Type="datetime2" Precision="7" Nullable="false" />
           <Property Name="DateModified" Type="datetime2" Precision="7" />
+          <Property Name="Approved" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="ROLE">
           <Key>
@@ -414,7 +415,9 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="fk_orderitem_order">
-          <End Role="ORDERHEADER" Type="Self.ORDERHEADER" Multiplicity="1" />
+          <End Role="ORDERHEADER" Type="Self.ORDERHEADER" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="ORDERITEM" Type="Self.ORDERITEM" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="ORDERHEADER">
@@ -468,9 +471,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="fk_review_game">
-          <End Role="GAME" Type="Self.GAME" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
+          <End Role="GAME" Type="Self.GAME" Multiplicity="1" />
           <End Role="REVIEW" Type="Self.REVIEW" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="GAME">
@@ -482,9 +483,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="fk_review_member">
-          <End Role="MEMBER" Type="Self.MEMBER" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
+          <End Role="MEMBER" Type="Self.MEMBER" Multiplicity="1" />
           <End Role="REVIEW" Type="Self.REVIEW" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="MEMBER">
@@ -1013,6 +1012,7 @@
           <Property Name="DateModified" Type="DateTime" Precision="7" />
           <NavigationProperty Name="GAME" Relationship="CVGSModel.fk_review_game" FromRole="REVIEW" ToRole="GAME" />
           <NavigationProperty Name="MEMBER" Relationship="CVGSModel.fk_review_member" FromRole="REVIEW" ToRole="MEMBER" />
+          <Property Name="Approved" Type="Boolean" Nullable="false" />
         </EntityType>
         <Association Name="fk_address_member">
           <End Type="CVGSModel.MEMBER" Role="MEMBER" Multiplicity="1">
@@ -1489,6 +1489,7 @@
           <EntitySetMapping Name="REVIEWs">
             <EntityTypeMapping TypeName="CVGSModel.REVIEW">
               <MappingFragment StoreEntitySet="REVIEW">
+                <ScalarProperty Name="Approved" ColumnName="Approved" />
                 <ScalarProperty Name="DateModified" ColumnName="DateModified" />
                 <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
                 <ScalarProperty Name="Rating" ColumnName="Rating" />
