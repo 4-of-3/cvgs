@@ -23,6 +23,12 @@ namespace CVGS.Controllers
                 return RedirectToAction("Index", "Login"); ;
             }
 
+            // Make Page Accessible to Employees and Admins only
+            if ((string)Session["MemberRole"] != "Employee" && (string)Session["MemberRole"] != "Admin")
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.Unauthorized);
+            }
+
             var pendingList = db.REVIEWs.Include(x => x.MEMBER).Where(x => !x.Approved).OrderBy(x => x.DateCreated);
 
             return View(pendingList);
@@ -34,6 +40,12 @@ namespace CVGS.Controllers
             if (this.Session["MemberId"] == null)
             {
                 return RedirectToAction("Index", "Login"); ;
+            }
+
+            // Make Page Accessible to Employees and Admins only
+            if ((string)Session["MemberRole"] != "Employee" && (string)Session["MemberRole"] != "Admin")
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.Unauthorized);
             }
 
             if (memberId == null || gameId == null)
