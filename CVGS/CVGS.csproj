@@ -153,6 +153,7 @@
     <Compile Include="Controllers\AddressController.cs" />
     <Compile Include="Controllers\CartController.cs" />
     <Compile Include="Controllers\CreditCardController.cs" />
+    <Compile Include="Controllers\EmployeeController.cs" />
     <Compile Include="Controllers\EventsController.cs" />
     <Compile Include="Controllers\FriendsController.cs" />
     <Compile Include="Controllers\GamesController.cs" />
@@ -369,6 +370,7 @@
     <Content Include="Views\Wishlist\Index.cshtml" />
     <Content Include="Views\Reviews\Pending.cshtml" />
     <Content Include="Views\Reviews\Details.cshtml" />
+    <Content Include="Views\Employee\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

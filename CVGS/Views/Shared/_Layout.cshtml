@@ -21,6 +21,15 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
+                    @{
+                        if (Session["MemberRole"] != null)
+                        {
+                            if (Session["MemberRole"].Equals("Employee") || Session["MemberRole"].Equals("Admin"))
+                            {
+                                <li>@Html.ActionLink("Employee", "Index", "Employee")</li>
+                            }
+                        }
+                    }
                     <li>@Html.ActionLink("Games", "", "Games")</li>
                     <li>@Html.ActionLink("Events", "", "Events")</li>
                 </ul>
