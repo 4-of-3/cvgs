@@ -42,6 +42,12 @@ namespace CVGS.Controllers
             }
 
             REVIEW review = db.REVIEWs.Find(memberId, gameId);
+
+            if(review == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
             review.Approved = true;
             db.Entry(review).State = EntityState.Modified;
             db.SaveChanges();
