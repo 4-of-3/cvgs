@@ -49,8 +49,6 @@ namespace CVGS.Controllers
 
         public ActionResult Checkout()
         {
-            // TODO: Save cart item quantity changes from Cart page
-
             // Redirect unauthenticated members
             var memberId = Session["MemberId"];
             if (memberId == null)

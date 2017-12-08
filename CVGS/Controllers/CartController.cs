@@ -134,10 +134,17 @@ namespace CVGS.Controllers
                 return RedirectToAction("Checkout", "Order");
             }
 
-            // Prepare items for error display
-            foreach (CARTITEM item in newCart.CartItems)
+            try
             {
-                item.GAME = db.GAMEs.Find(item.GameId);
+                // Prepare items for error display
+                foreach (CARTITEM item in newCart.CartItems)
+                {
+                    item.GAME = db.GAMEs.Find(item.GameId);
+                }
+            }
+            catch (Exception)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
             return View("Index", newCart);
