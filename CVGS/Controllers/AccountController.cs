@@ -220,6 +220,56 @@ namespace CVGS.Controllers
             return RedirectToAction("Index", "Login");
         }
 
+        // GET: Password Change
+        public ActionResult ChangePassword()
+        {
+            // Redirect unauthenticated members
+            var memberId = this.Session["MemberId"];
+            if (memberId == null)
+            {
+                return RedirectToAction("Index", "Login"); ;
+            }
+
+            // Find and display the member profile
+            MEMBER member = db.MEMBERs.Find(memberId);
+            if (member == null)
+            {
+                return HttpNotFound();
+            }
+            ChangePasswordViewModel changePasswordViewModel = new ChangePasswordViewModel()
+            {
+                MemberId = (int)memberId,
+                OldPwd = "",
+                NewPwd = "",
+                NewPwdCheck = ""
+            };
+            
+            return View(changePasswordViewModel);
+        }
+
+        // POST:
+        [HttpPost, ActionName("ChangePassword")]
+        [ValidateAntiForgeryToken]
+        public ActionResult ChangePassword([Bind(Include = "MemberId,OldPwd,NewPwd,NewPwdCheck")]ChangePasswordViewModel account)
+        {
+            // Redirect unauthenticated members
+            var memberId = this.Session["MemberId"];
+            if (memberId == null)
+            {
+                return RedirectToAction("Index", "Account");
+            }
+
+            // Find the member for deletion
+            MEMBER member = db.MEMBERs.Find(memberId);
+
+            if (member == null)
+            {
+                return HttpNotFound();
+            }
+
+            return RedirectToAction("Index", "Account");
+        }
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)
