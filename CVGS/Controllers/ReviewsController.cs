@@ -208,6 +208,8 @@ namespace CVGS.Controllers
             {
                 return HttpNotFound();
             }
+
+            ViewBag.referer = Request.UrlReferrer;
             return View(review);
         }
 
