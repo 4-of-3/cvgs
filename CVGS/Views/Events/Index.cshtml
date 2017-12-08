@@ -1,4 +1,4 @@
-﻿@model IEnumerable<CVGS.Models.EVENT>
+﻿@model IEnumerable<CVGS.ViewModels.EventAssociationsViewModel>
 
 @{
     ViewBag.Title = "Events";
@@ -35,15 +35,22 @@
             <td class="flex-row">
                 @if (item.ActiveStatus)
                 {
-                    @Html.DisplayFor(modelItem => item.EventTitle)
-                } else {
+                    <a href="@Url.Action("Details", new { id = item.EventId })">@item.EventTitle</a>
+                }
+                else
+                {
                     <em style="color: dimgrey;">@Html.DisplayFor(modelItem => item.EventTitle)</em>
                 }
-                @* TODO: Add to a ViewModel *@
-                @if (item.MEMBER_EVENT.ToList().Find(x => x.EventId == item.EventId && x.MemberId == (int)@Session["MemberId"]) != null)
-                {
-                    @:<span class="indicator indicator--registered">R</span>
-                }
+                <div class="indicators">
+                    @if (!item.ActiveStatus)
+                    {
+                        @:<i class="indicator darkred fa fa-ban" title="Cancelled"></i>
+                    }
+                    else if (item.IsRegistered)
+                    {
+                        @:<i class="indicator green fa fa-calendar-check-o" title="Registered"></i>
+                    }
+                </div>
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Location)

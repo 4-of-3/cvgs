@@ -151,6 +151,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AddressController.cs" />
+    <Compile Include="Controllers\CartController.cs" />
     <Compile Include="Controllers\CreditCardController.cs" />
     <Compile Include="Controllers\EventsController.cs" />
     <Compile Include="Controllers\FriendsController.cs" />
@@ -161,6 +162,7 @@
     <Compile Include="Controllers\MembersController.cs" />
     <Compile Include="Controllers\ReportsController.cs" />
     <Compile Include="Controllers\ReviewsController.cs" />
+    <Compile Include="Controllers\WishlistController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -170,6 +172,8 @@
     <Compile Include="Models\CARTITEM.cs">
       <DependentUpon>CVGS.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\CartMeta.cs" />
+    <Compile Include="Models\WishlistItemMeta.cs" />
     <Compile Include="Models\CreditCardMeta.cs" />
     <Compile Include="Models\AddressTypeMeta.cs" />
     <Compile Include="Models\ORDERHEADER.cs">
@@ -243,12 +247,16 @@
       <DependentUpon>CVGS.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModels\CartViewModel.cs" />
     <Compile Include="ViewModels\DeleteAccountViewModel.cs" />
     <Compile Include="ViewModels\EditAccountViewModel.cs" />
+    <Compile Include="ViewModels\EventAssociationsViewModel.cs" />
+    <Compile Include="ViewModels\GameAssociationsViewModel.cs" />
     <Compile Include="ViewModels\LoginViewModel.cs" />
     <Compile Include="ViewModels\NewAccountViewModel.cs" />
     <Compile Include="ViewModels\ReportTypeViewModel.cs" />
     <Compile Include="ViewModels\UpdateRoleViewModel.cs" />
+    <Compile Include="ViewModels\WishlistItemViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
@@ -346,6 +354,8 @@
     <Content Include="Views\Address\Edit.cshtml" />
     <Content Include="Views\Address\Index.cshtml" />
     <Content Include="Views\Account\_ProfileLinks.cshtml" />
+    <Content Include="Views\Cart\Index.cshtml" />
+    <Content Include="Views\Wishlist\Index.cshtml" />
     <Content Include="Views\Reviews\Pending.cshtml" />
     <Content Include="Views\Reviews\Details.cshtml" />
   </ItemGroup>

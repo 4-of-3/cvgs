@@ -1,4 +1,4 @@
-﻿@model IEnumerable<CVGS.Models.GAME>
+﻿@model IEnumerable<CVGS.ViewModels.GameAssociationsViewModel>
 
 @{
     ViewBag.Title = "Games";
@@ -57,10 +57,21 @@
         <tr>
             <td class="flex-row">
                 @Html.ActionLink(item.Title, "Details", new { id = item.GameId })
-                @if (item.Digital)
-                {
-                    @:<span class="indicator indicator--digital">D</span>
-                }
+                @* Quick indicators for game associations *@
+                <div class="indicators">
+                    @if (item.Digital)
+                    {
+                        @:<i class="indicator blue fa fa-floppy-o" title="Digital"></i>
+                    }
+                    @if (item.OnWishlist)
+                    {
+                        @:<i class="indicator gold fa fa-gift" title="In Wishlist"></i>
+                    }
+                    @if (item.InCart)
+                    {
+                        @:<i class="indicator grey fa fa-shopping-cart" title="In Cart"></i>
+                    }
+                </div>
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Category)

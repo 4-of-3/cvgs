@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using CVGS.Models;
+using CVGS.ViewModels;
 
 namespace CVGS.Controllers
 {
@@ -47,7 +48,7 @@ namespace CVGS.Controllers
                 asc = false;
             }
 
-            if (sort == null) return View(gamesList);
+            if (sort == null) return View(GameAssociationsViewModel.CreateEventAssociationsListFromModels(gamesList, (int)memberId));
 
             // Handle list sorting
             switch (sort)
@@ -74,7 +75,7 @@ namespace CVGS.Controllers
                     break;
             }
 
-            return View(gamesList);
+            return View(GameAssociationsViewModel.CreateEventAssociationsListFromModels(gamesList, (int)memberId));
         }
 
         // GET: Games/Details/5
@@ -99,8 +100,10 @@ namespace CVGS.Controllers
                 return HttpNotFound();
             }
 
-            ViewBag.gameTitle = game.Title;
-            return View(game);
+            // Create extended view model with basic associations
+            GameAssociationsViewModel gameWithAssociations = GameAssociationsViewModel.CreateGameAssociationFromModel(game, (int) memberId);
+
+            return View(gameWithAssociations);
         }
 
         // GET: Games/Create

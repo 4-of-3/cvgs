@@ -27,15 +27,11 @@ namespace CVGS.Tests.Controllers
                 LName="Example",
                 UserName="Example",
                 Email="john@example.com",
-                Pwd="Initial",
-                FavPlatform="XBox",
-                FavCategory="Adventure",
-                FavGame="Super Mario Bros",
-                FavQuote="It's-a me, Mario!"
+                Pwd="Initial"
             };
 
             // Act
-            db.SP_ADD_MEMBER(account.FName, account.LName, account.UserName, account.Email, account.Pwd, account.FavPlatform, account.FavCategory, account.FavGame, account.FavQuote);
+            db.SP_ADD_MEMBER(account.FName, account.LName, account.UserName, account.Email, account.Pwd, null, null, null, null);
 
             member = db.MEMBERs.Find(db.MEMBERs.Max(m => m.MemberId));
 
