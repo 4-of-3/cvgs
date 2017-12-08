@@ -44,7 +44,7 @@
         </td>
         <td style="white-space:nowrap;">
             <a href="@Url.Action("Approve", new { memberId = item.MemberId, gameId = item.GameId })" class="btn btn--empty btn--save"><i class="fa fa-check"></i></a>
-            <a href="@Url.Action("Delete", new { memberId = item.MemberId, gameId = item.GameId })" class="btn btn--empty btn btn--delete"><i class="fa fa-close btn--empty"></i></a>
+            <a href="@Url.Action("Deny", new { memberId = item.MemberId, gameId = item.GameId })" class="btn btn--empty btn btn--delete"><i class="fa fa-close btn--empty"></i></a>
             <a href="@Url.Action("Details", new { memberId = item.MemberId, gameId = item.GameId })" class="btn btn-default">Details</a>
         </td>
     </tr>
