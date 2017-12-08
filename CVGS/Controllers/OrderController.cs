@@ -30,7 +30,7 @@ namespace CVGS.Controllers
                 return new HttpUnauthorizedResult("You are not authorized to see all orders");
             }
 
-            var oRDERHEADERs = db.ORDERHEADERs.Include(o => o.ADDRESS).Include(o => o.ADDRESS1).Include(o => o.CREDITCARD).Include(o => o.MEMBER);
+            var oRDERHEADERs = db.ORDERHEADERs.OrderByDescending(o => o.DateCreated).Include(o => o.ADDRESS).Include(o => o.ADDRESS1).Include(o => o.CREDITCARD).Include(o => o.MEMBER);
             return View(oRDERHEADERs.ToList());
         }
 
@@ -43,7 +43,7 @@ namespace CVGS.Controllers
                 return RedirectToAction("Index", "Login");
             }
 
-            var oRDERHEADERs = db.ORDERHEADERs.Where(o=>o.MemberId == (int)memberId).Include(o => o.ADDRESS).Include(o => o.ADDRESS1).Include(o => o.CREDITCARD).Include(o => o.MEMBER);
+            var oRDERHEADERs = db.ORDERHEADERs.Where(o=>o.MemberId == (int)memberId).OrderByDescending(o => o.DateCreated).Include(o => o.ADDRESS).Include(o => o.ADDRESS1).Include(o => o.CREDITCARD).Include(o => o.MEMBER);
             return View(oRDERHEADERs.ToList());
         }
 
@@ -161,7 +161,7 @@ namespace CVGS.Controllers
                 return new HttpUnauthorizedResult("You are not authorized to process Orders");
             }
 
-            var orderHeaders = db.ORDERHEADERs.Where(o => !o.Processed).Include(o => o.ADDRESS).Include(o => o.ADDRESS1).Include(o => o.CREDITCARD).Include(o => o.MEMBER);
+            var orderHeaders = db.ORDERHEADERs.Where(o => !o.Processed).OrderByDescending(o => o.DateCreated).Include(o => o.ADDRESS).Include(o => o.ADDRESS1).Include(o => o.CREDITCARD).Include(o => o.MEMBER);
             return View(orderHeaders.ToList());
         }
 
@@ -260,6 +260,7 @@ namespace CVGS.Controllers
             }
             return View();
         }
+
         public ActionResult NoCreditCard()
         {
             // Redirect unauthenticated members
