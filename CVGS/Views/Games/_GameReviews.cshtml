@@ -1,4 +1,4 @@
-﻿@model CVGS.Models.GAME
+﻿@model CVGS.ViewModels.GameAssociationsViewModel
 
 @{
     ViewBag.Title = "Reviews";
@@ -9,13 +9,13 @@
     <a href="@Url.Action("Create", "Reviews", new { gameId = Model.GameId })" class="btn btn--action"><i class="fa fa-plus"></i>Add Review</a>
 </p>
 
-@if (Model.REVIEWs.Count == 0)
+@if (Model.ApprovedReviews.Count() == 0)
 {
     <em>Be the first to add a Review!</em>
 }
 
 <table class="table">
-    @foreach (var item in Model.REVIEWs)
+    @foreach (var item in Model.ApprovedReviews)
     {
         <tr>
             <td class="text-primary">
