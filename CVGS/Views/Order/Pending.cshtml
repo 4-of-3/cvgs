@@ -1,0 +1,72 @@
+﻿@model IEnumerable<CVGS.Models.ORDERHEADER>
+
+@{
+    ViewBag.Title = "Pending";
+}
+
+<h2>Pending Orders</h2>
+
+<a href="@Url.Action("All")" class="btn btn-default">
+    <i class="fa fa-arrow-left"></i>All Orders
+</a>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.DateCreated)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Processed)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ADDRESS.StreetAddress)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ADDRESS1.StreetAddress)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CREDITCARD.CardNumber)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.MEMBER.FName)
+        </th>
+        <th>
+            Cost
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.DateCreated)
+        </td>
+        <td>
+            @((item.Processed) ? "Yes" : "No")
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ADDRESS.StreetAddress)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ADDRESS1.StreetAddress)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CREDITCARD.CardNumber)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.MEMBER.FName) @Html.DisplayFor(modelItem => item.MEMBER.LName)
+        </td>
+        <td>
+            @(item.ORDERITEMs.Sum(i => i.Quantity * i.GAME.Cost).ToString("C"))
+
+
+        </td>
+        <td>
+            @Html.ActionLink("Process", "Process", new { id=item.OrderId }) |
+            @Html.ActionLink("Details", "Details", new { id=item.OrderId }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.OrderId })
+        </td>
+    </tr>
+}
+
+</table>

@@ -161,6 +161,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\MembersController.cs" />
+    <Compile Include="Controllers\OrderController.cs" />
     <Compile Include="Controllers\ReportsController.cs" />
     <Compile Include="Controllers\ReviewsController.cs" />
     <Compile Include="Controllers\WishlistController.cs" />
@@ -180,6 +181,7 @@
     <Compile Include="Models\ORDERHEADER.cs">
       <DependentUpon>CVGS.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\OrderHeaderMeta.cs" />
     <Compile Include="Models\ORDERITEM.cs">
       <DependentUpon>CVGS.tt</DependentUpon>
     </Compile>
@@ -356,6 +358,15 @@
     <Content Include="Views\Address\Index.cshtml" />
     <Content Include="Views\Account\_ProfileLinks.cshtml" />
     <Content Include="Views\Cart\Index.cshtml" />
+    <Content Include="Views\Order\Delete.cshtml" />
+    <Content Include="Views\Order\Details.cshtml" />
+    <Content Include="Views\Order\Process.cshtml" />
+    <Content Include="Views\Order\Checkout.cshtml" />
+    <Content Include="Views\Order\NoAddress.cshtml" />
+    <Content Include="Views\Order\NoCreditCard.cshtml" />
+    <Content Include="Views\Order\MyOrders.cshtml" />
+    <Content Include="Views\Order\Pending.cshtml" />
+    <Content Include="Views\Order\All.cshtml" />
     <Content Include="Views\Wishlist\Index.cshtml" />
     <Content Include="Views\Reviews\Pending.cshtml" />
     <Content Include="Views\Reviews\Details.cshtml" />
