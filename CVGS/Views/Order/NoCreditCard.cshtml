@@ -1,0 +1,12 @@
+﻿
+@{
+    ViewBag.Title = "No Credit Card";
+}
+
+<h2>You have not added any credit cards</h2>
+
+<h4>In order to proceed, you must add at least one credit card.</h4>
+
+@Html.ActionLink("Add a card", "Create", "CreditCard", null, new { @class="btn btn--action" })
+@Html.ActionLink("Cancel", "Index", "Cart", null, new { @class = "btn btn--default" })
+

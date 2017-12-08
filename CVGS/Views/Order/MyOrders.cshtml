@@ -1,0 +1,60 @@
+﻿@model IEnumerable<CVGS.Models.ORDERHEADER>
+
+@{
+    ViewBag.Title = "My Orders";
+}
+
+<h2>My Orders</h2>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.DateCreated)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Processed)
+        </th>
+        <th>
+            Billing Address
+        </th>
+        <th>
+            Shipping Address
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CREDITCARD.CardNumber)
+        </th>
+        <th>
+            Name
+        </th>
+        <th>
+            Cost
+        </th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.ActionLink(item.DateCreated.ToString(), "Details", new { id = item.OrderId})
+        </td>
+        <td>
+            @((item.Processed) ? "Yes" : "No")
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ADDRESS.StreetAddress)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ADDRESS1.StreetAddress)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CREDITCARD.CardNumber)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.MEMBER.FName) @Html.DisplayFor(modelItem => item.MEMBER.LName) 
+        </td>
+        <td>
+            @(item.ORDERITEMs.Sum(i => i.Quantity * i.GAME.Cost).ToString("C"))
+        </td>
+    </tr>
+}
+
+</table>
