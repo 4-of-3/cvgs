@@ -6,7 +6,7 @@
 
 <h2>@ViewBag.Title</h2>
 
-    <a href="@ViewBag.referer" class="btn btn-default">
+    <a href="@Request.UrlReferrer" class="btn btn-default">
     <i class="fa fa-arrow-left"></i>Back
 </a>
 
@@ -48,7 +48,7 @@
 
         <div class="form__actions no-color">
             <div class="col-md-offset-2 col-md-10 form__actions">
-                <a href="@ViewBag.referer" class="btn btn-default">Cancel</a>
+                <a href="@Request.UrlReferrer" class="btn btn-default">Cancel</a>
                 <button type="submit" class="btn btn--delete"><i class="fa fa-trash"></i>Delete</button>
             </div>
         </div>
