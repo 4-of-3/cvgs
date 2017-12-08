@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using CVGS.Models;
+using CVGS.ViewModels;
 
 namespace CVGS.Controllers
 {

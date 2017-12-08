@@ -83,7 +83,7 @@
         <h4>Total Cost:</h4>@(Model.ORDERITEMs.Sum(i => i.Quantity * i.GAME.Cost).ToString("C"))
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Checkout" class="btn btn--action" />
+                <input type="submit" value="Checkout" class="btn btn--save" />
                 @Html.ActionLink("Back to Cart", "Index", "Cart", null, new { @class="btn btn--default" })
             </div>
         </div>

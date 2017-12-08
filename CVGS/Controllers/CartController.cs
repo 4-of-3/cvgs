@@ -91,6 +91,58 @@ namespace CVGS.Controllers
             return View("Index", newCart);
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Checkout(CartViewModel newCart)
+        {
+            // Redirect unauthenticated members
+            var memberId = Session["MemberId"];
+            if (memberId == null)
+            {
+                return RedirectToAction("Index", "Login");
+            }
+
+            // Validate model and display errors
+            if (ModelState.IsValid)
+            {
+                // Update all items in the cart
+                foreach (var item in newCart.CartItems)
+                {
+                    CARTITEM cartItem = db.CARTITEMs.Find(item.MemberId, item.GameId);
+
+                    // Handle invalid cart items (simply skip, don't throw an exception)
+                    if (cartItem == null)
+                    {
+                        continue;
+                    }
+
+                    cartItem.Quantity = item.Quantity;
+
+                    // Remove cart items with a quantity of zero
+                    if (cartItem.Quantity == 0)
+                    {
+                        db.CARTITEMs.Remove(cartItem);
+                    }
+                    else
+                    {
+                        db.Entry(cartItem).State = EntityState.Modified;
+                    }
+
+                    db.SaveChanges();
+                }
+
+                return RedirectToAction("Checkout", "Order");
+            }
+
+            // Prepare items for error display
+            foreach (CARTITEM item in newCart.CartItems)
+            {
+                item.GAME = db.GAMEs.Find(item.GameId);
+            }
+
+            return View("Index", newCart);
+        }
+
         public ActionResult Add(int? id)
         {
             // Redirect unauthenticated members

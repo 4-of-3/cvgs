@@ -49,12 +49,17 @@
             }
             <div class="form-group">
                 <div class="col-md-offset-4 col-md-8">
-                    <input type="submit" value="Update Cart" class="btn btn--save" />
+                    <input type="submit" value="Update Cart" class="btn btn--save" name="save" />
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-offset-4 col-md-8">
+                    <input type="submit" value="Checkout" class="btn btn--action" name="checkout" formaction="@Url.Action("Checkout")"/>
                 </div>
             </div>
         </div>
     }
-    @Html.ActionLink("Checkout Cart", "Checkout", "Order", null, new { @class = "btn btn--action" })
+    @*@Html.ActionLink("Checkout Cart", "Checkout", "Order", null, new { @class = "btn btn--action" })*@
 }
 else
 {
