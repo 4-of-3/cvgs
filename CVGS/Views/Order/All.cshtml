@@ -27,25 +27,25 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.DateCreated)
+            @Html.ActionLink(Html.DisplayNameFor(model => model.DateCreated).ToHtmlString(), "All", new { search = ViewBag.search, sort = "date", order = @ViewBag.listSortAsc })
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Processed)
+            @Html.ActionLink(Html.DisplayNameFor(model => model.Processed).ToHtmlString(), "All", new { search = ViewBag.search, sort = "processed", order = @ViewBag.listSortAsc })
         </th>
         <th>
-            Billing Address
+            @Html.ActionLink("Billing Address", "All", new { search = ViewBag.search, sort = "billaddr", order = @ViewBag.listSortAsc })
         </th>
         <th>
-            Shipping Address
+            @Html.ActionLink("Shipping Address", "All", new { search = ViewBag.search, sort = "shipaddr", order = @ViewBag.listSortAsc })
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.CREDITCARD.CardNumber)
+            @Html.ActionLink(Html.DisplayNameFor(model => model.CREDITCARD.CardNumber).ToHtmlString(), "All", new { search = ViewBag.search, sort = "cc", order = @ViewBag.listSortAsc })
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.MEMBER.FullName)
+            @Html.ActionLink("Name", "All", new { search = ViewBag.search, sort = "name", order = @ViewBag.listSortAsc })
         </th>
         <th>
-            Cost
+            @Html.ActionLink("Cost", "All", new { search = ViewBag.search, sort = "cost", order = @ViewBag.listSortAsc })
         </th>
         <th style="width: 1px;"></th>
     </tr>
