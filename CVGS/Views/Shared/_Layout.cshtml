@@ -38,12 +38,20 @@
                         if (Session["MemberId"] != null)
                         {
                             <li>
-                                <a href="@Url.Action("Index", "Wishlist")" class="btn btn--">
+                                <a href="@Url.Action("Index", "Wishlist")" class="btn">
                                     <i class="fa fa-gift"></i>Wishlist
                                 </a>
                             </li>
-                            <li>@Html.ActionLink("My Cart", "Index","Cart") </li>
-                            <li>@Html.ActionLink("Profile", "Index", "Account")</li>
+                            <li>
+                                <a href="@Url.Action("Index", "Cart")" class="btn">
+                                    <i class="fa fa-shopping-cart"></i>Cart
+                                </a>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("Index", "Account")" class="btn">
+                                    <i class="fa fa-user"></i>Profile
+                                </a>
+                            </li>
                             <li>@Html.ActionLink("Logout", "Logout", "Login")</li>
                         }
                     }
