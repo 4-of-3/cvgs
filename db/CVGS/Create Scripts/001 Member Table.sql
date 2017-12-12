@@ -44,7 +44,7 @@ CREATE PROCEDURE dbo.SP_ADD_MEMBER
                           , LName
                           , UserName
                           , Email
-                          , pwd
+                          , Pwd
                           , FavPlatform
                           , FavCategory
                           , FavGame
@@ -68,7 +68,7 @@ GO
 -- Otherwise returns null
 CREATE PROCEDURE dbo.SP_MEMBER_LOGIN
                  @UserName  NVARCHAR( 25 )
-               , @pwd       NVARCHAR( 64 )
+               , @Pwd       NVARCHAR( 64 )
                , @MemberId  INT OUTPUT
     AS
         DECLARE @pwd_hash VARBINARY( 32 );
@@ -78,5 +78,27 @@ CREATE PROCEDURE dbo.SP_MEMBER_LOGIN
         SET @MemberId = ( SELECT MemberId 
                             FROM MEMBER 
                            WHERE UserName = @UserName 
-                             AND pwd = @pwd_hash );
+                             AND Pwd = @pwd_hash );
+GO
+
+-- Returns MemberId if login is successful
+-- Otherwise returns null
+CREATE PROCEDURE dbo.SP_CHANGE_PWD
+                 @UserName  NVARCHAR( 25 )
+               , @Pwd       NVARCHAR( 64 )
+			   , @NewPwd
+               , @Success   BIT OUTPUT
+    AS
+        DECLARE @pwd_hash     VARBINARY( 32 );
+        DECLARE @new_pwd_hash VARBINARY( 32 ); 
+        
+        SET @pwd_hash = HASHBYTES('SHA2_256', @pwd);
+        SET @new_pwd_hash = HASHBYTES('SHA2_256', @NewPwd);
+        
+        UPDATE MEMBER
+           SET Pwd = @new_pwd_hash
+         WHERE UserName = @UserName
+           AND Pwd = @pwd_hash;
+        
+        SET @Success = 1;
 GO

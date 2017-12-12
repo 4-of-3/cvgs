@@ -149,14 +149,10 @@ namespace CVGS.Controllers
                 return new HttpUnauthorizedResult("You are not authorized to manage Games");
             }
 
-            if (newGame.Platforms == null)
-            {
-                ModelState.AddModelError("Platforms", "A game must be playable on at least one platform");
-            }
-
             // Validate and add game
             if (!ModelState.IsValid)
             {
+                ViewBag.PlatformIdList = db.PLATFORMs;
                 return View(newGame);
             }
 
@@ -208,19 +204,37 @@ namespace CVGS.Controllers
 
             // Find and display game for editing
             GAME game = db.GAMEs.Where(g => !g.Deleted).ToList().Find(g => g.GameId == id);
+
+            NewGameViewModel newGame = new NewGameViewModel()
+            {
+                GameId = game.GameId,
+                Title = game.Title,
+                ISBN = game.ISBN,
+                Developer = game.Developer,
+                Description = game.Description,
+                Category = game.Category,
+                PublicationDate = game.PublicationDate,
+                Cost = game.Cost,
+                ImageUrl = game.ImageUrl,
+                Digital = game.Digital,
+                Platforms = game.PLATFORMs.Select(p => p.PlatformId).ToList()
+            };
+
             if (game == null)
             {
                 return HttpNotFound();
             }
 
             ViewBag.gameTitle = game.Title;
-            return View(game);
+            ViewBag.PlatformIdList = db.PLATFORMs;
+
+            return View(newGame);
         }
 
         // POST: Games/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "GameId,Title,ISBN,Developer,Description,Category,PublicationDate,Cost,ImageUrl,Digital")] GAME game)
+        public ActionResult Edit([Bind(Include = "GameId,Title,ISBN,Developer,Description,Category,PublicationDate,Cost,ImageUrl,Digital,Platforms")] NewGameViewModel newGame)
         {
             // Redirect unauthenticated members
             var memberId = this.Session["MemberId"];
@@ -239,7 +253,46 @@ namespace CVGS.Controllers
             // Validate and update game
             if (!ModelState.IsValid)
             {
-                return View(game);
+                ViewBag.gameTitle = newGame.Title;
+                ViewBag.PlatformIdList = db.PLATFORMs;
+                return View(newGame);
+            }
+
+            GAME game = db.GAMEs.Find(newGame.GameId);
+            game.Title = newGame.Title;
+            game.ISBN = newGame.ISBN;
+            game.Developer = newGame.Developer;
+            game.Description = newGame.Description;
+            game.Category = newGame.Category;
+            game.PublicationDate = newGame.PublicationDate;
+            game.Cost = newGame.Cost;
+            game.ImageUrl = newGame.ImageUrl;
+            game.Digital = newGame.Digital;
+
+            // Remove platforms that are not in the new game model
+            //foreach (var platform in game.PLATFORMs)
+            //{
+            //    if (!newGame.Platforms.Contains(platform.PlatformId))
+            //    {
+            //        game.PLATFORMs.Remove(platform);
+            //    }
+            //}
+            for (int i = game.PLATFORMs.Count - 1; i >= 0; i--)
+            {
+                var platform = game.PLATFORMs.ToList()[i];
+                if (!newGame.Platforms.Contains(platform.PlatformId))
+                {
+                    game.PLATFORMs.Remove(platform);
+                }
+            }
+
+            // Add platforms that are not in the old game model
+            foreach (int platformId in newGame.Platforms)
+            {
+                if (!game.PLATFORMs.Select(p=>p.PlatformId).Contains(platformId))
+                {
+                    game.PLATFORMs.Add(db.PLATFORMs.Find(platformId));
+                }
             }
 
             db.Entry(game).State = EntityState.Modified;

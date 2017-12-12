@@ -38,7 +38,7 @@ namespace CVGS.ViewModels
 
         [DisplayName("Published")]
         [DataType(DataType.DateTime)]
-        [DisplayFormat(DataFormatString = "{0:MMM-dd-yyyy}", ApplyFormatInEditMode = true)]
+        [DisplayFormat(DataFormatString = "{0:MMM dd yyyy}", ApplyFormatInEditMode = true)]
         public DateTime PublicationDate { get; set; }
 
         [DisplayName("Cost")]
