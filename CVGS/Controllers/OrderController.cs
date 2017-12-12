@@ -63,8 +63,8 @@ namespace CVGS.Controllers
                     break;
                 case "name":
                     orderHeaders = asc
-                        ? orderHeaders.OrderBy(e => e.MEMBER.FName).ToList()
-                        : orderHeaders.OrderByDescending(e => e.MEMBER.FName).ToList();
+                        ? orderHeaders.OrderBy(e => e.MEMBER.FName).ThenBy(e => e.MEMBER.LName).ToList()
+                        : orderHeaders.OrderByDescending(e => e.MEMBER.FName).ThenBy(e => e.MEMBER.LName).ToList();
                     break;
                 case "cost":
                     orderHeaders = asc
