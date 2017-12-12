@@ -35,12 +35,12 @@
             @Html.DisplayNameFor(model => model.CREDITCARD.CardNumber)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.MEMBER.FName)
+            @Html.DisplayNameFor(model => model.MEMBER.FullName)
         </th>
         <th>
             Cost
         </th>
-        <th></th>
+        <th style="width: 1px;"></th>
     </tr>
 
 @foreach (var item in Model) {
@@ -61,14 +61,21 @@
             @Html.DisplayFor(modelItem => item.CREDITCARD.CardNumber)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.MEMBER.FName) @Html.DisplayFor(modelItem => item.MEMBER.LName)
+            @Html.DisplayFor(modelItem => item.MEMBER.FullName)
         </td>
         <td>
             @(item.ORDERITEMs.Sum(i => i.Quantity * i.GAME.Cost).ToString("C"))
         </td>
-        <td>
-            @Html.ActionLink("Details", "Details", new { id=item.OrderId }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.OrderId })
+        <td style="white-space: nowrap;">
+            <a href="@Url.Action("Details", new { id = item.OrderId })" class="btn btn--action btn--inline btn--empty">
+                <i class="fa fa-search"></i>
+            </a>
+            @if (!item.Processed)
+            {
+                <a href="@Url.Action("Delete", new { id = item.OrderId })" class="btn btn--delete btn--inline btn--empty">
+                    <i class="fa fa-trash"></i>
+                </a>
+            }
         </td>
     </tr>
 }

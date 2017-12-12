@@ -7,6 +7,11 @@ namespace CVGS.Models
     [MetadataType(typeof(MemberMeta))]
     public partial class MEMBER
     {
+        [DisplayName("Name")]
+        public string FullName
+        {
+            get { return FName + " " + LName; }
+        }
     }
 
     public class MemberMeta
