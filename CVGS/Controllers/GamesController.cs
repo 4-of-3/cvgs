@@ -133,7 +133,7 @@ namespace CVGS.Controllers
         // POST: Games/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Title,ISBN,Developer,Description,Category,PublicationDate,Cost,ImageUrl,Digital,Platforms")] NewGameViewModel newGame)
+        public ActionResult Create([Bind(Include = "Title,ISBN,Developer,Description,Category,PublicationDate,Cost,ImageUrl,Digital,Platforms")] AddEditGameViewModel newGame)
         {
             // Redirect unauthenticated members
             var memberId = this.Session["MemberId"];
@@ -205,7 +205,7 @@ namespace CVGS.Controllers
             // Find and display game for editing
             GAME game = db.GAMEs.Where(g => !g.Deleted).ToList().Find(g => g.GameId == id);
 
-            NewGameViewModel newGame = new NewGameViewModel()
+            AddEditGameViewModel newGame = new AddEditGameViewModel()
             {
                 GameId = game.GameId,
                 Title = game.Title,
@@ -234,7 +234,7 @@ namespace CVGS.Controllers
         // POST: Games/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "GameId,Title,ISBN,Developer,Description,Category,PublicationDate,Cost,ImageUrl,Digital,Platforms")] NewGameViewModel newGame)
+        public ActionResult Edit([Bind(Include = "GameId,Title,ISBN,Developer,Description,Category,PublicationDate,Cost,ImageUrl,Digital,Platforms")] AddEditGameViewModel newGame)
         {
             // Redirect unauthenticated members
             var memberId = this.Session["MemberId"];

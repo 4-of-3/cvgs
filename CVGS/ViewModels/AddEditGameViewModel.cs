@@ -7,7 +7,7 @@ using System.Web;
 
 namespace CVGS.ViewModels
 {
-    public class NewGameViewModel
+    public class AddEditGameViewModel
     {
         [DisplayName("ID")]
         public int GameId { get; set; }

@@ -257,7 +257,7 @@
     <Compile Include="ViewModels\GameAssociationsViewModel.cs" />
     <Compile Include="ViewModels\LoginViewModel.cs" />
     <Compile Include="ViewModels\NewAccountViewModel.cs" />
-    <Compile Include="ViewModels\NewGameViewModel.cs" />
+    <Compile Include="ViewModels\AddEditGameViewModel.cs" />
     <Compile Include="ViewModels\ReportTypeViewModel.cs" />
     <Compile Include="ViewModels\UpdateRoleViewModel.cs" />
     <Compile Include="ViewModels\WishlistItemViewModel.cs" />
