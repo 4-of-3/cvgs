@@ -6,6 +6,12 @@
 
 <h2>@ViewBag.Title</h2>
 
+<p>
+    <a href="@Url.Action("Index", "Employee")" class="btn btn-default">
+        <i class="fa fa-arrow-left"></i>Dashboard
+    </a>
+</p>
+
 <table class="table">
     <tr>
         <th>
@@ -37,13 +43,13 @@
     <tr>
         <td>
             @Html.DisplayFor(modelItem => item.MEMBER.FName) @Html.DisplayFor(modelItem => item.MEMBER.LName)
-            (@Html.DisplayFor(modelItem => item.MEMBER.UserName))
+            <em>(@Html.DisplayFor(modelItem => item.MEMBER.UserName))</em>
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.GAME.Title)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Rating)
+            @Html.DisplayFor(modelItem => item.Rating) / 5
         </td>
         <td>
             @if (item.ReviewText != null && item.ReviewText.Length > 140)
@@ -53,10 +59,14 @@
             @Html.DisplayFor(modelItem => item.ReviewText)
         </td>
         <td style="white-space:nowrap;">
-            <a href="@Url.Action("Approve", new { memberId = item.MemberId, gameId = item.GameId })" class="btn btn--empty btn--save"><i class="fa fa-check"></i></a>
-            <a href="@Url.Action("Deny", new { memberId = item.MemberId, gameId = item.GameId })" class="btn btn--empty btn btn--delete"><i class="fa fa-close btn--empty"></i></a>
-            <a href="@Url.Action("Details", new { memberId = item.MemberId, gameId = item.GameId })" class="btn btn--default">
-                <i class="fa fa-search"></i>Details
+            <a href="@Url.Action("Approve", new { memberId = item.MemberId, gameId = item.GameId })" class="btn btn--empty btn--save">
+                <i class="fa fa-check"></i>
+            </a>
+            <a href="@Url.Action("Deny", new { memberId = item.MemberId, gameId = item.GameId })" class="btn btn--empty btn btn--delete">
+                <i class="fa fa-close"></i>
+            </a>
+            <a href="@Url.Action("Details", new { memberId = item.MemberId, gameId = item.GameId })" class="btn btn--empty btn--action">
+                <i class="fa fa-search"></i>
             </a>
         </td>
     </tr>
