@@ -61,7 +61,7 @@
                     @Html.DisplayNameFor(model => model.Description)
                 </dt>
                 <dd>
-                    @Html.DisplayFor(model => model.Description)
+                    @Html.Raw(Model.Description.Replace(Environment.NewLine, "<p>"))
                 </dd>
                 <dt>Playable on:</dt>
                 <dd>
