@@ -15,8 +15,69 @@ namespace CVGS.Controllers
     {
         private CVGSEntities db = new CVGSEntities();
 
+        public List<ORDERHEADER> sortOrderHeaderList(string order, string sort, List<ORDERHEADER> orderHeaders)
+        {
+            //  Check/Switch ascending or descending for column sorting
+            bool asc = true;
+            ViewBag.listSortAsc = "asc";
+            if (order != null && order.Equals("asc"))
+            {
+                ViewBag.listSortAsc = "desc";
+                asc = true;
+            }
+            else if (order != null && order.Equals("desc"))
+            {
+                ViewBag.listSortAsc = "asc";
+                asc = false;
+            }
+
+            if (sort == null) return orderHeaders;
+
+            //  Sort by selected Column
+            switch (sort)
+            {
+                case "date":
+                    orderHeaders = asc
+                        ? orderHeaders.OrderBy(e => e.DateCreated).ToList()
+                        : orderHeaders.OrderByDescending(e => e.DateCreated).ToList();
+                    break;
+                case "processed":
+                    orderHeaders = asc
+                        ? orderHeaders.OrderBy(e => e.Processed).ToList()
+                        : orderHeaders.OrderByDescending(e => e.Processed).ToList();
+                    break;
+                case "billaddr":
+                    orderHeaders = asc
+                        ? orderHeaders.OrderBy(e => e.ADDRESS.StreetAddress).ToList()
+                        : orderHeaders.OrderByDescending(e => e.ADDRESS.StreetAddress).ToList();
+                    break;
+                case "shipaddr":
+                    orderHeaders = asc
+                        ? orderHeaders.OrderBy(e => e.ADDRESS1.StreetAddress).ToList()
+                        : orderHeaders.OrderByDescending(e => e.ADDRESS1.StreetAddress).ToList();
+                    break;
+                case "cc":
+                    orderHeaders = asc
+                        ? orderHeaders.OrderBy(e => e.CREDITCARD.CardNumber).ToList()
+                        : orderHeaders.OrderByDescending(e => e.CREDITCARD.CardNumber).ToList();
+                    break;
+                case "name":
+                    orderHeaders = asc
+                        ? orderHeaders.OrderBy(e => e.MEMBER.FName).ToList()
+                        : orderHeaders.OrderByDescending(e => e.MEMBER.FName).ToList();
+                    break;
+                case "cost":
+                    orderHeaders = asc
+                        ? orderHeaders.OrderBy(e => e.ORDERITEMs.Sum(a => a.GAME.Cost * a.Quantity)).ToList()
+                        : orderHeaders.OrderByDescending(e => e.ORDERITEMs.Sum(a => a.GAME.Cost * a.Quantity)).ToList();
+                    break;
+            }
+
+            return orderHeaders;
+        }
+
         // GET: Order
-        public ActionResult All()
+        public ActionResult All(string order, string sort)
         {
             // Redirect unauthenticated members
             var memberId = Session["MemberId"];
@@ -30,8 +91,12 @@ namespace CVGS.Controllers
                 return new HttpUnauthorizedResult("You are not authorized to see all orders");
             }
 
-            var oRDERHEADERs = db.ORDERHEADERs.OrderByDescending(o => o.DateCreated).Include(o => o.ADDRESS).Include(o => o.ADDRESS1).Include(o => o.CREDITCARD).Include(o => o.MEMBER);
-            return View(oRDERHEADERs.ToList());
+            var orderList = db.ORDERHEADERs.OrderByDescending(o => o.DateCreated).Include(o => o.ADDRESS).Include(o => o.ADDRESS1).Include(o => o.CREDITCARD).Include(o => o.MEMBER).ToList();
+
+            if(sort != null)
+                orderList = sortOrderHeaderList(order, sort, orderList);
+
+            return View(orderList);
         }
 
         public ActionResult MyOrders()
@@ -162,60 +227,12 @@ namespace CVGS.Controllers
             }
 
 
-            var orderHeaders = db.ORDERHEADERs.Where(o => !o.Processed).OrderByDescending(o => o.DateCreated).Include(o => o.ADDRESS).Include(o => o.ADDRESS1).Include(o => o.CREDITCARD).Include(o => o.MEMBER).ToList();
+            var orderList = db.ORDERHEADERs.Where(o => !o.Processed).OrderByDescending(o => o.DateCreated).Include(o => o.ADDRESS).Include(o => o.ADDRESS1).Include(o => o.CREDITCARD).Include(o => o.MEMBER).ToList();
 
-            //  Check/Switch ascending or descending for column sorting
-            bool asc = true;
-            ViewBag.listSortAsc = "asc";
-            if (order != null && order.Equals("asc"))
-            {
-                ViewBag.listSortAsc = "desc";
-                asc = true;
-            }
-            else if (order != null && order.Equals("desc"))
-            {
-                ViewBag.listSortAsc = "asc";
-                asc = false;
-            }
+            if(sort != null)
+                orderList = sortOrderHeaderList(order, sort, orderList);
 
-            if (sort == null) return View(orderHeaders);
-
-            //  Sort by selected Column
-            switch (sort)
-            {
-                case "date":
-                    orderHeaders = asc
-                        ? orderHeaders.OrderBy(e => e.DateCreated).ToList()
-                        : orderHeaders.OrderByDescending(e => e.DateCreated).ToList();
-                    break;
-                case "billaddr":
-                    orderHeaders = asc
-                        ? orderHeaders.OrderBy(e => e.ADDRESS.StreetAddress).ToList()
-                        : orderHeaders.OrderByDescending(e => e.ADDRESS.StreetAddress).ToList();
-                    break;
-                case "shipaddr":
-                    orderHeaders = asc
-                        ? orderHeaders.OrderBy(e => e.ADDRESS1.StreetAddress).ToList()
-                        : orderHeaders.OrderByDescending(e => e.ADDRESS1.StreetAddress).ToList();
-                    break;
-                case "cc":
-                    orderHeaders = asc
-                        ? orderHeaders.OrderBy(e => e.CREDITCARD.CardNumber).ToList()
-                        : orderHeaders.OrderByDescending(e => e.CREDITCARD.CardNumber).ToList();
-                    break;
-                case "name":
-                    orderHeaders = asc
-                        ? orderHeaders.OrderBy(e => e.MEMBER.FName).ToList()
-                        : orderHeaders.OrderByDescending(e => e.MEMBER.FName).ToList();
-                    break;
-                case "cost":
-                    orderHeaders = asc
-                        ? orderHeaders.OrderBy(e => e.ORDERITEMs.Sum(a => a.GAME.Cost * a.Quantity)).ToList()
-                        : orderHeaders.OrderByDescending(e => e.ORDERITEMs.Sum(a => a.GAME.Cost * a.Quantity)).ToList();
-                    break;
-            }
-
-            return View(orderHeaders);
+            return View(orderList);
         }
 
         public ActionResult Process(int? id)
