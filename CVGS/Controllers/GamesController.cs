@@ -123,13 +123,17 @@ namespace CVGS.Controllers
                 return new HttpUnauthorizedResult("You are not authorized to manage Games");
             }
 
+            PLATFORM p = new PLATFORM();
+
+            ViewBag.PlatformIdList = db.PLATFORMs;
+            
             return View();
         }
 
         // POST: Games/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "GameId,Title,ISBN,Developer,Description,Category,PublicationDate,Cost,ImageUrl,Digital")] GAME game)
+        public ActionResult Create([Bind(Include = "Title,ISBN,Developer,Description,Category,PublicationDate,Cost,ImageUrl,Digital,Platforms")] NewGameViewModel newGame)
         {
             // Redirect unauthenticated members
             var memberId = this.Session["MemberId"];
@@ -145,10 +149,33 @@ namespace CVGS.Controllers
                 return new HttpUnauthorizedResult("You are not authorized to manage Games");
             }
 
+            if (newGame.Platforms == null)
+            {
+                ModelState.AddModelError("Platforms", "A game must be playable on at least one platform");
+            }
+
             // Validate and add game
             if (!ModelState.IsValid)
             {
-                return View(game);
+                return View(newGame);
+            }
+
+            GAME game = new GAME()
+            {
+                Title = newGame.Title,
+                ISBN = newGame.ISBN,
+                Developer = newGame.Developer,
+                Description = newGame.Description,
+                Category = newGame.Category,
+                PublicationDate = newGame.PublicationDate,
+                Cost = newGame.Cost,
+                ImageUrl = newGame.ImageUrl,
+                Digital = newGame.Digital
+            };
+
+            foreach (int platformId in newGame.Platforms)
+            {
+                game.PLATFORMs.Add(db.PLATFORMs.Find(platformId));
             }
 
             db.GAMEs.Add(game);
