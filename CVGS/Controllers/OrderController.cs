@@ -147,7 +147,7 @@ namespace CVGS.Controllers
             return View(orderHeader);
         }
 
-        public ActionResult Pending()
+        public ActionResult Pending(string sort, string order)
         {
             // Redirect unauthenticated members
             var memberId = Session["MemberId"];
@@ -161,8 +161,61 @@ namespace CVGS.Controllers
                 return new HttpUnauthorizedResult("You are not authorized to process Orders");
             }
 
-            var orderHeaders = db.ORDERHEADERs.Where(o => !o.Processed).OrderByDescending(o => o.DateCreated).Include(o => o.ADDRESS).Include(o => o.ADDRESS1).Include(o => o.CREDITCARD).Include(o => o.MEMBER);
-            return View(orderHeaders.ToList());
+
+            var orderHeaders = db.ORDERHEADERs.Where(o => !o.Processed).OrderByDescending(o => o.DateCreated).Include(o => o.ADDRESS).Include(o => o.ADDRESS1).Include(o => o.CREDITCARD).Include(o => o.MEMBER).ToList();
+
+            //  Check/Switch ascending or descending for column sorting
+            bool asc = true;
+            ViewBag.listSortAsc = "asc";
+            if (order != null && order.Equals("asc"))
+            {
+                ViewBag.listSortAsc = "desc";
+                asc = true;
+            }
+            else if (order != null && order.Equals("desc"))
+            {
+                ViewBag.listSortAsc = "asc";
+                asc = false;
+            }
+
+            if (sort == null) return View(orderHeaders);
+
+            //  Sort by selected Column
+            switch (sort)
+            {
+                case "date":
+                    orderHeaders = asc
+                        ? orderHeaders.OrderBy(e => e.DateCreated).ToList()
+                        : orderHeaders.OrderByDescending(e => e.DateCreated).ToList();
+                    break;
+                case "billaddr":
+                    orderHeaders = asc
+                        ? orderHeaders.OrderBy(e => e.ADDRESS.StreetAddress).ToList()
+                        : orderHeaders.OrderByDescending(e => e.ADDRESS.StreetAddress).ToList();
+                    break;
+                case "shipaddr":
+                    orderHeaders = asc
+                        ? orderHeaders.OrderBy(e => e.ADDRESS1.StreetAddress).ToList()
+                        : orderHeaders.OrderByDescending(e => e.ADDRESS1.StreetAddress).ToList();
+                    break;
+                case "cc":
+                    orderHeaders = asc
+                        ? orderHeaders.OrderBy(e => e.CREDITCARD.CardNumber).ToList()
+                        : orderHeaders.OrderByDescending(e => e.CREDITCARD.CardNumber).ToList();
+                    break;
+                case "name":
+                    orderHeaders = asc
+                        ? orderHeaders.OrderBy(e => e.MEMBER.FName).ToList()
+                        : orderHeaders.OrderByDescending(e => e.MEMBER.FName).ToList();
+                    break;
+                case "cost":
+                    orderHeaders = asc
+                        ? orderHeaders.OrderBy(e => e.ORDERITEMs.Sum(a => a.GAME.Cost * a.Quantity)).ToList()
+                        : orderHeaders.OrderByDescending(e => e.ORDERITEMs.Sum(a => a.GAME.Cost * a.Quantity)).ToList();
+                    break;
+            }
+
+            return View(orderHeaders);
         }
 
         public ActionResult Process(int? id)
