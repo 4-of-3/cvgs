@@ -323,7 +323,7 @@ namespace CVGS.Controllers
                     db.MEMBER_EVENT.Add(memberRegister);
                     db.SaveChanges();
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                     return new HttpStatusCodeResult(HttpStatusCode.BadRequest); // sad path
                 }
