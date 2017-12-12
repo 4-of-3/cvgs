@@ -44,7 +44,7 @@ CREATE PROCEDURE dbo.SP_ADD_MEMBER
                           , LName
                           , UserName
                           , Email
-                          , pwd
+                          , Pwd
                           , FavPlatform
                           , FavCategory
                           , FavGame
@@ -78,7 +78,7 @@ CREATE PROCEDURE dbo.SP_MEMBER_LOGIN
         SET @MemberId = ( SELECT MemberId 
                             FROM MEMBER 
                            WHERE UserName = @UserName 
-                             AND pwd = @pwd_hash );
+                             AND Pwd = @pwd_hash );
 GO
 
 -- Returns 1 if password change is successful

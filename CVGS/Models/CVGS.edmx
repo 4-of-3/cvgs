@@ -139,6 +139,7 @@
           <Property Name="ShippingAddressId" Type="int" />
           <Property Name="CreditCardId" Type="int" Nullable="false" />
           <Property Name="DateCreated" Type="datetime2" Precision="7" Nullable="false" />
+          <Property Name="Processed" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="ORDERITEM">
           <Key>
@@ -1193,6 +1194,7 @@
           <NavigationProperty Name="CREDITCARD" Relationship="CVGSModel.fk_order_creditcard" FromRole="ORDERHEADER" ToRole="CREDITCARD" />
           <NavigationProperty Name="MEMBER" Relationship="CVGSModel.fk_order_member" FromRole="ORDERHEADER" ToRole="MEMBER" />
           <NavigationProperty Name="ORDERITEMs" Relationship="CVGSModel.fk_orderitem_order" FromRole="ORDERHEADER" ToRole="ORDERITEM" />
+          <Property Name="Processed" Type="Boolean" Nullable="false" />
         </EntityType>
         <EntityType Name="ORDERITEM">
           <Key>
@@ -1532,6 +1534,7 @@
           <EntitySetMapping Name="ORDERHEADERs">
             <EntityTypeMapping TypeName="CVGSModel.ORDERHEADER">
               <MappingFragment StoreEntitySet="ORDERHEADER">
+                <ScalarProperty Name="Processed" ColumnName="Processed" />
                 <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
                 <ScalarProperty Name="CreditCardId" ColumnName="CreditCardId" />
                 <ScalarProperty Name="ShippingAddressId" ColumnName="ShippingAddressId" />

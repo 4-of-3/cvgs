@@ -1,0 +1,42 @@
+﻿@{
+    ViewBag.Title = "Employee Dashboard";
+}
+
+<div class="jumbotron">
+    <h1>CVGS - Employee Dashboard</h1>
+    <p class="lead">The Conestoga Virtual Game Store is an online games retailer, specializing in digital distribution as a way of allowing students to publish their own games.</p>
+</div>
+
+<div class="row" style="margin-bottom: 30px;">
+    <div class="col-md-4">
+        <a href="@Url.Action("Pending", "Reviews")" class="dashboard__tile">
+            <div class="tile__content">
+            </div>
+            <div class="tile__label">Pending Reviews</div>
+        </a>
+    </div>
+    <div class="col-md-4">
+        <a href="@Url.Action("Pending", "Order")" class="dashboard__tile">
+            <div class="tile__content">
+            </div>
+            <div class="tile__label">Pending Orders</div>
+        </a>
+    </div>
+    <div class="col-md-4">
+        <a href="@Url.Action("Index", "Members")" class="dashboard__tile">
+            <div class="tile__content">
+            </div>
+            <div class="tile__label">Accounts</div>
+        </a>
+    </div>
+</div>
+<div class="row">
+        <div class="col-md-4">
+            <a href="@Url.Action("Index", "Reports")" class="dashboard__tile">
+                <div class="tile__content">
+                </div>
+                <div class="tile__label">Reports</div>
+            </a>
+        </div>
+</div>
+

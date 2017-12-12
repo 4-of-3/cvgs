@@ -1,0 +1,91 @@
+﻿@model CVGS.Models.ORDERHEADER
+
+@{
+    ViewBag.Title = "Checkout";
+}
+
+<h2>Checkout</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(o => o.MemberId)
+        @Html.HiddenFor(o => o.DateCreated)
+        <div class="form-group">
+            @Html.LabelFor(model => model.BillingAddressId, "BillingAddressId", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-2">
+                @Html.DropDownList("BillingAddressId", null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.BillingAddressId, "", new { @class = "text-danger" })
+            </div>
+            <div class="col-md-2">
+                @Html.ActionLink("Add an address", "Create", "Address", null, new { @class = "btn btn--action" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.ShippingAddressId, "ShippingAddressId", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-2">
+                @Html.DropDownList("ShippingAddressId", null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.ShippingAddressId, "", new { @class = "text-danger" })
+            </div>
+            <div class="col-md-2">
+                @Html.ActionLink("Add an address", "Create", "Address", null, new { @class = "btn btn--action" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.CreditCardId, "CreditCardId", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("CreditCardId", null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.CreditCardId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <table class="table">
+            <tr>
+                <th>
+                    Quantity
+                </th>
+                <th>
+                    Title
+                </th>
+                <th>
+                    Unit Price
+                </th>
+                <th>
+                    Cost
+                </th>
+            </tr>
+
+            @foreach (var item in Model.ORDERITEMs)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Quantity)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.GAME.Title)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.GAME.Cost)
+                    </td>
+                    <td>
+                        @((item.GAME.Cost * item.Quantity).ToString("C"))
+                    </td>
+                </tr>
+            }
+        </table>
+
+        <h4>Total Cost:</h4>@(Model.ORDERITEMs.Sum(i => i.Quantity * i.GAME.Cost).ToString("C"))
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Checkout" class="btn btn--save" />
+                @Html.ActionLink("Back to Cart", "Index", "Cart", null, new { @class="btn btn--default" })
+            </div>
+        </div>
+    </div>
+}

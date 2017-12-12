@@ -1,0 +1,66 @@
+﻿@model IEnumerable<CVGS.Models.ORDERHEADER>
+
+@{
+    ViewBag.Title = "Pending";
+}
+
+<h2>Pending Orders</h2>
+
+<a href="@Url.Action("All")" class="btn btn-default">
+    <i class="fa fa-arrow-left"></i>All Orders
+</a>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.ActionLink(Html.DisplayNameFor(model => model.DateCreated).ToHtmlString(), "Pending", new { search = ViewBag.search, sort = "date", order = @ViewBag.listSortAsc })
+        </th>
+        <th>
+            @Html.ActionLink("Billing Address", "Pending", new { search = ViewBag.search, sort = "billaddr", order = @ViewBag.listSortAsc })
+        </th>
+        <th>
+            @Html.ActionLink("Shipping Address", "Pending", new { search = ViewBag.search, sort = "shipaddr", order = @ViewBag.listSortAsc })
+        </th>
+        <th>
+            @Html.ActionLink(Html.DisplayNameFor(model => model.CREDITCARD.CardNumber).ToHtmlString(), "Pending", new { search = ViewBag.search, sort = "cc", order = @ViewBag.listSortAsc })
+        </th>
+        <th>
+            @Html.ActionLink("Name", "Pending", new { search = ViewBag.search, sort = "name", order = @ViewBag.listSortAsc })
+        </th>
+        <th>
+            @Html.ActionLink("Cost", "Pending", new { search = ViewBag.search, sort = "cost", order = @ViewBag.listSortAsc })
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.DateCreated)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ADDRESS.StreetAddress)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ADDRESS1.StreetAddress)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CREDITCARD.CardNumber)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.MEMBER.FName) @Html.DisplayFor(modelItem => item.MEMBER.LName)
+        </td>
+        <td>
+            @(item.ORDERITEMs.Sum(i => i.Quantity * i.GAME.Cost).ToString("C"))
+
+
+        </td>
+        <td>
+            @Html.ActionLink("Process", "Process", new { id=item.OrderId }) |
+            @Html.ActionLink("Details", "Details", new { id=item.OrderId }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.OrderId })
+        </td>
+    </tr>
+}
+
+</table>

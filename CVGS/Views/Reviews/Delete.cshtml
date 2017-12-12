@@ -6,8 +6,8 @@
 
 <h2>@ViewBag.Title</h2>
 
-<a href="@Url.Action("Details", "Games", new {id = Model.GameId})" class="btn btn-default">
-    <i class="fa fa-arrow-left"></i>Game Details
+    <a href="@Request.UrlReferrer" class="btn btn-default">
+    <i class="fa fa-arrow-left"></i>Back
 </a>
 
 <h3>Are you sure you want to delete this?</h3>
@@ -48,7 +48,7 @@
 
         <div class="form__actions no-color">
             <div class="col-md-offset-2 col-md-10 form__actions">
-                @Html.ActionLink("Cancel", "Details", "Games", new { id = Model.GameId }, new { @class = "btn btn-default" })
+                <a href="@Request.UrlReferrer" class="btn btn-default">Cancel</a>
                 <button type="submit" class="btn btn--delete"><i class="fa fa-trash"></i>Delete</button>
             </div>
         </div>
