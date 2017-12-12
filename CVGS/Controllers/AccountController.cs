@@ -266,6 +266,11 @@ namespace CVGS.Controllers
             {
                 return HttpNotFound();
             }
+            ObjectParameter newPassword = new ObjectParameter("newPwd", typeof(byte));
+
+            //member.Pwd = newPassword;
+            db.Entry(member).State = EntityState.Modified;
+            db.SaveChanges();
 
             return RedirectToAction("Index", "Account");
         }
