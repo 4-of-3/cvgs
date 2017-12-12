@@ -41,6 +41,7 @@ textarea {
 
 .search-bar {
     max-width: 300px;
+    float: right;
 }
 
 
