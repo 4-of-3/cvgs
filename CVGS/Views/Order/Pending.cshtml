@@ -1,14 +1,16 @@
 ﻿@model IEnumerable<CVGS.Models.ORDERHEADER>
 
 @{
-    ViewBag.Title = "Pending";
+    ViewBag.Title = "Pending Orders";
 }
 
-<h2>Pending Orders</h2>
+<h2>@ViewBag.Title</h2>
 
-<a href="@Url.Action("All")" class="btn btn-default">
-    <i class="fa fa-arrow-left"></i>All Orders
-</a>
+<div class="action-bar" style="margin-bottom: 10px;">
+    <a href="@Url.Action("All")" class="btn btn-default">
+        <i class="fa fa-arrow-left"></i>All Orders
+    </a>
+</div>
 
 <table class="table">
     <tr>
