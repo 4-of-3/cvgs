@@ -13,25 +13,22 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.DateCreated)
+            @Html.ActionLink(Html.DisplayNameFor(model => model.DateCreated).ToHtmlString(), "Pending", new { search = ViewBag.search, sort = "date", order = @ViewBag.listSortAsc })
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Processed)
+            @Html.ActionLink("Billing Address", "Pending", new { search = ViewBag.search, sort = "billaddr", order = @ViewBag.listSortAsc })
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.ADDRESS.StreetAddress)
+            @Html.ActionLink("Shipping Address", "Pending", new { search = ViewBag.search, sort = "shipaddr", order = @ViewBag.listSortAsc })
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.ADDRESS1.StreetAddress)
+            @Html.ActionLink(Html.DisplayNameFor(model => model.CREDITCARD.CardNumber).ToHtmlString(), "Pending", new { search = ViewBag.search, sort = "cc", order = @ViewBag.listSortAsc })
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.CREDITCARD.CardNumber)
+            @Html.ActionLink("Name", "Pending", new { search = ViewBag.search, sort = "name", order = @ViewBag.listSortAsc })
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.MEMBER.FName)
-        </th>
-        <th>
-            Cost
+            @Html.ActionLink("Cost", "Pending", new { search = ViewBag.search, sort = "cost", order = @ViewBag.listSortAsc })
         </th>
         <th></th>
     </tr>
@@ -40,9 +37,6 @@
     <tr>
         <td>
             @Html.DisplayFor(modelItem => item.DateCreated)
-        </td>
-        <td>
-            @((item.Processed) ? "Yes" : "No")
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.ADDRESS.StreetAddress)
