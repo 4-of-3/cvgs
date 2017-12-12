@@ -99,5 +99,22 @@ namespace CVGS.Models
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_MEMBER_LOGIN", userNameParameter, pwdParameter, memberId);
         }
+    
+        public virtual int SP_CHANGE_PWD(string userName, string pwd, string newPwd, ObjectParameter success)
+        {
+            var userNameParameter = userName != null ?
+                new ObjectParameter("UserName", userName) :
+                new ObjectParameter("UserName", typeof(string));
+    
+            var pwdParameter = pwd != null ?
+                new ObjectParameter("Pwd", pwd) :
+                new ObjectParameter("Pwd", typeof(string));
+    
+            var newPwdParameter = newPwd != null ?
+                new ObjectParameter("NewPwd", newPwd) :
+                new ObjectParameter("NewPwd", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_CHANGE_PWD", userNameParameter, pwdParameter, newPwdParameter, success);
+        }
     }
 }
