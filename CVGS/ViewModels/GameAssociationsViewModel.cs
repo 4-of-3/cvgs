@@ -93,7 +93,7 @@ namespace CVGS.ViewModels
         /// <param name="games">List of Game models</param>
         /// <param name="memberId">Member id that defines several assocations</param>
         /// <returns>List of extended viewmodels for Game model with associations</returns>
-        public static List<GameAssociationsViewModel> CreateEventAssociationsListFromModels(IEnumerable<GAME> games, int memberId)
+        public static List<GameAssociationsViewModel> CreateGameAssociationsListFromModels(IEnumerable<GAME> games, int memberId)
         {
             List<GameAssociationsViewModel> gameAssociations = new List<GameAssociationsViewModel>();
 

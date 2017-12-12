@@ -16,7 +16,7 @@
     }
     <div class="search-bar">
         <div class="input-group">
-            <input id="search" type="text" placeholder="Search" name="search" value="@ViewBag.search" class="form-control">
+            <input id="search" type="search" placeholder="Search" name="search" value="@ViewBag.search" class="form-control">
             <span class="input-group-btn">
                 <button type="submit" class="btn btn--action">
                     <i class="fa fa-search"></i>
@@ -79,10 +79,11 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Cost)
             </td>
-            <td class="text-center">
-                @if (item.REVIEWs.Count > 0)
+            <td class="text-center" style="white-space: nowrap;">
+                @if (item.ApprovedReviews.Count() > 0)
                 {
-                    @Math.Round(item.REVIEWs.Average(m => m.Rating))@:&thinsp;/&thinsp;5
+                    @Math.Round(item.ApprovedReviews.Average(m => m.Rating))@:&thinsp;/&thinsp;5
+                    <em>(@item.ApprovedReviews.Count())</em>
                 }
                 else
                 {
