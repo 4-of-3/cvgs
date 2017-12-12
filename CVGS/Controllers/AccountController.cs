@@ -266,12 +266,14 @@ namespace CVGS.Controllers
             {
                 return HttpNotFound();
             }
-            ObjectParameter newPassword = new ObjectParameter("newPwd", typeof(byte));
 
-            //member.Pwd = newPassword;
-            db.Entry(member).State = EntityState.Modified;
-            db.SaveChanges();
+            ObjectParameter newPasswordSuccess = new ObjectParameter("Success", typeof(bool));
+            db.SP_CHANGE_PWD(member.UserName, account.OldPwd, account.NewPwd, newPasswordSuccess);
 
+            if (!(bool)newPasswordSuccess.Value)
+            {
+                ModelState.AddModelError("", "Password was not updated.");
+            }
             return RedirectToAction("Index", "Account");
         }
 
