@@ -84,7 +84,7 @@ textarea {
 
 
 /* Dashboard tiles */
-.dashboard__tile {
+.dashboard__tile,.dashboard__tile--employee {
     display: flex;
     flex-direction: column;
     position: relative;
@@ -94,8 +94,12 @@ textarea {
     border-radius: 5px;
 }
 
-.dashboard__tile:hover { text-decoration: none;
+.dashboard__tile--employee {
+    background-color: dodgerblue;
 }
+
+.dashboard__tile:hover { text-decoration: none; }
+.dashboard__tile--employee:hover { text-decoration: none; }
 
 .tile__content {
     display: flex;
@@ -113,17 +117,17 @@ textarea {
     background-color: rgba(255, 255, 255, 0.3);
 }
 
-.dashboard__tile:not(.disabled):hover .tile__label {
+.dashboard__tile:not(.disabled):hover .tile__label, .dashboard__tile--employee:not(.disabled):hover .tile__label {
     background-color: rgba(255, 255, 255, 0.5);
     text-decoration: none;
 }
 
 /* Disabled dashboard tile styles */
-.dashboard__tile.disabled {
+.dashboard__tile.disabled,.dashboard__tile--employee.disabled {
     background-color: lightgrey;
 }
 
-.dashboard__tile.disabled .tile__content {
+.dashboard__tile.disabled .tile__content, .dashboard__tile--employee.disabled .tile__content {
     color: darkgrey;
     font-size: 18px;
 }
