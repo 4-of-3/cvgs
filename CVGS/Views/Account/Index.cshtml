@@ -1,87 +1,98 @@
 ﻿@model CVGS.Models.MEMBER
 
 @{
-    ViewBag.Title = "Account Details";
+    ViewBag.Title = "Profile";
 }
 
-<h2>Profile</h2>
+<h2>@ViewBag.Title</h2>
 
 <hr />
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["SuccessMessage"]
+    </div>
+}
+
+
 <div class="row">
     @Html.Partial("_ProfileLinks")
-    <dl class="dl-horizontal col-md-9 col-lg-10" style="margin-top: 0;">
-        <dt>
-            Name
-        </dt>
+    <div class="col-md-9 col-lg-10">
+        <dl class="dl-horizontal" style="margin-top: 0;">
 
-        <dd>
-            @Model.FName @Model.LName
-        </dd>
+            <dt>
+                Name
+            </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.UserName)
-        </dt>
+            <dd>
+                @Model.FName @Model.LName
+            </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.UserName)
-        </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.UserName)
+            </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Email)
-        </dt>
+            <dd>
+                @Html.DisplayFor(model => model.UserName)
+            </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.Email)
-        </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Email)
+            </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.FavPlatform)
-        </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Email)
+            </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.FavPlatform)
-        </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.FavPlatform)
+            </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.FavCategory)
-        </dt>
+            <dd>
+                @Html.DisplayFor(model => model.FavPlatform)
+            </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.FavCategory)
-        </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.FavCategory)
+            </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.FavGame)
-        </dt>
+            <dd>
+                @Html.DisplayFor(model => model.FavCategory)
+            </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.FavGame)
-        </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.FavGame)
+            </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.FavQuote)
-        </dt>
+            <dd>
+                @Html.DisplayFor(model => model.FavGame)
+            </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.FavQuote)
-        </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.FavQuote)
+            </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.DateJoined)
-        </dt>
+            <dd>
+                @Html.DisplayFor(model => model.FavQuote)
+            </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.DateJoined)
-        </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.DateJoined)
+            </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.ActiveStatus)
-        </dt>
+            <dd>
+                @Html.DisplayFor(model => model.DateJoined)
+            </dd>
 
-        <dd>
-            @((Model.ActiveStatus) ? "Yes" : "No")
-        </dd>
-    </dl>
+            <dt>
+                @Html.DisplayNameFor(model => model.ActiveStatus)
+            </dt>
+
+            <dd>
+                @((Model.ActiveStatus) ? "Yes" : "No")
+            </dd>
+        </dl>
+    </div>
 </div>
 <section class="action-bar" style="margin-bottom: 20px;">
     <div class="actions">
