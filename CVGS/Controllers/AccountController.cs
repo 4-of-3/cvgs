@@ -257,7 +257,7 @@ namespace CVGS.Controllers
             var memberId = this.Session["MemberId"];
             if (memberId == null)
             {
-                return RedirectToAction("Index", "Account");
+                return RedirectToAction("Index", "Login");
             }
 
             // Find the member to change their password
