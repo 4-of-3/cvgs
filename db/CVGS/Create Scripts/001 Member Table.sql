@@ -79,6 +79,7 @@ CREATE PROCEDURE dbo.SP_MEMBER_LOGIN
                             FROM MEMBER 
                            WHERE UserName = @UserName 
                              AND Pwd = @pwd_hash );
+
 GO
 
 -- Returns 1 if password change is successful

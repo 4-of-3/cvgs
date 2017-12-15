@@ -48,34 +48,37 @@ namespace CVGS.Controllers
                 asc = false;
             }
 
-            if (sort == null) return View(GameAssociationsViewModel.CreateEventAssociationsListFromModels(gamesList, (int)memberId));
+            // Convert list of games to games with associations
+            List<GameAssociationsViewModel> gameAssociations = GameAssociationsViewModel.CreateGameAssociationsListFromModels(gamesList, (int)memberId);
+
+            if (sort == null) return View(gameAssociations);
 
             // Handle list sorting
             switch (sort)
             {
                 case "title":
-                    gamesList = asc
-                        ? gamesList.OrderBy(e => e.Title).ToList()
-                        : gamesList.OrderByDescending(e => e.Title).ToList();
+                    gameAssociations = asc
+                        ? gameAssociations.OrderBy(e => e.Title).ToList()
+                        : gameAssociations.OrderByDescending(e => e.Title).ToList();
                     break;
                 case "category":
-                    gamesList = asc
-                        ? gamesList.OrderBy(e => e.Category).ToList()
-                        : gamesList.OrderByDescending(e => e.Category).ToList();
+                    gameAssociations = asc
+                        ? gameAssociations.OrderBy(e => e.Category).ToList()
+                        : gameAssociations.OrderByDescending(e => e.Category).ToList();
                     break;
                 case "cost":
-                    gamesList = asc
-                        ? gamesList.OrderBy(e => e.Cost).ToList()
-                        : gamesList.OrderByDescending(e => e.Cost).ToList();
+                    gameAssociations = asc
+                        ? gameAssociations.OrderBy(e => e.Cost).ToList()
+                        : gameAssociations.OrderByDescending(e => e.Cost).ToList();
                     break;
                 case "rating":
-                    gamesList = asc
-                        ? gamesList.OrderBy(e => (e.REVIEWs.Count()) == 0 ? 0 : e.REVIEWs.Average(m => m.Rating)).ToList()
-                        : gamesList.OrderByDescending(e => (e.REVIEWs.Count()) == 0 ? 0 : e.REVIEWs.Average(m => m.Rating)).ToList();
+                    gameAssociations = asc
+                        ? gameAssociations.OrderBy(e => (e.ApprovedReviews.Count()) == 0 ? 0 : e.ApprovedReviews.Average(m => m.Rating)).ToList()
+                        : gameAssociations.OrderByDescending(e => (e.ApprovedReviews.Count()) == 0 ? 0 : e.ApprovedReviews.Average(m => m.Rating)).ToList();
                     break;
             }
 
-            return View(GameAssociationsViewModel.CreateEventAssociationsListFromModels(gamesList, (int)memberId));
+            return View(gameAssociations);
         }
 
         // GET: Games/Details/5

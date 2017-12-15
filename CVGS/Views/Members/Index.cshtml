@@ -6,19 +6,28 @@
 
 <h2>@ViewBag.Title</h2>
 
-@using (Html.BeginForm("Index", "Members"))
-{
-    <div class="search-bar">
-        <div class="input-group">
-            <input id="search" type="text" placeholder="Search" name="search" value="@ViewBag.search" class="form-control">
-            <span class="input-group-btn">
-                <button type="submit" class="btn btn--action">
-                    <i class="fa fa-search"></i>
-                </button>
-            </span>
-        </div>
+<div class="action-bar" style="margin-bottom: 10px;">
+    <a href="@Url.Action("Index", "Employee")" class="btn btn-default">
+        <i class="fa fa-arrow-left"></i>Dashboard
+    </a>
+
+    <div class="actions">
+        @using (Html.BeginForm("Index", "Members"))
+        {
+            <div class="search-bar">
+                <div class="input-group">
+                    <input id="search" type="text" placeholder="Search" name="search" value="@ViewBag.search" class="form-control">
+                    <span class="input-group-btn">
+                        <button type="submit" class="btn btn--action btn--empty">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </span>
+                </div>
+            </div>
+        }
     </div>
-}
+</div>
+
 <table class="table">
     <tr>
         <th>

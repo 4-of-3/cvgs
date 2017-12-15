@@ -56,6 +56,12 @@
     color: #333333;
 }
 
+.btn--default.btn--inline {
+    color: #333333;
+    background-color: transparent;
+    border: none;
+}
+
 .btn--default:hover {
     background-color: #efefef;
     color: black;

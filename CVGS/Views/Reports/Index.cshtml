@@ -6,13 +6,18 @@
 
 <h2>@ViewBag.Title</h2>
 
-<hr />
+<div class="action-bar" style="margin-bottom: 10px;">
+    <a href="@Url.Action("Index", "Employee")" class="btn btn-default">
+        <i class="fa fa-arrow-left"></i>Dashboard
+    </a>
+</div>
 
 <div style="margin: 20px 0;">
     There are several types of Reports to choose from (although they may not be enabled yet).
 </div>
 
-@if (@TempData["error"] != null) {
+@if (@TempData["error"] != null)
+{
     <div style="margin: 20px 0;"><em>@(TempData["error"])</em></div>
 }
 
@@ -24,17 +29,18 @@
                 @item.ReportType
             </div>
             <div class="report-list__buttons">
-                @{ 
+                @{
                     if (item.Enabled)
                     {
                         <a class="report-list__button" href="@Url.Action(item.ReportURL, "Reports")">Generate</a>
-                    } else
+                    }
+                    else
                     {
                         <div class="report-list__button disabled">N/A</div>
                     }
                 }
             </div>
         </li>
-    }
+                    }
 </ul>
 

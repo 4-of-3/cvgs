@@ -1,10 +1,28 @@
 ﻿@model IEnumerable<CVGS.Models.ORDERHEADER>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "All Orders";
 }
 
-<h2>Index</h2>
+<h2>@ViewBag.Title</h2>
+
+@if (TempData["error"] != null)
+{
+    <div class="alert alert-danger">
+        @TempData["error"]
+    </div>
+}
+
+<div class="action-bar" style="margin-bottom: 10px;">
+    <a href="@Url.Action("Index", "Employee")" class="btn btn--default">
+        <i class="fa fa-arrow-left"></i>Dashboard
+    </a>
+    <div class="actions">
+        <a href="@Url.Action("Pending")" class="btn btn--action">
+            <i class="fa fa-spinner"></i>Pending Orders
+        </a>
+    </div>
+</div>
 
 <table class="table">
     <tr>
@@ -29,7 +47,7 @@
         <th>
             @Html.ActionLink("Cost", "All", new { search = ViewBag.search, sort = "cost", order = @ViewBag.listSortAsc })
         </th>
-        <th></th>
+        <th style="width: 1px;"></th>
     </tr>
 
 @foreach (var item in Model) {
@@ -50,14 +68,21 @@
             @Html.DisplayFor(modelItem => item.CREDITCARD.CardNumber)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.MEMBER.FName) @Html.DisplayFor(modelItem => item.MEMBER.LName)
+            @Html.DisplayFor(modelItem => item.MEMBER.FullName)
         </td>
         <td>
             @(item.ORDERITEMs.Sum(i => i.Quantity * i.GAME.Cost).ToString("C"))
         </td>
-        <td>
-            @Html.ActionLink("Details", "Details", new { id=item.OrderId }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.OrderId })
+        <td style="white-space: nowrap;">
+            <a href="@Url.Action("Details", new { id = item.OrderId })" class="btn btn--action btn--inline btn--empty">
+                <i class="fa fa-search"></i>
+            </a>
+            @if (!item.Processed)
+            {
+                <a href="@Url.Action("Delete", new { id = item.OrderId })" class="btn btn--delete btn--inline btn--empty">
+                    <i class="fa fa-trash"></i>
+                </a>
+            }
         </td>
     </tr>
 }

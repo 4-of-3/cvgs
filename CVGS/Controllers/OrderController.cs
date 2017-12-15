@@ -108,8 +108,8 @@ namespace CVGS.Controllers
                 return RedirectToAction("Index", "Login");
             }
 
-            var oRDERHEADERs = db.ORDERHEADERs.Where(o=>o.MemberId == (int)memberId).OrderByDescending(o => o.DateCreated).Include(o => o.ADDRESS).Include(o => o.ADDRESS1).Include(o => o.CREDITCARD).Include(o => o.MEMBER);
-            return View(oRDERHEADERs.ToList());
+            var orderHeaders = db.ORDERHEADERs.Where(o=>o.MemberId == (int)memberId).OrderByDescending(o => o.DateCreated).Include(o => o.ADDRESS).Include(o => o.ADDRESS1).Include(o => o.CREDITCARD).Include(o => o.MEMBER);
+            return View(orderHeaders.ToList());
         }
 
         public ActionResult Checkout()
@@ -181,6 +181,8 @@ namespace CVGS.Controllers
             {
                 return RedirectToAction("Index", "Login");
             }
+
+            // Validate model state and checkout the cart (add to orders)
             if (ModelState.IsValid)
             {
                 db.ORDERHEADERs.Add(orderHeader);
@@ -226,7 +228,6 @@ namespace CVGS.Controllers
                 return new HttpUnauthorizedResult("You are not authorized to process Orders");
             }
 
-
             var orderList = db.ORDERHEADERs.Where(o => !o.Processed).OrderByDescending(o => o.DateCreated).Include(o => o.ADDRESS).Include(o => o.ADDRESS1).Include(o => o.CREDITCARD).Include(o => o.MEMBER).ToList();
 
             if(sort != null)
@@ -243,10 +244,12 @@ namespace CVGS.Controllers
             {
                 return RedirectToAction("Index", "Login");
             }
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+
             ORDERHEADER orderHeader = db.ORDERHEADERs.Find(id);
             if (orderHeader == null)
             {
@@ -260,7 +263,26 @@ namespace CVGS.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult ProcessConfirmed(int id)
         {
+            // Redirect unauthenticated members
+            var memberId = Session["MemberId"];
+            if (memberId == null)
+            {
+                return RedirectToAction("Index", "Login");
+            }
+
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
             ORDERHEADER orderHeader = db.ORDERHEADERs.Find(id);
+
+            if (orderHeader == null)
+            {
+                return HttpNotFound();
+            }
+
+            // Mark the order as processed
             orderHeader.Processed = true;
             db.Entry(orderHeader).State = EntityState.Modified;
             db.SaveChanges();
@@ -276,10 +298,13 @@ namespace CVGS.Controllers
             {
                 return RedirectToAction("Index", "Login");
             }
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+
+            // Display order details
             ORDERHEADER orderHeader = db.ORDERHEADERs.Find(id);
             if (orderHeader == null)
             {
@@ -287,7 +312,7 @@ namespace CVGS.Controllers
             }
             return View(orderHeader);
         }
-        
+
         // GET: Order/Delete/5
         public ActionResult Delete(int? id)
         {
@@ -297,15 +322,25 @@ namespace CVGS.Controllers
             {
                 return RedirectToAction("Index", "Login");
             }
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+
             ORDERHEADER orderHeader = db.ORDERHEADERs.Find(id);
             if (orderHeader == null)
             {
                 return HttpNotFound();
             }
+
+            // Processed orders cannot be deleted
+            if (orderHeader.Processed)
+            {
+                TempData["error"] = "Cannot delete processed orders";
+                return RedirectToAction("All");
+            }
+
             return View(orderHeader);
         }
 
@@ -314,7 +349,28 @@ namespace CVGS.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
+            // Redirect unauthenticated members
+            var memberId = Session["MemberId"];
+            if (memberId == null)
+            {
+                return RedirectToAction("Index", "Login");
+            }
+
             ORDERHEADER orderHeader = db.ORDERHEADERs.Find(id);
+
+            if (orderHeader == null)
+            {
+                return HttpNotFound();
+            }
+
+            // Processed orders cannot be deleted
+            if (orderHeader.Processed)
+            {
+                TempData["error"] = "Cannot delete processed orders";
+                return RedirectToAction("All");
+            }
+
+            // Delete the order
             db.ORDERHEADERs.Remove(orderHeader);
             db.SaveChanges();
             return RedirectToAction("All");
