@@ -236,6 +236,7 @@ namespace CVGS.Controllers
             {
                 return HttpNotFound();
             }
+
             ChangePasswordViewModel changePasswordViewModel = new ChangePasswordViewModel()
             {
                 MemberId = (int)memberId,
@@ -256,10 +257,10 @@ namespace CVGS.Controllers
             var memberId = this.Session["MemberId"];
             if (memberId == null)
             {
-                return RedirectToAction("Index", "Account");
+                return RedirectToAction("Index", "Login");
             }
 
-            // Find the member for deletion
+            // Find the member to change their password
             MEMBER member = db.MEMBERs.Find(memberId);
 
             if (member == null)
@@ -267,14 +268,20 @@ namespace CVGS.Controllers
                 return HttpNotFound();
             }
 
+            // Attempt to change password
             ObjectParameter newPasswordSuccess = new ObjectParameter("Success", typeof(bool));
             db.SP_CHANGE_PWD(member.UserName, account.OldPwd, account.NewPwd, newPasswordSuccess);
 
-            if (!(bool)newPasswordSuccess.Value)
+            if (!(bool) newPasswordSuccess.Value)
             {
-                ModelState.AddModelError("", "Password was not updated.");
+                TempData["PasswordUpdateError"] = "Password was not updated";
+                return RedirectToAction("ChangePassword");
             }
-            return RedirectToAction("Index", "Account");
+            else
+            {
+                TempData["SuccessMessage"] = "Password was updated successfully";
+                return RedirectToAction("Index");
+            }
         }
 
         protected override void Dispose(bool disposing)

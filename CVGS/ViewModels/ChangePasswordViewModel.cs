@@ -21,7 +21,7 @@ namespace CVGS.ViewModels
         [CompareAttribute("NewPwdCheck", ErrorMessage = "Passwords do not match")]
         public string NewPwd { get; set; }
 
-        [Display(Name = "Confirm New Password")]
+        [Display(Name = "Confirm  Password")]
         [Required]
         public string NewPwdCheck { get; set; }
 
