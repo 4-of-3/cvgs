@@ -79,4 +79,28 @@ CREATE PROCEDURE dbo.SP_MEMBER_LOGIN
                             FROM MEMBER 
                            WHERE UserName = @UserName 
                              AND Pwd = @pwd_hash );
+
+GO
+
+-- Returns 1 if password change is successful
+-- otherwise returns 0
+CREATE PROCEDURE dbo.SP_CHANGE_PWD
+                 @UserName  NVARCHAR( 25 )
+               , @Pwd       NVARCHAR( 64 )
+			   , @NewPwd	NVARCHAR( 64 )
+               , @Success   BIT OUTPUT
+    AS
+        DECLARE @pwd_hash     VARBINARY( 32 );
+        DECLARE @new_pwd_hash VARBINARY( 32 ); 
+        
+        SET @pwd_hash = HASHBYTES('SHA2_256', @pwd);
+        SET @new_pwd_hash = HASHBYTES('SHA2_256', @NewPwd);
+        
+        UPDATE MEMBER
+           SET Pwd = @new_pwd_hash
+         WHERE UserName = @UserName
+           AND Pwd = @pwd_hash;
+        
+		-- 1 or 0
+        SET @Success = @@ROWCOUNT;
 GO

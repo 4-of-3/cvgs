@@ -532,6 +532,12 @@
           <Parameter Name="FavGame" Type="nvarchar" Mode="In" />
           <Parameter Name="FavQuote" Type="nvarchar" Mode="In" />
         </Function>
+        <Function Name="SP_CHANGE_PWD" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="UserName" Type="nvarchar" Mode="In" />
+          <Parameter Name="Pwd" Type="nvarchar" Mode="In" />
+          <Parameter Name="NewPwd" Type="nvarchar" Mode="In" />
+          <Parameter Name="Success" Type="bit" Mode="InOut" />
+        </Function>
         <Function Name="SP_MEMBER_LOGIN" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="UserName" Type="nvarchar" Mode="In" />
           <Parameter Name="pwd" Type="nvarchar" Mode="In" />
@@ -904,6 +910,12 @@
             <End Role="ORDERHEADER" EntitySet="ORDERHEADERs" />
             <End Role="ORDERITEM" EntitySet="ORDERITEMs" />
           </AssociationSet>
+          <FunctionImport Name="SP_CHANGE_PWD">
+            <Parameter Name="UserName" Mode="In" Type="String" />
+            <Parameter Name="Pwd" Mode="In" Type="String" />
+            <Parameter Name="NewPwd" Mode="In" Type="String" />
+            <Parameter Name="Success" Mode="InOut" Type="Boolean" />
+          </FunctionImport>
         </EntityContainer>
         <EntityType Name="REPORT">
           <Key>
@@ -1550,6 +1562,7 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="SP_CHANGE_PWD" FunctionName="CVGSModel.Store.SP_CHANGE_PWD" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
