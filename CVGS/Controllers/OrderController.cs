@@ -189,6 +189,7 @@ namespace CVGS.Controllers
 
                 // Add all items from user's cart into the new order
                 var cartItems = db.CARTITEMs.Where(c => c.MemberId == orderHeader.MemberId);
+                WISHLISTITEM wishListItem;
                 foreach (var cartItem in cartItems)
                 {
                     ORDERITEM orderItem = new ORDERITEM()
@@ -201,6 +202,12 @@ namespace CVGS.Controllers
                     
                     // remove the item from the cart
                     db.CARTITEMs.Remove(cartItem);
+
+                    wishListItem = db.WISHLISTITEMs.Find(memberId, cartItem.GameId);
+                    if(wishListItem != null)
+                    {
+                        db.WISHLISTITEMs.Remove(wishListItem);
+                    }
                 }
                 db.SaveChanges();
                 return RedirectToAction("MyOrders");
@@ -261,7 +268,7 @@ namespace CVGS.Controllers
         // POST: Order/Process/5
         [HttpPost, ActionName("Process")]
         [ValidateAntiForgeryToken]
-        public ActionResult ProcessConfirmed(int id)
+        public ActionResult ProcessConfirmed(int? id)
         {
             // Redirect unauthenticated members
             var memberId = Session["MemberId"];
