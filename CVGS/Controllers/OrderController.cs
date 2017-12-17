@@ -93,7 +93,7 @@ namespace CVGS.Controllers
 
             var orderList = db.ORDERHEADERs.OrderByDescending(o => o.DateCreated).Include(o => o.ADDRESS).Include(o => o.ADDRESS1).Include(o => o.CREDITCARD).Include(o => o.MEMBER).ToList();
 
-            if(sort != null)
+            if (sort != null)
                 orderList = sortOrderHeaderList(order, sort, orderList);
 
             return View(orderList);
@@ -108,7 +108,7 @@ namespace CVGS.Controllers
                 return RedirectToAction("Index", "Login");
             }
 
-            var orderHeaders = db.ORDERHEADERs.Where(o=>o.MemberId == (int)memberId).OrderByDescending(o => o.DateCreated).Include(o => o.ADDRESS).Include(o => o.ADDRESS1).Include(o => o.CREDITCARD).Include(o => o.MEMBER);
+            var orderHeaders = db.ORDERHEADERs.Where(o => o.MemberId == (int)memberId).OrderByDescending(o => o.DateCreated).Include(o => o.ADDRESS).Include(o => o.ADDRESS1).Include(o => o.CREDITCARD).Include(o => o.MEMBER);
             return View(orderHeaders.ToList());
         }
 
@@ -126,7 +126,7 @@ namespace CVGS.Controllers
             int billingAddressIndex = 0;
 
             // If no address exists for the user, prompt them to add an address
-            if (memberAddresses.Count() <1)
+            if (memberAddresses.Count() < 1)
             {
                 return RedirectToAction("NoAddress");
             }
@@ -142,7 +142,7 @@ namespace CVGS.Controllers
                 DateCreated = DateTime.Now,
                 Processed = false
             };
-            var cartItems = db.CARTITEMs.Where(c => c.MemberId == (int)memberId).Include(c=>c.GAME);
+            var cartItems = db.CARTITEMs.Where(c => c.MemberId == (int)memberId).Include(c => c.GAME);
             foreach (var cartItem in cartItems)
             {
                 ORDERITEM orderItem = new ORDERITEM()
@@ -155,7 +155,7 @@ namespace CVGS.Controllers
                 order.ORDERITEMs.Add(orderItem);
             }
 
-            if (memberAddresses.Where(a=>a.ADDRESSTYPE.AddressTypeName == "Billing").Count() > 0)
+            if (memberAddresses.Where(a => a.ADDRESSTYPE.AddressTypeName == "Billing").Count() > 0)
             {
                 billingAddressIndex = memberAddresses.Where(a => a.ADDRESSTYPE.AddressTypeName == "Billing").FirstOrDefault().AddressId;
             }
@@ -163,7 +163,7 @@ namespace CVGS.Controllers
             {
                 shippingAddressIndex = memberAddresses.Where(a => a.ADDRESSTYPE.AddressTypeName == "Shipping").FirstOrDefault().AddressId;
             }
-            
+
             ViewBag.BillingAddressId = new SelectList(memberAddresses, "AddressId", "StreetAddress", billingAddressIndex);
             ViewBag.ShippingAddressId = new SelectList(memberAddresses, "AddressId", "StreetAddress", shippingAddressIndex);
             ViewBag.CreditCardId = new SelectList(memberCreditCards, "CardId", "CardDescription");
@@ -199,12 +199,12 @@ namespace CVGS.Controllers
                         Quantity = cartItem.Quantity
                     };
                     db.ORDERITEMs.Add(orderItem);
-                    
+
                     // remove the item from the cart
                     db.CARTITEMs.Remove(cartItem);
 
                     wishListItem = db.WISHLISTITEMs.Find(memberId, cartItem.GameId);
-                    if(wishListItem != null)
+                    if (wishListItem != null)
                     {
                         db.WISHLISTITEMs.Remove(wishListItem);
                     }
@@ -230,14 +230,14 @@ namespace CVGS.Controllers
                 return RedirectToAction("Index", "Login");
             }
             string memberRole = (string)Session["MemberRole"];
-            if(memberRole != "Admin" && memberRole != "Employee")
+            if (memberRole != "Admin" && memberRole != "Employee")
             {
                 return new HttpUnauthorizedResult("You are not authorized to process Orders");
             }
 
             var orderList = db.ORDERHEADERs.Where(o => !o.Processed).OrderByDescending(o => o.DateCreated).Include(o => o.ADDRESS).Include(o => o.ADDRESS1).Include(o => o.CREDITCARD).Include(o => o.MEMBER).ToList();
 
-            if(sort != null)
+            if (sort != null)
                 orderList = sortOrderHeaderList(order, sort, orderList);
 
             return View(orderList);
