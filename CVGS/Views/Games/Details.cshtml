@@ -103,32 +103,40 @@
             @* Indicate whether item can be added to cart or is already in cart *@
             <div class="action-bar reverse">
                 <div class="actions">
-                    @* Toggle game on wishlist *@
-                    @if (Model.OnWishlist)
+                    @if (Model.Digital && Model.Purchased)
                     {
-                        <a href="@Url.Action("Toggle", "Wishlist", new { id = Model.GameId })" class="btn btn--default">
-                            <i class="fa fa-times"></i>Remove from Wishlist
-                        </a>
+                        // Game is in library, cannot be purchased
+                        // or added to the wish list
                     }
                     else
                     {
-                        <a href="@Url.Action("Toggle", "Wishlist", new { id = Model.GameId })" class="btn btn--action">
-                            <i class="fa fa-gift"></i>Add to Wishlist
-                        </a>
-                    }
-                    @* Add or display game in cart *@
-                    @if (Model.InCart)
-                    {
-                        // Allow members to return to the current Game Details page after viewing their cart
-                        <a href="@Url.Action("Index", "Cart", new { redirectGameId = Model.GameId })" class="btn btn--default">
-                            <i class="fa fa-shopping-cart"></i>In Cart
-                        </a>
-                    }
-                    else
-                    {
-                        <a href="@Url.Action("Add", "Cart", new { id = Model.GameId })" class="btn btn--action">
-                            <i class="fa fa-cart-plus"></i>Add to Cart
-                        </a>
+                        @* Toggle game on wishlist *@
+                        if (Model.OnWishlist)
+                        {
+                            <a href="@Url.Action("Toggle", "Wishlist", new { id = Model.GameId })" class="btn btn--default">
+                                <i class="fa fa-times"></i>Remove from Wishlist
+                            </a>
+                        }
+                        else
+                        {
+                            <a href="@Url.Action("Toggle", "Wishlist", new { id = Model.GameId })" class="btn btn--action">
+                                <i class="fa fa-gift"></i>Add to Wishlist
+                            </a>
+                        }
+                        @* Add or display game in cart *@
+                        if (Model.InCart)
+                        {
+                            // Allow members to return to the current Game Details page after viewing their cart
+                            <a href="@Url.Action("Index", "Cart", new { redirectGameId = Model.GameId })" class="btn btn--default">
+                                <i class="fa fa-shopping-cart"></i>In Cart
+                            </a>
+                        }
+                        else
+                        {
+                            <a href="@Url.Action("Add", "Cart", new { id = Model.GameId })" class="btn btn--action">
+                                <i class="fa fa-cart-plus"></i>Add to Cart
+                            </a>
+                        }
                     }
                 </div>
             </div>
