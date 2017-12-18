@@ -39,6 +39,37 @@ namespace CVGS.Controllers
             return View(cart);
         }
 
+        public ActionResult Add(int? id)
+        {
+            // Redirect unauthenticated members
+            var memberId = Session["MemberId"];
+            if (memberId == null)
+            {
+                return RedirectToAction("Index", "Login");
+            }
+
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            // Create and add new cart item
+            CARTITEM cartItem = new CARTITEM()
+            {
+                MemberId = (int)memberId,
+                GameId = (int)id,
+                Quantity = 1
+            };
+
+            // Enable users to return to Game Details page after adding a game to the cart
+            int redirectGameId = (int)id;
+
+            db.CARTITEMs.Add(cartItem);
+            db.SaveChanges();
+
+            return RedirectToAction("Index", new { redirectGameId });
+        }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Update(CartViewModel newCart)
@@ -148,37 +179,6 @@ namespace CVGS.Controllers
             }
 
             return View("Index", newCart);
-        }
-
-        public ActionResult Add(int? id)
-        {
-            // Redirect unauthenticated members
-            var memberId = Session["MemberId"];
-            if (memberId == null)
-            {
-                return RedirectToAction("Index", "Login");
-            }
-
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-
-            // Create and add new cart item
-            CARTITEM cartItem = new CARTITEM()
-            {
-                MemberId = (int)memberId,
-                GameId = (int)id,
-                Quantity = 1
-            };
-
-            // Enable users to return to Game Details page after adding a game to the cart
-            int redirectGameId = (int)id;
-
-            db.CARTITEMs.Add(cartItem);
-            db.SaveChanges();
-
-            return RedirectToAction("Index", new { redirectGameId });
         }
 
         public ActionResult Delete(int? id)
