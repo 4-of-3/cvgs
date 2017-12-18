@@ -33,7 +33,7 @@
                 @Html.HiddenFor(m => Model.CartItems[i].DateAdded)
 
                 <div class="form-group">
-                    @Html.Label("Quantity", Model.CartItems[i].GAME.Title, htmlAttributes: new { @class = "control-label col-md-4" })
+                    @Html.Label("Quantity", Model.CartItems[i].GAME.Title + " \n" + Model.CartItems[i].GAME.Cost.ToString("C"), htmlAttributes: new { @class = "control-label col-md-4" })
                     <div class="col-md-2">
                         <div class="input-group">
                             @Html.EditorFor(modelItem => Model.CartItems[i].Quantity, new { htmlAttributes = new { @class = "form-control", min = 0 } })
@@ -45,8 +45,16 @@
                         </div>
                         @Html.ValidationMessageFor(modelItem => Model.CartItems[i].Quantity, "", new { @class = "text-danger" })
                     </div>
+                    <div class="col-md-2 text-right">
+                        <b>Cost: </b>
+                        @((Model.CartItems[i].Quantity * Model.CartItems[i].GAME.Cost).ToString("C"))
+                    </div>
                 </div>
             }
+            <div class="col-md-offset-6 col-md-2 text-right">
+                <b>Total Cost: </b>
+                @(Model.CartItems.Sum(m=>m.Quantity * m.GAME.Cost).ToString("C"))
+            </div>
             <div class="form-group">
                 <div class="col-md-offset-4 col-md-8">
                     <input type="submit" value="Update Cart" class="btn btn--save" name="save" />
