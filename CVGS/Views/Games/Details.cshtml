@@ -107,6 +107,9 @@
                     {
                         // Game is in library, cannot be purchased
                         // or added to the wish list
+                        <a href="@Url.Action("Details", "Library", new { id = Model.GameId })" class="btn btn--default disabled">
+                            <i class="fa glyphicon-book"></i>Find in Library
+                        </a>
                     }
                     else
                     {
