@@ -257,6 +257,8 @@ else // Go back to "All Orders"
     <hr />
     @if (!Model.Processed && ((string)Session["MemberRole"] == "Employee" || (string)Session["MemberRole"] == "Admin"))
     {
+        // Order has not been processed & user has employee permissions
+        // Add "process order" button
         @Html.ActionLink("Process Order", "Process", new { id = Model.OrderId }, new { @class = "btn btn--action" })
     }
 </div>
