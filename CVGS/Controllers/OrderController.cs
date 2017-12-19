@@ -311,6 +311,9 @@ namespace CVGS.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
+            var referrer = Request.UrlReferrer.AbsolutePath.Split('/').Last();
+            ViewBag.Referrer = referrer;
+
             // Display order details
             ORDERHEADER orderHeader = db.ORDERHEADERs.Find(id);
             if (orderHeader == null)

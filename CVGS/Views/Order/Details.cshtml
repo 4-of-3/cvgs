@@ -6,13 +6,19 @@
 
 <h2>Order Details</h2>
 
-@if ((string)Session["MemberRole"] != "Employee" && (string)Session["MemberRole"] != "Admin")
+@if ((string)Session["MemberRole"] != "Employee" && (string)Session["MemberRole"] != "Admin") // Go back to "My Orders"
 {
     <a href="@Url.Action("MyOrders")" class="btn btn-default">
         <i class="fa fa-arrow-left"></i>My Orders
     </a>
 }
-else
+else if (Model.MemberId == (int)Session["MemberId"]) // Go back to the list page that linked here
+{
+    <a href="@Url.Action(ViewBag.Referrer)" class="btn btn-default">
+        <i class="fa fa-arrow-left"></i>Orders
+    </a>
+}
+else // Go back to "All Orders"
 {
     <a href="@Url.Action("All")" class="btn btn-default">
         <i class="fa fa-arrow-left"></i>Orders
