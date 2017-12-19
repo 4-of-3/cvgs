@@ -33,6 +33,11 @@ namespace CVGS.Controllers
             return View(oRDERITEMs);
         }
 
+        public ActionResult Download()
+        {
+            return View();
+        }
+
         private List<ORDERITEM> Sort(List<ORDERITEM> list, string sort, string order)
         {
             bool asc = true;
