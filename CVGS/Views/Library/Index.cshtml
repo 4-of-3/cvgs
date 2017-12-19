@@ -1,0 +1,37 @@
+﻿@model IEnumerable<CVGS.Models.ORDERITEM>
+
+@{
+    ViewBag.Title = "Games Library";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.ActionLink(Html.DisplayNameFor(model => model.GAME.Title).ToString(), "Index", new { search = ViewBag.search, sort = "title", order = @ViewBag.listSortAsc })
+        </th>
+        <th>
+            @Html.ActionLink(Html.DisplayNameFor(model => model.GAME.Category).ToString(), "Index", new { search = ViewBag.search, sort = "category", order = @ViewBag.listSortAsc })
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.ActionLink(@Html.DisplayFor(modelItem => item.GAME.Title).ToHtmlString(), "Details", "Games", new { id = item.GameId }, "")
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.GAME.Category)
+        </td>
+        <td>
+            @if (item.GAME.Digital)
+            {
+                <a href="@Url.Action("Download", "Library")"><i class="fa fa-download" aria-hidden="true"></i></a>
+            }
+        </td>
+    </tr>
+}
+
+</table>

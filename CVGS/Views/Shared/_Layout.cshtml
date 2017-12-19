@@ -38,6 +38,11 @@
                         if (Session["MemberId"] != null)
                         {
                             <li>
+                                <a href="@Url.Action("Index", "Library")" class="btn">
+                                    Library
+                                </a>
+                            </li>
+                            <li>
                                 <a href="@Url.Action("Index", "Wishlist")" class="btn">
                                     <i class="fa fa-gift"></i>Wishlist
                                 </a>
