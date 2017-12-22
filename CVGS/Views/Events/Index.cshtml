@@ -15,55 +15,63 @@
     </p>
 }
 
-<table class="table">
-    <tr>
-        <th>
-            @Html.ActionLink("Event Name", "Index", new { sort = "title", order = @ViewBag.listSortAsc })
-        </th>
-        <th>
-            @Html.ActionLink("Location", "Index", new { sort = "location", order = @ViewBag.listSortAsc })
-        </th>
-        <th>
-            @Html.ActionLink("Date", "Index", new { sort = "date", order = @ViewBag.listSortAsc })
-        </th>
-        <th></th>
-    </tr>
-
-    @foreach (var item in Model)
-    {
+@if (Model.Count() > 0)
+{
+    <table class="table">
         <tr>
-            <td class="flex-row">
-                @if (item.ActiveStatus)
-                {
-                    <a href="@Url.Action("Details", new { id = item.EventId })">@item.EventTitle</a>
-                }
-                else
-                {
-                    <em style="color: dimgrey;">@Html.DisplayFor(modelItem => item.EventTitle)</em>
-                }
-                <div class="indicators">
-                    @if (!item.ActiveStatus)
-                    {
-                        @:<i class="indicator darkred fa fa-ban" title="Cancelled"></i>
-                    }
-                    else if (item.IsRegistered)
-                    {
-                        @:<i class="indicator green fa fa-calendar-check-o" title="Registered"></i>
-                    }
-                </div>
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Location)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.EventDate)
-            </td>
-            <td style="width: 1px; white-space: nowrap">
-                <a href="@Url.Action("Details", new {id = item.EventId})" class="btn btn--action btn--empty btn--inline">
-                    <i class="fa fa-search"></i>
-                </a>
-            </td>
+            <th>
+                @Html.ActionLink("Event Name", "Index", new { sort = "title", order = @ViewBag.listSortAsc })
+            </th>
+            <th>
+                @Html.ActionLink("Location", "Index", new { sort = "location", order = @ViewBag.listSortAsc })
+            </th>
+            <th>
+                @Html.ActionLink("Date", "Index", new { sort = "date", order = @ViewBag.listSortAsc })
+            </th>
+            <th></th>
         </tr>
-    }
 
-</table>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td class="flex-row">
+                    @if (item.ActiveStatus)
+                    {
+                        <a href="@Url.Action("Details", new { id = item.EventId })">@item.EventTitle</a>
+                    }
+                    else
+                    {
+                        <em style="color: dimgrey;">@Html.DisplayFor(modelItem => item.EventTitle)</em>
+                    }
+                    <div class="indicators">
+                        @if (!item.ActiveStatus)
+                        {
+                                @:<i class="indicator darkred fa fa-ban" title="Cancelled"></i>
+                        }
+                        else if (item.IsRegistered)
+                        {
+                                @:<i class="indicator green fa fa-calendar-check-o" title="Registered"></i>
+                        }
+                    </div>
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Location)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EventDate)
+                </td>
+                <td style="width: 1px; white-space: nowrap">
+                    <a href="@Url.Action("Details", new {id = item.EventId})" class="btn btn--action btn--empty btn--inline">
+                        <i class="fa fa-search"></i>
+                    </a>
+                </td>
+            </tr>
+        }
+
+    </table>
+}
+else
+{
+    <hr />
+    <h4>There are no events.</h4>
+}

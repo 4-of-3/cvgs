@@ -144,7 +144,10 @@
     color: #43A047;
 }
 .indicator.darkred {
-    color: ##9A1515;
+    color: #9A1515;
+}
+.indicator.black {
+    color: #000000;
 }
 
 .indicator--text {
