@@ -15,6 +15,25 @@ namespace CVGS.Controllers
     {
         private CVGSEntities db = new CVGSEntities();
 
+        public ActionResult Index()
+        {
+            var memberId = Session["MemberId"];
+            if (memberId == null)
+            {
+                return RedirectToAction("Index", "Login");
+            }
+            var memberRole = (string)Session["MemberRole"];
+
+            if (memberRole == "Member")
+            {
+                return RedirectToAction("MyOrders");
+            }
+            else
+            {
+                return RedirectToAction("All");
+            }
+        }
+
         public List<ORDERHEADER> sortOrderHeaderList(string order, string sort, List<ORDERHEADER> orderHeaders)
         {
             //  Check/Switch ascending or descending for column sorting
