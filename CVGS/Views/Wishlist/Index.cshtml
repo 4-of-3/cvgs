@@ -6,62 +6,65 @@
 
 <h2>@ViewBag.Title</h2>
 
-<p>
-    <a href="@Url.Action("Index", "Games")" class="btn btn-default">
-        <i class="fa fa-arrow-left"></i>Games
-    </a>
-</p>
+@if (Model.Count() > 0)
+{
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Cost)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DateAdded)
+            </th>
+            <th></th>
+        </tr>
 
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Title)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Description)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Cost)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.DateAdded)
-        </th>
-        <th></th>
-    </tr>
-
-@foreach (var item in Model) {
-    <tr>
-        <td class="flex-row">
-            @Html.DisplayFor(modelItem => item.Title)
-            <div class="indicators">
-                @if (item.Digital)
-                {
-                    @:<i class="indicator blue fa fa-floppy-o" title="Digital"></i>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td class="flex-row">
+                    @Html.DisplayFor(modelItem => item.Title)
+                    <div class="indicators">
+                        @if (item.Digital)
+                        {
+                            @:<i class="indicator blue fa fa-floppy-o" title="Digital"></i>
                 }
-            </div>
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Description)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Cost)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.DateAdded)
-        </td>
-        <td>
-            <div class="action-bar">
-                <div class="actions--inline">
-                    <a href="@Url.Action("Details", "Games", new { id = item.GameId })" class="btn btn--inline btn--empty btn--action">
-                        <i class="fa fa-search"></i>
-                    </a>
-                    <a href="@Url.Action("Remove", new { id = item.GameId })" class="btn btn--inline btn--empty btn--delete">
-                        <i class="fa fa-trash"></i>
-                    </a>
-                </div>
-            </div>
-        </td>
-    </tr>
-}
+                    </div>
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Cost)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DateAdded)
+                </td>
+                <td>
+                    <div class="action-bar">
+                        <div class="actions--inline">
+                            <a href="@Url.Action("Details", "Games", new { id = item.GameId })" class="btn btn--inline btn--empty btn--action">
+                                <i class="fa fa-search"></i>
+                            </a>
+                            <a href="@Url.Action("Remove", new { id = item.GameId })" class="btn btn--inline btn--empty btn--delete">
+                                <i class="fa fa-trash"></i>
+                            </a>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        }
 
-</table>
+    </table>
+}
+else
+{
+    <hr />
+    <h4>There are no items in your wishlist.</h4>
+}

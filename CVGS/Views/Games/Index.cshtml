@@ -26,75 +26,80 @@
     </div>
 }
 
-<table class="table">
-    <tr>
-        <th>
-            @Html.ActionLink("Title", "Index", new { search = ViewBag.search, sort = "title", order = @ViewBag.listSortAsc })
-        </th>
-        <th>
-            @Html.ActionLink("Category", "Index", new { search = ViewBag.search, sort = "category", order = @ViewBag.listSortAsc })
-        </th>
-        <th>
-            @Html.ActionLink("Cost", "Index", new { search = ViewBag.search, sort = "cost", order = @ViewBag.listSortAsc })
-        </th>
-        <th style="width: 1px;">
-            @Html.ActionLink("Rating", "Index", new { search = ViewBag.search, sort = "rating", order = @ViewBag.listSortAsc })
-        </th>
-        <th style="width: 1px; white-space: nowrap;"></th>
-    </tr>
-
-    @if (Model.ToList().Count == 0)
-    {
+@if (Model.ToList().Count > 0)
+{
+    <table class="table">
         <tr>
-            <td colspan="5">
-                <em>No items found</em>
-            </td>
+            <th>
+                @Html.ActionLink("Title", "Index", new { search = ViewBag.search, sort = "title", order = @ViewBag.listSortAsc })
+            </th>
+            <th>
+                @Html.ActionLink("Category", "Index", new { search = ViewBag.search, sort = "category", order = @ViewBag.listSortAsc })
+            </th>
+            <th>
+                @Html.ActionLink("Cost", "Index", new { search = ViewBag.search, sort = "cost", order = @ViewBag.listSortAsc })
+            </th>
+            <th style="width: 1px;">
+                @Html.ActionLink("Rating", "Index", new { search = ViewBag.search, sort = "rating", order = @ViewBag.listSortAsc })
+            </th>
+            <th style="width: 1px; white-space: nowrap;"></th>
         </tr>
-    }
 
-    @foreach (var item in Model)
-    {
-        <tr>
-            <td class="flex-row">
-                @Html.ActionLink(item.Title, "Details", new { id = item.GameId })
-                @* Quick indicators for game associations *@
-                <div class="indicators">
-                    @if (item.Digital)
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td class="flex-row">
+                    @Html.ActionLink(item.Title, "Details", new { id = item.GameId })
+                    @* Quick indicators for game associations *@
+                    <div class="indicators">
+                        @if (item.Digital)
+                        {
+                            <i class="indicator blue fa fa-floppy-o" title="Digital"></i>
+                        }
+                        @if (item.Purchased)
+                        {
+                            <a href="@Url.Action("Index", "Library")" class="btn btn--inline btn--empty">
+                                <i class="indicator black fa fa-book" title="Purchased"></i>
+                            </a>
+                        }
+                        @if (item.OnWishlist)
+                        {
+                            <i class="indicator gold fa fa-gift" title="In Wishlist"></i>
+                        }
+                        @if (item.InCart)
+                        {
+                            <i class="indicator grey fa fa-shopping-cart" title="In Cart"></i>
+                        }
+                    </div>
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Category)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Cost)
+                </td>
+                <td class="text-center" style="white-space: nowrap;">
+                    @if (item.ApprovedReviews.Count() > 0)
                     {
-                        @:<i class="indicator blue fa fa-floppy-o" title="Digital"></i>
+                        @Math.Round(item.ApprovedReviews.Average(m => m.Rating))@:&thinsp;/&thinsp;5
+                        <em>(@item.ApprovedReviews.Count())</em>
                     }
-                    @if (item.OnWishlist)
+                    else
                     {
-                        @:<i class="indicator gold fa fa-gift" title="In Wishlist"></i>
-                    }
-                    @if (item.InCart)
-                    {
-                        @:<i class="indicator grey fa fa-shopping-cart" title="In Cart"></i>
-                    }
-                </div>
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Category)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Cost)
-            </td>
-            <td class="text-center" style="white-space: nowrap;">
-                @if (item.ApprovedReviews.Count() > 0)
-                {
-                    @Math.Round(item.ApprovedReviews.Average(m => m.Rating))@:&thinsp;/&thinsp;5
-                    <em>(@item.ApprovedReviews.Count())</em>
+                        @:<em style="color: darkgrey;">N/A</em>
                 }
-                else
-                {
-                    @:<em style="color: darkgrey;">N/A</em>
-                }
-            </td>
-            <td>
-                <a href="@Url.Action("Details", new {id = item.GameId})" class="btn btn--action btn--empty btn--inline">
-                    <i class="fa fa-search"></i>
-                </a>
-            </td>
-        </tr>
-    }
-</table>
+                </td>
+                <td>
+                    <a href="@Url.Action("Details", new {id = item.GameId})" class="btn btn--action btn--empty btn--inline">
+                        <i class="fa fa-search"></i>
+                    </a>
+                </td>
+            </tr>
+        }
+    </table>
+}
+else
+{
+    <hr />
+    <h4>There are no games.</h4>
+}
