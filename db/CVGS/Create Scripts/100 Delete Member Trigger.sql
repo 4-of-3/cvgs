@@ -59,7 +59,7 @@ INSTEAD OF DELETE
           , FavQuote = '*****'
           , DateJoined = NULL
           , ActiveStatus = 0
-          , RoleId = NULL
+          , RoleId = 1
       WHERE MemberId IN( SELECT MemberId FROM deleted );
         END
 GO
