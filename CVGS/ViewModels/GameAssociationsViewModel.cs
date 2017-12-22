@@ -54,6 +54,7 @@ namespace CVGS.ViewModels
             }
             isInCart = game.CARTITEMs.Select(c => c.MemberId).ToList().Contains(memberId);
             isOnWishlist = game.WISHLISTITEMs.Select(w => w.MemberId).ToList().Contains(memberId);
+            isPurchased = game.ORDERITEMs.Select(o => o.ORDERHEADER.MemberId).ToList().Contains(memberId);
 
             // Create custom view model to display game associations (avg reviews, purchased, in cart, etc)
             GameAssociationsViewModel gameWithAssociations = new GameAssociationsViewModel()

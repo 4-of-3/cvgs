@@ -15,7 +15,7 @@ CREATE TABLE CVGS.dbo.MEMBER(
            , FavQuote      NVARCHAR( 140 )
            , DateJoined    DATETIME2 DEFAULT CURRENT_TIMESTAMP
            , ActiveStatus  BIT DEFAULT 1 NOT NULL
-           , RoleId        INT DEFAULT 1
+           , RoleId        INT DEFAULT 1 NOT NULL
   CONSTRAINT fk_member_role FOREIGN KEY( RoleId ) REFERENCES ROLE( RoleId ) ON DELETE SET NULL
 );
 GO
