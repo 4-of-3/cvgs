@@ -53,6 +53,7 @@ namespace CVGS.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
+            // Find review and approve
             REVIEW review = db.REVIEWs.Find(memberId, gameId);
 
             if(review == null)
@@ -87,6 +88,7 @@ namespace CVGS.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
+            // Find review and deny
             REVIEW review = db.REVIEWs.Find(memberId, gameId);
 
             if (review == null)
@@ -189,6 +191,7 @@ namespace CVGS.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
+            // Members can only edit their own reviews
             if (memberId != (int)Session["MemberId"])
             {
                 return new HttpStatusCodeResult(HttpStatusCode.Unauthorized);
