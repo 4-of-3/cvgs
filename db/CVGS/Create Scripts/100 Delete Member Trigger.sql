@@ -33,6 +33,7 @@ INSTEAD OF DELETE
           , CardDescription = NULL
           , ExpiryDate = CURRENT_TIMESTAMP
           , Deleted = 1
+          , CVV = '***'
       WHERE MemberId IN( SELECT MemberId FROM deleted );
       
      DELETE FROM REVIEW
@@ -44,8 +45,8 @@ INSTEAD OF DELETE
      DELETE FROM CARTITEM
       WHERE MemberId IN( SELECT MemberId FROM deleted );
       
-     DELETE FROM ORDERHEADER
-      WHERE MemberId IN( SELECT MemberId FROM deleted );
+--     DELETE FROM ORDERHEADER
+--      WHERE MemberId IN( SELECT MemberId FROM deleted );
       
      UPDATE MEMBER
         SET FName = '*****'
