@@ -1,0 +1,85 @@
+﻿@model IEnumerable<CVGS.Models.MEMBER>
+
+@{
+    ViewBag.Title = "Members";
+}
+
+<h2>Members List</h2>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.FName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.LName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.UserName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Email)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FavPlatform)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FavCategory)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FavGame)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FavQuote)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DateJoined)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ActiveStatus)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ROLE.RoleName)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.FName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.LName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.UserName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Email)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.FavPlatform)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.FavCategory)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.FavGame)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.FavQuote)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DateJoined)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ActiveStatus)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ROLE.RoleName)
+        </td>
+    </tr>
+}
+
+</table>

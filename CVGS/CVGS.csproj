@@ -256,6 +256,7 @@
     <Compile Include="ViewModels\EditAccountViewModel.cs" />
     <Compile Include="ViewModels\EventAssociationsViewModel.cs" />
     <Compile Include="ViewModels\GameAssociationsViewModel.cs" />
+    <Compile Include="ViewModels\GamesListViewModel.cs" />
     <Compile Include="ViewModels\LoginViewModel.cs" />
     <Compile Include="ViewModels\NewAccountViewModel.cs" />
     <Compile Include="ViewModels\AddEditGameViewModel.cs" />
@@ -374,6 +375,8 @@
     <Content Include="Views\Reviews\Pending.cshtml" />
     <Content Include="Views\Reviews\Details.cshtml" />
     <Content Include="Views\Employee\Index.cshtml" />
+    <Content Include="Views\Reports\Games.cshtml" />
+    <Content Include="Views\Reports\Members.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
