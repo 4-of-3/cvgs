@@ -6,13 +6,16 @@
 
 <h2>Members List</h2>
 
+<p>
+    <a href="@Url.Action("Index")" class="btn btn--default">
+        <i class="fa fa-arrow-left"></i>Reports
+    </a>
+</p>
+
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.FName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.LName)
+            @Html.DisplayNameFor(model => model.FullName)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.UserName)
@@ -27,12 +30,6 @@
             @Html.DisplayNameFor(model => model.FavCategory)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.FavGame)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.FavQuote)
-        </th>
-        <th>
             @Html.DisplayNameFor(model => model.DateJoined)
         </th>
         <th>
@@ -44,13 +41,11 @@
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
+@foreach (var item in Model)
+{
     <tr>
         <td>
-            @Html.DisplayFor(modelItem => item.FName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.LName)
+            @Html.DisplayFor(modelItem => item.FullName)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.UserName)
@@ -63,12 +58,6 @@
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.FavCategory)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.FavGame)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.FavQuote)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.DateJoined)
