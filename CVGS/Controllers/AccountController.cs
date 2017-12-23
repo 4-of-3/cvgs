@@ -48,10 +48,12 @@ namespace CVGS.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "FName,LName,Email,UserName,Pwd,PwdConfirm")] NewAccountViewModel account)
         {
+            // Account names must be unique
             if (db.MEMBERs.Where(m=>m.UserName == account.UserName).Count() != 0)
             {
                 ModelState.AddModelError("UserName", "That user name is already in use.");
             }
+
             // Validate and create the member account
             if (ModelState.IsValid)
             {
@@ -272,6 +274,7 @@ namespace CVGS.Controllers
             ObjectParameter newPasswordSuccess = new ObjectParameter("Success", typeof(bool));
             db.SP_CHANGE_PWD(member.UserName, account.OldPwd, account.NewPwd, newPasswordSuccess);
 
+            // Display password change results
             if (!(bool) newPasswordSuccess.Value)
             {
                 TempData["PasswordUpdateError"] = "Password was not updated";

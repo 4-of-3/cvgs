@@ -17,6 +17,7 @@ namespace CVGS.Controllers
 
         public ActionResult Index()
         {
+            // Redirect unauthenticated members
             var memberId = Session["MemberId"];
             if (memberId == null)
             {
@@ -24,6 +25,7 @@ namespace CVGS.Controllers
             }
             var memberRole = (string)Session["MemberRole"];
 
+            // Display the correct orders page based on member role
             if (memberRole == "Member")
             {
                 return RedirectToAction("MyOrders");
@@ -110,6 +112,7 @@ namespace CVGS.Controllers
                 return new HttpUnauthorizedResult("You are not authorized to see all orders");
             }
 
+            // Find the orders list and sort if necessary
             var orderList = db.ORDERHEADERs.OrderByDescending(o => o.DateCreated).Include(o => o.ADDRESS).Include(o => o.ADDRESS1).Include(o => o.CREDITCARD).Include(o => o.MEMBER).ToList();
 
             if (sort != null)
@@ -161,6 +164,8 @@ namespace CVGS.Controllers
                 DateCreated = DateTime.Now,
                 Processed = false
             };
+
+            // Convert the cart items to order items
             var cartItems = db.CARTITEMs.Where(c => c.MemberId == (int)memberId).Include(c => c.GAME);
             foreach (var cartItem in cartItems)
             {
@@ -174,6 +179,7 @@ namespace CVGS.Controllers
                 order.ORDERITEMs.Add(orderItem);
             }
 
+            // Check that the member has at least one credit card or address
             if (memberAddresses.Where(a => a.ADDRESSTYPE.AddressTypeName == "Billing").Count() > 0)
             {
                 billingAddressIndex = memberAddresses.Where(a => a.ADDRESSTYPE.AddressTypeName == "Billing").FirstOrDefault().AddressId;
@@ -219,7 +225,7 @@ namespace CVGS.Controllers
                     };
                     db.ORDERITEMs.Add(orderItem);
 
-                    // remove the item from the cart
+                    // Remove the item from the cart
                     db.CARTITEMs.Remove(cartItem);
 
                     wishListItem = db.WISHLISTITEMs.Find(memberId, cartItem.GameId);
@@ -254,6 +260,7 @@ namespace CVGS.Controllers
                 return new HttpUnauthorizedResult("You are not authorized to process Orders");
             }
 
+            // Show the pending orders and sort if necessary
             var orderList = db.ORDERHEADERs.Where(o => !o.Processed).OrderByDescending(o => o.DateCreated).Include(o => o.ADDRESS).Include(o => o.ADDRESS1).Include(o => o.CREDITCARD).Include(o => o.MEMBER).ToList();
 
             if (sort != null)
@@ -276,6 +283,7 @@ namespace CVGS.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
+            // Show an order for processing
             ORDERHEADER orderHeader = db.ORDERHEADERs.Find(id);
             if (orderHeader == null)
             {

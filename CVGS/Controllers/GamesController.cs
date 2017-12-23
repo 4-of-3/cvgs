@@ -172,6 +172,7 @@ namespace CVGS.Controllers
                 Digital = newGame.Digital
             };
 
+            // Games can have multiple platforms associated with them
             foreach (int platformId in newGame.Platforms)
             {
                 game.PLATFORMs.Add(db.PLATFORMs.Find(platformId));
@@ -273,13 +274,6 @@ namespace CVGS.Controllers
             game.Digital = newGame.Digital;
 
             // Remove platforms that are not in the new game model
-            //foreach (var platform in game.PLATFORMs)
-            //{
-            //    if (!newGame.Platforms.Contains(platform.PlatformId))
-            //    {
-            //        game.PLATFORMs.Remove(platform);
-            //    }
-            //}
             for (int i = game.PLATFORMs.Count - 1; i >= 0; i--)
             {
                 var platform = game.PLATFORMs.ToList()[i];

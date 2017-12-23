@@ -54,7 +54,6 @@ namespace CVGS.Controllers
             // Create and add wish list item. If a game is alread in the wishlist it should be removed
             if (wishlistItem == null)
             {
-
                 // Create and add wish list item
                 wishlistItem = new WISHLISTITEM()
                 {

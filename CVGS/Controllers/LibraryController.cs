@@ -24,6 +24,7 @@ namespace CVGS.Controllers
                 return RedirectToAction("Index", "Login"); ;
             }
 
+            // Find all processed orders for the member (ie. purchased games)
             var oRDERITEMs = db.ORDERITEMs.Include(o => o.GAME).Include(o => o.ORDERHEADER).ToList().FindAll(x => x.ORDERHEADER.MemberId.Equals(memberId) && x.ORDERHEADER.Processed);
 
             if (sort != null)
@@ -35,11 +36,25 @@ namespace CVGS.Controllers
 
         public ActionResult Download()
         {
+            // Redirect unauthenticated members
+            var memberId = this.Session["MemberId"];
+            if (memberId == null)
+            {
+                return RedirectToAction("Index", "Login"); ;
+            }
+
             return View();
         }
 
         private List<ORDERITEM> Sort(List<ORDERITEM> list, string sort, string order)
         {
+            // Redirect unauthenticated members
+            var memberId = this.Session["MemberId"];
+            if (memberId == null)
+            {
+                return RedirectToAction("Index", "Login"); ;
+            }
+
             bool asc = true;
             ViewBag.listSortAsc = "asc";
             if (order != null && order.Equals("asc"))
