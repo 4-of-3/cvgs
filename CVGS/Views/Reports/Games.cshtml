@@ -1,0 +1,55 @@
+﻿@model IEnumerable<CVGS.Models.GAME>
+
+@{
+    ViewBag.Title = "Games Report";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<p>
+    <a href="@Url.Action("Index")" class="btn btn--default">
+        <i class="fa fa-arrow-left"></i>Reports
+    </a>
+</p>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Title)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PublicationDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Developer)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Category)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Cost)
+        </th>
+    </tr>
+
+@foreach (var item in Model)
+{
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Title)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PublicationDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Developer)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Category)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Cost)
+        </td>
+    </tr>
+}
+
+</table>
