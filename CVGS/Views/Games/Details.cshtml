@@ -11,9 +11,19 @@
 
 <h2>@ViewBag.Title</h2>
 
-<a href="@Request.UrlReferrer" class="btn btn-default">
-    <i class="fa fa-arrow-left"></i>Games
-</a>
+@if (Request.UrlReferrer.ToString().Contains("/Games/Details/"))
+{
+    <a href="@Url.Action("Index")" class="btn btn-default">
+        <i class="fa fa-arrow-left"></i>Games
+    </a>
+}
+else
+{
+    <a href="@Request.UrlReferrer" class="btn btn-default">
+        <i class="fa fa-arrow-left"></i>Games
+    </a>
+}
+
 
 <div>
     <section class="action-bar">
