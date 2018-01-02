@@ -48,13 +48,6 @@ namespace CVGS.Controllers
 
         private List<ORDERITEM> Sort(List<ORDERITEM> list, string sort, string order)
         {
-            // Redirect unauthenticated members
-            var memberId = this.Session["MemberId"];
-            if (memberId == null)
-            {
-                return RedirectToAction("Index", "Login"); ;
-            }
-
             bool asc = true;
             ViewBag.listSortAsc = "asc";
             if (order != null && order.Equals("asc"))
