@@ -25,7 +25,7 @@
                 <td>
                     @if (!item.GAME.Deleted)
                     {
-                        @Html.ActionLink(@Html.DisplayFor(modelItem => item.GAME.Title).ToHtmlString(), "Details", "Games", new { id = item.GameId })
+                        @Html.ActionLink(@Html.DisplayFor(modelItem => item.GAME.Title).ToHtmlString(), "Details", "Games", new { id = item.GameId }, null)
                     }
                     else
                     {
